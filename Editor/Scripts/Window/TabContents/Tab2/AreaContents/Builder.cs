@@ -89,7 +89,11 @@ public class EABuilder
     private static void DrawUploadTool(Rect area)
     {
         GUILayout.BeginArea(area);
-        GUILayout.Label("WIP");
+        GUILayout.Label("VRChatへアップロード", h2Style);
+        if (GUILayout.Button("アップロード", MainButtonStyle))
+        {
+            
+        }
         GUILayout.EndArea();
     }
 

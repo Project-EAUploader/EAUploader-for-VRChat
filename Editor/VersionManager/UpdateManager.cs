@@ -43,7 +43,7 @@ public class StartupVersionChecker
         {
             if (latestRelease.tag_name != currentVersion)
             {
-                UpdateNotificationWindow.ShowWindow(latestRelease.tag_name, updateMessage, latestRelease.download_url);
+                UpdateNotificationWindow.ShowWindow(latestRelease.tag_name, updateMessage);
             }
         });
     }
@@ -53,12 +53,10 @@ public class StartupVersionChecker
         switch (language)
         {
             case "日本語":
-                return "<color=red><size=20><b>リリース 0.1.0 - 開発中途</b></size></color>\n\n"+
-                "<size=16><color=black>・プロジェクト公開\n・多くのバグ, 未実装の機能が含まれます\n　正式リリースまでしばらくお待ちください</color></size>";
+                return "<color=black><size=20><b>新しいバージョンがあります。更新してください。</b></size></color>\n\n";
             case "English":
             default:
-                return "<color=red><size=20><b>Release 0.1.0 - In Development</b></size></color>\n\n"+
-                "<size=16><color=black>・Initial project release\n・Contains numerous bugs and unimplemented features.    Please wait for the official release.</color></size>";
+                return "<color=black><size=20><b>There is a newer version. Please update.</b></size></color>\n\n";
         }
     }
 }
@@ -68,7 +66,7 @@ public class UpdateNotificationWindow : EditorWindow
     private string versionInfo;
     private string richTextInfo;
 
-    public static void ShowWindow(string version, string richText, string downloadUrl)
+    public static void ShowWindow(string version, string richText)
     {
         UpdateNotificationWindow window = (UpdateNotificationWindow)EditorWindow.GetWindow(typeof(UpdateNotificationWindow));
         window.versionInfo = version;
@@ -106,40 +104,6 @@ public static class GitHubVersionFetcher
         }
     }
 
-    public static IEnumerator DownloadLatestVersion(string downloadUrl, System.Action<bool> callback)
-    {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(downloadUrl))
-        {
-            yield return webRequest.SendWebRequest();
-
-            if (webRequest.isNetworkError || webRequest.isHttpError)
-            {
-                Debug.LogError("Failed to download the latest version: " + webRequest.error);
-                callback?.Invoke(false);
-            }
-            else
-            {
-                string packageFilePath = Path.Combine(Application.dataPath, "DownloadedUpdate.unitypackage");
-                File.WriteAllBytes(packageFilePath, webRequest.downloadHandler.data);
-                ApplyUpdate(packageFilePath, callback);
-            }
-        }
-    }
-
-    private static void ApplyUpdate(string packageFilePath, System.Action<bool> callback)
-    {
-        try
-        {
-            AssetDatabase.ImportPackage(packageFilePath, true);
-            callback?.Invoke(true);
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("Failed to apply update: " + e.Message);
-            callback?.Invoke(false);
-        }
-    }
-
     [System.Serializable]
     public class GitHubRelease
     {
@@ -147,6 +111,5 @@ public static class GitHubVersionFetcher
         public string name;
         public string body;
         public string published_at;
-        public string download_url; // ダウンロードURL
     }
 }
