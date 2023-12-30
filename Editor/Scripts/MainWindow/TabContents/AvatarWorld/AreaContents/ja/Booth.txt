@@ -1,0 +1,10 @@
+<txt>
+<size=30>BOOTH | 創作物の総合マーケット</size>
+
+<size=20>　VRChat用のコンテンツがおよそ<color=red>９万点</color>も販売されています。多くの<color=red>アバター、アクセサリー、着せ替え、ギミック、ワールド用アセット</color>などが売買されています。
+VRChat用に限らず、VRMなどのその他3Dモデルも多くあります。</size>
+</txt>
+<button>BOOTHを開く, Link, https://booth.pm/ja/items?tags%5B%5D=VRChat</button>
+<txt>
+<size=12>BOOTH は Pixiv.inc の登録商標です。</size>
+</txt>

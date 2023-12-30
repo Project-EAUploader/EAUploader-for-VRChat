@@ -1,0 +1,8 @@
+﻿<UXML xmlns="UnityEngine.UIElements">
+    <VisualElement name="notification-block" class="col mt-2 mb-2 w-100">
+        <Label text="アバターをフォールバックに設定する際、問題が発生しました。" />
+        <Label name="notification-error-reason" class="mt-2 p-2 white-space-normal" />
+        <Label text="詳細については、コンソールを確認してください。" class="mt-2" />
+        <Button class="mt-2" text="詳細はコンソールをチェック" name="open-unity-console" />
+    </VisualElement>
+</UXML>

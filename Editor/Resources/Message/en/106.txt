@@ -1,0 +1,5 @@
+<txt>
+<size=20>About VRChat SDK</size>
+<size=14>The button below opens the VRChat SDK panel.
+You can upload the file by entering the required information.</size>
+</txt>

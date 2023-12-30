@@ -1,0 +1,5 @@
+<txt>
+<size=20>If the avatar you want to upload does not appear</size>
+<size=14>If the avatar you wish to upload is VRM, please convert it in the Setup tab and then reopen the main window.
+If it still does not appear, check with the seller or contact the avatar creator.</size>
+</txt>

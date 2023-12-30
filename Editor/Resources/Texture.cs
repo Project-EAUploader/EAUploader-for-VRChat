@@ -1,13 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-/*
-    stylesで使用してる
-    同じことしてる関数が二つあるけど、
-    どっちも使ってる
-*/
-
-internal static class Texture
+public static class Texture
 {
     public static Texture2D GenerateBorderTexture(int width, int height, Color borderColor, int borderWidth)
     {
@@ -71,5 +65,88 @@ internal static class Texture
         result.SetPixels(pix);
         result.Apply();
         return result;
+    }
+
+    public static void DrawHorizontalLine(Color color, int fontSize, float width)
+    {
+        // スタイルの設定
+        GUIStyle lineLabel = new GUIStyle(GUI.skin.label)
+        {
+            normal = { textColor = color },
+            fontSize = fontSize,
+            alignment = TextAnchor.MiddleLeft
+        };
+
+        // ラベルの長さを計算
+        string lineText = new string('―', Mathf.FloorToInt(width / fontSize));
+
+        // ラベルを描画
+        GUILayout.Label(lineText, lineLabel, GUILayout.Width(width));
+    }
+
+    public static void DrawHorizontalDottedLine(Color color, int fontSize, float width)
+    {
+        // スタイルの設定
+        GUIStyle lineLabel = new GUIStyle(GUI.skin.label)
+        {
+            normal = { textColor = color },
+            fontSize = fontSize,
+            alignment = TextAnchor.MiddleLeft
+        };
+
+        // ラベルの長さを計算
+        string lineText = new string('-', Mathf.FloorToInt(width / fontSize));
+
+        // ラベルを描画
+        GUILayout.Label(lineText, lineLabel, GUILayout.Width(width));
+    }
+
+    public static void DrawHorizontalDottedCenterLine(Color color, int fontSize, float width)
+    {
+        // スタイルの設定
+        GUIStyle lineLabel = new GUIStyle(GUI.skin.label)
+        {
+            normal = { textColor = color },
+            fontSize = fontSize,
+            alignment = TextAnchor.MiddleCenter
+        };
+
+        // ラベルの長さを計算
+        string lineText = new string('-', Mathf.FloorToInt(width / fontSize));
+
+        // ラベルを描画
+        GUILayout.Label(lineText, lineLabel, GUILayout.Width(width));
+    }
+
+    public static Texture2D MakeModernButtonTex(int width, int height, Color bgColor, Color borderColor, int borderWidth, bool addShadow = false)
+    {
+        Texture2D texture = new Texture2D(width, height);
+        Color shadowColor = new Color(0, 0, 0, 0.5f); // 影の色と透明度
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                // ボーダーを追加
+                if (x < borderWidth || x >= width - borderWidth || y < borderWidth || y >= height - borderWidth)
+                {
+                    texture.SetPixel(x, y, borderColor);
+                }
+                // 影を追加
+                else if (addShadow && y < borderWidth + 5)
+                {
+                    float alpha = shadowColor.a * (1 - (float)y / (borderWidth + 5));
+                    Color currentColor = bgColor;
+                    currentColor.a *= alpha;
+                    texture.SetPixel(x, y, currentColor);
+                }
+                else
+                {
+                    texture.SetPixel(x, y, bgColor);
+                }
+            }
+        }
+        texture.Apply();
+        return texture;
     }
 }

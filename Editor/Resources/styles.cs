@@ -4,19 +4,28 @@ using static Texture;
 
 public class styles
 {
-    public static Font custumfont = Resources.Load<Font>(@"Font\NotoSansJP-Bold");
+    public static Font custumfont = Resources.Load<Font>("Font/NotoSansJP-Bold");
     public static GUIStyle MainButtonStyle;
     public static GUIStyle SubButtonStyle;
+    public static GUIStyle SubButtonTransmissionStyle;
     public static GUIStyle SlotButtonStyle;
     public static GUIStyle HelpButtonStyle;
-    public static GUIStyle h1Style;
-    public static GUIStyle h2Style;
-    public static GUIStyle h3Style; //ライトブルー
-    public static GUIStyle h4Style; //margin0
-    public static GUIStyle h5Style; //margin0ライトブルー
-    public static GUIStyle h5BlackStyle;
-    public static GUIStyle eStyle; // red text
-    public static GUIStyle RichTextStyle;
+    public static GUIStyle MarketProductsButtonStyle;
+    public static GUIStyle h1LabelStyle;
+    public static GUIStyle h1WhiteLabelStyle;
+    public static GUIStyle h2LabelStyle;
+    public static GUIStyle NoMargeh2LabelStyle;
+    public static GUIStyle NoMargeWhiteh2LabelStyle;
+    public static GUIStyle Centerh2LabelStyle;
+    public static GUIStyle h3LabelStyle; //ライトブルー
+    public static GUIStyle h4LabelStyle; //margin0
+    public static GUIStyle h5LabelStyle; //margin0ライトブルー
+    public static GUIStyle h5BlackLabelStyle;
+    public static GUIStyle NoMarginh5BlackLabelStyle;
+    public static GUIStyle CenteredStyle;
+    public static GUIStyle MarketproductsLabelStyle;
+    public static GUIStyle eLabel; // red text
+    public static GUIStyle RichTextLabelStyle;
     public static GUIStyle miniButtonStyle;
     public static GUIStyle miniButtonRedStyle;
     public static GUIStyle PopupStyle;
@@ -25,8 +34,18 @@ public class styles
     public static GUIStyle tabStyle;
     public static GUIStyle noBackgroundStyle;
     public static GUIStyle listBorderStyle; // list
-    public static GUIStyle horizontalSeparatorStyle; // list
-    public static GUIStyle prefabButtonStyle;
+    public static GUIStyle prefabButtonStyle; // 透明ボタン
+    public static GUIStyle FoldoutButtonStyle;
+    public static GUIStyle LinkButtonStyle;
+    public static GUIStyle horizontalSeparatorStyle; // つまり線の描画
+    public static GUIStyle h4CenterLabelStyle;
+    public static GUIStyle LibraryButtonStyle;
+    public static GUIStyle TabButtonStyle;
+    public static GUIStyle TextFieldStyle;
+    public static GUIStyle TextAreaStyle;
+    public static GUIStyle SearchButtonStyle;
+    public static GUIStyle ClearButtonStyle;
+    // public static GUIStyle ModernMainButtonStyle;
 
     public static void Initialize()
     {
@@ -54,6 +73,18 @@ public class styles
             margin = commonMargin
         };
 
+        SubButtonTransmissionStyle = new GUIStyle(GUI.skin.button)
+        {
+            font = custumfont,
+            fontSize = 20,
+            normal = { 
+                textColor = Color.white,
+                background = null },
+            hover = { textColor = Color.cyan },
+            active = { textColor = Color.yellow },
+            margin = commonMargin
+        };
+
         SlotButtonStyle = new GUIStyle(GUI.skin.button)
         {
             font = custumfont,
@@ -69,68 +100,139 @@ public class styles
         HelpButtonStyle = new GUIStyle(GUI.skin.button)
         {
             font = custumfont,
-            fixedWidth = 15,
-            fixedHeight = 15,
-            fontSize = 8,
+            fixedWidth = 75,
+            fixedHeight = 20,
+            fontSize = 14,
             normal = { textColor = Color.white},
             hover = { textColor = Color.cyan },
-            margin = new RectOffset(30, 0, 0, 0)
+            margin = new RectOffset(50, 0, 0, 0)
         };
 
-        h1Style = new GUIStyle(GUI.skin.label)
+        MarketProductsButtonStyle = new GUIStyle(GUI.skin.button)
         {
+            font = custumfont,
+            fixedHeight = 30,
+            fontSize = 18,
+            normal = { textColor = Color.white},
+            hover = { textColor = Color.cyan }
+        };
+
+        h1LabelStyle = new GUIStyle(GUI.skin.label)
+        {
+            alignment = TextAnchor.MiddleCenter,
             font = custumfont,
             fontSize = 22,
             normal = { textColor = Color.black },
             margin = commonMargin
         };
-        h1Style.wordWrap = true;
+        h1LabelStyle.wordWrap = true;
 
-        h2Style = new GUIStyle(GUI.skin.label)
+        h1WhiteLabelStyle = new GUIStyle(GUI.skin.label)
+        {
+            alignment = TextAnchor.MiddleCenter,
+            font = custumfont,
+            fontSize = 22,
+            normal = { textColor = Color.white },
+            margin = commonMargin
+        };
+        h1WhiteLabelStyle.wordWrap = true;
+
+        h2LabelStyle = new GUIStyle(GUI.skin.label)
         {
             font = custumfont,
             fontSize = 16,
             normal = { textColor = Color.black },
             margin = commonMargin
         };
-        h2Style.wordWrap = true;
+        h2LabelStyle.wordWrap = true;
 
-        h3Style = new GUIStyle(GUI.skin.label)
+        NoMargeh2LabelStyle = new GUIStyle(GUI.skin.label)
+        {
+            font = custumfont,
+            fontSize = 16,
+            normal = { textColor = Color.black },
+        };
+        NoMargeh2LabelStyle.wordWrap = true;
+
+        NoMargeWhiteh2LabelStyle = new GUIStyle(GUI.skin.label)
+        {
+            font = custumfont,
+            fontSize = 20,
+            normal = { textColor = Color.white },
+        };
+        NoMargeWhiteh2LabelStyle.wordWrap = true;
+
+        Centerh2LabelStyle = new GUIStyle(GUI.skin.label)
+        {
+            alignment = TextAnchor.MiddleCenter,
+            font = custumfont,
+            fontSize = 16,
+            normal = { textColor = Color.white },
+        };
+        Centerh2LabelStyle.wordWrap = true;
+
+        h3LabelStyle = new GUIStyle(GUI.skin.label)
         {
             font = custumfont,
             fontSize = 16,
             normal = { textColor = Color.cyan},
             margin = commonMargin
         };
-        h3Style.wordWrap = true;
+        h3LabelStyle.wordWrap = true;
 
-        h4Style = new GUIStyle(GUI.skin.label)
+        h4LabelStyle = new GUIStyle(GUI.skin.label)
         {
             font = custumfont,
             fontSize = 14,
             normal = { textColor = Color.black },
             margin = new RectOffset(30, 30, 0, 0)
         };
-        h4Style.wordWrap = true;
+        h4LabelStyle.wordWrap = true;
 
-        h5Style = new GUIStyle(GUI.skin.label)
+        h5LabelStyle = new GUIStyle(GUI.skin.label)
         {
             font = custumfont,
             fontSize = 14,
             normal = { textColor = Color.cyan},
             margin = new RectOffset(30, 30, 0, 0)
         };
-        h5Style.wordWrap = true;
+        h5LabelStyle.wordWrap = true;
 
-        h5BlackStyle = new GUIStyle(GUI.skin.label)
+        h5BlackLabelStyle = new GUIStyle(GUI.skin.label)
         {
             font = custumfont,
             fontSize = 14,
             normal = { textColor = Color.black},
             margin = new RectOffset(30, 30, 0, 0)
         };
+        h5BlackLabelStyle.wordWrap = true;
 
-        eStyle = new GUIStyle(GUI.skin.label)
+        NoMarginh5BlackLabelStyle = new GUIStyle(GUI.skin.label)
+        {
+            font = custumfont,
+            fontSize = 14,
+            normal = { textColor = Color.black}
+        };
+
+        MarketproductsLabelStyle = new GUIStyle(GUI.skin.label)
+        {
+            font = custumfont,
+            fontSize = 14,
+            normal = { textColor = Color.white}
+        };
+        MarketproductsLabelStyle.wordWrap = true;
+
+        CenteredStyle = new GUIStyle(GUI.skin.label)
+        {
+            font = custumfont,
+            fontSize = 18,
+            normal = { textColor = Color.black },
+            margin = commonMargin,
+            alignment = TextAnchor.MiddleCenter
+        };
+        CenteredStyle.wordWrap = true;
+
+        eLabel = new GUIStyle(GUI.skin.label)
         {
             font = custumfont,
             fontSize = 12,
@@ -138,17 +240,14 @@ public class styles
             margin = commonMargin
         };
 
-        RichTextStyle = new GUIStyle(GUI.skin.label)
+        RichTextLabelStyle = new GUIStyle(GUI.skin.label)
         {
             font = custumfont,
             fontSize = 14,
             normal = { textColor = Color.black},
-            hover = { textColor = Color.black },
-            padding = new RectOffset(10, 10, 30, 10),
-            margin = commonMargin
+            hover = { textColor = Color.black }
         };
-        RichTextStyle.wordWrap = true;
-        RichTextStyle.richText = true;
+        RichTextLabelStyle.richText = true;
 
         miniButtonStyle = new GUIStyle(GUI.skin.button)
         {
@@ -175,15 +274,14 @@ public class styles
         PopupStyle = new GUIStyle(EditorStyles.popup)
         {
             font = custumfont,
+            normal = { textColor = Color.white },
             fontSize = 14,
-            margin = commonMargin
         };
 
         largePopupStyle = new GUIStyle(EditorStyles.popup)
         {
             font = custumfont,
             fontSize = 18,
-            margin = commonMargin
         };
 
         drewborderBox = new GUIStyle(GUI.skin.box)
@@ -210,12 +308,6 @@ public class styles
             padding = new RectOffset(1, 1, 1, 1)
         };
 
-        horizontalSeparatorStyle = new GUIStyle()
-        {
-            normal = { background = Texture2D.blackTexture },
-            margin = new RectOffset(0, 0, 5, 5)
-        };
-
         prefabButtonStyle = new GUIStyle(GUI.skin.button)
         {
             normal = { 
@@ -227,9 +319,132 @@ public class styles
                 textColor = Color.white
                 },
             alignment = TextAnchor.MiddleLeft,
-            font = h4Style.font,
-            fontSize = h4Style.fontSize,
-            margin = h4Style.margin
+            font = h4LabelStyle.font,
+            fontSize = h4LabelStyle.fontSize,
+            wordWrap = true
         };
+
+        FoldoutButtonStyle = new GUIStyle(GUI.skin.button)
+        {
+            font = custumfont,
+            fontSize = 14,
+            normal = { background = Texture.MakeTex(2, 2, Color.white), textColor = Color.black },
+            hover = { textColor = Color.cyan },
+            active = { textColor = Color.yellow },
+            padding = new RectOffset(0, 0, 10, 10),
+            margin = new RectOffset(10, 10, 0, 0)
+        };
+
+        LinkButtonStyle = new GUIStyle(GUI.skin.button)
+        {
+            font = custumfont,
+            fontSize = 14,
+            normal = { background = Texture.MakeTex(2, 2, Color.white), textColor = Color.blue},
+            margin = commonMargin
+        };
+
+        horizontalSeparatorStyle = new GUIStyle()
+        {
+            normal = { background = Texture2D.blackTexture },
+            margin = new RectOffset(0, 0, 5, 5),
+            fixedHeight = 1 // 線の高さ
+        };
+
+        h4CenterLabelStyle = new GUIStyle()
+        {
+            alignment = TextAnchor.MiddleCenter,
+            font = custumfont,
+            fontSize = 14,
+            normal = { textColor = Color.black },
+            margin = new RectOffset(30, 30, 0, 0)
+        };
+
+        LibraryButtonStyle = new GUIStyle(GUI.skin.button)
+        {
+            font = custumfont,
+            fontSize = 18,
+            normal = {
+                background = Texture.MakeTex(2, 2, Color.white),
+                textColor = Color.black
+            },
+            hover = {
+                background = Texture.MakeTex(2, 2, new Color(0.9f, 0.9f, 0.9f)),
+                textColor = Color.black
+            },
+            alignment = TextAnchor.MiddleLeft,
+            wordWrap = true,
+            margin = new RectOffset(10, 10, 10, 10),
+            padding = new RectOffset(10, 10, 10, 10)
+        };
+
+        TabButtonStyle = new GUIStyle(GUI.skin.button)
+        {
+            font = custumfont,
+            fontSize = 26,
+            normal = { textColor = Color.white },
+            hover = { textColor = Color.cyan },
+            active = { textColor = Color.yellow }
+        };
+
+        TextFieldStyle = new GUIStyle(GUI.skin.textField)
+        {
+            normal = { 
+                background = Texture.MakeTex(2, 2, new Color(0.9f, 0.9f, 0.9f)), // 白に近い背景色
+                textColor = Color.black
+            },
+            alignment = TextAnchor.MiddleLeft,
+            font = custumfont,
+            fontSize = 12,
+        };
+        TextFieldStyle.wordWrap = true;
+
+        TextAreaStyle = new GUIStyle(GUI.skin.textArea)
+        {
+            normal = { 
+                background = Texture.MakeTex(2, 2, new Color(0.9f, 0.9f, 0.9f)), // 白に近い背景色
+                textColor = Color.black
+            },
+            alignment = TextAnchor.UpperLeft,
+            font = custumfont,
+            fontSize = 12,
+        };
+        TextFieldStyle.wordWrap = true;
+
+        SearchButtonStyle = new GUIStyle(GUI.skin.button)
+        {
+            font = custumfont,
+            fontSize = 26,
+            normal = { textColor = Color.white },
+            hover = { textColor = Color.cyan },
+            active = { textColor = Color.yellow },
+        };
+
+        ClearButtonStyle = new GUIStyle(GUI.skin.button)
+        {
+            font = custumfont,
+            fontSize = 26,
+            normal = { background = Texture.MakeTex(2, 2, new Color(0, 0, 0, 0)),　textColor = Color.white },
+            hover = { textColor = Color.cyan },
+            active = { textColor = Color.yellow },
+        };
+
+        /*
+        ModernMainButtonStyle = new GUIStyle(GUI.skin.button)
+        {
+            font = custumfont,
+            fontSize = 18,
+            normal = { 
+                textColor = new Color(0.31f, 0.31f, 0.31f), // #313131
+                background = Texture.MakeModernButtonTex(220, 40, new Color(0.93f, 0.93f, 0.93f), Color.black, 1, true) // #eee
+            },
+            hover = {
+                textColor = Color.white,
+                background = Texture.MakeModernButtonTex(220, 40, new Color(0.31f, 0.31f, 0.31f), Color.black, 1, true) // #313131
+            },
+            padding = new RectOffset(25, 25, 10, 10),
+            alignment = TextAnchor.MiddleCenter,
+            border = new RectOffset(3, 3, 3, 3) // borderRadius
+        };
+        */
     }
 }

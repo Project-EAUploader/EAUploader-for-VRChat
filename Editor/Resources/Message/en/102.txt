@@ -1,0 +1,4 @@
+<txt>
+<size=20>What is converting VRM? </size>
+<size=14>VRM is missing something necessary for uploading avatars to VRChat. Therefore, you will need to do a conversion to add what you need to upload.</size>
+</txt>

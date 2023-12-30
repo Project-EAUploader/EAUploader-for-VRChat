@@ -1,0 +1,5 @@
+<txt>
+<size=20>VRChat SDKについて</size>
+<size=14>下のボタンを押すとVRChat SDKのパネルを開きます。
+必要な情報を入力することでアップロードすることができます。</size>
+</txt>

@@ -1,0 +1,10 @@
+<txt>
+<size=20>　The avatar file formats that the tool can handle are <color=red>.prefab</color> and <color=red>.unitypackage</color>. Many of the avatars distributed are in this format.
+Press the button to open the Explorer. Select an avatar and import it.
+If you want to use <color=green>VRM</color>, select it from <color=green>Import VRM</color> button below.
+
+　If the avatar you downloaded is not in the import choices, it is not supported by this tool. The traditional Unity editor must be used.
+Check the file format of the avatar you wish to use and confirm the upload method.</size>
+</txt>
+
+

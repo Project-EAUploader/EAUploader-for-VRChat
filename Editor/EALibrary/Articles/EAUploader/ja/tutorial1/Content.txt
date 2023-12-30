@@ -1,0 +1,28 @@
+<t>― Let's start here ―</t>
+<txt>
+<size=20>このエディタの使い方</size>
+<size=14>    What you are reading now is help.
+It explains how this tool works, about avatars, and about the uploader that VRChat provides. If you have any questions, you can look them up here.</size>
+</txt>
+<hr>black, 12</hr>
+<txt>
+<size=20><b>Four sections -</b></size>
+<size=14>    Look at the top of this window; there are four buttons.
+These are the basic tabs of this tool.
+<color=green>Import tab</color> to import your avatar, <color=green>Set up tab</color> to adjust your avatar, <color=green>Upload tab</color> to open the uploader, <color=green>Avatar World tab</color> for marketplace information on getting different avatars, etc. You can embark on a journey to find a great avatar.</size>
+</txt>
+<image>image1.png</image>
+<txt>
+
+<size=20><b>Tools for Avatar -</b></size>
+<size=14>    On the right side of the <color=green>Set up tab</color>, there is a list of tools.
+These are tools for editing your avatar.You can also use tools created by others.See here for more information.</size>
+</txt>
+<image>image2.png</image>
+<button>Open Details, Link, https://sabu006.com/eauploader</button>
+<hr>black, 12</hr>
+<txt>
+<size=16>    This is all the description of the tool.
+Next, we will tell you how to upload your avatar.
+(It's very easy!)</size>
+</txt>

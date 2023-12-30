@@ -1,0 +1,4 @@
+<txt>
+<size=20>About Editing Tools</size>
+<size=14>Tools for customizing avatars. For detailed information on each tool, click on Show More Info.</size>
+</txt>

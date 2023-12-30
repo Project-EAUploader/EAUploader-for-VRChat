@@ -1,0 +1,11 @@
+<txt>
+<size=30>BOOTH | Comprehensive marketplace for creative works</size>
+
+<size=20><i>    Approximately <color=red>90,000 items for VRChat!</color></i></size>
+<size=20>   A marketplace where <color=red>many avatars, accessories, dress-up clothes, gimmicks, and world assets</color> are bought and sold. Many free avatars are available, as well as VRMs and other 3D models, not limited to VRChat.
+There are also many stores of popular creators.</size>
+</txt>
+<button>Go to BOOTH, Link, https://booth.pm/ja/items?tags%5B%5D=VRChat</button>
+<txt>
+<size=12>BOOTH is a trademark of Pixiv.inc.</size>
+</txt>

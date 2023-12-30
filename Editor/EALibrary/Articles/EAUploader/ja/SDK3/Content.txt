@@ -1,0 +1,6 @@
+<t>― VRChatSDKパネルについて ―</t>
+<txt>
+<size=20>Content Magagerタブ</size>
+<size=14>Content Magagerタブでは、今までに自分がアップロードしたworldやアバターを確認することができます。
+ボタンを押すとウェブのページで確認することができ、より詳しく編集することできます。</size>
+</txt>

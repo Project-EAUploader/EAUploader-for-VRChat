@@ -1,0 +1,5 @@
+<txt>
+<size=20>What is VRM? </size>
+<size=14>VRM is a file format for 3D models. Textures, materials, etc. are combined into a single file.
+VRM cannot be uploaded to VRChat and must be converted. </size>
+</txt>

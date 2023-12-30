@@ -1,0 +1,27 @@
+﻿<UXML xmlns="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns:vrc="VRC.SDKBase.Editor.Elements" xmlns:vrca="VRC.SDK3A.Editor.Elements">
+    <Foldout text="サムネイル" class="section-foldout" name="thumbnail-foldout">
+        <VisualElement class="row mt-2 mb-2 align-items-start w-100">
+            <vrc:Thumbnail width="192" height="144" hover-text="Image Size 1200 x 900" name="content-thumbnail" />
+            <VisualElement class="col ml-2 flex-grow-1">
+                <VisualElement class="col mb-2" name="thumbnail-selector-block">
+                    <Label class="mb-2 white-space-normal m-unity-field " text="サムネイルとして使用する新しい画像を選ぶことができます。" />
+                    <Button class="mb-2" text="新規サムネイルを選択" name="select-new-thumbnail-btn" />
+                    <Label class="mb-2 white-space-normal m-unity-field " text="新しいサムネイルをシーンから直接キャプチャすることもできます。" />
+                    <Button text="シーンからキャプチャ" name="capture-thumbnail-from-scene-btn" />
+                </VisualElement>
+                <VisualElement class="col d-none" name="thumbnail-capture-block">
+                    <Label class="mb-2 white-space-normal m-unity-field " text="シーンビューを移動して、目的のサムネイルをキャプチャする" />                    
+                    <Toggle label="塗りつぶしの背景" tooltip="スカイボックスの代わりにフラットカラーを背景に使用" name="thumbnail-fill-background-toggle" />
+                    <uie:ColorField label="背景色" name="thumbnail-background-color-field" class="d-none" />
+                    <Toggle label="ポストプロセッシングの使用" tooltip="サムネイルにシーンの後処理を施す" name="thumbnail-use-post-processing-toggle" />
+                    <Toggle label="カスタムカメラの使用" tooltip="VRChat SDKが作成したカメラではなく、カスタムカメラを使用します。" name="thumbnail-use-custom-camera-toggle" />
+                    <uie:ObjectField class="flex-grow-1 d-none" label="カメラ" name="thumbnail-custom-camera-ref"/>
+                    <VisualElement class="mt-2 row align-items-center" name="thumbnail-capture-confirm-block">
+                        <Button class="mr-2 flex-grow-1" text="キャプチャ" name="thumbnail-capture-confirm-btn" />
+                        <Button class="flex-grow-1" text="キャンセル" name="thumbnail-capture-cancel-btn" />
+                    </VisualElement>
+                </VisualElement>
+            </VisualElement>
+        </VisualElement>
+    </Foldout>
+</UXML>

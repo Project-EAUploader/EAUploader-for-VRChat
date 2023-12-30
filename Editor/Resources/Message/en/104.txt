@@ -1,0 +1,5 @@
+<txt>
+<size=20>About Introducing Plug-ins</size>
+<size=14>Tools developed by developers around the world can be deployed.
+You can introduce it by clicking the button below.</size>
+</txt>

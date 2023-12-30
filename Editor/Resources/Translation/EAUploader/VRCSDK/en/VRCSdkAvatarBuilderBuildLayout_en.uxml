@@ -1,0 +1,37 @@
+﻿<UXML xmlns="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns:vrc="VRC.SDKBase.Editor.Elements">
+    <VisualElement class="mt-2 col" name="local-testing">
+        <VisualElement class="col">
+            <VisualElement class="row ml-1 mr-1 mb-1 align-items-center">
+                <Label class="subheader2" text="Offline Testing" />
+                <Button class="help-button" tooltip="What is Offline Testing?" name="show-local-test-help-button" />
+            </VisualElement>
+            <Label class="white-space-normal mt-1 ml-1 mr-1 mb-2 d-none" name="local-test-help-text" text="Before uploading your avatar you may build and test it in the VRChat client. Other users will not able to see the test avatar." />
+        </VisualElement>
+        <VisualElement class="row flex-shrink-0 relative" name="local-test-buttons">
+            <Button name="build-and-test-button" class="mr-0 ml-1 pr-4 pl-4 d-flex flex-1" text="Build &amp; Test" />
+            <VisualElement name="local-test-disabled-block" class="d-none absolute">
+                <Label name="local-test-disabled-text" text="You must fix the issues listed above before you can do an Offline Test" class="white-space-normal w-100" />
+            </VisualElement>
+        </VisualElement>
+    </VisualElement>
+    <VisualElement class="mt-2 mb-1 col" name="online-publishing">
+        <VisualElement class="col">
+            <VisualElement class="row ml-1 mr-1 mb-1 align-items-center">
+                <Label class="subheader2" text="Online Publishing" />
+                <Button class="help-button" tooltip="What is Online Publishing" name="show-online-publishing-help-button" />
+            </VisualElement>
+            <Label class="white-space-normal mt-1  ml-1 mr-1 mb-2 d-none" name="online-publishing-help-text" text="In order for other people to see your avatar in VRChat it must be built and published to our game servers." />
+        </VisualElement>
+        <VisualElement class="d-flex row align-items-center pl-1 mt-1 mb-2">
+            <Toggle name="accept-terms-toggle" />
+            <Label text="The information provided above is accurate and I have the rights to upload this content to VRChat" class="ml-2 flex-shrink-1 white-space-normal pr-2"  />
+        </VisualElement>
+        <VisualElement class="row flex-shrink-0 relative">
+            <Button name="build-and-upload-button" class="mr-0 ml-1 pr-4 pl-4 d-flex flex-1" text="Build &amp; Publish" />
+            <VisualElement name="build-and-upload-disabled-block" class="d-none absolute">
+                <Label name="build-and-upload-disabled-text" text="You must fix the issues listed above before you can Upload a Build" class="white-space-normal w-100" />
+            </VisualElement>
+        </VisualElement>
+    </VisualElement>
+    <VisualElement name="v3-block" />
+</UXML>

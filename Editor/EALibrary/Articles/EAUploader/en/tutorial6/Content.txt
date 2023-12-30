@@ -1,0 +1,9 @@
+<t>― Import your Avatar ―</t>
+<txt>
+<size=16>    Import your avatar.
+    Notice the left side in the <color=green>Import tab</color>. <color=red>"Import Avatar" button</color>. Import your avatar from here.
+
+    Avatars for VRChat are usually distributed as <color=blue>.prefab</color> or <color=blue>.unitypackage </color>files. If your avatar does not appear in the import wizard, please check the installation instructions provided by the distributor.
+
+<b>If you want to import a VRM file, you can do so by clicking the <color=red>"Import VRM" button</color>, or check the VRM2-"VRM introduction and conversion" article for VRM setup instructions.</b></size>
+</txt>
