@@ -23,28 +23,22 @@ public class labels
 
     static labels()
     {
-        // Debug.Log("labels static constructor called");
         UpdateLanguage();
     }
 
     public static void UpdateLanguage()
     {
-        // Debug.Log("UpdateLanguage called");
         language = LanguageUtility.GetCurrentLanguage();
-        // Debug.Log($"Current language: {language}");
         LoadTranslations();
     }
 
     private static void LoadTranslations()
     {
-        // Debug.Log("LoadTranslations called");
         string basePath = "Packages/com.sabuworks.eauploader/Editor/Resources/Translation";
         string translationFilePath = Path.Combine(basePath, $"translations_{language}.json");
-        // Debug.Log($"Translation file path: {translationFilePath}");
 
         if (File.Exists(translationFilePath))
         {
-            // Debug.Log("Translation file found");
             string jsonContent = File.ReadAllText(translationFilePath);
             LocalizationData loadedData = JsonUtility.FromJson<LocalizationData>(jsonContent);
 
@@ -53,8 +47,6 @@ public class labels
             {
                 translations[item.key] = item.value;
             }
-
-            // Debug.Log($"Loaded translations for language: {language}");
         }
         else
         {

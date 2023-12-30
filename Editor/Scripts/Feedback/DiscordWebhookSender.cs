@@ -88,7 +88,6 @@ public class DiscordWebhookSender : EditorWindow
             string json = BuildJson(title, author, email, content);
 
             // JSONデータをログに出力
-            Debug.Log("Sending JSON: " + json);
 
             try
             {

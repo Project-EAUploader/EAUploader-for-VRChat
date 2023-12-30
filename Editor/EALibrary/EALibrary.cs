@@ -421,7 +421,6 @@ public class EALibrary
                 if (GUILayout.Button(title, LibraryButtonStyle))
                 {
                     string contentFilePath = Path.Combine(Path.GetDirectoryName(jsonFilePath), article.contentFile);
-                    Debug.Log($"Opening article: {title}");
                     ShowArticle(File.ReadAllText(contentFilePath), jsonFilePath);
                 }
             }

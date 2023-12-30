@@ -289,7 +289,6 @@ public static class CustomPrefabUtility
         {
             prefab.Status = status;
             SavePrefabsInfo(allPrefabs, PrefabsInfoPath);
-            Debug.Log($"Save PrefabInfo as {allPrefabs}-{PrefabsInfoPath}");
         }
     }
 

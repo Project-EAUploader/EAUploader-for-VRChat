@@ -28,7 +28,6 @@ public static class EAUploaderEditorManager
         if (editorRegistration != null && !registeredEditors.Contains(editorRegistration))
         {
             registeredEditors.Add(editorRegistration);
-            Debug.Log($"Editor '{editorRegistration.EditorName}' registered.");
 
             // 登録後にJSONファイルに情報を保存
             SaveEditorInfoToJson();
@@ -69,8 +68,6 @@ public static class EAUploaderEditorManager
 
     private static void SaveEditorInfoToJson()
     {
-        Debug.Log("Saving editor information to JSON...");
-
         // EditorInfoList オブジェクトを作成し、registeredEditors リストの情報を変換して格納
         var editorInfos = registeredEditors.Select(editor => new EditorInfo
         {
@@ -88,7 +85,6 @@ public static class EAUploaderEditorManager
         {
             string json = JsonUtility.ToJson(editorsWrapper, true);
             File.WriteAllText(JsonFilePath, json);
-            Debug.Log($"Editor information saved successfully to {JsonFilePath}");
         }
         catch (Exception e)
         {
@@ -98,15 +94,12 @@ public static class EAUploaderEditorManager
 
     private static void ClearJsonFile()
     {
-        Debug.Log("Clearing editor information from JSON...");
-
         try
         {
             // 空のリストをJSONファイルに保存
             var editorsWrapper = new EditorInfoList { editors = new List<EditorInfo>() };
             string json = JsonUtility.ToJson(editorsWrapper, true);
             File.WriteAllText(JsonFilePath, json);
-            Debug.Log($"Editor information cleared successfully from {JsonFilePath}");
         }
         catch (Exception e)
         {

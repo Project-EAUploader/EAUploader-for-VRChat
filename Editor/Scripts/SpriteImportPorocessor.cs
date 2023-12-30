@@ -17,12 +17,10 @@ public class SpriteImportProcessor : AssetPostprocessor
     {
         foreach (var path in targetFolderPaths)
         {
-            // Debug.Log(targetFolderPaths+"中の"+path+"を変更...");
             if (assetPath.Contains(path))
             {
                 var importer = (TextureImporter)assetImporter;
                 importer.textureType = TextureImporterType.Sprite;
-                // Debug.Log(path+"をSpriteに変更");
                 break;
             }
         }

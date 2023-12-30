@@ -87,7 +87,6 @@ public class Settings
             selectedLanguageIndex = System.Array.IndexOf(languages, savedLanguageName);
 
             // デバッグ用のログ
-            Debug.Log($"Loaded language setting: {savedLanguageCode} (index: {selectedLanguageIndex})");
         }
         else
         {

@@ -220,8 +220,6 @@ public class UpdateManager : EditorWindow
         }
 
         File.WriteAllBytes(filePath, data);
-
-        Debug.Log($"File downloaded: {filePath}");
     }
 
 
@@ -230,7 +228,6 @@ public class UpdateManager : EditorWindow
         if (File.Exists(filePath))
         {
             File.Delete(filePath);
-            Debug.Log($"Removed file: {filePath}");
         }
     }
 }
