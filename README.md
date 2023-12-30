@@ -6,11 +6,6 @@
 # All current release versions are in the process of development.
 **Normal copyright laws apply. Redistribution and modification are prohibited.**
 
-After meeting certain functionality, we plan to provide the following
-* API for plug-ins to add functionality
-* API for modifying the editor itself
-Please wait for a while until these are provided.
-
 This project has been used in several of our studies.
 
 # すべてのバージョンは開発途中段階です
