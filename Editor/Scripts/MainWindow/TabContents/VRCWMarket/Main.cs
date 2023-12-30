@@ -135,33 +135,7 @@ namespace VRCWMarketPlace
             }
             GUILayout.BeginHorizontal(SearchBarBoxStyle, GUILayout.Width(width), GUILayout.Height(height));
 
-            /*
-            // 検索欄と検索ボタン
-            searchString = EditorGUILayout.TextField(searchString, TextFieldStyle, GUILayout.Width(width * 0.4f), GUILayout.Height(height * 0.8f));
-
-            // 検索ボタン
-            if (GUILayout.Button(Getc("search", 144), ClearButtonStyle, GUILayout.Width(width * 0.1f), GUILayout.Height(height * 0.8f)))
-            {
-                SearchInMyList(searchString); // 検索文字列を使用して商品情報を取得
-            }
-            if (searchString != "")
-            {
-                // クリアボタン
-                if (GUILayout.Button(Getc("close", 179), ClearButtonStyle, GUILayout.Width(width * 0.05f), GUILayout.Height(height * 0.8f)))
-                {
-                    searchString = ""; // 検索欄をクリア
-                    LoadMyListProducts(); // 通常の商品取得
-                }
-            }
-
-            // ソートボタンの処理
-            if (GUILayout.Button(Get(813), ClearButtonStyle, GUILayout.Width(width * 0.1f), GUILayout.Height(height * 0.8f)))
-            {
-                SortOptionsWindow.ShowWindow(isMyListPage);
-            }
-            if (Event.current.type == EventType.Repaint) _dropDownButtonRect = GUILayoutUtility.GetLastRect();
-
-            */
+            
             
             if (GUILayout.Button(Get(816), ClearButtonStyle, GUILayout.Width(width), GUILayout.Height(height * 0.8f)))
             {

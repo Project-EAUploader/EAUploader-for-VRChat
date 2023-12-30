@@ -427,24 +427,5 @@ public class styles
             hover = { textColor = Color.cyan },
             active = { textColor = Color.yellow },
         };
-
-        /*
-        ModernMainButtonStyle = new GUIStyle(GUI.skin.button)
-        {
-            font = custumfont,
-            fontSize = 18,
-            normal = { 
-                textColor = new Color(0.31f, 0.31f, 0.31f), // #313131
-                background = Texture.MakeModernButtonTex(220, 40, new Color(0.93f, 0.93f, 0.93f), Color.black, 1, true) // #eee
-            },
-            hover = {
-                textColor = Color.white,
-                background = Texture.MakeModernButtonTex(220, 40, new Color(0.31f, 0.31f, 0.31f), Color.black, 1, true) // #313131
-            },
-            padding = new RectOffset(25, 25, 10, 10),
-            alignment = TextAnchor.MiddleCenter,
-            border = new RectOffset(3, 3, 3, 3) // borderRadius
-        };
-        */
     }
 }

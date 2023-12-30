@@ -62,16 +62,7 @@ public class Tab0
         settingsInstance.Draw();
         GUILayout.EndArea();
 
-        /*
-        // SettingsとEAInfoの境界線
-        EditorGUI.DrawRect(new Rect(settingsAreaWidth, upperAreaHeight + borderWidth, borderWidth, lowerAreaHeight - borderWidth), borderColor);
-
-        // EAInfoエリア
-        float eaInfoAreaWidth = mainAreaWidth * 0.8f - borderWidth;
-        GUILayout.BeginArea(new Rect(settingsAreaWidth + borderWidth, upperAreaHeight + borderWidth, eaInfoAreaWidth, lowerAreaHeight - borderWidth));
-        EAInfo.Draw(new Rect(0, 0, eaInfoAreaWidth, lowerAreaHeight - borderWidth));
-        GUILayout.EndArea();
-        */
+        
 
         GUILayout.EndHorizontal(); // 下部エリア終了
 

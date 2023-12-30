@@ -99,24 +99,7 @@ public class Manager
 
             }
             EditorGUILayout.BeginVertical();
-            /* アイコンのみに変更の検討
-            if (GUILayout.Button(Getc("create", 147), miniButtonStyle, GUILayout.Width(80)))
-            {
-                renameRequests.Add(prefab);
-            }
-            if (GUILayout.Button(Getc("copy", 148), miniButtonStyle, GUILayout.Width(80)))
-            {
-                duplicateRequests.Add(prefab);
-            }
-            if (GUILayout.Button(Getc("delete", 133), miniButtonRedStyle, GUILayout.Width(80)))
-            {
-                if (EditorUtility.DisplayDialog(Get(134), prefab + Get(135), Get(136), Get(137)))
-                {
-                    deleteRequests.Add(prefab);
-                }
-            }
-            ※ 0 はアイコンのみ
-            */
+            
             if (GUILayout.Button(Getc("create", 0), miniButtonStyle, GUILayout.Width(60)))
             {
                 renameRequests.Add(prefab);

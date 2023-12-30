@@ -279,12 +279,6 @@ public static class CustomPrefabUtility
     {
         GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
         return prefab != null && prefab.GetComponent<VRMMeta>() != null;
-        /*
-        var allPrefabsInfo = LoadPrefabsInfo(PrefabsInfoPath);
-        var prefabInfo = allPrefabsInfo.FirstOrDefault(info => info.Path == prefabPath);
-
-        return prefabInfo != null && prefabInfo.Type == "VRM";
-        */
     }
 
     public static void SetPrefabStatus(string prefabPath, string status)
