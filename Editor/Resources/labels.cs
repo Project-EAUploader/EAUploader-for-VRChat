@@ -50,7 +50,7 @@ public class labels
         }
         else
         {
-            // Debug.LogError($"Translation file not found for language: {language}");
+
             translations = new Dictionary<int, string>();
         }
     }

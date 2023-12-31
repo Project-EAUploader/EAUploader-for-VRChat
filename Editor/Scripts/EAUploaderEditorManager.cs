@@ -8,7 +8,7 @@ using System;
 
 public static class EAUploaderEditorManager
 {
-    // [InitializeOnLoad]
+
     public static void OnEditorManagerLoad()
     {
         ClearJsonFile();
@@ -17,7 +17,7 @@ public static class EAUploaderEditorManager
 
     static EAUploaderEditorManager()
     {
-        // Unity起動時にJSONファイルをクリア
+
         ClearJsonFile();
     }
 
@@ -29,7 +29,7 @@ public static class EAUploaderEditorManager
         {
             registeredEditors.Add(editorRegistration);
 
-            // 登録後にJSONファイルに情報を保存
+
             SaveEditorInfoToJson();
         }
     }
@@ -41,7 +41,7 @@ public static class EAUploaderEditorManager
             string json = File.ReadAllText(JsonFilePath);
             var editorsList = JsonUtility.FromJson<EditorInfoList>(json);
 
-            // 確認：editorsList が null でないこと、および editors プロパティが存在すること
+
             if (editorsList?.editors != null)
             {
                 foreach (var editorInfo in editorsList.editors)
@@ -68,7 +68,7 @@ public static class EAUploaderEditorManager
 
     private static void SaveEditorInfoToJson()
     {
-        // EditorInfoList オブジェクトを作成し、registeredEditors リストの情報を変換して格納
+
         var editorInfos = registeredEditors.Select(editor => new EditorInfo
         {
             MenuName = editor.MenuName,
@@ -96,7 +96,7 @@ public static class EAUploaderEditorManager
     {
         try
         {
-            // 空のリストをJSONファイルに保存
+
             var editorsWrapper = new EditorInfoList { editors = new List<EditorInfo>() };
             string json = JsonUtility.ToJson(editorsWrapper, true);
             File.WriteAllText(JsonFilePath, json);

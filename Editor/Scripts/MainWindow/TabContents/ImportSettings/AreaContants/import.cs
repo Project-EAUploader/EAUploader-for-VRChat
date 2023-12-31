@@ -21,7 +21,7 @@ public class Import
             EAUploaderMessageWindow.ShowMsg(100);
         }
         GUILayout.Label(Get(105), h2LabelStyle);
-        if (GUILayout.Button(Getc("import", 130), MainButtonStyle)) // "Import Asset (File)" ボタン
+
         {
             string filePath = EditorUtility.OpenFilePanelWithFilters(
                 Get(200),
@@ -34,8 +34,8 @@ public class Import
             }
         }
 
-        // フォルダ選択用のボタン
-        if (GUILayout.Button(Getc("import", 1301), SubButtonStyle)) // "Import Asset (Folder)" ボタン
+
+
         {
             string folderPath = EditorUtility.OpenFolderPanel( Get(202), "", "");
             if (!string.IsNullOrEmpty(folderPath))
@@ -56,13 +56,13 @@ public class Import
                 return;
             }
 
-            // ファイルの一覧を文字列に変換
+
             string fileList = string.Join("\n", allFiles.Select(Path.GetFileName));
             bool confirmImport = EditorUtility.DisplayDialog(Get(308), $""+Get(309) + "\n{fileList}", Get(136), Get(137));
 
             if (!confirmImport)
             {
-                return; // キャンセルされた場合、処理を中断
+
             }
 
             bool applyToAll = false;
@@ -83,11 +83,11 @@ public class Import
 
                     switch (choice)
                     {
-                        case 0: // Import and Overwrite
+
                             break;
-                        case 1: // Skip
+
                             continue;
-                        case 2: // Apply to All
+
                             applyToAll = true;
                             applyToAllChoice = Get(305);
                             break;
@@ -154,7 +154,7 @@ public class Import
             GUILayout.Label(Get(108), h2LabelStyle);
             if (GUILayout.Button(Get(104), MainButtonStyle))
             {
-                // "VRM0/Import from VRM 0.x" メニューアクションを実行
+
                 EditorApplication.ExecuteMenuItem("VRM0/Import from VRM 0.x");
             }
         }

@@ -1,1 +1,1 @@
-<txt>Text here</txt>
+<txt></txt>

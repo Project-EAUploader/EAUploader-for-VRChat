@@ -31,7 +31,7 @@ public class Manager
         GUILayout.BeginArea(position);
         GUILayout.Label(Get(103), styles.h1LabelStyle);
 
-        // 検索機能
+
         EditorGUILayout.BeginHorizontal();
         searchQuery = EditorGUILayout.TextField(searchQuery, styles.TextFieldStyle, GUILayout.Height(40));
         searchPerformed = false;
@@ -71,10 +71,10 @@ public class Manager
             string prefabName = Path.GetFileNameWithoutExtension(prefab);
             Texture2D preview = kvp.Value;
 
-            GUILayout.Space(10); // 項目間のスペースを追加
+
 
             EditorGUILayout.BeginHorizontal();
-            // Preview画像
+
             if (preview != null)
             {
                 if (GUILayout.Button(preview, prefabButtonStyle, GUILayout.Width(150), GUILayout.Height(150)))
@@ -122,7 +122,7 @@ public class Manager
         GUILayout.EndScrollView();
         GUILayout.EndArea();
 
-        // リクエストの処理
+
         ProcessPrefabRequests(renameRequests, duplicateRequests, deleteRequests, convertRequests);
     }
 
@@ -170,18 +170,18 @@ public class Manager
         string newAssetName = assetName + "_Copy";
         string newPrefabPath = AssetDatabase.GenerateUniqueAssetPath(directoryPath + "/" + newAssetName + ".prefab");
 
-        // 複製を作成
+
         Object originalPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(originalPrefabPath);
         if (originalPrefab != null)
         {
             Object prefabCopy = Object.Instantiate(originalPrefab);
             PrefabUtility.SaveAsPrefabAsset((GameObject)prefabCopy, newPrefabPath);
-            Object.DestroyImmediate(prefabCopy); // エディタ内でのみ使用
 
-            // 複製したPrefabの名前変更用ウィンドウを表示
+
+
             RenameFileWindow.ShowWindow(newPrefabPath);
 
-            // プレファブリストを更新
+
             prefabsWithPreview = CustomPrefabUtility.GetPrefabList();
         }
     }
@@ -216,13 +216,13 @@ public class ConfirmationPopup : EditorWindow
 
     private void OnGUI()
     {
-        // Replicating the message and button texts from the original dialog
-        EditorGUILayout.LabelField(Get(134), EditorStyles.boldLabel); // Title
-        EditorGUILayout.LabelField(prefabPath + Get(135), EditorStyles.wordWrappedLabel); // Message
+
+
+
         GUILayout.Space(20);
 
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button(Get(136))) // Yes button
+
         {
             CustomPrefabUtility.RemovePrefabFromScene(prefabPath);
             AssetDatabase.DeleteAsset(prefabPath);
@@ -230,7 +230,7 @@ public class ConfirmationPopup : EditorWindow
             this.Close();
         }
 
-        if (GUILayout.Button(Get(137))) // No button
+
         {
             this.Close();
         }

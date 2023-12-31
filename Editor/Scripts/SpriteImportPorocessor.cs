@@ -35,11 +35,11 @@ public class SpriteImportProcessor : AssetPostprocessor
         if (assetsChanged)
         {
             CustomPrefabUtility.Processor(importedAssets, deletedAssets, movedAssets, movedFromAssetPaths);
-            EABuilder.avatarsListUpdated = true; // アバターリストが更新されたことを示す
+
         }
     }
 
-    // [InitializeOnLoadMethod]
+
     public static void OnEditorLoad()
     {
         foreach (var path in targetFolderPaths)

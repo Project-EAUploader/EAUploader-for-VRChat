@@ -42,7 +42,6 @@ public class ArticleRenderer
         }
     }
 
-    // リッチテキストを解析して必要なUI要素を生成する
     private static List<RichTextElement> ParseRichTextElements(string content)
     {
         var elements = new List<RichTextElement>();
@@ -118,7 +117,7 @@ public class ArticleRenderer
                     }
                     else if (tag.StartsWith("<button>"))
                     {
-                        // [Button タグの処理]
+
                         int buttonEndIndex = content.IndexOf("</button>", currentIndex);
                         if (buttonEndIndex != -1)
                         {
@@ -174,7 +173,6 @@ public class ArticleRenderer
             }
             else
             {
-                // 残りの全てのテキストを追加
                 string remainingText = content.Substring(currentIndex).Trim('\n');
                 if (!string.IsNullOrEmpty(remainingText))
                 {
@@ -218,31 +216,26 @@ public class ArticleRenderer
 
             GUILayout.BeginHorizontal();
 
-            // Section用の画像描画
             if (!string.IsNullOrEmpty(imagePath))
             {
                 RenderImageForSection(area, imagePath, widthPercent);
             }
 
-            // テキストの描画
             GUILayout.Label(textContent, RichTextLabelStyle);
 
             GUILayout.EndHorizontal();
         }
     }
 
-    // 画像を描画するメソッド
     private static void RenderImage(Rect area, string imageData)
     {
-        // imageDataからパスとオプションの横幅を分離
         string[] parts = imageData.Split(',');
         string imagePath = parts[0].Trim();
         int widthOverride = -1;
 
-        // オプションの横幅が提供されている場合、整数に変換
         if (parts.Length > 1 && int.TryParse(parts[1].Trim(), out widthOverride))
         {
-            // 横幅の値が取得された場合の処理
+            
         }
 
         if (string.IsNullOrEmpty(currentArticleFilePath) || string.IsNullOrEmpty(imagePath))
@@ -251,16 +244,13 @@ public class ArticleRenderer
             return;
         }
 
-        // テキストファイルと同じディレクトリにある画像のフルパスを生成
         string fullPath = Path.Combine(Path.GetDirectoryName(currentArticleFilePath), imagePath);
         Texture2D image = AssetDatabase.LoadAssetAtPath<Texture2D>(fullPath);
 
         if (image != null)
         {
-            // 画像のアスペクト比を計算
             float aspectRatio = (float)image.height / image.width;
 
-            // オプションの横幅がある場合はそれを使用、なければエリアの幅を使用
             float imageWidth = widthOverride > 0 ? widthOverride : area.width - 10;
             float imageHeight = imageWidth * aspectRatio;
 
@@ -274,7 +264,6 @@ public class ArticleRenderer
         }
     }
 
-    // Section用の画像を描画するメソッド
     private static void RenderImageForSection(Rect area, string imagePath, int widthPercent)
     {
         if (string.IsNullOrEmpty(currentArticleFilePath) || string.IsNullOrEmpty(imagePath))
@@ -283,16 +272,13 @@ public class ArticleRenderer
             return;
         }
 
-        // テキストファイルと同じディレクトリにある画像のフルパスを生成
         string fullPath = Path.Combine(Path.GetDirectoryName(currentArticleFilePath), imagePath);
         Texture2D image = AssetDatabase.LoadAssetAtPath<Texture2D>(fullPath);
 
         if (image != null)
         {
-            // Texture2D から Sprite への変換
             Sprite imageSprite = Texture2DToSprite(image);
 
-            // 画像描画の処理
             if (imageSprite != null)
             {
                 float aspectRatio = (float)image.height / image.width;
@@ -318,7 +304,6 @@ public class ArticleRenderer
 
     private static void RenderButton(string buttonData)
     {
-        // ボタンのデータを解析
         string[] parts = buttonData.Split(',');
         if (parts.Length >= 3)
         {
@@ -348,7 +333,6 @@ public class ArticleRenderer
 
             if (GUILayout.Button(label, buttonStyle))
             {
-                // ボタンが押されたときにURLを開く
                 Application.OpenURL(url);
             }
         }
@@ -359,14 +343,12 @@ public class ArticleRenderer
         string[] parts = hrData.Split(',');
         if (parts.Length >= 2)
         {
-            // 色
             string colorPart = parts[0].Trim();
             Color lineColor;
             if (!ColorUtility.TryParseHtmlString(colorPart, out lineColor))
             {
                 lineColor = Color.black;
             }
-            // 太さ
             if (int.TryParse(parts[1].Trim(), out int lineThickness))
             {
                 DrawHorizontalDottedCenterLine(lineColor, lineThickness, area.width);
@@ -382,14 +364,12 @@ public class ArticleRenderer
         }
     }
 
-    // リッチテキストの要素を表すクラス
     private class RichTextElement
     {
         public RichTextElementType Type { get; set; }
         public string Content { get; set; }
     }
 
-    // リッチテキスト要素のタイプを表す列挙型
     private enum RichTextElementType
     {
         Text,

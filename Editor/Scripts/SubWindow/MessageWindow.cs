@@ -9,7 +9,7 @@ public class EAUploaderMessageWindow : EditorWindow
     private string content;
     private static readonly Vector2 windowSize = new Vector2(600, 300);
 
-    // このメソッドを呼び出してウィンドウを表示
+
     public static void ShowMsg(int msgNum)
     {
         var window = GetWindow<EAUploaderMessageWindow>(Get(400));

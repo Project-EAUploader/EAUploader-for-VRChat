@@ -17,14 +17,14 @@ public class styles
     public static GUIStyle NoMargeh2LabelStyle;
     public static GUIStyle NoMargeWhiteh2LabelStyle;
     public static GUIStyle Centerh2LabelStyle;
-    public static GUIStyle h3LabelStyle; //ライトブルー
-    public static GUIStyle h4LabelStyle; //margin0
-    public static GUIStyle h5LabelStyle; //margin0ライトブルー
+
+
+
     public static GUIStyle h5BlackLabelStyle;
     public static GUIStyle NoMarginh5BlackLabelStyle;
     public static GUIStyle CenteredStyle;
     public static GUIStyle MarketproductsLabelStyle;
-    public static GUIStyle eLabel; // red text
+
     public static GUIStyle RichTextLabelStyle;
     public static GUIStyle miniButtonStyle;
     public static GUIStyle miniButtonRedStyle;
@@ -33,11 +33,11 @@ public class styles
     public static GUIStyle drewborderBox;
     public static GUIStyle tabStyle;
     public static GUIStyle noBackgroundStyle;
-    public static GUIStyle listBorderStyle; // list
-    public static GUIStyle prefabButtonStyle; // 透明ボタン
+
+
     public static GUIStyle FoldoutButtonStyle;
     public static GUIStyle LinkButtonStyle;
-    public static GUIStyle horizontalSeparatorStyle; // つまり線の描画
+
     public static GUIStyle h4CenterLabelStyle;
     public static GUIStyle LibraryButtonStyle;
     public static GUIStyle TabButtonStyle;
@@ -45,12 +45,12 @@ public class styles
     public static GUIStyle TextAreaStyle;
     public static GUIStyle SearchButtonStyle;
     public static GUIStyle ClearButtonStyle;
-    // public static GUIStyle ModernMainButtonStyle;
+
 
     public static void Initialize()
     {
         Texture2D borderTexture = Texture.GenerateBorderTexture(64, 64, Color.white, 2);
-        RectOffset commonMargin = new RectOffset(50, 50, 10, 10); // Corrected line
+
 
         MainButtonStyle = new GUIStyle(GUI.skin.button)
         {
@@ -347,7 +347,7 @@ public class styles
         {
             normal = { background = Texture2D.blackTexture },
             margin = new RectOffset(0, 0, 5, 5),
-            fixedHeight = 1 // 線の高さ
+
         };
 
         h4CenterLabelStyle = new GUIStyle()
@@ -389,7 +389,7 @@ public class styles
         TextFieldStyle = new GUIStyle(GUI.skin.textField)
         {
             normal = { 
-                background = Texture.MakeTex(2, 2, new Color(0.9f, 0.9f, 0.9f)), // 白に近い背景色
+
                 textColor = Color.black
             },
             alignment = TextAnchor.MiddleLeft,
@@ -401,7 +401,7 @@ public class styles
         TextAreaStyle = new GUIStyle(GUI.skin.textArea)
         {
             normal = { 
-                background = Texture.MakeTex(2, 2, new Color(0.9f, 0.9f, 0.9f)), // 白に近い背景色
+
                 textColor = Color.black
             },
             alignment = TextAnchor.UpperLeft,

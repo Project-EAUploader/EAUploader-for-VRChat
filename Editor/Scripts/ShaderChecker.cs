@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 
-// [InitializeOnLoad]
+
 public class ShaderChecker
 {
     public static void OnShaderChecker()
@@ -37,7 +37,7 @@ public class ShaderChecker
                         if (material.shader.name == "Hidden/InternalErrorShader" || !ShaderExists(material.shader.name))
                         {
                             problematicPrefabs.Add(prefab.name);
-                            break; // Only need to add prefab name once
+
                         }
                     }
                 }

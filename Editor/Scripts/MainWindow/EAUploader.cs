@@ -26,10 +26,10 @@ internal class EAUploader : EditorWindow
     private string[] tabNames;
     int currentWindowWidth;
     int currentWindowHeight;
-    public static string[] prefabPaths; // Array to hold prefab paths and names
+
     public static string[] prefabNames;
-    int selectedPrefabIndex; // Variable to hold the index of the selected prefab
-    public static GameObject selectedPrefabInstance; // Variable to hold an instance of the selected Prefab
+
+
     public static string selectedPrefabName;
     private string currentLanguage;
     private string previousLanguage;
@@ -181,13 +181,13 @@ internal class EAUploader : EditorWindow
         float tabAreaHeight = position.height * 0.05f;
         float contentAreaHeight = position.height * 0.95f;
 
-        // タブエリア
+
         GUILayout.BeginArea(new Rect(0, 0, position.width, tabAreaHeight));
         GUILayout.BeginHorizontal();
 
         GUILayout.Space(20);
 
-        // Marketボタン
+
         if (GUILayout.Button("Market", SubButtonStyle))
         {
             selectedAvatarWorldTabIndex = 0;

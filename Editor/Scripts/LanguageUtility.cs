@@ -19,8 +19,8 @@ public static class LanguageUtility
             return settings.language;
         }
 
-        // Debug.LogWarning("Settings file not found, defaulting to English");
-        return "en"; // デフォルト
+
+
     }
 
     public static void OnChangeEvent(string language)

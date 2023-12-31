@@ -10,6 +10,8 @@ public class CombinedInitialization
     [InitializeOnLoadMethod]
     private static void CombinedOnLoad()
     {
+        UpdateManager.ShowWindow();
+
         EditorUtility.DisplayProgressBar("Initialization", "Initializing CustomPrefabUtility...", 0.0f);
         CustomPrefabUtilityOnUnityLoad();
         EditorUtility.DisplayProgressBar("Initialization", "Initializing EAUploaderEditorManager...", 0.2f);
@@ -21,8 +23,6 @@ public class CombinedInitialization
         EditorUtility.DisplayProgressBar("Initialization", "Initializing ShaderChecker...", 0.8f);
         ShaderCheckerOnLoad();
         
-        UpdateManager.ShowWindow();
-
         EditorUtility.ClearProgressBar();
     }
 

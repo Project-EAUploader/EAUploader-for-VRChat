@@ -1,34 +1,4 @@
 {
     "Prefabs": [
-        {
-            "Path": "Assets/Tomarudo/HatsuneMikuNT/HatsuneMikuNT.prefab",
-            "Name": "HatsuneMikuNT",
-            "Type": "VRChat",
-            "Status": "show"
-        },
-        {
-            "Path": "Assets/Obako/[PC版]Prefab.prefab",
-            "Name": "[PC版]Prefab",
-            "Type": "VRChat",
-            "Status": "show"
-        },
-        {
-            "Path": "Assets/Obako/[Quest版]Prefab.prefab",
-            "Name": "[Quest版]Prefab",
-            "Type": "VRChat",
-            "Status": "show"
-        },
-        {
-            "Path": "Assets/HAOLAN/Phys_Haolan.prefab",
-            "Name": "Phys_Haolan",
-            "Type": "VRChat",
-            "Status": "show"
-        },
-        {
-            "Path": "Assets/Test.prefab",
-            "Name": "Test",
-            "Type": "VRChat",
-            "Status": "show"
-        }
     ]
 }

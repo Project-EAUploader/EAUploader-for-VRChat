@@ -18,30 +18,30 @@ public class Settings
 
     public Settings()
     {
-        // 設定をロードする
+
         LoadLanguageSetting();
     }
 
     public void Draw()
     {
         GUILayout.BeginVertical(styles.noBackgroundStyle);
-        // Language Dropdown
+
         GUILayout.Label(Get(101), h1LabelStyle);
         GUILayout.BeginHorizontal();
-        // 中央に配置するために前のスペースを追加
+
         GUILayout.FlexibleSpace();
-        // ラベルを描画
+
         GUILayout.Label(Getc("language_black", 100), NoMargeh2LabelStyle, GUILayout.Height(30));
         int prevSelectedLanguage = selectedLanguageIndex;
-        // ドロップダウンバーを描画
+
         selectedLanguageIndex = EditorGUILayout.Popup(selectedLanguageIndex, languages, GUILayout.ExpandWidth(false));
-        // 中央に配置するために後ろのスペースを追加
+
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
         if (prevSelectedLanguage != selectedLanguageIndex)
         {
             SaveLanguageSetting();
-            // Update language
+
             labels.UpdateLanguage();
             LanguageUtility.OnChangeEvent(languages[selectedLanguageIndex]);
             
@@ -81,16 +81,16 @@ public class Settings
             string jsonContent = File.ReadAllText(settingsPath);
             var settingsObj = JsonUtility.FromJson<LanguageSetting>(jsonContent);
 
-            // 保存された言語コードに基づいて、対応するインデックスを見つける
+
             string savedLanguageCode = settingsObj.language;
             string savedLanguageName = GetLanguageName(savedLanguageCode);
             selectedLanguageIndex = System.Array.IndexOf(languages, savedLanguageName);
 
-            // デバッグ用のログ
+
         }
         else
         {
-            // ファイルが存在しない場合はデフォルト（英語）を選択
+
             selectedLanguageIndex = 0;
         }
     }

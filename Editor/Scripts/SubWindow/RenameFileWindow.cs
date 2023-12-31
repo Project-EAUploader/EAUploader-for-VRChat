@@ -28,7 +28,7 @@ public class RenameFileWindow : EditorWindow
         GUILayout.Label(Get(315), styles.NoMargeh2LabelStyle);
         newFileName = EditorGUILayout.TextArea(newFileName, styles.TextAreaStyle, GUILayout.Width(400), GUILayout.Height(50));
 
-        // 改行を取り除く
+
         newFileName = newFileName.Replace("\n", "").Replace("\r", "");
 
         GUILayout.Space(20);

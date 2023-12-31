@@ -1,4 +1,4 @@
-<t>― VRChatSDKパネルについて てすとおぉぉぉぉ―</t>
+<t>― VRChatSDKパネルについて―</t>
 <txt>
 <size=20>Authenticationタブ</size>
 <size=14>AuthenticationタブではVRChatのアカウントでログインしてください。VRChatのアカウントがない場合は、「Sign up」からアカウントを作ってください。

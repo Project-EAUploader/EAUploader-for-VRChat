@@ -5,9 +5,9 @@ public class AvatarPreviewerWindow : EditorWindow
 {
     private Texture2D previewTexture;
     private string prefabName;
-    private const float windowHeight = 480; // ウィンドウの横幅を固定
 
-    // ウィンドウを表示するための静的メソッド
+
+
     public static void ShowWindow(string prefabName)
     {
         AvatarPreviewerWindow window = (AvatarPreviewerWindow)GetWindow(typeof(AvatarPreviewerWindow), true, "Avatar Previewer");
@@ -15,7 +15,7 @@ public class AvatarPreviewerWindow : EditorWindow
         window.LoadPreviewTexture();
         if (window.previewTexture != null)
         {
-            // 画像のアスペクト比に基づいてウィンドウの高さを設定
+
             float aspectRatio = (float)window.previewTexture.height / window.previewTexture.width;
             float windowWidth = windowHeight * aspectRatio;
 
@@ -29,7 +29,7 @@ public class AvatarPreviewerWindow : EditorWindow
     {
         if (previewTexture != null)
         {
-            // 画像をウィンドウいっぱいに描画（アスペクト比を維持）
+
             GUI.DrawTexture(new Rect(0, 0, position.width, position.height), previewTexture, ScaleMode.ScaleToFit);
         }
         else

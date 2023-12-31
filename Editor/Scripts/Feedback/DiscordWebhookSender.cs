@@ -17,7 +17,7 @@ public class DiscordWebhookSender : EditorWindow
     private static string messageContent = "";
     private static string lng = LanguageUtility.GetCurrentLanguage();
 
-    // ウィンドウを開くためのメソッド
+
     public static void OpenDiscordWebhookSenderWindow()
     {
         GetWindow<DiscordWebhookSender>("Feedback").minSize = new Vector2(400, 200);
@@ -29,11 +29,11 @@ public class DiscordWebhookSender : EditorWindow
     {
         bool isEmptyMessage = true;
         bool sentFeedback = false;
-        // 背景を白に設定するスタイルを作成
+
         var backgroundColorStyle = new GUIStyle();
         backgroundColorStyle.normal.background = EditorGUIUtility.whiteTexture;
 
-        // 背景の描画
+
         GUI.Box(new Rect(0, 0, position.width, position.height), GUIContent.none, backgroundColorStyle);
 
         GUILayout.Label(Get(700), h4CenterLabelStyle);
@@ -82,12 +82,12 @@ public class DiscordWebhookSender : EditorWindow
         {
             client.Headers[HttpRequestHeader.ContentType] = "application/json";
 
-            // テキストエリアの改行をすべて \r に置き換える
+
             content = content.Replace("\n", "\r");
 
             string json = BuildJson(title, author, email, content);
 
-            // JSONデータをログに出力
+
 
             try
             {
@@ -95,7 +95,7 @@ public class DiscordWebhookSender : EditorWindow
             }
             catch (WebException e)
             {
-                // エラー内容をログに出力
+
                 Debug.LogError("Error sending webhook: " + e.Message);
                 if (e.Response != null)
                 {
@@ -111,7 +111,7 @@ public class DiscordWebhookSender : EditorWindow
 
     private string BuildJson(string title, string author, string email, string content)
     {
-        // JSON用に特殊文字をエスケープする
+
         title = EscapeStringForJson(title);
         author = EscapeStringForJson(author);
         email = EscapeStringForJson(email);
@@ -144,7 +144,7 @@ public class DiscordWebhookSender : EditorWindow
 
     private string EscapeStringForJson(string input)
     {
-        // JSONで使用される特殊文字をエスケープする
+
         return input.Replace("\\", "\\\\")
                     .Replace("\"", "\\\"")
                     .Replace("\n", "\\n")

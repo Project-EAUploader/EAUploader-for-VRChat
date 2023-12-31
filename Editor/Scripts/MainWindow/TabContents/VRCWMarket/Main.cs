@@ -34,15 +34,15 @@ namespace VRCWMarketPlace
 
         public static void Draw(Rect position)
         {
-            // 背景を透明に変更
+
             EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), new Color(0, 0, 0, 0));
 
-            // 各エリアのサイズを計算
+
             float searchBarHeight = position.height * 0.05f;
             float productListHeight = position.height * 0.85f;
             float operationAreaHeight = position.height * 0.05f;
 
-            // 各セクションの描画
+
             GUILayout.BeginArea(new Rect(0, 0, position.width, searchBarHeight), GUI.skin.box);
             if (!isMyListPage)
             {
@@ -79,26 +79,26 @@ namespace VRCWMarketPlace
             Color color;
             if (ColorUtility.TryParseHtmlString(colorCode, out color))
             {
-                SearchBarBoxStyle.normal.background = MakeTex(2, 2, color); // 色を適用
+
             }
             GUILayout.BeginHorizontal(SearchBarBoxStyle, GUILayout.Width(width), GUILayout.Height(height));
 
-            // 検索欄と検索ボタン
+
             searchString = EditorGUILayout.TextField(searchString, TextFieldStyle, GUILayout.Width(width * 0.4f), GUILayout.Height(height * 0.8f));
 
-            // 検索ボタン
+
             if (GUILayout.Button(Getc("search", 144), ClearButtonStyle, GUILayout.Width(width * 0.1f), GUILayout.Height(height * 0.8f)))
             {
                 isSearching = true;
-                ClearProductsAndFetchNew(searchString); // 検索文字列を使用して商品情報を取得
+
             }
             if (searchString != "")
             {
-                // クリアボタン
+
                 if (GUILayout.Button(Getc("close", 179), ClearButtonStyle, GUILayout.Width(width * 0.05f), GUILayout.Height(height * 0.8f)))
                 {
-                    searchString = ""; // 検索欄をクリア
-                    ClearProductsAndFetchNew(); // 通常の商品取得
+
+
                     isSearching = false;
                 }
             }
@@ -109,7 +109,7 @@ namespace VRCWMarketPlace
                 FetchProducts(searchString);
             }
 
-            // ソートボタンの処理
+
             if (GUILayout.Button(Get(813), ClearButtonStyle, GUILayout.Width(width * 0.1f), GUILayout.Height(height * 0.8f)))
             {
                 SortOptionsWindow.ShowWindow(isMyListPage);
@@ -131,7 +131,7 @@ namespace VRCWMarketPlace
             Color color;
             if (ColorUtility.TryParseHtmlString(colorCode, out color))
             {
-                SearchBarBoxStyle.normal.background = MakeTex(2, 2, color); // 色を適用
+
             }
             GUILayout.BeginHorizontal(SearchBarBoxStyle, GUILayout.Width(width), GUILayout.Height(height));
 
@@ -144,7 +144,7 @@ namespace VRCWMarketPlace
                 products.Clear();
                 FetchProducts(searchString);
                 isSearching = false;
-                // isLoading = false;
+
             }
 
             GUILayout.EndHorizontal();
@@ -152,7 +152,7 @@ namespace VRCWMarketPlace
 
         private static void SearchInMyList(string searchQuery)
         {
-            LoadMyListProducts(); // マイリストの商品を読み込む
+
             if (!string.IsNullOrEmpty(searchQuery))
             {
                 searchQuery = searchQuery.ToLower();
@@ -166,21 +166,21 @@ namespace VRCWMarketPlace
             ResetScrollPosition();
         }
 
-        // 商品を価格の昇順にソートするメソッド
+
         public static void SortProductsByPriceAscending()
         {
             products.Sort((p1, p2) => p1.price.CompareTo(p2.price));
             ResetScrollPosition();
         }
 
-        // 商品を価格の降順にソートするメソッド
+
         public static void SortProductsByPriceDescending()
         {
             products.Sort((p1, p2) => p2.price.CompareTo(p1.price));
             ResetScrollPosition();
         }
 
-        // マイリストの商品を最新順にソートするメソッド
+
         public static void SortMyListByDate()
         {
             markedProducts.Sort((p1, p2) => DateTime.Compare(DateTime.Parse(p2.created_at), DateTime.Parse(p1.created_at)));
@@ -199,13 +199,13 @@ namespace VRCWMarketPlace
             ResetScrollPosition();
         }
 
-        // 画像削除
+
         public static void DeleteAllImagesInFolder()
         {
-            // 保護すべき画像パスのセットを作成
+
             HashSet<string> protectedImages = new HashSet<string>();
 
-            // products リストと markedProducts リストの画像を保護リストに追加
+
             foreach (var product in products.Concat(markedProducts))
             {
                 if (!string.IsNullOrEmpty(product.imagePath))
@@ -214,7 +214,7 @@ namespace VRCWMarketPlace
                 }
             }
 
-            // 保護リストに含まれない画像を削除
+
             DirectoryInfo di = new DirectoryInfo(ThumbnailDirectory);
             foreach (FileInfo file in di.GetFiles())
             {
@@ -225,7 +225,7 @@ namespace VRCWMarketPlace
             }
         }
 
-        // スクロールトップへ
+
         public static void ResetScrollPosition()
         {
             scrollPosition = Vector2.zero;
@@ -239,7 +239,7 @@ namespace VRCWMarketPlace
             GUILayout.BeginArea(ProductlistArea);
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(width), GUILayout.Height(height));
 
-            if (!isLoading || products.Count > 0) // isLoading が true であっても、products が空でない場合は描画する
+
             {
                 for (int i = 0; i < products.Count; i++)
                 {
@@ -293,18 +293,18 @@ namespace VRCWMarketPlace
 
         private static void DrawProduct(float width, Product product)
         {
-            float productWidth = width / 4; // ウィンドウ幅を4等分
-            float imageWidth = productWidth - 20; // 余白を考慮
+
+
 
             var productBoxStyle = new GUIStyle(GUI.skin.box);
-            productBoxStyle.normal.background = MakeTex(2, 2, new Color(0.2f, 0.2f, 0.2f)); // 黒に近い灰色
+
 
             GUILayout.BeginHorizontal(productBoxStyle, GUILayout.Width(productWidth), GUILayout.Height(productWidth));
 
-            // 画像の描画
+
             if (!string.IsNullOrEmpty(product.imagePath))
             {
-                // キャッシュから画像を取得またはロード
+
                 Texture2D image;
                 if (!imageCache.TryGetValue(product.imagePath, out image))
                 {
@@ -323,7 +323,7 @@ namespace VRCWMarketPlace
                 }
             }
 
-            // 商品情報の描画
+
             GUILayout.BeginVertical();
             GUILayout.Label(product.name, MarketproductsLabelStyle, GUILayout.Width(productWidth));
             GUILayout.Label(FormatPrice(product.price, product.price_display_mode), MarketproductsLabelStyle, GUILayout.Width(productWidth));
@@ -340,7 +340,7 @@ namespace VRCWMarketPlace
                     Application.OpenURL(product.creator_twitter.url);
                 }
             }
-            // マーク済みかどうかをチェック
+
             bool isMarked = IsProductMarked(product.id);
 
             if (isMarked)
@@ -368,7 +368,7 @@ namespace VRCWMarketPlace
                     return $"{price} {money_unit} ~";
                 case "max":
                     return $"~ {price} {money_unit}";
-                default: // "normal"
+
                     return $"{price} {money_unit}";
             }
         }
@@ -381,7 +381,7 @@ namespace VRCWMarketPlace
                 string jsonTextFromFile = File.ReadAllText(markFilePath);
                 MarkedProductList markedProductList = JsonUtility.FromJson<MarkedProductList>(jsonTextFromFile);
 
-                // markedProductList.markedProducts が null かどうかをチェック
+
                 if (markedProductList.markedProducts != null)
                 {
                     foreach (var markedProduct in markedProductList.markedProducts)
@@ -396,7 +396,7 @@ namespace VRCWMarketPlace
             return false;
         }
 
-        // 商品情報の構造体
+
         private static void FetchProducts(string searchQuery = "", int page = 1)
         {
             isLoading = true;
@@ -408,26 +408,26 @@ namespace VRCWMarketPlace
 
             currentRequest = UnityWebRequest.Get(url);
             currentRequest.SendWebRequest().completed += OnJsonDataDownloaded;
-            // isLoading = false;
+
         }
 
         public static void ClearProductsAndFetchNew(string searchQuery = "")
         {
             isLoading = true;
-            products.Clear(); // 既存の商品リストをクリア
-            FetchProducts(searchQuery); // 新しい商品情報を取得
-            // isLoading = false;
+
+
+
             ResetScrollPosition();
         }
 
-        // JSONデータダウンロード完了時の処理
+
         private static void OnJsonDataDownloaded(AsyncOperation op)
         {
             var request = (op as UnityWebRequestAsyncOperation).webRequest;
             if (request.result == UnityWebRequest.Result.Success)
             {
                 string jsonText = request.downloadHandler.text;
-                ProcessJsonData(jsonText); // JSONデータを処理
+
             }
             else
             {
@@ -436,7 +436,7 @@ namespace VRCWMarketPlace
             currentRequest = null;
         }
 
-        // すべての製品画像をダウンロード
+
         private static async void DownloadAllProductImagesAsync()
         {
             isLoading = true;
@@ -451,7 +451,7 @@ namespace VRCWMarketPlace
             OnAllImagesDownloaded();
         }
 
-        // 画像ダウンロード完了後の処理
+
         private static void OnAllImagesDownloaded()
         {
             AssetDatabase.Refresh();
@@ -467,8 +467,8 @@ namespace VRCWMarketPlace
                 try
                 {
                     string jsonText = request.downloadHandler.text;
-                    File.WriteAllText(jsonFilePath, jsonText); // JSONデータをファイルに保存
-                    LoadProductsFromFile(); // ファイルから商品データを読み込む
+
+
                 }
                 catch (Exception e)
                 {
@@ -515,7 +515,7 @@ namespace VRCWMarketPlace
                     Texture2D texture = DownloadHandlerTexture.GetContent(imgRequest);
                     string path = ThumbnailDirectory + Path.GetFileName(imgRequest.url);
                     SaveTextureAsPNG(texture, path);
-                    product.imagePath = path; // 画像のパスを保存
+
                 }
                 else
                 {
@@ -533,7 +533,7 @@ namespace VRCWMarketPlace
                 ProcessProductsData(currentRequest);
                 EditorApplication.update -= CheckWebRequest;
 
-                // 画像のダウンロードを開始
+
                 foreach (var product in products)
                 {
                     StartImageDownload(product);
@@ -582,7 +582,7 @@ namespace VRCWMarketPlace
                         {
                             Texture2D texture = DownloadHandlerTexture.GetContent(imgRequest);
 
-                            // リサイズ処理
+
                             if (texture.width > 512)
                             {
                                 float aspectRatio = (float)texture.height / texture.width;
@@ -685,11 +685,11 @@ namespace VRCWMarketPlace
                 string jsonTextFromFile = File.ReadAllText(markFilePath);
                 MarkedProductList markedProductList = JsonUtility.FromJson<MarkedProductList>(jsonTextFromFile);
 
-                // markedProductList.markedProducts が null かどうかをチェック
+
                 if (markedProductList.markedProducts != null)
                 {
                     var updatedList = new List<MarkedProduct>(markedProductList.markedProducts);
-                    updatedList.RemoveAll(p => p.id == productId); // 商品IDに一致する商品を削除
+
 
                     MarkedProductList newMarkedProductList = new MarkedProductList { markedProducts = updatedList.ToArray() };
                     string newJson = JsonUtility.ToJson(newMarkedProductList);
@@ -712,19 +712,19 @@ namespace VRCWMarketPlace
             GUILayout.BeginArea(myListArea);
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(width), GUILayout.Height(height));
 
-            // マイリストの商品データを読み込む
+
             LoadMyListProducts();
 
-            for (int i = 0; i < markedProducts.Count; i += 2) // 2つずつ並べるために2でインクリメント
+
             {
                 GUILayout.BeginHorizontal();
                 if (i < markedProducts.Count)
                 {
-                    DrawMyListProduct(width / 2, markedProducts[i]); // 1つ目の商品を描画
+
                 }
                 if (i + 1 < markedProducts.Count)
                 {
-                    DrawMyListProduct(width / 2, markedProducts[i + 1]); // 2つ目の商品を描画
+
                 }
                 GUILayout.EndHorizontal();
             }
@@ -736,11 +736,11 @@ namespace VRCWMarketPlace
 
         private static void DrawMyListProduct(float width, Product product)
         {
-            float productWidth = width / 2; // 商品の幅を2倍に
-            float imageWidth = productWidth - 40; // 余白を考慮
+
+
 
             var productBoxStyle = new GUIStyle(GUI.skin.box);
-            productBoxStyle.normal.background = MakeTex(2, 2, new Color(0.2f, 0.2f, 0.2f)); // 黒に近い灰色
+
 
             GUILayout.BeginHorizontal(productBoxStyle, GUILayout.Width(productWidth), GUILayout.Height(productWidth));
 
@@ -758,7 +758,7 @@ namespace VRCWMarketPlace
 
             GUILayout.BeginVertical();
 
-            // 商品情報の描画
+
             GUILayout.Label(product.name, NoMargeWhiteh2LabelStyle, GUILayout.Width(productWidth));
             GUILayout.Label(FormatPrice(product.price, product.price_display_mode), NoMargeWhiteh2LabelStyle, GUILayout.Width(productWidth));
             GUILayout.Label(Get(807) + product.creator_name, NoMargeWhiteh2LabelStyle, GUILayout.Width(productWidth));
@@ -768,7 +768,7 @@ namespace VRCWMarketPlace
                 Application.OpenURL(product.url);
             }
 
-            // Twitter リンクボタンの追加
+
             if (!string.IsNullOrEmpty(product.creator_twitter.url))
             {
                 if (GUILayout.Button(Getc("open_in_browser", 810), MarketProductsButtonStyle, GUILayout.Width(productWidth)))
@@ -794,10 +794,10 @@ namespace VRCWMarketPlace
                 MarkedProductList markedProductList = JsonUtility.FromJson<MarkedProductList>(jsonTextFromFile);
                 if (markedProductList.markedProducts != null)
                 {
-                    markedProducts.Clear(); // 既存のリストをクリア
+
                     foreach (var markedProduct in markedProductList.markedProducts)
                     {
-                        // markedProducts に商品を追加
+
                         markedProducts.Add(new Product
                         {
                             id = markedProduct.id,
@@ -808,7 +808,7 @@ namespace VRCWMarketPlace
                             created_at = markedProduct.created_at,
                             url = markedProduct.url,
                             imagePath = markedProduct.imagePath,
-                            creator_twitter = new CreatorTwitter { url = markedProduct.creator_twitter_url } // ここで CreatorTwitter を追加
+
                         });
                     }
                 }
@@ -817,13 +817,13 @@ namespace VRCWMarketPlace
 
         private static void ProcessJsonData(string jsonText)
         {
-            // 新しい製品をパースする
+
             ProductList newProducts = JsonUtility.FromJson<ProductList>(jsonText);
             if (newProducts.products != null)
             {
                 foreach (var newProduct in newProducts.products)
                 {
-                    // 既存のリストに新しい製品を追加
+
                     products.Add(new Product
                     {
                         id = newProduct.id,
@@ -852,7 +852,7 @@ namespace VRCWMarketPlace
                         member_displayname_first = newProduct.member_displayname_first,
                         category = newProduct.category,
                         keyword = newProduct.keyword,
-                        imagePath = ThumbnailDirectory + newProduct.id + ".png" // 画像のパスを設定
+
                     });
                 }
             }
@@ -861,7 +861,7 @@ namespace VRCWMarketPlace
                 Debug.LogError("Failed to parse new products from JSON.");
             }
 
-            // すべての画像のダウンロードを開始
+
             DownloadAllProductImagesAsync();
         }
 
