@@ -1,6 +1,0 @@
-﻿<UXML xmlns="UnityEngine.UIElements">
-    <VisualElement name="notification-block" class="col mt-2 mb-2 w-100 align-items-center">
-        <Label text="アバターのビルドに成功しました！" class="text-lg" />
-        <Button class="mt-2 d-none" text="アバターリストの &quot;Other&quot; セクションにあります。" name="open-avatar-page-button" />
-    </VisualElement>
-</UXML>

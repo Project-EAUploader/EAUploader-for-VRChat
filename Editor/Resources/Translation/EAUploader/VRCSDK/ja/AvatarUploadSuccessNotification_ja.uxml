@@ -1,6 +1,0 @@
-﻿<UXML xmlns="UnityEngine.UIElements">
-    <VisualElement name="notification-block" class="col mt-2 mb-2 w-100 align-items-center">
-        <Label text="アバターがVRChatにアップロードされました！" class="text-lg" />
-        <Button class="mt-2" text="VRChatのウェブサイトで確認する" name="open-avatar-page-button" />
-    </VisualElement>
-</UXML>
