@@ -1,0 +1,7 @@
+<t>― VRChatSDKパネルについて ―</t>
+<txt>
+<size=20>Authenticationタブ</size>
+<size=14>AuthenticationタブではVRChatのアカウントでログインしてください。VRChatのアカウントがない場合は、「Sign up」からアカウントを作ってください。
+　ログインすると、以下のように表示されます。Avatar Creator StatusがNot yet allowとなっている場合、トラストレベルが足りていません。VRChatをいろいろなworldを巡ったり、フレンドを作ったりして遊び、トラストレベルをNewUserまで上げてください。</size>
+</txt>
+<image>allow.png</image><image>notAllow.png</image>

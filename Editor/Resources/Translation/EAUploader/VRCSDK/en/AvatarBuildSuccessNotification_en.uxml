@@ -1,0 +1,6 @@
+﻿<UXML xmlns="UnityEngine.UIElements">
+    <VisualElement name="notification-block" class="col mt-2 mb-2 w-100 align-items-center">
+        <Label text="Your avatar was built successfully!" class="text-lg" />
+        <Button class="mt-2 d-none" text="You can find it in the &quot;Other&quot; section of your avatars list" name="open-avatar-page-button" />
+    </VisualElement>
+</UXML>
