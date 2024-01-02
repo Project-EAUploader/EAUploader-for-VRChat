@@ -18,6 +18,9 @@
         { "key": "115", "value": "Select the avatar you wish to upload to VRChat from the list on the left.\n Only avatars that can be uploaded are listed." },
         { "key": "116", "value": "Select an Avatar to Upload" },
         { "key": "117", "value": "Send feedback" },
+        { "key": "118", "value": "Prefabs with missing or problematic shaders:" },
+        { "key": "119", "value": "Please confirm the required shaders from the avatar distributor." },
+        { "key": "120", "value": "Why am I seeing this?" },
 
 
         { "key": "130", "value": "Import Avatar" },
@@ -130,6 +133,12 @@
         { "key": "815", "value": "My List"},
         { "key": "816", "value": "Back to Market"},
         { "key": "817", "value": "Added to My List"},
-        { "key": "818", "value": "Remove from My List"}
+        { "key": "818", "value": "Remove from My List"},
+
+        { "key": "850", "value": "Update"},
+        { "key": "851", "value": "Internal Information Version"},
+        { "key": "852", "value": "Updating..."},
+        { "key": "853", "value": "The update has been completed."},
+        { "key": "854", "value": "Open EAUploader"}
     ]
 }

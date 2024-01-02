@@ -67,26 +67,34 @@ public static class Texture
         return result;
     }
 
+    /// <summary>
+    /// color色でfontSizeサイズの横線をwidth長さ描画
+    /// </summary>
+    /// <param name="color"></param>
+    /// <param name="fontSize"></param>
+    /// <param name="width"></param>
     public static void DrawHorizontalLine(Color color, int fontSize, float width)
     {
-
         GUIStyle lineLabel = new GUIStyle(GUI.skin.label)
         {
             normal = { textColor = color },
             fontSize = fontSize,
             alignment = TextAnchor.MiddleLeft
         };
-
 
         string lineText = new string('―', Mathf.FloorToInt(width / fontSize));
 
-
         GUILayout.Label(lineText, lineLabel, GUILayout.Width(width));
     }
 
+    /// <summary>
+    /// DrawHorizontalLineの点線版
+    /// </summary>
+    /// <param name="color"></param>
+    /// <param name="fontSize"></param>
+    /// <param name="width"></param>
     public static void DrawHorizontalDottedLine(Color color, int fontSize, float width)
     {
-
         GUIStyle lineLabel = new GUIStyle(GUI.skin.label)
         {
             normal = { textColor = color },
@@ -94,16 +102,19 @@ public static class Texture
             alignment = TextAnchor.MiddleLeft
         };
 
-
         string lineText = new string('-', Mathf.FloorToInt(width / fontSize));
-
 
         GUILayout.Label(lineText, lineLabel, GUILayout.Width(width));
     }
 
+    /// <summary>
+    /// DrawHorizontalDottedLineを中心にそろえて描画
+    /// </summary>
+    /// <param name="color"></param>
+    /// <param name="fontSize"></param>
+    /// <param name="width"></param>
     public static void DrawHorizontalDottedCenterLine(Color color, int fontSize, float width)
     {
-
         GUIStyle lineLabel = new GUIStyle(GUI.skin.label)
         {
             normal = { textColor = color },
@@ -111,42 +122,8 @@ public static class Texture
             alignment = TextAnchor.MiddleCenter
         };
 
-
         string lineText = new string('-', Mathf.FloorToInt(width / fontSize));
 
-
         GUILayout.Label(lineText, lineLabel, GUILayout.Width(width));
-    }
-
-    public static Texture2D MakeModernButtonTex(int width, int height, Color bgColor, Color borderColor, int borderWidth, bool addShadow = false)
-    {
-        Texture2D texture = new Texture2D(width, height);
-
-
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
-            {
-
-                if (x < borderWidth || x >= width - borderWidth || y < borderWidth || y >= height - borderWidth)
-                {
-                    texture.SetPixel(x, y, borderColor);
-                }
-
-                else if (addShadow && y < borderWidth + 5)
-                {
-                    float alpha = shadowColor.a * (1 - (float)y / (borderWidth + 5));
-                    Color currentColor = bgColor;
-                    currentColor.a *= alpha;
-                    texture.SetPixel(x, y, currentColor);
-                }
-                else
-                {
-                    texture.SetPixel(x, y, bgColor);
-                }
-            }
-        }
-        texture.Apply();
-        return texture;
     }
 }

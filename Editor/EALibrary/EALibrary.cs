@@ -52,7 +52,7 @@ public class LibraryIndexer
         string indexFilePath = "Packages/com.sabuworks.eauploader/Editor/EALibrary/library_index.json";
         File.WriteAllText(indexFilePath, JsonConvert.SerializeObject(indexList, Formatting.Indented));
 
-
+        // タグの収集
         HashSet<string> tagSet = new HashSet<string>();
         foreach (var article in indexList)
         {
@@ -62,7 +62,7 @@ public class LibraryIndexer
             }
         }
 
-
+        // EALibraryインスタンスにタグリストを渡す
         EALibrary library = new EALibrary();
         library.UpdateTags(tagSet.ToList());
     }
@@ -75,7 +75,7 @@ public class EALibrary
     private string currentLanguage = LanguageUtility.GetCurrentLanguage();
     private string currentArticleContent = "";
     private string currentArticleFilePath;
-
+    private List<string> tags = new List<string>();
     private List<string> searchResults = new List<string>();
     private int selectedTagIndex = 0;
     private bool searchPerformed = false;
@@ -127,19 +127,21 @@ public class EALibrary
         }
     }
 
+    /// <summary>
+    /// 通常のEALibraryを指定エリアに描画するAPI
+    /// </summary>
+    /// <param name="area"></param>
     public void Draw(Rect area)
     {
         UpdateCurrentLanguage();
 
         GUILayout.BeginArea(area);
 
-
         GUILayout.Label("EAUploader LIBRARY", h1LabelStyle);
-
 
         EditorGUILayout.BeginHorizontal();
         searchQuery = EditorGUILayout.TextField(searchQuery, styles.TextFieldStyle, GUILayout.Height(40));
-
+        if (GUILayout.Button(Getc("search", 144), SearchButtonStyle))
         {
             if (!string.IsNullOrEmpty(searchQuery))
             {
@@ -153,22 +155,20 @@ public class EALibrary
         }
         EditorGUILayout.EndHorizontal();
 
-
         EditorGUILayout.BeginHorizontal();
         GUILayout.Label(Get(600), NoMargeh2LabelStyle);
         int newSelectedTagIndex = EditorGUILayout.Popup(selectedTagIndex, tags.ToArray(), PopupStyle);
         if (newSelectedTagIndex != selectedTagIndex)
         {
             selectedTagIndex = newSelectedTagIndex;
-
-
+            string selectedTag = tags[selectedTagIndex];
+            SearchArticles(searchQuery, selectedTag);
         }
         EditorGUILayout.EndHorizontal();
-
+        Texture.DrawHorizontalLine(Color.black, 20, area.width*2);
 
         if (!string.IsNullOrEmpty(currentArticleContent))
         {
-
             if (GUILayout.Button(Getc("arrow_back", 601), SubButtonStyle, GUILayout.Height(40)))
             {
                 Return();
@@ -182,7 +182,6 @@ public class EALibrary
         }
         else
         {
-
             scrollPosition = GUILayout.BeginScrollView(scrollPosition);
 
             if (searchPerformed)
@@ -212,6 +211,13 @@ public class EALibrary
         GUILayout.EndArea();
     }
 
+    /// <summary>
+    /// orderTagでフィルタリングした上でライブラリをエリアに描画
+    /// thumbnailSizeはサムネイル画像の横幅
+    /// </summary>
+    /// <param name="area"></param>
+    /// <param name="orderTag"></param>
+    /// <param name="thumbnailSize"></param>
     public void DrawPrivateLibrary(Rect area, string orderTag, int thumbnailSize)
     {
         GUILayout.BeginArea(area);
@@ -238,7 +244,6 @@ public class EALibrary
 
         if (!string.IsNullOrEmpty(currentArticleContent))
         {
-
             if (GUILayout.Button("Back", SubButtonStyle))
             {
                 Return();
@@ -247,12 +252,11 @@ public class EALibrary
 
             scrollPosition = GUILayout.BeginScrollView(scrollPosition);
             ArticleRenderer.RenderRichTextContent(area, currentArticleContent);
-
+            GUILayout.Space(30);
             GUILayout.EndScrollView();
         }
         else
         {
-
             scrollPosition = GUILayout.BeginScrollView(scrollPosition);
 
             if (searchPerformed && searchResults.Count == 0)
@@ -279,14 +283,13 @@ public class EALibrary
     public void ShowArticle(string content)
     {
         currentArticleContent = content;
-
+        ArticleRenderer.currentArticleFilePath = currentArticleFilePath;
     }
 
     public void Return()
     {
         currentArticleContent = null;
     }
-
 
     private void SearchArticles(string query, string orderTag)
     {
@@ -340,9 +343,7 @@ public class EALibrary
             }
             if (GUILayout.Button($"{article.title}", LibraryButtonStyle))
             {
-
                 currentArticleFilePath = file;
-
 
                 string txtFilePath = Path.Combine(Path.GetDirectoryName(file), article.contentFile);
                 ShowArticle(File.ReadAllText(txtFilePath));
@@ -384,9 +385,7 @@ public class EALibrary
                 }
                 if (GUILayout.Button($"{article.title}", LibraryButtonStyle))
                 {
-
                     currentArticleFilePath = file;
-
 
                     string txtFilePath = Path.Combine(Path.GetDirectoryName(file), article.contentFile);
                     ShowArticle(File.ReadAllText(txtFilePath));
@@ -417,10 +416,10 @@ public class EALibrary
 
                 DisplayThumbnail(jsonFilePath, article);
 
-
                 if (GUILayout.Button(title, LibraryButtonStyle))
                 {
                     string contentFilePath = Path.Combine(Path.GetDirectoryName(jsonFilePath), article.contentFile);
+                    Debug.Log($"Opening article: {title}");
                     ShowArticle(File.ReadAllText(contentFilePath), jsonFilePath);
                 }
             }
@@ -435,16 +434,14 @@ public class EALibrary
         Texture2D thumbnailImage = AssetDatabase.LoadAssetAtPath<Texture2D>(thumbnailPath);
         if (thumbnailImage != null)
         {
-
             Sprite thumbnailSprite = Texture2DToSprite(thumbnailImage);
 
             float aspectRatio = (float)thumbnailImage.width / thumbnailImage.height;
-
+            float imageHeight = 100;
             float imageWidth = imageHeight * aspectRatio;
             GUILayout.Label("", GUILayout.Width(imageWidth), GUILayout.Height(imageHeight));
             Rect lastRect = GUILayoutUtility.GetLastRect();
             
-
             if (thumbnailSprite != null)
             {
                 GUI.DrawTexture(new Rect(lastRect.x, lastRect.y, imageWidth, imageHeight), thumbnailSprite.texture);
@@ -455,7 +452,6 @@ public class EALibrary
     private Sprite Texture2DToSprite(Texture2D texture)
     {
         if (texture == null) return null;
-
 
         return Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
@@ -470,7 +466,7 @@ public class EALibrary
             Article article = JsonConvert.DeserializeObject<Article>(jsonData);
             if (article.title == title)
             {
-
+                return file;
             }
         }
         return null;
@@ -487,7 +483,7 @@ public class EALibrary
         tags.Clear();
         tags.Add(Get(182));
         tags.AddRange(newTags);
-
+        selectedTagIndex = 0;
     }
 
     private string GetArticlesFolderPath()

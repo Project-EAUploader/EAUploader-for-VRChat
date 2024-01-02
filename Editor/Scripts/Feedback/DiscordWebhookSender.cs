@@ -17,7 +17,6 @@ public class DiscordWebhookSender : EditorWindow
     private static string messageContent = "";
     private static string lng = LanguageUtility.GetCurrentLanguage();
 
-
     public static void OpenDiscordWebhookSenderWindow()
     {
         GetWindow<DiscordWebhookSender>("Feedback").minSize = new Vector2(400, 200);
@@ -29,10 +28,8 @@ public class DiscordWebhookSender : EditorWindow
     {
         bool isEmptyMessage = true;
         bool sentFeedback = false;
-
         var backgroundColorStyle = new GUIStyle();
         backgroundColorStyle.normal.background = EditorGUIUtility.whiteTexture;
-
 
         GUI.Box(new Rect(0, 0, position.width, position.height), GUIContent.none, backgroundColorStyle);
 
@@ -82,12 +79,11 @@ public class DiscordWebhookSender : EditorWindow
         {
             client.Headers[HttpRequestHeader.ContentType] = "application/json";
 
-
             content = content.Replace("\n", "\r");
 
             string json = BuildJson(title, author, email, content);
 
-
+            // Debug.Log("Sending JSON: " + json);
 
             try
             {
@@ -95,7 +91,6 @@ public class DiscordWebhookSender : EditorWindow
             }
             catch (WebException e)
             {
-
                 Debug.LogError("Error sending webhook: " + e.Message);
                 if (e.Response != null)
                 {
@@ -111,7 +106,7 @@ public class DiscordWebhookSender : EditorWindow
 
     private string BuildJson(string title, string author, string email, string content)
     {
-
+        // JSON用に特殊文字をエスケープ
         title = EscapeStringForJson(title);
         author = EscapeStringForJson(author);
         email = EscapeStringForJson(email);
@@ -144,7 +139,7 @@ public class DiscordWebhookSender : EditorWindow
 
     private string EscapeStringForJson(string input)
     {
-
+        // JSONで使用される特殊文字をエスケープ
         return input.Replace("\\", "\\\\")
                     .Replace("\"", "\\\"")
                     .Replace("\n", "\\n")

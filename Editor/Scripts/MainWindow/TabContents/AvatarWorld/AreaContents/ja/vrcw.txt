@@ -1,1 +1,11 @@
-<txt></txt>
+<txt>
+<size=30>VRChatの世界 | ワールド・アバターの情報まとめサイト</size>
+
+<size=20>　マーケットプレイスに問わず、アバターの販売情報を掲載しているサイトです。EAUploaderのマーケットに協力していただいております。
+
+パブリックワールドの情報も多く掲載されています。</size>
+</txt>
+<button>VRChatの世界 を開く, Link, https://www.vrcw.net/</button>
+<txt>
+<size=12>Provided by: vrcw.net</size>
+</txt>

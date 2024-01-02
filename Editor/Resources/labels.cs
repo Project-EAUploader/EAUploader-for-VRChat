@@ -18,6 +18,9 @@ public class LocalizationItem
 
 public class labels
 {
+    /// <summary>
+    /// 言語設定に基づいてラベルおよびアイコン付きラベルを取得するクラス
+    /// </summary>
     private static Dictionary<int, string> translations;
     private static string language;
 
@@ -50,7 +53,6 @@ public class labels
         }
         else
         {
-
             translations = new Dictionary<int, string>();
         }
     }

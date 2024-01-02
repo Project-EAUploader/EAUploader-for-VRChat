@@ -2,8 +2,9 @@ using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using static labels;
 
-
+// [InitializeOnLoad]
 public class ShaderChecker
 {
     public static void OnShaderChecker()
@@ -37,7 +38,7 @@ public class ShaderChecker
                         if (material.shader.name == "Hidden/InternalErrorShader" || !ShaderExists(material.shader.name))
                         {
                             problematicPrefabs.Add(prefab.name);
-
+                            break;
                         }
                     }
                 }
@@ -46,10 +47,13 @@ public class ShaderChecker
 
         if (problematicPrefabs.Count > 0)
         {
-            string message = $"Prefabs with missing or problematic shaders:\n{string.Join("\n", problematicPrefabs)}\n\nPlease check the guide to obtaining this Prefab.";
-            if (EditorUtility.DisplayDialogComplex("Shader Issues Found", message, "OK", "Why am I seeing this?", "") == 1)
+            string msg1 = Get(118);
+            string msg2 = Get(119);
+            string msg3 = Get(120);
+            string message = $"{msg1}\n{string.Join("\n", problematicPrefabs)}\n\n{msg2}";
+            if (EditorUtility.DisplayDialogComplex("Shader Issues Found", message, "OK", msg3, "") == 1)
             {
-                Application.OpenURL("https://uslog.tech/eauploader");
+                Application.OpenURL("https://www.uslog.tech/eauploader-forum/__q-a/siedagajian-tukaranaiera");
             }
         }
     }

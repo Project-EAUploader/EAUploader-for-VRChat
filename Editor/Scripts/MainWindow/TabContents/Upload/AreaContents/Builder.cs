@@ -6,11 +6,7 @@ using System.Linq;
 using static labels;
 using static styles;
 using static Texture;
-using VRC.SDK3A.Editor;
-using VRC.SDKBase.Editor;
-using VRC.SDKBase.Editor.Api;
 
-[assembly: VRCSdkControlPanelBuilder(typeof(VRCSdkControlPanelAvatarBuilder))]
 public class EABuilder
 {
     private static readonly float BorderWidth = 2f;
@@ -140,7 +136,6 @@ public class EABuilder
             GUILayout.Space(30);
 
         }else{
-
             GUILayout.FlexibleSpace();
 
             GUILayout.Label(Get(175), CenteredStyle, GUILayout.ExpandWidth(true));
@@ -149,6 +144,12 @@ public class EABuilder
         }
 
         GUILayout.EndArea();
+    }
+
+    private static string GenerateFilterJsonPath(string scriptPath)
+    {
+        string fileName = Path.GetFileNameWithoutExtension(scriptPath);
+        return $"Packages/com.sabuworks.eauploader/Editor/Resources/Translation/EAUploader/VRCSDK/TransFilter/{fileName}_TransFilter.json";
     }
 
     private static void DrawVerticalBorder(Rect position)

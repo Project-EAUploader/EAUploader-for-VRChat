@@ -7,11 +7,12 @@ using static ShaderChecker;
 
 public class CombinedInitialization
 {
+    /// <summary>
+    /// Unity起動時からのEAUplaoderの処理はここから呼び出す
+    /// </summary>
     [InitializeOnLoadMethod]
     private static void CombinedOnLoad()
     {
-        UpdateManager.ShowWindow();
-
         EditorUtility.DisplayProgressBar("Initialization", "Initializing CustomPrefabUtility...", 0.0f);
         CustomPrefabUtilityOnUnityLoad();
         EditorUtility.DisplayProgressBar("Initialization", "Initializing EAUploaderEditorManager...", 0.2f);
@@ -22,8 +23,9 @@ public class CombinedInitialization
         EAUploaderInitializeOnLoad();
         EditorUtility.DisplayProgressBar("Initialization", "Initializing ShaderChecker...", 0.8f);
         ShaderCheckerOnLoad();
-        
         EditorUtility.ClearProgressBar();
+
+        UpdateManager.ShowWindow();
     }
 
     private static void CustomPrefabUtilityOnUnityLoad()

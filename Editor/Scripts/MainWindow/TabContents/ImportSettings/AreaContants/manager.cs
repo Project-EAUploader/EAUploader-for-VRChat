@@ -31,7 +31,7 @@ public class Manager
         GUILayout.BeginArea(position);
         GUILayout.Label(Get(103), styles.h1LabelStyle);
 
-
+        // 検索機能
         EditorGUILayout.BeginHorizontal();
         searchQuery = EditorGUILayout.TextField(searchQuery, styles.TextFieldStyle, GUILayout.Height(40));
         searchPerformed = false;
@@ -71,10 +71,10 @@ public class Manager
             string prefabName = Path.GetFileNameWithoutExtension(prefab);
             Texture2D preview = kvp.Value;
 
-
+            GUILayout.Space(10); // 項目間のスペース
 
             EditorGUILayout.BeginHorizontal();
-
+            // Preview画像
             if (preview != null)
             {
                 if (GUILayout.Button(preview, prefabButtonStyle, GUILayout.Width(150), GUILayout.Height(150)))
@@ -99,7 +99,24 @@ public class Manager
 
             }
             EditorGUILayout.BeginVertical();
-            
+            /* アイコンのみに変更 採用検討中
+            if (GUILayout.Button(Getc("create", 147), miniButtonStyle, GUILayout.Width(80)))
+            {
+                renameRequests.Add(prefab);
+            }
+            if (GUILayout.Button(Getc("copy", 148), miniButtonStyle, GUILayout.Width(80)))
+            {
+                duplicateRequests.Add(prefab);
+            }
+            if (GUILayout.Button(Getc("delete", 133), miniButtonRedStyle, GUILayout.Width(80)))
+            {
+                if (EditorUtility.DisplayDialog(Get(134), prefab + Get(135), Get(136), Get(137)))
+                {
+                    deleteRequests.Add(prefab);
+                }
+            }
+            ※ 0 はアイコンのみ
+            */
             if (GUILayout.Button(Getc("create", 0), miniButtonStyle, GUILayout.Width(60)))
             {
                 renameRequests.Add(prefab);
@@ -121,7 +138,6 @@ public class Manager
         GUILayout.EndVertical();
         GUILayout.EndScrollView();
         GUILayout.EndArea();
-
 
         ProcessPrefabRequests(renameRequests, duplicateRequests, deleteRequests, convertRequests);
     }
@@ -170,17 +186,14 @@ public class Manager
         string newAssetName = assetName + "_Copy";
         string newPrefabPath = AssetDatabase.GenerateUniqueAssetPath(directoryPath + "/" + newAssetName + ".prefab");
 
-
         Object originalPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(originalPrefabPath);
         if (originalPrefab != null)
         {
             Object prefabCopy = Object.Instantiate(originalPrefab);
             PrefabUtility.SaveAsPrefabAsset((GameObject)prefabCopy, newPrefabPath);
-
-
+            Object.DestroyImmediate(prefabCopy);
 
             RenameFileWindow.ShowWindow(newPrefabPath);
-
 
             prefabsWithPreview = CustomPrefabUtility.GetPrefabList();
         }
@@ -216,13 +229,12 @@ public class ConfirmationPopup : EditorWindow
 
     private void OnGUI()
     {
-
-
-
+        EditorGUILayout.LabelField(Get(134), EditorStyles.boldLabel);
+        EditorGUILayout.LabelField(prefabPath + Get(135), EditorStyles.wordWrappedLabel); // Message
         GUILayout.Space(20);
 
         EditorGUILayout.BeginHorizontal();
-
+        if (GUILayout.Button(Get(136)))
         {
             CustomPrefabUtility.RemovePrefabFromScene(prefabPath);
             AssetDatabase.DeleteAsset(prefabPath);
@@ -230,7 +242,7 @@ public class ConfirmationPopup : EditorWindow
             this.Close();
         }
 
-
+        if (GUILayout.Button(Get(137)))
         {
             this.Close();
         }

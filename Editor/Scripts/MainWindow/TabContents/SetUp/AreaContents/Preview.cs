@@ -38,7 +38,6 @@ public static class Preview
         }
 
         GUILayout.Label(Get(112) + selectedPrefabInstance.name, h1LabelStyle);
-
         Renderer[] renderers = selectedPrefabInstance.GetComponentsInChildren<Renderer>();
         if (renderers.Length > 0)
         {
@@ -106,7 +105,9 @@ public static class Preview
                 }
                 if (GUILayout.Button(Getc("pin", 176), SubButtonStyle))
                 {
+                    // Debug.Log($"Path = {prefabPath}");
                     CustomPrefabUtility.SetPrefabStatus(prefabPath, "editing");
+                    // Debug.Log($"Call SetPrefabStatus {prefabPath} to editing");
                     CustomPrefabUtility.UpdatePrefabInfo();
                 }
             }
@@ -118,7 +119,9 @@ public static class Preview
                 }
                 if (GUILayout.Button(Getc("pin", 177), SubButtonStyle))
                 {
+                    // Debug.Log($"Path = {prefabPath}");
                     CustomPrefabUtility.SetPrefabStatus(prefabPath, "show");
+                    // Debug.Log($"Call SetPrefabStatus {prefabPath} to show");
                     CustomPrefabUtility.UpdatePrefabInfo();
                 }
             }
@@ -132,28 +135,35 @@ public static class Preview
     {
         Event e = Event.current;
 
+        // 拡大縮小
         if (previewRectArea.Contains(e.mousePosition) && e.type == EventType.ScrollWheel)
         {
+            // スケール変更量
             float scaleDelta = -e.delta.y * 0.05f;
             float newScale = Mathf.Max(previewScale + scaleDelta, 0.1f);
 
+            // 拡大縮小前の中心座標の計算
             Vector2 oldCenter = new Vector2(
                 previewRectArea.x + previewOffset.x + (previewRectArea.width * previewScale / 2),
                 previewRectArea.y + previewOffset.y + (previewRectArea.height * previewScale / 2)
             );
 
+            // スケール更新
             previewScale = newScale;
 
+            // 拡大縮小後の中心座標の計算
             Vector2 newCenter = new Vector2(
                 previewRectArea.x + previewOffset.x + (previewRectArea.width * newScale / 2),
                 previewRectArea.y + previewOffset.y + (previewRectArea.height * newScale / 2)
             );
 
+            // 中心座標の差分に基づいてオフセットを更新
             previewOffset += (oldCenter - newCenter);
 
             e.Use();
         }
 
+        // 移動
         if (e.type == EventType.MouseDrag && e.button == 0 && previewRectArea.Contains(e.mousePosition))
         {
             previewOffset += e.delta;

@@ -10,17 +10,19 @@ public class SpriteImportProcessor : AssetPostprocessor
     {
         "Packages/com.sabuworks.eauploader/Editor/Resources/PrefabPreviews",
         "Packages/com.sabuworks.eauploader/Editor/Resources/Info",
-        "com.subuworks.eauploader/Editor/Resources/icons"
+        "Packages/com.subuworks.eauploader/Editor/Resources/icons"
     };
 
     void OnPreprocessTexture()
     {
         foreach (var path in targetFolderPaths)
         {
+            // Debug.Log(targetFolderPaths+"中の"+path+"を変更...");
             if (assetPath.Contains(path))
             {
                 var importer = (TextureImporter)assetImporter;
                 importer.textureType = TextureImporterType.Sprite;
+                // Debug.Log(path+"をSpriteに変更");
                 break;
             }
         }
@@ -35,11 +37,11 @@ public class SpriteImportProcessor : AssetPostprocessor
         if (assetsChanged)
         {
             CustomPrefabUtility.Processor(importedAssets, deletedAssets, movedAssets, movedFromAssetPaths);
-
+            EABuilder.avatarsListUpdated = true; // アバターリストが更新されたことを示す
         }
     }
 
-
+    // [InitializeOnLoadMethod]
     public static void OnEditorLoad()
     {
         foreach (var path in targetFolderPaths)

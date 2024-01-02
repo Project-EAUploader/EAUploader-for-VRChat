@@ -5,8 +5,7 @@ public class AvatarPreviewerWindow : EditorWindow
 {
     private Texture2D previewTexture;
     private string prefabName;
-
-
+    private const float windowHeight = 480; // ウィンドウの横幅を固定
 
     public static void ShowWindow(string prefabName)
     {
@@ -15,7 +14,6 @@ public class AvatarPreviewerWindow : EditorWindow
         window.LoadPreviewTexture();
         if (window.previewTexture != null)
         {
-
             float aspectRatio = (float)window.previewTexture.height / window.previewTexture.width;
             float windowWidth = windowHeight * aspectRatio;
 
@@ -29,7 +27,6 @@ public class AvatarPreviewerWindow : EditorWindow
     {
         if (previewTexture != null)
         {
-
             GUI.DrawTexture(new Rect(0, 0, position.width, position.height), previewTexture, ScaleMode.ScaleToFit);
         }
         else

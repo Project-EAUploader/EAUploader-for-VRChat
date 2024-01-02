@@ -1,4 +1,12 @@
 {
     "editors": [
+        {
+            "MenuName": "EAUploader/Shader Editor",
+            "EditorName": "シェーダー編集",
+            "Description": "選択したアバターのシェーダーを変更します。\n利用可能なシェーダーはこちらで確認できます。",
+            "Version": "1.0",
+            "Author": "EAUploader",
+            "Url": "https://uslog.tech/eauploader"
+        }
     ]
 }

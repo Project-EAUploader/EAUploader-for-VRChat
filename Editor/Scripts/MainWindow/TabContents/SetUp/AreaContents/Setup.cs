@@ -13,12 +13,11 @@ public class Setup
 
     public static void Draw(string[] prefabPaths, string[] prefabNames)
     {
-
         CustomPrefabUtility.EnsureEAUploaderSceneExists();
 
         if (prefabPaths == null || prefabNames == null)
         {
-
+            // Debug.LogError("Prefab paths or names are null");
             return;
         }
 
@@ -39,7 +38,6 @@ public class Setup
             string status = CustomPrefabUtility.GetPrefabStatus(prefabPaths[i]);
             GUIContent content;
 
-
             GUIStyle editingStyle = new GUIStyle(prefabButtonStyle)
             {
                 normal = { textColor = Color.red }
@@ -47,7 +45,6 @@ public class Setup
             if (status == "editing")
             {
                 content = new GUIContent(prefabNames[i], preview);
-
                 if (GUILayout.Button(content, editingStyle, GUILayout.Height(80)))
                 {
                     CustomPrefabUtility.SelectPrefabAndSetupScene(prefabPaths[i]);

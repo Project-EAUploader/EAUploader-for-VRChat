@@ -26,10 +26,9 @@ internal class EAUploader : EditorWindow
     private string[] tabNames;
     int currentWindowWidth;
     int currentWindowHeight;
-
+    public static string[] prefabPaths;
     public static string[] prefabNames;
-
-
+    public static GameObject selectedPrefabInstance;
     public static string selectedPrefabName;
     private string currentLanguage;
     private string previousLanguage;
@@ -38,11 +37,13 @@ internal class EAUploader : EditorWindow
     public static bool skipOnDisable = false;
     private static int selectedAvatarWorldTabIndex = 0;
 
+    // [InitializeOnLoadMethod] EAInitialization.cs参照
     public static void OnEAUploader()
     {
         EditorApplication.update += OpenWindowOnce;
     }
 
+    // 一度だけウィンドウを開く
     private static void OpenWindowOnce()
     {
         EditorApplication.update -= OpenWindowOnce;
@@ -52,8 +53,8 @@ internal class EAUploader : EditorWindow
     public static EAUploader ShowWindow()
     {
         var window = GetWindow<EAUploader>();
-        new Vector2(900, 600);
-        window.maximized = true;
+        new Vector2(900, 600);  // 最小サイズ
+        window.maximized = true;  // ウィンドウを最大化
         window.Show();
         return window;
     }
@@ -87,15 +88,38 @@ internal class EAUploader : EditorWindow
         CheckForPackages();
 
         VRCWMarket.ClearProductsAndFetchNew();
+
+        // WelcomeWindow.ShowWindow();
     }
 
     private void OnDisable()
     {
+        // WelcomeWindow.CloseWindow();
         VRCWMarket.DeleteAllImagesInFolder();
         if (skipOnDisable)
         {
-            return;
+            return; // OnDisable処理をスキップ
         }
+
+        /*
+            【 SDK翻訳機能要 】
+        // ユーザーにUnityを終了するかどうか尋ねる
+        bool shouldCloseUnity = EditorUtility.DisplayDialog(
+            Get(310),
+            Get(311),
+            Get(312),
+            Get(313)
+        );
+
+        if (shouldCloseUnity)
+        {
+            // Unityエディタの現在のシーンを保存して終了
+            if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            {
+                EditorApplication.Exit(0);
+            }
+        }
+        */
     }
 
     void Update()
@@ -181,18 +205,19 @@ internal class EAUploader : EditorWindow
         float tabAreaHeight = position.height * 0.05f;
         float contentAreaHeight = position.height * 0.95f;
 
-
+        // タブエリア
         GUILayout.BeginArea(new Rect(0, 0, position.width, tabAreaHeight));
         GUILayout.BeginHorizontal();
 
         GUILayout.Space(20);
 
-
+        // Market
         if (GUILayout.Button("Market", SubButtonStyle))
         {
             selectedAvatarWorldTabIndex = 0;
         }
 
+        // Other Market Place
         if (GUILayout.Button("Other Market Place", SubButtonStyle))
         {
             selectedAvatarWorldTabIndex = 1;
@@ -208,10 +233,10 @@ internal class EAUploader : EditorWindow
         switch (selectedAvatarWorldTabIndex)
         {
             case 0:
-                VRCWMarket.Draw(new Rect(0, 0, position.width, contentAreaHeight));
+                VRCWMarket.Draw(new Rect(0, 0, position.width, contentAreaHeight)); // Market内容
                 break;
             case 1:
-                AvatarWorldTabDrawer.Draw(new Rect(0, 0, position.width, contentAreaHeight));
+                AvatarWorldTabDrawer.Draw(new Rect(0, 0, position.width, contentAreaHeight)); // Other Market Place内容
                 break;
         }
 
@@ -231,7 +256,7 @@ internal class EAUploader : EditorWindow
             }
             else
             {
-                Debug.LogError("Manifest file not found.");
+                // Debug.LogError("Manifest file not found.");
             }
         }
         catch (Exception e)

@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System;
 using VRC.SDKBase;
-using VRM;
 
 public static class CustomPrefabUtility
 {
@@ -21,7 +20,7 @@ public static class CustomPrefabUtility
     public static Dictionary<string, Texture2D> prefabsWithPreview = new Dictionary<string, Texture2D>();
     public static Dictionary<string, Texture2D> vrchatAvatarsWithPreview = new Dictionary<string, Texture2D>();
 
-
+    // [InitializeOnLoadMethod]
     public static void OnCustomPrefabUtility()
     {
         UpdatePrefabInfo();
@@ -110,20 +109,19 @@ public static class CustomPrefabUtility
 
     public static void SavePrefabsInfo(List<PrefabInfo> prefabs, string filePath)
     {
-
         string directory = Path.GetDirectoryName(filePath);
 
-
+        // ディレクトリが存在しない場合は作成
         if (!Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);
         }
 
-
+        // JSONデータを生成
         PrefabInfoList prefabList = new PrefabInfoList { Prefabs = prefabs };
         string json = JsonUtility.ToJson(prefabList, true);
 
-
+        // ファイルに書き込む
         File.WriteAllText(filePath, json);
     }
 
@@ -136,7 +134,7 @@ public static class CustomPrefabUtility
         return prefabList.Prefabs;
     }
 
-
+    // JSONファイルからPrefabの情報を取得するメソッド群
     public static List<string> GetPrefabPaths()
     {
         return LoadPrefabsInfo(PrefabsInfoPath).Select(p => p.Path).ToList();
@@ -174,7 +172,7 @@ public static class CustomPrefabUtility
 
     public static void SelectPrefabAndSetupScene(string prefabPath)
     {
-
+        // EAUploader シーンをロード
         if (EditorSceneManager.GetActiveScene().path != EAUploaderScenePath)
         {
             EditorSceneManager.OpenScene(EAUploaderScenePath, OpenSceneMode.Single);
@@ -183,28 +181,28 @@ public static class CustomPrefabUtility
         Scene currentScene = SceneManager.GetSceneByPath(EAUploaderScenePath);
         GameObject existingInstance = null;
 
-
+        // シーン内のすべてのPrefabインスタンスを検索し、非表示に
         foreach (GameObject obj in currentScene.GetRootGameObjects())
         {
             if (PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(obj) == prefabPath)
             {
-
+                existingInstance = obj;  // 選択されたPrefabが見つかった場合
             }
             else
             {
-
+                obj.SetActive(false);  // 他のPrefabは非表示にする
             }
         }
 
         if (existingInstance != null)
         {
-
+            // 既に存在するPrefabインスタンスをアクティブに
             selectedPrefabInstance = existingInstance;
             selectedPrefabInstance.SetActive(true);
         }
         else
         {
-
+            // 新しいPrefabインスタンスをロードしてインスタンス化
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             if (prefab == null)
             {
@@ -221,13 +219,13 @@ public static class CustomPrefabUtility
 
     public static void RemovePrefabFromScene(string prefabPath)
     {
-
+        // EAUploader シーンをロード
         if (EditorSceneManager.GetActiveScene().path != EAUploaderScenePath)
         {
             EditorSceneManager.OpenScene(EAUploaderScenePath, OpenSceneMode.Single);
         }
 
-
+        // シーンを検索
         Scene currentScene = SceneManager.GetSceneByPath(EAUploaderScenePath);
         List<GameObject> instancesToRemove = new List<GameObject>();
         foreach (GameObject obj in currentScene.GetRootGameObjects())
@@ -238,13 +236,13 @@ public static class CustomPrefabUtility
             }
         }
 
-
+        // インスタンスをシーンから削除
         foreach (var instance in instancesToRemove)
         {
             UnityEngine.Object.DestroyImmediate(instance);
         }
 
-
+        // 必要に応じてシーンの変更を保存
         EditorSceneManager.MarkSceneDirty(currentScene);
         EditorSceneManager.SaveScene(currentScene);
     }
@@ -268,7 +266,7 @@ public static class CustomPrefabUtility
             GUIStyle bgColor = new GUIStyle();
             bgColor.normal.background = EditorGUIUtility.whiteTexture;
 
-
+            float aspectRatio = 1.0f;
             float previewSize = Mathf.Min(position.width, position.height * aspectRatio);
             Rect r = new Rect(position.x, position.y, previewSize, previewSize / aspectRatio); 
             gameObjectEditor.OnInteractivePreviewGUI(r, bgColor);
@@ -277,8 +275,10 @@ public static class CustomPrefabUtility
 
     public static bool IsVRMPrefab(string prefabPath)
     {
-        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-        return prefab != null && prefab.GetComponent<VRMMeta>() != null;
+        var allPrefabsInfo = LoadPrefabsInfo(PrefabsInfoPath);
+        var prefabInfo = allPrefabsInfo.FirstOrDefault(info => info.Path == prefabPath);
+
+        return prefabInfo != null && prefabInfo.Type == "VRM";
     }
 
     public static void SetPrefabStatus(string prefabPath, string status)
@@ -289,6 +289,7 @@ public static class CustomPrefabUtility
         {
             prefab.Status = status;
             SavePrefabsInfo(allPrefabs, PrefabsInfoPath);
+            // Debug.Log($"Save PrefabInfo as {allPrefabs}-{PrefabsInfoPath}");
         }
     }
 
@@ -313,7 +314,7 @@ public static class CustomPrefabUtility
 
     public static string GetPrefabStatus(string path)
     {
-
+        // JSONファイルからプレハブのステータスを読み込む
         var allPrefabsInfo = LoadPrefabsInfo(PrefabsInfoPath);
         var prefabInfo = allPrefabsInfo.FirstOrDefault(info => info.Path == path);
 
@@ -323,7 +324,7 @@ public static class CustomPrefabUtility
     private static void GenerateAndSaveAllPrefabPreviews()
     {
         var allPrefabs = GetAllPrefabs();
-
+        List<string> failedPrefabs = new List<string>(); // 失敗したプレファブを保持するリスト
 
         foreach (var prefabInfo in allPrefabs)
         {
@@ -336,7 +337,7 @@ public static class CustomPrefabUtility
             
         }
 
-
+        // 処理終了後に失敗リストを確認
         if (failedPrefabs.Count > 0)
         {
             string failedPaths = string.Join("/n", failedPrefabs);
@@ -366,68 +367,68 @@ public static class CustomPrefabUtility
             instance.transform.position = Vector3.zero;
             SceneManager.MoveGameObjectToScene(instance, tempScene);
 
-
+            // EAUploader シーンをロード
             if (EditorSceneManager.GetActiveScene().path != EAUploaderScenePath)
             {
                 EditorSceneManager.OpenScene(EAUploaderScenePath, OpenSceneMode.Single);
             }
 
-
+            // シーン内の他のオブジェクトを非表示にする
             Scene currentScene = SceneManager.GetSceneByPath(EAUploaderScenePath);
             foreach (GameObject obj in currentScene.GetRootGameObjects())
             {
                 obj.SetActive(false);
             }
 
-
+            // プレファブをインスタンス化してシーンに設置
             instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
             instance.transform.position = Vector3.zero;
             SceneManager.MoveGameObjectToScene(instance, currentScene);
 
-
+            // バウンディングボックスを計算
             Bounds bounds = CalculateBounds(instance);
 
-
+            // プレビュー用のカメラを設定
             cameraObject = new GameObject("EAUploader Preview Camera");
             var camera = cameraObject.AddComponent<Camera>();
             camera.backgroundColor = new Color(0.9f, 0.9f, 0.9f, 1);
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.orthographic = true;
 
-
+            // カメラのアスペクト比を設定
             camera.aspect = bounds.size.x / bounds.size.y;
             camera.orthographicSize = bounds.size.y / 2;
 
             camera.transform.position = bounds.center + camera.transform.forward * bounds.extents.magnitude * 2;
             camera.transform.LookAt(bounds.center);
 
-
+            // プレビュー用のライトを設定
             lightObject = new GameObject("EAUploader Preview Light");
             var light = lightObject.AddComponent<Light>();
             light.type = LightType.Directional;
             light.intensity = 1f;
             light.color = Color.white;
 
-
+            // ライトの位置と向きをカメラに合わせる
             light.transform.position = camera.transform.position;
             light.transform.rotation = camera.transform.rotation;
 
-
+            // レンダリング解像度を設定
             int imageHeight = 540;
             int imageWidth = (int)(imageHeight * camera.aspect);
 
-
+            // プレビュー画像をレンダリング
             RenderTexture renderTexture = new RenderTexture(imageWidth, imageHeight, 24);
             camera.targetTexture = renderTexture;
             RenderTexture.active = renderTexture;
             camera.Render();
 
-
+            // 画像をTexture2Dに変換
             Texture2D preview = new Texture2D(imageWidth, imageHeight, TextureFormat.RGBA32, false);
             preview.ReadPixels(new Rect(0, 0, imageWidth, imageHeight), 0, 0);
             preview.Apply();
 
-
+            // クリーンアップ
             RenderTexture.active = null;
             UnityEngine.Object.DestroyImmediate(cameraObject);
             UnityEngine.Object.DestroyImmediate(instance);
@@ -442,7 +443,7 @@ public static class CustomPrefabUtility
         }
         finally
         {
-
+            // クリーンアップ
             if (cameraObject != null) UnityEngine.Object.DestroyImmediate(cameraObject);
             if (lightObject != null) UnityEngine.Object.DestroyImmediate(lightObject);
             if (instance != null) UnityEngine.Object.DestroyImmediate(instance);
@@ -474,17 +475,17 @@ public static class CustomPrefabUtility
         var avatarDescriptor = avatar.GetComponent<VRC_AvatarDescriptor>();
         if (avatarDescriptor != null)
         {
-
+            // ViewPosition.y がアバターの目線の高さ
             return avatarDescriptor.ViewPosition.y;
         }
 
-
+        // デフォルト
         return 0f;
     }
 
     public static void Processor(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
     {
-
+        // Prefabが追加・削除・移動された場合、Prefab情報を更新
         UpdatePrefabInfo();
 
         foreach (string path in importedAssets.Concat(deletedAssets).Concat(movedAssets))

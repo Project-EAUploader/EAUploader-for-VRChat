@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using static styles;
+using static labels;
 
 [Serializable]
 public class UpdateInfo
@@ -43,23 +45,28 @@ public class UpdateManager : EditorWindow
     [MenuItem("EAUploader/Patch Update")]
     public static void ShowWindow()
     {
-        GetWindow<UpdateManager>("Update Manager").StartUpdateProcess();
+        var window = GetWindow<UpdateManager>(Get(850), true);
+        window.minSize = new Vector2(400, 200);
+        window.maxSize = new Vector2(400, 200);
+        window.StartUpdateProcess();
     }
 
     private void OnGUI()
     {
-        GUI.backgroundColor = Color.white;
+        EditorGUI.DrawRect(new Rect(0, 0, maxSize.x, maxSize.y), Color.white);
 
         if (!updateCompleted)
         {
             string localVersion = ReadLocalVersion();
-            GUILayout.Label($"{localVersion} から {latestVersion} へ更新中...");
+            GUILayout.Label(Get(851), h2LabelStyle);
+            GUILayout.Label($"{localVersion} --> {latestVersion}", h2LabelStyle);
+            GUILayout.Label(Get(852), h2LabelStyle);
         }
         else
         {
-            GUILayout.Label("更新が完了しました。");
+            GUILayout.Label(Get(853), h1LabelStyle);
 
-            if (GUILayout.Button("EAUploaderを開く"))
+            if (GUILayout.Button(Get(854), MainButtonStyle))
             {
                 EAUploader.ShowWindow();
                 this.Close();
@@ -76,28 +83,34 @@ public class UpdateManager : EditorWindow
 
     public async Task StartUpdateProcess()
     {
+        Debug.Log("Start Update Process");
         await DownloadUpdateInfo();
     }
 
     private async UniTask DownloadUpdateInfo()
     {
+        Debug.Log("Downloading update info");
 
         UnityWebRequest request = UnityWebRequest.Get(updateInfoUrl);
         await request.SendWebRequest();
 
         if (request.result != UnityWebRequest.Result.Success)
         {
+            Debug.LogError("Failed to download update info: " + request.error);
             return;
         }
 
         string json = request.downloadHandler.text;
+        Debug.Log("JSON received: " + json);
 
         UpdateInfoArray updateArray = JsonUtility.FromJson<UpdateInfoArray>(json);
         if (updateArray == null || updateArray.updates == null)
         {
+            Debug.LogError("Failed to parse update info");
             return;
         }
 
+        Debug.Log("Parsed update info successfully");
         await ProcessAllUpdates(updateArray.updates);
     }
 
@@ -106,15 +119,20 @@ public class UpdateManager : EditorWindow
     {
         if (allUpdates == null)
         {
+            Debug.LogError("No updates to process");
             this.Close();
             return;
         }
 
         string localVersion = ReadLocalVersion();
+        Debug.Log("Local version: " + localVersion);
         var updatesToApply = allUpdates.Where(u => IsNewerVersion(u.version, localVersion)).ToArray();
+
+        Debug.Log($"Number of updates to apply: {updatesToApply.Length}");
 
         if (updatesToApply.Length == 0)
         {
+            Debug.Log("No updates to apply");
             this.Close();
             return;
         }
@@ -136,6 +154,7 @@ public class UpdateManager : EditorWindow
 
             foreach (UpdateFile file in update.update)
             {
+                Debug.Log($"Adding file to update queue: {file.path}");
                 await StartFileUpdate(file.path, baseUrl + file.url);
             }
         }
@@ -148,17 +167,20 @@ public class UpdateManager : EditorWindow
             OnUpdateCompleted(latestVersion.ToString());
         }
 
+        Debug.Log("All updates processed");
         return;
     }
 
     private async Task UpdateLocalVersionFile(string newVersion)
     {
+        Debug.Log($"Updating local version file to {newVersion}");
 
         UpdateInfo localVersionInfo = new UpdateInfo { version = newVersion };
-
+        
         string json = JsonUtility.ToJson(localVersionInfo);
 
         File.WriteAllText(localVersionPath, json);
+        Debug.Log("Local version file updated.");
     }
 
     private string ReadLocalVersion()
@@ -173,6 +195,7 @@ public class UpdateManager : EditorWindow
             }
             catch (Exception ex)
             {
+                Debug.LogError($"Failed to parse local version file: {ex.Message}");
                 return "0.0.0";
             }
         }
@@ -220,6 +243,8 @@ public class UpdateManager : EditorWindow
         }
 
         File.WriteAllBytes(filePath, data);
+
+        Debug.Log($"File downloaded: {filePath}");
     }
 
 
@@ -228,6 +253,7 @@ public class UpdateManager : EditorWindow
         if (File.Exists(filePath))
         {
             File.Delete(filePath);
+            Debug.Log($"Removed file: {filePath}");
         }
     }
 }

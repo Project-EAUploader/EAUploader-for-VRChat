@@ -10,6 +10,11 @@ public class ArticleRenderer
 {
     public static string currentArticleFilePath;
 
+    /// <summary>
+    /// 記事をレンダリングするAPI
+    /// </summary>
+    /// <param name="area"></param>
+    /// <param name="content"></param>
     public static void RenderRichTextContent(Rect area, string content)
     {
         var elements = ParseRichTextElements(content);
@@ -117,7 +122,7 @@ public class ArticleRenderer
                     }
                     else if (tag.StartsWith("<button>"))
                     {
-
+                        // [Button タグの処理]
                         int buttonEndIndex = content.IndexOf("</button>", currentIndex);
                         if (buttonEndIndex != -1)
                         {
@@ -173,6 +178,7 @@ public class ArticleRenderer
             }
             else
             {
+                // 残りの全てのテキストを追加
                 string remainingText = content.Substring(currentIndex).Trim('\n');
                 if (!string.IsNullOrEmpty(remainingText))
                 {
@@ -235,7 +241,7 @@ public class ArticleRenderer
 
         if (parts.Length > 1 && int.TryParse(parts[1].Trim(), out widthOverride))
         {
-            
+            // 横幅の値が取得された場合
         }
 
         if (string.IsNullOrEmpty(currentArticleFilePath) || string.IsNullOrEmpty(imagePath))
