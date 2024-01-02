@@ -22,15 +22,17 @@ public class EABuilder
 
         GUILayout.BeginHorizontal();
         float totalWidth = drawArea.width;
-        float listWidth = totalWidth * 3 / 10 - BorderWidth;
-        float previewWidth = totalWidth * 4 / 10 - 2 * BorderWidth; 
-        float toolWidth = totalWidth * 3 / 10 - BorderWidth;
+        float listWidth = totalWidth * 4 / 10 - BorderWidth;
+        float previewAndToolWidth = totalWidth * 6 / 10 - 2 * BorderWidth;
+        float previewHeight = drawArea.height * 0.7f - BorderWidth;
+        float toolHeight = drawArea.height * 0.3f;
 
         DrawAvatarList(new Rect(0, 0, listWidth, drawArea.height));
         DrawVerticalBorder(new Rect(listWidth, 0, BorderWidth, drawArea.height));
-        DrawAvatarPreview(new Rect(listWidth + BorderWidth, 0, previewWidth, drawArea.height));
-        DrawVerticalBorder(new Rect(listWidth + BorderWidth + previewWidth, 0, BorderWidth, drawArea.height));
-        DrawUploadTool(new Rect(listWidth + 2 * BorderWidth + previewWidth, 0, toolWidth, drawArea.height));
+
+        DrawAvatarPreview(new Rect(listWidth + BorderWidth, 0, previewAndToolWidth, previewHeight));
+        DrawHorizontalBorder(new Rect(listWidth + BorderWidth, previewHeight, previewAndToolWidth, BorderWidth));
+        DrawUploadTool(new Rect(listWidth + BorderWidth, previewHeight + BorderWidth, previewAndToolWidth, toolHeight));
 
         GUILayout.EndHorizontal();
     }
@@ -153,6 +155,11 @@ public class EABuilder
     }
 
     private static void DrawVerticalBorder(Rect position)
+    {
+        EditorGUI.DrawRect(position, Color.gray);
+    }
+
+    private static void DrawHorizontalBorder(Rect position)
     {
         EditorGUI.DrawRect(position, Color.gray);
     }

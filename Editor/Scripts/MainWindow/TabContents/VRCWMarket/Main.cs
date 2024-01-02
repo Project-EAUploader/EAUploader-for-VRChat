@@ -20,8 +20,8 @@ namespace VRCWMarketPlace
         private static List<Product> markedProducts = new List<Product>();
         private static UnityWebRequest currentRequest = null;
         private static string jsonFilePath = "Packages/com.sabuworks.eauploader/Editor/Scripts/MainWindow/TabContents/VRCWMarket/index.json";
-        private const string ThumbnailDirectory = "Packages/com.sabuworks.eauploader/Editor/Scripts/MainWindow/TabContents/VRCWMarket/Thumbnails/";
-        private const string MyListThumbnailDirectory = "Packages/com.sabuworks.eauploader/Editor/Scripts/MainWindow/TabContents/VRCWMarket/MyList/";
+        private const string ThumbnailDirectory = "Assets/EAUploader/MarketThumbnails/";
+        private const string MyListThumbnailDirectory = "Assets/EAUploader/MyList/";
         private static Dictionary<string, UnityWebRequest> downloadRequests = new Dictionary<string, UnityWebRequest>();
         private static Dictionary<string, Texture2D> imageCache = new Dictionary<string, Texture2D>();
         private static string searchString = "";
@@ -688,6 +688,13 @@ namespace VRCWMarketPlace
 
             string sourceImagePath = ThumbnailDirectory + product.id + ".png";
             string myListImagePath = MyListThumbnailDirectory + product.id + ".png";
+
+            string myListDirectoryPath = Path.GetDirectoryName(myListImagePath);
+            if (!Directory.Exists(myListDirectoryPath))
+            {
+                Directory.CreateDirectory(myListDirectoryPath);
+            }
+            
             if (File.Exists(sourceImagePath) && !File.Exists(myListImagePath))
             {
                 File.Copy(sourceImagePath, myListImagePath);
