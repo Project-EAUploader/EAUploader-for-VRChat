@@ -3,33 +3,55 @@
 <size=20>Builderタブ</size>
 <size=14>Builderタブでは必要な情報を入力して、アバターをアップロードします。もし「A VRCAvatarDescriptor is required to build an Avatar」と表示されている場合は、EAUploaderの画面でアップロードしたいアバターを選択してください。</size>
 </txt>
-<image>builder3.png</image>
-<txt>①Selected Avatar :選択されているアバターの名前が表示されます。
-②Avatar Info :アバターの情報を入力します。
-    -Name :アバターの名前です。他人から見られます。
-    -Description :アバターの概要です。無くても問題ありません。
-    -Content Wanings :アバターの警告ラベルです。コンテンツをフィルターできるようにするために使用されます。
-      ・Sexually Suggestive(性的な暗示) :ヌードや露出度の高い服装などのアバターの場合、チェックする必要があります。
-      ・Adult Language and Themes(成人向けのコンテンツ) :ギャンブルや薬物使用、ブラックジョークなど性的ではないものの成人向けのアバターの場合、チェックする必要があります。
-      ・Graphic violence(暴力描写) :コンテンツがある程度リアリティがある暴力表現の場合、チェックする必要があります。
-      ・Excessive Gore(過剰なゴア) :血、内臓、身体の切断などの生々しい描写が過度に含まれるアバターの場合、チェックする必要があります。
-      ・Extreme Horror(極度のホラー) :よくあるタイプのホラー(ジャンプスケアなど)よりも数レベル上のもの場合、チェックする必要があります。
-    -Visibility :Publicにすると、ほかのユーザーがコピーして使えるようになります。市販のアバターのほとんどはPublicにしてアップロードすることを禁止しています。特に理由がない場合はPrivateにしましょう。
-③Thumbnail :アバターのサムネイルの設定をします。
-    「Select New Thumbnail」を選択すると画像ファイルを選択してサムネイルにできます。
-    「Capture From Scene」を選択するとUnity上のカメラで撮影してサムネイルにできます。メインカメラから見えている画面がキャプチャされます。
-      -Fill Backgroundを選択すると、背景色が変更できます。
-      -Use PostProcessingを選択すると、エフェクトや効果をつけることができます。別途設定が必要です。
-      -Use Custom Cameraを選択すると、自分で設定したUnity上のカメラの画面をキャプチャできます。別途設定が必要です。</txt>
-<image>thumbnail.png</image>
-<image>thumbnail_color.png</image>
-<txt>④Validations :アバターのパフォーマンスへの警告やエラーが表示されます。アバターのアップロードが失敗したときに確認してください。</txt>
+<section>builder3.png, 50, 
+<size=20>①Selected Avatar</size>
+選択されているアバターの名前が表示されます。
+
+<size=20>②Avatar Info</size>
+アバターの情報を入力します。
+<size=16><color=red>-Name</color></size>
+アバターの名前です。他人から見られます。
+<size=16>-Description</size>
+アバターの概要です。無くても問題ありません。メモ等で使用します。
+<size=16><color=red>-Content Wanings</color></size>
+アバターの警告ラベルです。コンテンツを他人がフィルターできるようにするために使用されます。適切に設定しないとペナルティ対象になる場合があります。
+<color=red>・Sexually Suggestive(性的な暗示)</color>
+　ヌードや露出度の高い服装などのアバターの場合、チェックする必要があります。
+<color=red>・Adult Language and Themes(成人向けのコンテンツ)</color>
+　ギャンブルや薬物使用、ブラックジョークなど性的ではないものの成人向けのアバターの場合、チェックする必要があります。
+<color=red>・Graphic violence(暴力描写)</color>
+　コンテンツがある程度リアリティがある暴力表現の場合、チェックする必要があります。
+<color=red>・Excessive Gore(過剰なゴア)</color>
+　血、内臓、身体の切断などの生々しい描写が過度に含まれるアバターの場合、チェックする必要があります。
+<color=red>・Extreme Horror(極度のホラー)</color>
+　よくあるタイプのホラー(ジャンプスケアなど)よりも数レベル上のもの場合、チェックする必要があります。
+
+<size=16><color=red>-Visibility</color></size>
+Publicにすると、ほかのユーザーがコピーして使えるようになります。市販のアバターのほとんどはPublicにしてアップロードすることを禁止しています。特に理由がない場合はPrivateにしましょう。
+</section>
+<section>thumbnail.png, 50,
+<size=20>③Thumbnail</size>
+アバターのサムネイルの設定をします。
+「Select New Thumbnail」を選択すると画像ファイルを選択してサムネイルにできます。
+「Capture From Scene」を選択するとUnity上のカメラで撮影してサムネイルにできます。メインカメラから見えている画面がキャプチャされます。
+</section>
+<section>thumbnail_color.png, 50,
+-Fill Background　　　背景色が変更できます。
+-Use PostProcessing　 エフェクトや効果をつけることができます。別途設定が必要です。
+-Use Custom Camera　　自分で設定したUnity上のカメラの画面をキャプチャできます。別途設定が必要です。</section>
+<txt>
+<size=20>④Validations</size>
+アバターのパフォーマンスへの警告やエラーが表示されます。アバターのアップロードが失敗したときに確認してください。</txt>
 <section>error.png, 8, このアイコンのエラーが出ている場合、アバターをアップロードすることができません。
 もし「This avatar has mipmapped textures without ‘Streaming Mip Maps’ enabled.」というエラーが出ていた場合は「Auto Fix」を押しましょう。
 もし「You are trying to save a Prefab with a missing script.」というエラーが出ていた場合は、空になっているスクリプトコンポーネントを削除してください。</section>
-<txt>⑤Build :アバターをビルドして、アップロードすることができます。
-    ・Offline Testing :アバターの動作などを確認するために、オフラインでアップロードします。VRChat上で確認する際、アバターは自分だけに見えます。
-    ・Online Publishing :アバターをVRChatのゲームサーバーにアップロードします。他人からもアバターが見れるようになります。
-      アバターをアップロードするには、「The information provided above is accurate and I have the rights to upload this content to VRChat(上の情報は正確で、私はこのコンテンツをVRChatにアップロードする権利があります。)」というチェックボックスにチェストする必要があります。
+<txt>
+⑤Build
+アバターをビルドして、アップロードすることができます。
+・Offline Testing
+　アバターの動作などを確認するために、オフラインでアップロードします。VRChat上で確認する際、アバターは自分だけに見えます。
+・Online Publishing
+　アバターをVRChatのゲームサーバーにアップロードします。他人からもアバターが見れるようになります。
+アバターをアップロードするには、「The information provided above is accurate and I have the rights to upload this content to VRChat(上の情報は正確で、私はこのコンテンツをVRChatにアップロードする権利があります。)」というチェックボックスにチェストする必要があります。
 </txt>
 
