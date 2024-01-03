@@ -8,7 +8,9 @@ public class SpriteImportProcessor : AssetPostprocessor
 {
     private static readonly List<string> targetFolderPaths = new List<string>
     {
-        "Packages/com.sabuworks.eauploader/Editor/Resources/PrefabPreviews",
+        "Assets/EAUploader/PrefabPreviews",
+        "Assets/EAUploader/MarketThumbnails",
+        "Assets/EAUploader/MyList",
         "Packages/com.sabuworks.eauploader/Editor/Resources/Info",
         "Packages/com.subuworks.eauploader/Editor/Resources/icons"
     };

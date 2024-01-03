@@ -37,7 +37,7 @@ public class AvatarPreviewerWindow : EditorWindow
 
     private void LoadPreviewTexture()
     {
-        string previewPath = $"Packages/com.sabuworks.eauploader/Editor/Resources/PrefabPreviews/{prefabName}.png";
+        string previewPath = $"Assets/EAUploader/PrefabPreviews/{prefabName}.png";
         previewTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(previewPath);
 
         if (previewTexture == null)

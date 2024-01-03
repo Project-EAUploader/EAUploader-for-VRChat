@@ -10,9 +10,9 @@ using VRC.SDKBase;
 
 public static class CustomPrefabUtility
 {
-    private const string PrefabsInfoPath = "Packages/com.sabuworks.eauploader/Editor/PrefabManager.json";
+    private const string PrefabsInfoPath = "Assets/EAUploader/PrefabManager.json";
     private const string EAUploaderScenePath = "Assets/EAUploader.unity";
-    private const string PreviewSavePath = "Packages/com.sabuworks.eauploader/Editor/Resources/PrefabPreviews";
+    private const string PreviewSavePath = "Assets/EAUploader/PrefabPreviews";
     private static Editor gameObjectEditor;
     private static GameObject currentPreviewObject;
     public static GameObject selectedPrefabInstance { get; private set; }
@@ -349,6 +349,12 @@ public static class CustomPrefabUtility
     {
         string fileName = Path.GetFileNameWithoutExtension(prefabPath);
         string savePath = Path.Combine(PreviewSavePath, $"{fileName}.png");
+
+        string directoryPath = Path.GetDirectoryName(savePath);
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
 
         byte[] pngData = preview.EncodeToPNG();
         File.WriteAllBytes(savePath, pngData);

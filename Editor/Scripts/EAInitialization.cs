@@ -1,4 +1,8 @@
 using UnityEditor;
+using UnityEngine;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
+using System.IO;
 using static EAUploader;
 using static CustomPrefabUtility;
 using static SpriteImportProcessor;
@@ -14,6 +18,7 @@ public class CombinedInitialization
     private static void CombinedOnLoad()
     {
         EditorUtility.DisplayProgressBar("Initialization", "Initializing CustomPrefabUtility...", 0.0f);
+        EnsurePrefabManagerExists();
         CustomPrefabUtilityOnUnityLoad();
         EditorUtility.DisplayProgressBar("Initialization", "Initializing EAUploaderEditorManager...", 0.2f);
         EAUploaderEditorManagerOnLoad();
@@ -26,6 +31,20 @@ public class CombinedInitialization
         EditorUtility.ClearProgressBar();
 
         UpdateManager.ShowWindow();
+    }
+
+    private static void EnsurePrefabManagerExists()
+    {
+        string filePath = "Assets/EAUploader/PrefabManager.json";
+        if (!File.Exists(filePath))
+        {
+            string directoryPath = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            File.WriteAllText(filePath, "{}");
+        }
     }
 
     private static void CustomPrefabUtilityOnUnityLoad()
