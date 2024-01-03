@@ -22,6 +22,7 @@ namespace VRCWMarketPlace
         private static string jsonFilePath = "Packages/com.sabuworks.eauploader/Editor/Scripts/MainWindow/TabContents/VRCWMarket/index.json";
         private const string ThumbnailDirectory = "Assets/EAUploader/MarketThumbnails/";
         private const string MyListThumbnailDirectory = "Assets/EAUploader/MyList/";
+        private static string markFilePath = "Assets/EAUploader/mark.json";
         private static Dictionary<string, UnityWebRequest> downloadRequests = new Dictionary<string, UnityWebRequest>();
         private static Dictionary<string, Texture2D> imageCache = new Dictionary<string, Texture2D>();
         private static string searchString = "";
@@ -396,7 +397,7 @@ namespace VRCWMarketPlace
 
         private static bool IsProductMarked(int productId)
         {
-            string markFilePath = "Packages/com.sabuworks.eauploader/Editor/Scripts/MainWindow/TabContents/VRCWMarket/mark.json";
+            EnsureJsonFileExists(markFilePath);
             if (File.Exists(markFilePath))
             {
                 string jsonTextFromFile = File.ReadAllText(markFilePath);
@@ -651,7 +652,7 @@ namespace VRCWMarketPlace
 
         private static void MarkProduct(Product product)
         {
-            string markFilePath = "Packages/com.sabuworks.eauploader/Editor/Scripts/MainWindow/TabContents/VRCWMarket/mark.json";
+            EnsureJsonFileExists(markFilePath);
 
             List<MarkedProduct> markedProducts = new List<MarkedProduct>();
             if (File.Exists(markFilePath))
@@ -703,7 +704,7 @@ namespace VRCWMarketPlace
 
         private static void UnmarkProduct(int productId)
         {
-            string markFilePath = "Packages/com.sabuworks.eauploader/Editor/Scripts/MainWindow/TabContents/VRCWMarket/mark.json";
+            EnsureJsonFileExists(markFilePath);
 
             if (File.Exists(markFilePath))
             {
@@ -808,7 +809,7 @@ namespace VRCWMarketPlace
 
         private static void LoadMyListProducts()
         {
-            string markFilePath = "Packages/com.sabuworks.eauploader/Editor/Scripts/MainWindow/TabContents/VRCWMarket/mark.json";
+            EnsureJsonFileExists(markFilePath);
             if (File.Exists(markFilePath))
             {
                 string jsonTextFromFile = File.ReadAllText(markFilePath);
@@ -884,6 +885,21 @@ namespace VRCWMarketPlace
             DownloadAllProductImagesAsync();
         }
 
+        private static void EnsureJsonFileExists(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                // ディレクトリが存在しない場合は作成
+                string directoryPath = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                // 新しい空のJSONファイルを作成
+                File.WriteAllText(filePath, "{}");
+            }
+        }
 
         private struct ProductList
         {
