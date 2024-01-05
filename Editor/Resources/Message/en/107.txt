@@ -1,4 +1,5 @@
+<t>Shader import error</t>
 <txt>
-<size=20>シェーダーエラー</size>
-<size=14>適用されているシェーダーがプロジェクト内に存在しません。</size>
+<size=14>    The applied shader does not exist in your project.
+Please check with your distributor for the necessary shaders and import them into your project.</size>
 </txt>

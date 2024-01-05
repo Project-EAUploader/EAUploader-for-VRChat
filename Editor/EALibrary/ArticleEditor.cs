@@ -46,7 +46,7 @@ public class ArticleEditor : EditorWindow
 
         GUILayout.BeginVertical(GUILayout.Width(position.width / 2));
         float drawPreviewWidth = position.width / 2;
-        DrawPreview(drawPreviewWidth); // 追加の引数を渡します
+        DrawPreview(drawPreviewWidth);
         GUILayout.EndVertical();
 
         GUILayout.EndHorizontal();

@@ -321,6 +321,56 @@ public static class CustomPrefabUtility
         return prefabInfo != null && !string.IsNullOrEmpty(prefabInfo.Status) ? prefabInfo.Status : "show";
     }
 
+    public static void RegisterNewPrefab(string prefabPath)
+    {
+        Debug.Log($"Register: {prefabPath}");
+        if (string.IsNullOrEmpty(prefabPath) || !File.Exists(prefabPath))
+        {
+            Debug.LogError("Invalid prefab path: " + prefabPath);
+            return;
+        }
+
+        // プレハブ情報を作成
+        PrefabInfo newPrefabInfo = new PrefabInfo
+        {
+            Path = prefabPath,
+            Name = Path.GetFileNameWithoutExtension(prefabPath),
+            LastModified = File.GetLastWriteTime(prefabPath),
+            Type = GetPrefabType(prefabPath),
+            Status = "show"
+        };
+
+        var allPrefabs = LoadPrefabsInfo(PrefabsInfoPath);
+        if (!allPrefabs.Any(p => p.Path == prefabPath))
+        {
+            allPrefabs.Add(newPrefabInfo);
+            SavePrefabsInfo(allPrefabs, PrefabsInfoPath);
+        }
+
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        if (prefab != null)
+        {
+            Texture2D preview = GeneratePreview(prefab);
+            SavePrefabPreview(prefabPath, preview);
+        }
+    }
+
+    public static void DeletePrefabPreview(string prefabPath)
+    {
+        string previewImagePath = GetPreviewImagePath(prefabPath);
+
+        if (File.Exists(previewImagePath))
+        {
+            File.Delete(previewImagePath);
+        }
+    }
+
+    private static string GetPreviewImagePath(string prefabPath)
+    {
+        string fileName = Path.GetFileNameWithoutExtension(prefabPath);
+        return Path.Combine(PreviewSavePath, $"{fileName}.png");
+    }
+
     private static void GenerateAndSaveAllPrefabPreviews()
     {
         var allPrefabs = GetAllPrefabs();
@@ -491,10 +541,9 @@ public static class CustomPrefabUtility
 
     public static void Processor(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
     {
-        // Prefabが追加・削除・移動された場合、Prefab情報を更新
-        UpdatePrefabInfo();
+        bool shouldRefresh = false;
 
-        foreach (string path in importedAssets.Concat(deletedAssets).Concat(movedAssets))
+        foreach (string path in importedAssets.Concat(movedAssets))
         {
             if (Path.GetExtension(path) == ".prefab")
             {
@@ -503,8 +552,14 @@ public static class CustomPrefabUtility
                 {
                     Texture2D preview = GeneratePreview(prefab);
                     SavePrefabPreview(path, preview);
+                    shouldRefresh = true;
                 }
             }
+        }
+
+        if (shouldRefresh || deletedAssets.Any(path => Path.GetExtension(path) == ".prefab"))
+        {
+            UpdatePrefabInfo();
         }
     }
 

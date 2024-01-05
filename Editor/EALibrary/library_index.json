@@ -1,53 +1,5 @@
 [
   {
-    "Title": "VRChatSDK - ログインする",
-    "Keywords": [
-      "VRChatSDK",
-      "SDK",
-      "アバター",
-      "アップロード",
-      "Upload",
-      "ログイン"
-    ],
-    "Tags": [
-      "VRChatSDK"
-    ]
-  },
-  {
-    "Title": "VRChatSDK - ビルダーからアップロード",
-    "Keywords": [
-      "VRChatSDK",
-      "SDK",
-      "Upload",
-      "Error"
-    ],
-    "Tags": [
-      "VRChatSDK"
-    ]
-  },
-  {
-    "Title": "VRChatSDK - アップロードしたコンテンツの管理",
-    "Keywords": [
-      "VRChatSDK",
-      "SDK",
-      "アバター",
-      "Upload"
-    ],
-    "Tags": [
-      "VRChatSDK"
-    ]
-  },
-  {
-    "Title": "VRChatSDK - SDKの設定",
-    "Keywords": [
-      "VRChatSDK",
-      "SDK"
-    ],
-    "Tags": [
-      "VRChatSDK"
-    ]
-  },
-  {
     "Title": "はじめる",
     "Keywords": [
       "チュートリアル",
@@ -118,33 +70,81 @@
     ]
   },
   {
-    "Title": "Get an new avatar",
+    "Title": "新しいアバターを探す",
     "Keywords": [
-      "Tutorial",
-      "Start",
-      "Guide",
+      "チュートリアル",
+      "スタート",
+      "ガイド",
       "6",
-      "Avatar",
-      "Buy"
+      "アバター",
+      "購入"
     ],
     "Tags": [
-      "Tutorial"
+      "チュートリアル"
     ]
   },
   {
-    "Title": "To your own original\n[Avatar Modification]",
+    "Title": "オリジナルのアバターを使う\n[アバター改変]",
     "Keywords": [
-      "Tutorial",
-      "Start",
-      "Guide",
+      "チュートリアル",
+      "スタート",
+      "ガイド",
       "7",
-      "Avatar",
-      "Modtfication",
-      "Custom",
-      "Edit"
+      "アバター",
+      "改造",
+      "カスタム",
+      "編集"
     ],
     "Tags": [
-      "Tutorial"
+      "チュートリアル"
+    ]
+  },
+  {
+    "Title": "VRChatSDK - ログインする",
+    "Keywords": [
+      "VRChatSDK",
+      "SDK",
+      "アバター",
+      "アップロード",
+      "Upload",
+      "ログイン"
+    ],
+    "Tags": [
+      "VRChatSDK"
+    ]
+  },
+  {
+    "Title": "VRChatSDK - ビルダーからアップロード",
+    "Keywords": [
+      "VRChatSDK",
+      "SDK",
+      "Upload",
+      "Error"
+    ],
+    "Tags": [
+      "VRChatSDK"
+    ]
+  },
+  {
+    "Title": "VRChatSDK - アップロードしたコンテンツの管理",
+    "Keywords": [
+      "VRChatSDK",
+      "SDK",
+      "アバター",
+      "Upload"
+    ],
+    "Tags": [
+      "VRChatSDK"
+    ]
+  },
+  {
+    "Title": "VRChatSDK - SDKの設定",
+    "Keywords": [
+      "VRChatSDK",
+      "SDK"
+    ],
+    "Tags": [
+      "VRChatSDK"
     ]
   }
 ]

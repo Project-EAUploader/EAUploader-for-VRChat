@@ -21,7 +21,8 @@
         { "key": "118", "value": "Prefabs with missing or problematic shaders:" },
         { "key": "119", "value": "Please confirm the required shaders from the avatar distributor." },
         { "key": "120", "value": "Why am I seeing this?" },
-
+        { "key": "121", "value": "Market (vrcw.net)" },
+        { "key": "122", "value": "Other Market Information" },
 
         { "key": "130", "value": "Import Avatar" },
         { "key": "1301", "value": "(Folder)" },

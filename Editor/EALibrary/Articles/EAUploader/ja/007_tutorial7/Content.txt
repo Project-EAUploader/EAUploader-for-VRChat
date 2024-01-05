@@ -1,0 +1,12 @@
+<t>― 【オープンべータテスト】 ―</t>
+<txt>
+<size=16>EALIBRARYのこの記事は現在制作中です。</size>
+</txt>
+<t>執筆者・翻訳者・ツール製作者大募集</t>
+<txt>
+<size=16><color=red>ヘルプの執筆者、ツールやヘルプの多言語翻訳者、編集ツールの製作は大歓迎です。是非、Discordへご参加ください！</color>
+本ツールへのフィードバックもお待ちしております。</size>
+</txt>
+<button>Discordへ参加する, Main, https://discord.gg/mkDJ7xm94Z</button>
+<button>開発者 X / Twitter をフォロー, Sub, https://twitter.com/intent/follow?screen_name=fu_virtual</button>
+<button>Webへ行く, Sub, https://uslog.tech/eauploader</button>

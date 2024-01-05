@@ -199,7 +199,7 @@ public class Manager
         }
     }
 
-    private static void DeletePrefab(string prefabPath)
+    public static void DeletePrefab(string prefabPath)
     {
         ConfirmationPopup.ShowWindow(prefabPath);
     }
@@ -236,8 +236,14 @@ public class ConfirmationPopup : EditorWindow
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button(Get(136)))
         {
+            // プレビュー画像を削除
+            CustomPrefabUtility.DeletePrefabPreview(prefabPath);
+
+            // プレハブをシーンから削除し、AssetDatabaseからも削除
             CustomPrefabUtility.RemovePrefabFromScene(prefabPath);
             AssetDatabase.DeleteAsset(prefabPath);
+
+            // プレハブリストを更新
             Manager.RefreshPrefabList();
             this.Close();
         }

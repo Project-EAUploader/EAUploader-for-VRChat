@@ -1,3 +1,7 @@
+/*
+
+    自動更新機能検討中
+
 using UnityEngine;
 using UnityEditor;
 using Cysharp.Threading.Tasks;
@@ -257,3 +261,4 @@ public class UpdateManager : EditorWindow
         }
     }
 }
+*/

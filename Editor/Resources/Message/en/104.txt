@@ -1,5 +1,6 @@
+<t>Install extensions</t>
 <txt>
-<size=20>About Introducing Plug-ins</size>
-<size=14>Tools developed by developers around the world can be deployed.
-You can introduce it by clicking the button below.</size>
+<size=14>    By installing an editor that is compatible with EAUploader, the work can be coordinated to support a wide variety of editing.
+Currently, extensions are not abundant. Tool developers are encouraged to register their own tools.</size>
 </txt>
+<button>Developer Documentation｜Editor Registration, Link, https://www.uslog.tech/eauploader-forum/developer-documentation/kuo-zhang-edeitanodeng-lu</button> 

@@ -212,13 +212,13 @@ internal class EAUploader : EditorWindow
         GUILayout.Space(20);
 
         // Market
-        if (GUILayout.Button("Market", SubButtonStyle))
+        if (GUILayout.Button(Getc("badge", 121), SubButtonStyle))
         {
             selectedAvatarWorldTabIndex = 0;
         }
 
         // Other Market Place
-        if (GUILayout.Button("Other Market Place", SubButtonStyle))
+        if (GUILayout.Button(Getc("store", 122), SubButtonStyle))
         {
             selectedAvatarWorldTabIndex = 1;
         }

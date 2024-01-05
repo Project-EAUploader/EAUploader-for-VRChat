@@ -1,0 +1,12 @@
+<t>Operation Explanation</t>
+<txt>
+<size=18><color=green>Left-Click Move</color>：Movement
+<color=green>Right-Click Move</color>：Revolution
+<color=green>Wheel up/down</color>：Scaling
+<color=green>Mark button on bottom left</color>：Position reset</size>
+
+<size=14><i>Existing Problem</i>
+    When zooming in, the image shifts to the upper left.
+Also, zooming in and out too fast rarely causes drawing problems.
+If your avatar disappears or you wish to restore it, click the reset symbol in the lower left corner.</size>
+</txt>

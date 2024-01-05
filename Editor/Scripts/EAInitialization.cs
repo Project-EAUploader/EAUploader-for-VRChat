@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using static EAUploader;
 using static CustomPrefabUtility;
-using static SpriteImportProcessor;
+using static AssetImportProcessor;
 using static EAUploaderEditorManager;
 using static ShaderChecker;
 
@@ -23,14 +23,14 @@ public class CombinedInitialization
         EditorUtility.DisplayProgressBar("Initialization", "Initializing EAUploaderEditorManager...", 0.2f);
         EAUploaderEditorManagerOnLoad();
         EditorUtility.DisplayProgressBar("Initialization", "Initializing SpriteImportProcessor...", 0.4f);
-        SpriteImportProcessorOnEditorLoad();
+        AssetImportProcessorOnEditorLoad();
         EditorUtility.DisplayProgressBar("Initialization", "Initializing EAUploader...", 0.6f);
         EAUploaderInitializeOnLoad();
         EditorUtility.DisplayProgressBar("Initialization", "Initializing ShaderChecker...", 0.8f);
         ShaderCheckerOnLoad();
         EditorUtility.ClearProgressBar();
 
-        UpdateManager.ShowWindow();
+        // UpdateManager.ShowWindow(); 検討中
     }
 
     private static void EnsurePrefabManagerExists()
@@ -52,9 +52,10 @@ public class CombinedInitialization
         OnCustomPrefabUtility();
     }
 
-    private static void SpriteImportProcessorOnEditorLoad()
+    private static void AssetImportProcessorOnEditorLoad()
     {
-        OnEditorLoad();
+        var processor = new AssetImportProcessor();
+        processor.OnEditorLoad();
     }
 
     private static void EAUploaderInitializeOnLoad()

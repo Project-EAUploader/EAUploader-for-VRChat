@@ -23,7 +23,6 @@ public class SetUpTabDrawer
 
         EditorGUI.DrawRect(new Rect(position.width * 0.3f - 1, 0, 2, position.height), Color.black); 
 
-
         GUILayout.BeginArea(new Rect(position.width * 0.3f + 1, 0, position.width * 0.4f - 2, position.height));
         Rect previewRect = new Rect(0, 0, position.width * 0.4f - 2, position.height);
         Preview.Draw(CustomPrefabUtility.selectedPrefabInstance, previewRect);

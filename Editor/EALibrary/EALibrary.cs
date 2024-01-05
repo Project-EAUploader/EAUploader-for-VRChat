@@ -134,81 +134,88 @@ public class EALibrary
     public void Draw(Rect area)
     {
         UpdateCurrentLanguage();
-
-        GUILayout.BeginArea(area);
-
-        GUILayout.Label("EAUploader LIBRARY", h1LabelStyle);
-
-        EditorGUILayout.BeginHorizontal();
-        searchQuery = EditorGUILayout.TextField(searchQuery, styles.TextFieldStyle, GUILayout.Height(40));
-        if (GUILayout.Button(Getc("search", 144), SearchButtonStyle))
+        try
         {
-            if (!string.IsNullOrEmpty(searchQuery))
-            {
-                string selectedTag = tags[selectedTagIndex];
-                SearchArticles(searchQuery, selectedTag);
-            }
-            else
-            {
-                searchPerformed = false;
-            }
-        }
-        EditorGUILayout.EndHorizontal();
+            GUILayout.BeginArea(area);
 
-        EditorGUILayout.BeginHorizontal();
-        GUILayout.Label(Get(600), NoMargeh2LabelStyle);
-        int newSelectedTagIndex = EditorGUILayout.Popup(selectedTagIndex, tags.ToArray(), PopupStyle);
-        if (newSelectedTagIndex != selectedTagIndex)
-        {
-            selectedTagIndex = newSelectedTagIndex;
-            string selectedTag = tags[selectedTagIndex];
-            SearchArticles(searchQuery, selectedTag);
-        }
-        EditorGUILayout.EndHorizontal();
-        Texture.DrawHorizontalLine(Color.black, 20, area.width*2);
+            GUILayout.Label("EAUploader LIBRARY", h1LabelStyle);
 
-        if (!string.IsNullOrEmpty(currentArticleContent))
-        {
-            if (GUILayout.Button(Getc("arrow_back", 601), SubButtonStyle, GUILayout.Height(40)))
+            EditorGUILayout.BeginHorizontal();
+            searchQuery = EditorGUILayout.TextField(searchQuery, styles.TextFieldStyle, GUILayout.Height(40));
+            if (GUILayout.Button(Getc("search", 144), SearchButtonStyle))
             {
-                Return();
-            }
-            Texture.DrawHorizontalDottedLine(Color.black, 12, area.width*2);
-
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition);
-            ArticleRenderer.RenderRichTextContent(area, currentArticleContent);
-            GUILayout.Space(30);
-            GUILayout.EndScrollView();
-        }
-        else
-        {
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition);
-
-            if (searchPerformed)
-            {
-                if (searchResults.Count > 0)
+                if (!string.IsNullOrEmpty(searchQuery))
                 {
-                    DrawSearchResults(area);
+                    string selectedTag = tags[selectedTagIndex];
+                    SearchArticles(searchQuery, selectedTag);
                 }
                 else
                 {
-                    GUILayout.Label(Get(180), h2LabelStyle);
-                    Texture.DrawHorizontalDottedLine(Color.black, 12, area.width*2);
-                    if (selectedTagIndex == 0)
-                    {
-                        DisplayAllArticles(area);
-                    }
+                    searchPerformed = false;
                 }
+            }
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label(Get(600), NoMargeh2LabelStyle);
+            int newSelectedTagIndex = EditorGUILayout.Popup(selectedTagIndex, tags.ToArray(), PopupStyle);
+            if (newSelectedTagIndex != selectedTagIndex)
+            {
+                selectedTagIndex = newSelectedTagIndex;
+                string selectedTag = tags[selectedTagIndex];
+                SearchArticles(searchQuery, selectedTag);
+            }
+            EditorGUILayout.EndHorizontal();
+            Texture.DrawHorizontalLine(Color.black, 20, area.width*2);
+
+            if (!string.IsNullOrEmpty(currentArticleContent))
+            {
+                if (GUILayout.Button(Getc("arrow_back", 601), SubButtonStyle, GUILayout.Height(40)))
+                {
+                    Return();
+                }
+                Texture.DrawHorizontalDottedLine(Color.black, 12, area.width*2);
+
+                scrollPosition = GUILayout.BeginScrollView(scrollPosition);
+                ArticleRenderer.RenderRichTextContent(area, currentArticleContent);
+                GUILayout.Space(30);
+                GUILayout.EndScrollView();
             }
             else
             {
-                DisplayAllArticles(area);
-            }
-            GUILayout.Space(50);
-            GUILayout.EndScrollView();
-        }
+                scrollPosition = GUILayout.BeginScrollView(scrollPosition);
 
-        GUILayout.EndArea();
+                if (searchPerformed)
+                {
+                    if (searchResults.Count > 0)
+                    {
+                        DrawSearchResults(area);
+                    }
+                    else
+                    {
+                        GUILayout.Label(Get(180), h2LabelStyle);
+                        Texture.DrawHorizontalDottedLine(Color.black, 12, area.width*2);
+                        if (selectedTagIndex == 0)
+                        {
+                            DisplayAllArticles(area);
+                        }
+                    }
+                }
+                else
+                {
+                    DisplayAllArticles(area);
+                }
+                GUILayout.Space(50);
+                GUILayout.EndScrollView();
+            }
+
+            GUILayout.EndArea();
+        }
+        catch(Exception ex)
+        {
+            Debug.LogError("EALibrary.Draw ERROR:" + ex);
+        }
+        
     }
 
     /// <summary>

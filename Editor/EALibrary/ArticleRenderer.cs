@@ -52,6 +52,11 @@ public class ArticleRenderer
         var elements = new List<RichTextElement>();
         int currentIndex = 0;
 
+        if (string.IsNullOrEmpty(content))
+        {
+            return elements;
+        }
+
         while (currentIndex < content.Length)
         {
             int tagStartIndex = content.IndexOf('<', currentIndex);

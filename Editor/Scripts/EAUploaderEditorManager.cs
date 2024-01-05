@@ -11,6 +11,7 @@ public static class EAUploaderEditorManager
     // [InitializeOnLoad]
     public static void OnEditorManagerLoad()
     {
+        EnsureJsonFileExists();
         ClearJsonFile();
         LoadEditorInfoFromJson();
     }
@@ -18,6 +19,7 @@ public static class EAUploaderEditorManager
     static EAUploaderEditorManager()
     {
         // Unity起動時にJSONファイルをクリア
+        EnsureJsonFileExists();
         ClearJsonFile();
     }
 
@@ -65,7 +67,7 @@ public static class EAUploaderEditorManager
         return registeredEditors;
     }
 
-    private static string JsonFilePath => "Packages/com.sabuworks.eauploader/Editor/Scripts/MainWindow/TabContents/SetUp/EditorsManage.json";
+    private static string JsonFilePath => "Assets/EAUploader/EditorsManage.json";
 
     private static void SaveEditorInfoToJson()
     {
@@ -98,19 +100,31 @@ public static class EAUploaderEditorManager
 
     private static void ClearJsonFile()
     {
-        // Debug.Log("Clearing editor information from JSON...");
-
         try
         {
-            // 空のリストをJSONファイルに保存
             var editorsWrapper = new EditorInfoList { editors = new List<EditorInfo>() };
             string json = JsonUtility.ToJson(editorsWrapper, true);
             File.WriteAllText(JsonFilePath, json);
-            // Debug.Log($"Editor information cleared successfully from {JsonFilePath}");
         }
         catch (Exception e)
         {
             Debug.LogError($"Failed to clear editor information from JSON: {e.Message}");
+        }
+    }
+
+    private static void EnsureJsonFileExists()
+    {
+        if (!File.Exists(JsonFilePath))
+        {
+            // ディレクトリが存在しない場合は作成
+            string directoryPath = Path.GetDirectoryName(JsonFilePath);
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            // 新しい空のJSONファイルを作成
+            File.WriteAllText(JsonFilePath, "{}");
         }
     }
 

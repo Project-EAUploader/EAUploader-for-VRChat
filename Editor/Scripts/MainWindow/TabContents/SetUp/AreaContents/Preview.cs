@@ -59,7 +59,7 @@ public static class Preview
         }
         if (GUILayout.Button(Getc("help", 500), HelpButtonStyle))
         {
-            EAUploaderMessageWindow.ShowMsg(107);
+            EAUploaderMessageWindow.ShowMsg(108);
         }
         GUILayout.EndArea();
         GUILayout.BeginArea(previewRectArea);
@@ -124,6 +124,10 @@ public static class Preview
                     // Debug.Log($"Call SetPrefabStatus {prefabPath} to show");
                     CustomPrefabUtility.UpdatePrefabInfo();
                 }
+            }
+            if (GUILayout.Button(Getc("delete", 0), SubButtonStyle, GUILayout.Width(40)))
+            {
+                Manager.DeletePrefab(prefabPath);
             }
             GUILayout.Space(10);
         }

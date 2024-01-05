@@ -107,7 +107,6 @@ public class Import
                         break;
                 }
             }
-
             AssetDatabase.Refresh();
         }
 
@@ -138,8 +137,7 @@ public class Import
                     AssetDatabase.ImportPackage(filePath, true);
                     break;
             }
-
-            AssetDatabase.Refresh();
+            AssetDatabase.Refresh();   
         }
 
         if (isVRMAvailable == true)
