@@ -247,7 +247,7 @@ internal class EAUploader : EditorWindow
     {
         try
         {
-            string manifestPath = "packages-lock.json";
+            string manifestPath = "Packages/packages-lock.json";
             if(File.Exists(manifestPath))
             {
                 string manifestContent = File.ReadAllText(manifestPath);
@@ -256,7 +256,7 @@ internal class EAUploader : EditorWindow
             }
             else
             {
-                // Debug.LogError("Manifest file not found.");
+                Debug.LogError("Manifest file not found.");
             }
         }
         catch (Exception e)

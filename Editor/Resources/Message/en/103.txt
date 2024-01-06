@@ -1,4 +1,4 @@
-<t>About Editing Tools</t>
 <txt>
+<t>About Editing Tools</t>
 <size=14>    Tools for adjusting and customizing avatars can be opened here. Detailed information on each tool can be found by clicking on the detailed information.</size>
 </txt>

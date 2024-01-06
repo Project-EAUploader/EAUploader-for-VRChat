@@ -1,6 +1,6 @@
 {
   "name": "com.sabuworks.eauploader",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "displayName": "Easy Avatar Uploader for VRChat",
   "description": "Tools for more concise and easier uploading of avatars. Under development",
   "unity": "2022.3",

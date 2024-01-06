@@ -1,4 +1,7 @@
+<t>Converting VRM</t>
 <txt>
-<size=20>What is converting VRM? </size>
-<size=14>VRM is missing something necessary for uploading avatars to VRChat. Therefore, you will need to do a conversion to add what you need to upload.</size>
+<size=14>    VRChat does not support VRM. You need to use a conversion tool to support VRChat.
+EAUploader automatically adds VRM Converter for VRChat (created by Pokemori) to your project.
+Use the convert button to convert for VRChat.</size>
 </txt>
+<button>Source Page, Link, https://booth.pm/ja/items/1025226</button>

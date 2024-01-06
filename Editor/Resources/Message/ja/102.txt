@@ -1,4 +1,7 @@
+<t>VRMを変換する</t>
 <txt>
-<size=20>VRMを変換するとは</size>
-<size=14>VRMにはVRChatにアバターをアップロードする上で必要なものが足りていません。そのため、アップロードするには必要なものを追加する変換をする必要があります。</size>
+<size=14>　VRChatはVRMをサポートしていません。変換ツールを使用してVRChatに対応させる必要があります。EAUploaderでは、VRM Converter for VRChat を自動でプロジェクトに追加しています。
+
+変換ボタンを使用し、VRChat用に変換してください。</size>
 </txt>
+<button>配布元ページ, Link, https://booth.pm/ja/items/1025226</button>

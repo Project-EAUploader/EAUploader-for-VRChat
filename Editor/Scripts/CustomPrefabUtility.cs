@@ -30,6 +30,17 @@ public static class CustomPrefabUtility
     public static void UpdatePrefabInfo()
     {
         var allPrefabs = GetAllPrefabs();
+
+        // "editing" sort
+        allPrefabs.Sort((a, b) =>
+        {
+            if (a.Status == "editing" && b.Status != "editing")
+                return -1;
+            if (a.Status != "editing" && b.Status == "editing")
+                return 1;
+            return 0;
+        });
+
         SavePrefabsInfo(allPrefabs, PrefabsInfoPath);
     }
 
