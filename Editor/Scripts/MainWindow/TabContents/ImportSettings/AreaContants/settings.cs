@@ -13,8 +13,8 @@ public class Settings
 {
     private string[] languages = { "English", "日本語" };
     private int selectedLanguageIndex;
-    private string settingsPath ="Packages/com.sabuworks.eauploader/settings.json";
-    private string packageJsonPath ="Packages/com.sabuworks.eauploader/package.json";
+    private string settingsPath ="Packages/tech.uslog.eauploader/settings.json";
+    private string packageJsonPath ="Packages/tech.uslog.eauploader/package.json";
 
     public Settings()
     {

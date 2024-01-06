@@ -34,7 +34,7 @@ public class LibraryIndexer
     public static void CreateIndex()
     {
         currentLanguage = LanguageUtility.GetCurrentLanguage();
-        string articlesFolderPath = $"Packages/com.sabuworks.eauploader/Editor/EALibrary/Articles/EAUploader/{currentLanguage}";
+        string articlesFolderPath = $"Packages/tech.uslog.eauploader/Editor/EALibrary/Articles/EAUploader/{currentLanguage}";
         string[] jsonFiles = Directory.GetFiles(articlesFolderPath, "*.json", SearchOption.AllDirectories);
 
         List<ArticleIndex> indexList = new List<ArticleIndex>();
@@ -49,7 +49,7 @@ public class LibraryIndexer
                 Tags = article.tags
             });
         }
-        string indexFilePath = "Packages/com.sabuworks.eauploader/Editor/EALibrary/library_index.json";
+        string indexFilePath = "Packages/tech.uslog.eauploader/Editor/EALibrary/library_index.json";
         File.WriteAllText(indexFilePath, JsonConvert.SerializeObject(indexList, Formatting.Indented));
 
         // タグの収集
@@ -98,7 +98,7 @@ public class EALibrary
 
     private void LoadTags()
     {
-        string indexFilePath = "Packages/com.sabuworks.eauploader/Editor/EALibrary/library_index.json";
+        string indexFilePath = "Packages/tech.uslog.eauploader/Editor/EALibrary/library_index.json";
         if (File.Exists(indexFilePath))
         {
             string indexJson = File.ReadAllText(indexFilePath);
@@ -300,7 +300,7 @@ public class EALibrary
 
     private void SearchArticles(string query, string orderTag)
     {
-        string indexFilePath = "Packages/com.sabuworks.eauploader/Editor/EALibrary/library_index.json";
+        string indexFilePath = "Packages/tech.uslog.eauploader/Editor/EALibrary/library_index.json";
         string indexJson = File.ReadAllText(indexFilePath);
         List<ArticleIndex> indexList = JsonConvert.DeserializeObject<List<ArticleIndex>>(indexJson);
 
@@ -495,6 +495,6 @@ public class EALibrary
 
     private string GetArticlesFolderPath()
     {
-        return $"Packages/com.sabuworks.eauploader/Editor/EALibrary/Articles/EAUploader/{currentLanguage}";
+        return $"Packages/tech.uslog.eauploader/Editor/EALibrary/Articles/EAUploader/{currentLanguage}";
     }
 }

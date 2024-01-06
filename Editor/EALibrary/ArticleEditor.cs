@@ -152,7 +152,7 @@ public class ArticleEditor : EditorWindow
             newFolderName = "";
         }
 
-        string editingPath = "Packages/com.sabuworks.eauploader/Editor/EALibrary/Articles/Editing";
+        string editingPath = "Packages/tech.uslog.eauploader/Editor/EALibrary/Articles/Editing";
         DisplayFolders(editingPath, width);
     }
 
@@ -173,7 +173,7 @@ public class ArticleEditor : EditorWindow
 
     private void CreateNewFolder(string folderName)
     {
-        string path = Path.Combine("Packages/com.sabuworks.eauploader/Editor/EALibrary/Articles/Editing", folderName);
+        string path = Path.Combine("Packages/tech.uslog.eauploader/Editor/EALibrary/Articles/Editing", folderName);
         if (Directory.Exists(path))
         {
             EditorUtility.DisplayDialog("Error", "A folder with the same name already exists.", "OK");

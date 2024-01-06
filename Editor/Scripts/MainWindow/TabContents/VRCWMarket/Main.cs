@@ -19,7 +19,7 @@ namespace VRCWMarketPlace
         private static List<Product> products = new List<Product>();
         private static List<Product> markedProducts = new List<Product>();
         private static UnityWebRequest currentRequest = null;
-        private static string jsonFilePath = "Packages/com.sabuworks.eauploader/Editor/Scripts/MainWindow/TabContents/VRCWMarket/index.json";
+        private static string jsonFilePath = "Packages/tech.uslog.eauploader/Editor/Scripts/MainWindow/TabContents/VRCWMarket/index.json";
         private const string ThumbnailDirectory = "Assets/EAUploader/MarketThumbnails/";
         private const string MyListThumbnailDirectory = "Assets/EAUploader/MyList/";
         private static string markFilePath = "Assets/EAUploader/mark.json";

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class icons
 {
-    private static readonly string iconFolderPath = "Packages/com.sabuworks.eauploader/Editor/Resources/icons/";
+    private static readonly string iconFolderPath = "Packages/tech.uslog.eauploader/Editor/Resources/icons/";
 
     public static Texture2D GetIcon(string fileName)
     {

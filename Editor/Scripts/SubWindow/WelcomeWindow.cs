@@ -13,7 +13,7 @@ using static labels;
 public class WelcomeWindow : EditorWindow
 {
     private string remotePackageUrl = "https://raw.githubusercontent.com/Project-EAUploader/EAUploader-for-VRChat/main/package.json";
-    private string localPackagePath = "Packages/com.sabuworks.eauploader/package.json";
+    private string localPackagePath = "Packages/tech.uslog.eauploader/package.json";
     private string remoteVersion;
     private string localVersion;
 

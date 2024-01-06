@@ -37,7 +37,7 @@ public class labels
 
     private static void LoadTranslations()
     {
-        string basePath = "Packages/com.sabuworks.eauploader/Editor/Resources/Translation";
+        string basePath = "Packages/tech.uslog.eauploader/Editor/Resources/Translation";
         string translationFilePath = Path.Combine(basePath, $"translations_{language}.json");
 
         if (File.Exists(translationFilePath))
