@@ -11,7 +11,7 @@ using static labels;
 public class DiscordWebhookSender : EditorWindow
 {
     private string webhookUrl = "https://discord.com/api/webhooks/1188319133574635642/TFZxaCa3jea50kGNjv1H5WrMgUpRaNdekJ30eGfzo01ZAMp-H1B7cxLQ_92ZZp3bEas-";
-    private static string title = "";
+    private static string feedbacktitle = "";
     private static string authorName = "";
     private static string emailAddress = "";
     private static string messageContent = "";
@@ -20,7 +20,7 @@ public class DiscordWebhookSender : EditorWindow
     public static void OpenDiscordWebhookSenderWindow()
     {
         GetWindow<DiscordWebhookSender>("Feedback").minSize = new Vector2(400, 200);
-        title = "";
+        feedbacktitle = "";
         messageContent = "";
     }
 
@@ -42,7 +42,7 @@ public class DiscordWebhookSender : EditorWindow
         emailAddress = GUILayout.TextField(emailAddress, TextFieldStyle);
 
         GUILayout.Label(Get(703), NoMarginh5BlackLabelStyle);
-        title = GUILayout.TextField(title, TextFieldStyle);
+        feedbacktitle = GUILayout.TextField(feedbacktitle, TextFieldStyle);
 
         GUILayout.Label(Get(704), NoMarginh5BlackLabelStyle);
         messageContent = GUILayout.TextArea(messageContent, TextAreaStyle, GUILayout.Height(200));
@@ -64,7 +64,7 @@ public class DiscordWebhookSender : EditorWindow
             if (!isEmptyMessage)
             {
                 sentFeedback = true;
-                SendMessageToDiscord(webhookUrl, title, authorName, emailAddress, messageContent);
+                SendMessageToDiscord(webhookUrl, feedbacktitle, authorName, emailAddress, messageContent);
             }
         }
         if (sentFeedback)

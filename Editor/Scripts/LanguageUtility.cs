@@ -10,7 +10,7 @@ public static class LanguageUtility
     public static string GetCurrentLanguage()
     {
         // Debug.Log("GetCurrentLanguage called");
-        string settingsPath = @"Packages\com.sabuworks.eauploader\settings.json";
+        string settingsPath = "Packages/tech.uslog.eauploader/settings.json";
         // Debug.Log($"Settings path: {settingsPath}");
 
         if (File.Exists(settingsPath))
