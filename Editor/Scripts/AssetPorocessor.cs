@@ -12,7 +12,7 @@ public class AssetImportProcessor : AssetPostprocessor
         "Assets/EAUploader/MarketThumbnails",
         "Assets/EAUploader/MyList",
         "Packages/tech.uslog.eauploader/Editor/Resources/Info",
-        "Packages/com.subuworks.eauploader/Editor/Resources/icons"
+        "Packages/tech.uslog.eauploader/Editor/Resources/icons"
     };
 
     public void OnEditorLoad()

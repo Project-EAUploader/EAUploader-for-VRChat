@@ -15,13 +15,13 @@ public static class AvatarWorldTabDrawer
 
         float areaHeight = (position.height - BorderHeight * 3) / 4;
 
-        DrawArea(position, 0, areaHeight, "Booth", $"{language}/Booth.txt", "Packages/com.sabuworks.eauploader/Editor/Scripts/MainWindow/TabContents/AvatarWorld/AreaContents/Thumbnail/Booth_logo.png", "https://booth.pm/ja/items?tags%5B%5D=VRChat", 0);
+        DrawArea(position, 0, areaHeight, "Booth", $"{language}/Booth.txt", "Packages/tech.uslog.eauploader/Editor/Scripts/MainWindow/TabContents/AvatarWorld/AreaContents/Thumbnail/Booth_logo.png", "https://booth.pm/ja/items?tags%5B%5D=VRChat", 0);
         EditorGUI.DrawRect(new Rect(0, areaHeight, position.width, BorderHeight), Color.gray);
 
-        DrawArea(position, areaHeight + BorderHeight, areaHeight, "EDEN", $"{language}/EDEN.txt", "Packages/com.sabuworks.eauploader/Editor/Scripts/MainWindow/TabContents/AvatarWorld/AreaContents/Thumbnail/EDEN.png", "https://eden-world.net/market/", 1);
+        DrawArea(position, areaHeight + BorderHeight, areaHeight, "EDEN", $"{language}/EDEN.txt", "Packages/tech.uslog.eauploader/Editor/Scripts/MainWindow/TabContents/AvatarWorld/AreaContents/Thumbnail/EDEN.png", "https://eden-world.net/market/", 1);
         EditorGUI.DrawRect(new Rect(0, 2 * areaHeight + BorderHeight, position.width, BorderHeight), Color.gray);
 
-        DrawArea(position, 2 * areaHeight + 2 * BorderHeight, areaHeight, "VRChatの世界", $"{language}/vrcw.txt", "Packages/com.sabuworks.eauploader/Editor/Scripts/MainWindow/TabContents/AvatarWorld/AreaContents/Thumbnail/vrcw.png", "https://www.vrcw.net/", 2);
+        DrawArea(position, 2 * areaHeight + 2 * BorderHeight, areaHeight, "VRChatの世界", $"{language}/vrcw.txt", "Packages/tech.uslog.eauploader/Editor/Scripts/MainWindow/TabContents/AvatarWorld/AreaContents/Thumbnail/vrcw.png", "https://www.vrcw.net/", 2);
         EditorGUI.DrawRect(new Rect(0, 3 * areaHeight + 2 * BorderHeight, position.width, BorderHeight), Color.gray);
 
         GUILayout.BeginArea(new Rect(0, 3 * areaHeight + 3 * BorderHeight, position.width, areaHeight));
@@ -32,7 +32,7 @@ public static class AvatarWorldTabDrawer
     private static void DrawArea(Rect position, float startY, float height, string areaName, string textFilePath, string imagePath, string link, int areaIndex)
     {
         float halfWidth = (position.width - BorderHeight) / 2;
-        string filePath = $"Packages/com.sabuworks.eauploader/Editor/Scripts/MainWindow/TabContents/AvatarWorld/AreaContents/{textFilePath}";
+        string filePath = $"Packages/tech.uslog.eauploader/Editor/Scripts/MainWindow/TabContents/AvatarWorld/AreaContents/{textFilePath}";
         string content = File.ReadAllText(filePath);
 
         GUILayout.BeginArea(new Rect(0, startY, halfWidth, height));
