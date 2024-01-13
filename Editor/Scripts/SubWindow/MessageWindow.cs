@@ -21,7 +21,7 @@ public class EAUploaderMessageWindow : EditorWindow
     private void LoadMsg(int msgNum)
     {
         string language = LanguageUtility.GetCurrentLanguage();
-        string filePath = $"Packages/com.sabuworks.eauploader/Editor/Resources/Message/{language}/{msgNum}.txt";
+        string filePath = $"Packages/tech.uslog.eauploader/Editor/Resources/Message/{language}/{msgNum}.txt";
         if (File.Exists(filePath))
         {
             content = File.ReadAllText(filePath);

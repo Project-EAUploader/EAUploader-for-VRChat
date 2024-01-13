@@ -51,7 +51,7 @@ namespace EAUploaderEditors
 
             if (GUILayout.Button(Getc("open_in_browser", 172), MainButtonStyle))
             {
-                Application.OpenURL("https://uslog.tech/eauploader");
+                Application.OpenURL("https://www.uslog.tech/eauploader-plug-ins");
             }
 
             GUILayout.EndScrollView();

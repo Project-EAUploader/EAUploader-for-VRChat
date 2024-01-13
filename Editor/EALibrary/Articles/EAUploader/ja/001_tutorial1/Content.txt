@@ -32,3 +32,6 @@
 <size=16>このツールについては以上です。
 次は、アバターのインポートについての説明です。</size>
 </txt>
+<button>Discordへ参加する, Main, https://discord.gg/mkDJ7xm94Z</button>
+<button>開発者 X / Twitter をフォロー, Sub, https://twitter.com/intent/follow?screen_name=fu_virtual</button>
+<button>Webへ行く, Sub, https://uslog.tech/eauploader</button>

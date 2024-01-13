@@ -1,6 +1,6 @@
 /*
 
-    自動更新機能検討中
+    自動更新機能はインストーラーで代替
 
 using UnityEngine;
 using UnityEditor;

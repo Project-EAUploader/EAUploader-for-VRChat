@@ -150,6 +150,8 @@ internal class EAUploader : EditorWindow
 
         float buttonWidth = this.position.width / tabNames.Length;
 
+        Color selectedTabColor = new Color(0.7f, 0.8f, 1.0f);
+        
         GUILayout.BeginArea(new Rect(0, 0, this.position.width, this.position.height * 0.05f));
         GUILayout.BeginHorizontal();
         for (int i = 0; i < tabNames.Length; i++)
@@ -157,9 +159,25 @@ internal class EAUploader : EditorWindow
             Texture2D icon = icons.GetIcon(tabIcons[i]);
             GUIContent content = new GUIContent(tabNames[i], icon);
 
-            if (GUILayout.Button(content, styles.TabButtonStyle, GUILayout.Width(buttonWidth)))
+            if (selectedTabIndex == i)
             {
-                ChangeTab(i);
+                Color originalColor = GUI.backgroundColor;
+
+                GUI.backgroundColor = selectedTabColor;
+
+                if (GUILayout.Button(content, styles.TabButtonStyle, GUILayout.Width(buttonWidth)))
+                {
+                    ChangeTab(i);
+                }
+
+                GUI.backgroundColor = originalColor;
+            }
+            else
+            {
+                if (GUILayout.Button(content, styles.TabButtonStyle, GUILayout.Width(buttonWidth)))
+                {
+                    ChangeTab(i);
+                }
             }
         }
         GUILayout.EndHorizontal();
