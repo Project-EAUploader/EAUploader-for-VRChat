@@ -112,12 +112,6 @@ public static class CustomPrefabUtility
         return "Other";
     }
 
-    private static bool IsVrchatAvatar(string path)
-    {
-        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-        return prefab != null && prefab.GetComponent("VRC_AvatarDescriptor") != null;
-    }
-
     public static void SavePrefabsInfo(List<PrefabInfo> prefabs, string filePath)
     {
         string directory = Path.GetDirectoryName(filePath);

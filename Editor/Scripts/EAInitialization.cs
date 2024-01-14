@@ -14,8 +14,8 @@ public class CombinedInitialization
     /// <summary>
     /// Unity起動時からのEAUplaoderの処理はここから呼び出す
     /// </summary>
-    [InitializeOnLoadMethod]
-    private static void CombinedOnLoad()
+    // [InitializeOnLoadMethod]
+    public static void CombinedOnLoad()
     {
         EditorUtility.DisplayProgressBar("Initialization", "Initializing CustomPrefabUtility...", 0.0f);
         EnsurePrefabManagerExists();

@@ -11,7 +11,6 @@ public class AssetImportProcessor : AssetPostprocessor
         "Assets/EAUploader/PrefabPreviews",
         "Assets/EAUploader/MarketThumbnails",
         "Assets/EAUploader/MyList",
-        "Packages/tech.uslog.eauploader/Editor/Resources/Info",
         "Packages/tech.uslog.eauploader/Editor/Resources/icons"
     };
 
