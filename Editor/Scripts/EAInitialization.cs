@@ -14,7 +14,7 @@ public class CombinedInitialization
     /// <summary>
     /// Unity起動時からのEAUplaoderの処理はここから呼び出す
     /// </summary>
-    // [InitializeOnLoadMethod]
+    [InitializeOnLoadMethod]
     public static void CombinedOnLoad()
     {
         EditorUtility.DisplayProgressBar("Initialization", "Initializing CustomPrefabUtility...", 0.0f);
@@ -26,7 +26,6 @@ public class CombinedInitialization
         AssetImportProcessorOnEditorLoad();
         EditorUtility.DisplayProgressBar("Initialization", "Initializing EAUploader...", 0.6f);
         EAUploaderInitializeOnLoad();
-        EditorApplication.ExecuteMenuItem("EAUploader/MainWindow");
         EditorUtility.DisplayProgressBar("Initialization", "Initializing ShaderChecker...", 0.8f);
         ShaderCheckerOnLoad();
         EditorUtility.ClearProgressBar();
