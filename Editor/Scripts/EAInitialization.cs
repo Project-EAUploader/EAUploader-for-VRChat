@@ -26,6 +26,7 @@ public class CombinedInitialization
         AssetImportProcessorOnEditorLoad();
         EditorUtility.DisplayProgressBar("Initialization", "Initializing EAUploader...", 0.6f);
         EAUploaderInitializeOnLoad();
+        EditorApplication.ExecuteMenuItem("EAUploader/MainWindow");
         EditorUtility.DisplayProgressBar("Initialization", "Initializing ShaderChecker...", 0.8f);
         ShaderCheckerOnLoad();
         EditorUtility.ClearProgressBar();
