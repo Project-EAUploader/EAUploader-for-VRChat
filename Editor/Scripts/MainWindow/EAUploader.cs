@@ -16,7 +16,6 @@ public static class EasyUploaderMenu
     [MenuItem("EAUploader/MainWindow _%#e")]
     public static void ShowEasyUploaderWindow()
     {
-        CombinedInitialization.CombinedOnLoad();
         EAUploader.ShowWindow();
     }
 }

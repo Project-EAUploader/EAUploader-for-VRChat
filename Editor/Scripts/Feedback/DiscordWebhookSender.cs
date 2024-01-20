@@ -10,7 +10,7 @@ using static labels;
 
 public class DiscordWebhookSender : EditorWindow
 {
-    private string webhookUrl = "https://discord.com/api/webhooks/1188319133574635642/TFZxaCa3jea50kGNjv1H5WrMgUpRaNdekJ30eGfzo01ZAMp-H1B7cxLQ_92ZZp3bEas-";
+    private string webhookUrl = "https://discord.com/api/webhooks/1197382760873074728/CNcOYFDeVcIQbLm2pHoSlxIsZMJzxPKhUfGbG2ObKwD9XMXNzvsXHc4A21NKIz-Tz37D";
     private static string feedbacktitle = "";
     private static string authorName = "";
     private static string emailAddress = "";

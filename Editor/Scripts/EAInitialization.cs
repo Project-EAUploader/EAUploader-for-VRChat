@@ -8,14 +8,49 @@ using static CustomPrefabUtility;
 using static AssetImportProcessor;
 using static EAUploaderEditorManager;
 using static ShaderChecker;
+using VRC.SDK3A.Editor;
 
+[InitializeOnLoad]
 public class CombinedInitialization
 {
-    /// <summary>
-    /// Unity起動時からのEAUplaoderの処理はここから呼び出す
-    /// </summary>
+    static bool isBuilding = false;
+
+    static CombinedInitialization()
+    {
+        CombinedOnLoad();
+    }
+
     [InitializeOnLoadMethod]
-    public static void CombinedOnLoad()
+    private static void CombinedOnLoad()
+    {
+        RegisterBuildEvents();
+        if (!isBuilding)
+        {
+            PerformInitialization();
+        }
+    }
+
+    private static void RegisterBuildEvents()
+    {
+        if (VRCSdkControlPanel.TryGetBuilder<IVRCSdkAvatarBuilderApi>(out var builder))
+        {
+            builder.OnSdkBuildStart += OnBuildStart;
+            builder.OnSdkBuildFinish += OnBuildFinish;
+        }
+    }
+
+    private static void OnBuildStart(object sender, object target)
+    {
+        isBuilding = true;
+    }
+
+    private static void OnBuildFinish(object sender, object target)
+    {
+        isBuilding = false;
+        PerformInitialization();
+    }
+
+    private static void PerformInitialization()
     {
         EditorUtility.DisplayProgressBar("Initialization", "Initializing CustomPrefabUtility...", 0.0f);
         EnsurePrefabManagerExists();
@@ -29,7 +64,7 @@ public class CombinedInitialization
         EditorUtility.DisplayProgressBar("Initialization", "Initializing ShaderChecker...", 0.8f);
         ShaderCheckerOnLoad();
         EditorUtility.ClearProgressBar();
-
+        EditorApplication.ExecuteMenuItem("EAUploader/MainWindow");
         // UpdateManager.ShowWindow(); 検討中
     }
 
