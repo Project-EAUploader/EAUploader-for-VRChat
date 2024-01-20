@@ -11,6 +11,7 @@ using VRCWMarketPlace;
 using static labels;
 using static styles;
 
+[InitializeOnLoad]
 public static class EasyUploaderMenu
 {
     [MenuItem("EAUploader/MainWindow _%#e")]
