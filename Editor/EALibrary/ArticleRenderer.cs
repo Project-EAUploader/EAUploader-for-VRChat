@@ -1,3 +1,4 @@
+#if !EA_ONBUILD
 using UnityEditor;
 using UnityEngine;
 using System.IO;
@@ -391,3 +392,4 @@ public class ArticleRenderer
         Section
     }
 }
+#endif

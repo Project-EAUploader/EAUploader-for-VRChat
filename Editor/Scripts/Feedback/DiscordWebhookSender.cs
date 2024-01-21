@@ -1,3 +1,4 @@
+#if !EA_ONBUILD
 using UnityEngine;
 using UnityEditor;
 using System.Collections;
@@ -149,3 +150,4 @@ public class DiscordWebhookSender : EditorWindow
                     .Replace("\f", "\\f");
     }
 }
+#endif

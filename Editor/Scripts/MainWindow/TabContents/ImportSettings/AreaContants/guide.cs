@@ -1,3 +1,4 @@
+#if !EA_ONBUILD
 using UnityEditor;
 using UnityEngine;
 
@@ -13,3 +14,4 @@ public class Guide
         library.Draw(libraryArea);
     }
 }
+#endif

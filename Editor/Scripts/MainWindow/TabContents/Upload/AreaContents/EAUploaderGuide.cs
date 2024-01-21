@@ -1,3 +1,4 @@
+#if !EA_ONBUILD
 using UnityEditor;
 using UnityEngine;
 using static labels;
@@ -13,4 +14,4 @@ public class EAUploaderGuide
         library.DrawPrivateLibrary(libraryArea, "VRChatSDK", 100);
     }
 }
-
+#endif
