@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using System.IO;
+using System.Linq;
 using static EAUploader;
 using static CustomPrefabUtility;
 using static AssetImportProcessor;
@@ -10,7 +11,7 @@ using static EAUploaderEditorManager;
 using static ShaderChecker;
 using VRC.SDK3A.Editor;
 
-[InitializeOnLoadMethod]
+[InitializeOnLoad]
 public class CombinedInitialization
 {
     static bool isBuilding = false;
@@ -20,6 +21,7 @@ public class CombinedInitialization
         CombinedOnLoad();
     }
 
+    [InitializeOnLoadMethod]
     private static void CombinedOnLoad()
     {
         RegisterBuildEvents();
