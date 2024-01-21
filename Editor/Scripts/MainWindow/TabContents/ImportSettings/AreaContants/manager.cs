@@ -1,3 +1,4 @@
+#if !EA_ONBUILD
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
@@ -255,4 +256,4 @@ public class ConfirmationPopup : EditorWindow
         EditorGUILayout.EndHorizontal();
     }
 }
-
+#endif

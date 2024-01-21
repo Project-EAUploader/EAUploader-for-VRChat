@@ -1,3 +1,4 @@
+#if !EA_ONBUILD
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -289,3 +290,4 @@ internal class EAUploader : EditorWindow
         selectedTabIndex = Tabnum;
     }
 }
+#endif

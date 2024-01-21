@@ -1,3 +1,4 @@
+#if !EA_ONBUILD
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
@@ -96,4 +97,4 @@ namespace EAUploaderEditors
         }
     }
 }
-
+#endif

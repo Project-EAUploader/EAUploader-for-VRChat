@@ -1,3 +1,4 @@
+#if !EA_ONBUILD
 using UnityEngine;
 using UnityEditor;
 
@@ -28,3 +29,4 @@ public static class UploadTabDrawer
         GUILayout.EndHorizontal();
     }
 }
+#endif

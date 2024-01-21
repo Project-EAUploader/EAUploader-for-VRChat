@@ -1,3 +1,4 @@
+#if !EA_ONBUILD
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.Networking;
@@ -1061,3 +1062,4 @@ namespace VRCWMarketPlace
         }
     }
 }
+#endif

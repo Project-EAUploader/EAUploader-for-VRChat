@@ -1,3 +1,4 @@
+#if !EA_ONBUILD
 using UnityEditor;
 using UnityEngine;
 using static styles;
@@ -85,3 +86,4 @@ public class Tab0
         GUILayout.EndHorizontal(); // 全体の水平分割終了
     }
 }
+#endif

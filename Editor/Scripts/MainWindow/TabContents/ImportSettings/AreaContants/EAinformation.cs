@@ -1,3 +1,4 @@
+/*
 using UnityEditor;
 using UnityEngine;
 using System.IO;
@@ -142,3 +143,4 @@ public static class EAInfo
         timer = 0;
     }
 }
+*/

@@ -1,3 +1,4 @@
+#if !EA_ONBUILD
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
@@ -177,3 +178,4 @@ public class EABuilder
         return true;
     }
 }
+#endif

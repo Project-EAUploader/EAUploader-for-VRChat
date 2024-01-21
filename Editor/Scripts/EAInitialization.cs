@@ -1,3 +1,4 @@
+#if !EA_ONBUILD
 using UnityEditor;
 using UnityEngine;
 using UnityEditor.SceneManagement;
@@ -130,3 +131,4 @@ public class CombinedInitialization
         }
     }
 }
+#endif

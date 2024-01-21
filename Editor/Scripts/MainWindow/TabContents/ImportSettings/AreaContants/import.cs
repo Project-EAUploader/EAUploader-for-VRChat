@@ -1,3 +1,4 @@
+#if !EA_ONBUILD
 using UnityEditor;
 using UnityEngine;
 using System.IO;
@@ -173,3 +174,4 @@ public class Import
         GUILayout.EndArea();
     }
 }
+#endif

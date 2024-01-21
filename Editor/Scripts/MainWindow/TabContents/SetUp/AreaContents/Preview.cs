@@ -1,3 +1,4 @@
+#if !EA_ONBUILD
 using UnityEngine;
 using UnityEditor;
 using static labels;
@@ -181,3 +182,4 @@ public static class Preview
         previewOffset = Vector2.zero;
     }
 }
+#endif

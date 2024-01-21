@@ -1,3 +1,4 @@
+#if !EA_ONBUILD
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
@@ -156,3 +157,4 @@ public class EditorRegistration
     public string Author { get; set; }
     public string Url { get; set; }
 }
+#endif
