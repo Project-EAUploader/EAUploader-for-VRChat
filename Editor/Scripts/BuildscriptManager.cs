@@ -1,4 +1,3 @@
-/*
 using UnityEngine;
 using UnityEditor;
 using System;
@@ -12,8 +11,7 @@ public class BuildScriptManager
     private static string[] scriptPaths = new string[]
     {
         "Packages/tech.uslog.eauploader/Editor/Scripts/EAInitialization.cs",
-        "Packages/tech.uslog.eauploader/Editor/Scripts/MainWindow/EAUploader.cs",
-        "Packages/tech.uslog.eauploader/Editor/Scripts/CustomPrefabUtility.cs"
+        "Packages/tech.uslog.eauploader/Editor/Scripts/MainWindow/EAUploader.cs"
     };
 
     static BuildScriptManager()
@@ -58,4 +56,3 @@ public class BuildScriptManager
         AssetDatabase.Refresh();
     }
 }
-*/
