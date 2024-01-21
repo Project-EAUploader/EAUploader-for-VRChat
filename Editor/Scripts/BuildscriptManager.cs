@@ -1,3 +1,4 @@
+/*
 using UnityEngine;
 using UnityEditor;
 using System;
@@ -57,3 +58,4 @@ public class BuildScriptManager
         AssetDatabase.Refresh();
     }
 }
+*/
