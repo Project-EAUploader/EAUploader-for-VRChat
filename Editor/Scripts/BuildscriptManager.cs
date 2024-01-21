@@ -7,7 +7,13 @@ using VRC.SDK3A.Editor;
 [InitializeOnLoad]
 public class BuildScriptManager
 {
-    private static string scriptPath = "Packages/tech.uslog.eauploader/Editor/Scripts/EAInitialization.cs";
+    // 複数のスクリプトファイルパスを管理する配列
+    private static string[] scriptPaths = new string[]
+    {
+        "Packages/tech.uslog.eauploader/Editor/Scripts/EAInitialization.cs",
+        "Packages/tech.uslog.eauploader/Editor/Scripts/MainWindow/EAUploader.cs",
+        "Packages/tech.uslog.eauploader/Editor/Scripts/CustomPrefabUtility.cs"
+    };
 
     static BuildScriptManager()
     {
@@ -25,22 +31,29 @@ public class BuildScriptManager
 
     private static void OnBuildStart(object sender, object target)
     {
-        if (File.Exists(scriptPath))
+        EAUploader.CloseWindow();
+        foreach (var scriptPath in scriptPaths)
         {
-            File.Move(scriptPath, scriptPath + ".disabled");
-            AssetDatabase.Refresh();
-            Debug.Log("Build started. Script disabled.");
+            if (File.Exists(scriptPath))
+            {
+                File.Move(scriptPath, scriptPath + ".disabled");
+                Debug.Log("Build started. Script disabled: " + scriptPath);
+            }
         }
+        AssetDatabase.Refresh();
     }
 
     private static void OnBuildFinish(object sender, object target)
     {
-        string disabledScriptPath = scriptPath + ".disabled";
-        if (File.Exists(disabledScriptPath))
+        foreach (var scriptPath in scriptPaths)
         {
-            File.Move(disabledScriptPath, scriptPath);
-            AssetDatabase.Refresh();
-            Debug.Log("Build finished. Script enabled.");
+            string disabledScriptPath = scriptPath + ".disabled";
+            if (File.Exists(disabledScriptPath))
+            {
+                File.Move(disabledScriptPath, scriptPath);
+                Debug.Log("Build finished. Script enabled: " + scriptPath);
+            }
         }
+        AssetDatabase.Refresh();
     }
 }

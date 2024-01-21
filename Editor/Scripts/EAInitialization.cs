@@ -10,7 +10,7 @@ using static EAUploaderEditorManager;
 using static ShaderChecker;
 using VRC.SDK3A.Editor;
 
-[InitializeOnLoad]
+[InitializeOnLoadMethod]
 public class CombinedInitialization
 {
     static bool isBuilding = false;
@@ -20,7 +20,6 @@ public class CombinedInitialization
         CombinedOnLoad();
     }
 
-    [InitializeOnLoadMethod]
     private static void CombinedOnLoad()
     {
         RegisterBuildEvents();
@@ -64,7 +63,7 @@ public class CombinedInitialization
         EditorUtility.DisplayProgressBar("Initialization", "Initializing ShaderChecker...", 0.8f);
         ShaderCheckerOnLoad();
         EditorUtility.ClearProgressBar();
-        EditorApplication.ExecuteMenuItem("EAUploader/MainWindow");
+        OpenEAUploaderWindow();
         // UpdateManager.ShowWindow(); 検討中
     }
 
@@ -106,5 +105,26 @@ public class CombinedInitialization
     private static void ShaderCheckerOnLoad()
     {
         OnShaderChecker();
+    }
+
+    private static void OpenEAUploaderWindow()
+    {
+        // 既存のウィンドウを検索
+        var windows = Resources.FindObjectsOfTypeAll<EditorWindow>()
+            .Where(window => window.GetType().Name == "EAUploader").ToList();
+
+        Debug.Log($"EAUploader windows found: {windows.Count}");
+
+        if (windows.Count == 0)
+        {
+            Debug.Log("Attempting to open EAUploader...");
+            bool result = EditorApplication.ExecuteMenuItem("EAUploader/MainWindow");
+            Debug.Log($"EAUploader opened: {result}");
+        }
+        else
+        {
+            Debug.Log("Focusing on existing EAUploader window.");
+            windows[0].Focus();
+        }
     }
 }
