@@ -39,6 +39,10 @@ public class CombinedInitialization
             builder.OnSdkBuildStart += OnBuildStart;
             builder.OnSdkBuildFinish += OnBuildFinish;
         }
+        else
+        {
+            Debug.LogWarning("VRChat SDK window is not open. Skipping VRCSdkControlPanel setup.");
+        }
     }
 
     private static void OnBuildStart(object sender, object target)

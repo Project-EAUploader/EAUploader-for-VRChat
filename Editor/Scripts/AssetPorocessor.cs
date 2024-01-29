@@ -22,6 +22,8 @@ public class AssetImportProcessor : AssetPostprocessor
 
     void OnPreprocessTexture()
     {
+        if (assetPath == null || assetImporter == null) return;
+
         foreach (var path in targetFolderPaths)
         {
             if (assetPath.Contains(path))

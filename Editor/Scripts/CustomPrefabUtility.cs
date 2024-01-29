@@ -424,6 +424,12 @@ public static class CustomPrefabUtility
 
     public static Texture2D GeneratePreview(GameObject prefab)
     {
+        if (prefab == null)
+        {
+            Debug.LogError("GeneratePreview called with null prefab.");
+            return null;
+        }
+
         Scene tempScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
         GameObject cameraObject = null;
         GameObject lightObject = null;
@@ -435,68 +441,56 @@ public static class CustomPrefabUtility
             instance.transform.position = Vector3.zero;
             SceneManager.MoveGameObjectToScene(instance, tempScene);
 
-            // EAUploader シーンをロード
             if (EditorSceneManager.GetActiveScene().path != EAUploaderScenePath)
             {
                 EditorSceneManager.OpenScene(EAUploaderScenePath, OpenSceneMode.Single);
             }
 
-            // シーン内の他のオブジェクトを非表示にする
             Scene currentScene = SceneManager.GetSceneByPath(EAUploaderScenePath);
             foreach (GameObject obj in currentScene.GetRootGameObjects())
             {
                 obj.SetActive(false);
             }
 
-            // プレファブをインスタンス化してシーンに設置
             instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
             instance.transform.position = Vector3.zero;
             SceneManager.MoveGameObjectToScene(instance, currentScene);
 
-            // バウンディングボックスを計算
             Bounds bounds = CalculateBounds(instance);
 
-            // プレビュー用のカメラを設定
             cameraObject = new GameObject("EAUploader Preview Camera");
             var camera = cameraObject.AddComponent<Camera>();
             camera.backgroundColor = new Color(0.9f, 0.9f, 0.9f, 1);
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.orthographic = true;
 
-            // カメラのアスペクト比を設定
             camera.aspect = bounds.size.x / bounds.size.y;
             camera.orthographicSize = bounds.size.y / 2;
 
             camera.transform.position = bounds.center + camera.transform.forward * bounds.extents.magnitude * 2;
             camera.transform.LookAt(bounds.center);
 
-            // プレビュー用のライトを設定
             lightObject = new GameObject("EAUploader Preview Light");
             var light = lightObject.AddComponent<Light>();
             light.type = LightType.Directional;
             light.intensity = 1f;
             light.color = Color.white;
 
-            // ライトの位置と向きをカメラに合わせる
             light.transform.position = camera.transform.position;
             light.transform.rotation = camera.transform.rotation;
 
-            // レンダリング解像度を設定
-            int imageHeight = 540;
-            int imageWidth = (int)(imageHeight * camera.aspect);
+            int imageHeight = Mathf.Max(1, 540);
+            int imageWidth = Mathf.Max(1, (int)(imageHeight * camera.aspect));
 
-            // プレビュー画像をレンダリング
             RenderTexture renderTexture = new RenderTexture(imageWidth, imageHeight, 24);
             camera.targetTexture = renderTexture;
             RenderTexture.active = renderTexture;
             camera.Render();
 
-            // 画像をTexture2Dに変換
             Texture2D preview = new Texture2D(imageWidth, imageHeight, TextureFormat.RGBA32, false);
             preview.ReadPixels(new Rect(0, 0, imageWidth, imageHeight), 0, 0);
             preview.Apply();
 
-            // クリーンアップ
             RenderTexture.active = null;
             UnityEngine.Object.DestroyImmediate(cameraObject);
             UnityEngine.Object.DestroyImmediate(instance);
@@ -511,7 +505,6 @@ public static class CustomPrefabUtility
         }
         finally
         {
-            // クリーンアップ
             if (cameraObject != null) UnityEngine.Object.DestroyImmediate(cameraObject);
             if (lightObject != null) UnityEngine.Object.DestroyImmediate(lightObject);
             if (instance != null) UnityEngine.Object.DestroyImmediate(instance);
@@ -550,7 +543,7 @@ public static class CustomPrefabUtility
         // デフォルト
         return 0f;
     }
-
+    
     public static void Processor(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
     {
         bool shouldRefresh = false;
