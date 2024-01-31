@@ -419,8 +419,16 @@ public static class CustomPrefabUtility
             Directory.CreateDirectory(directoryPath);
         }
 
-        byte[] pngData = preview.EncodeToPNG();
-        File.WriteAllBytes(savePath, pngData);
+        try
+        {
+            byte[] pngData = preview.EncodeToPNG();
+            File.WriteAllBytes(savePath, pngData);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error saving preview for prefab: {prefabPath}. \nError: {e.Message}");
+            return;
+        }
     }
 
     public static Texture2D GeneratePreview(GameObject prefab)
