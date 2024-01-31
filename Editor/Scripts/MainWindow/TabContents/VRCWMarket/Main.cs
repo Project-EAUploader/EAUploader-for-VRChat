@@ -604,6 +604,11 @@ namespace VRCWMarketPlace
             Product product = products[index];
             string imagePath = ThumbnailDirectory + product.id + ".png";
 
+            if (!Directory.Exists(ThumbnailDirectory))
+            {
+                Directory.CreateDirectory(ThumbnailDirectory);
+            }
+
             if (!File.Exists(imagePath))
             {
                 if (!string.IsNullOrEmpty(product.image_url))
@@ -997,13 +1002,13 @@ namespace VRCWMarketPlace
             public string creator_twitter_url;
         }
 
-        /*
+        
         [InitializeOnLoadMethod]
         private static async void InitializeOnLoad()
         {
             await FetchProductsAsync();
         }
-        */
+        
     }
 
     public static class UnityWebRequestAsyncExtension

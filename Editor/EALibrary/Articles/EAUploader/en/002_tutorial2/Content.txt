@@ -1,9 +1,29 @@
-<t>― Import your Avatar ―</t>
+<t>― アバターをインポートする ―</t>
 <txt>
-<size=16>    Import your avatar.
-    Notice the left side in the <color=green>Import tab</color>. <color=red>"Import Avatar" button</color>. Import your avatar from here.
+<size=16>アバターをインポートして、作業を始めましょう。
+まず、このツールが対応しているアバターは、
+<color=red>VRChat用に作成されているアバター</color>です。
+VRChat用として販売・配布されているアバターをご用意ください。
+なお、VRMを使用したい方は、「VRMアバターを使う」記事を参照してください。
 
-    Avatars for VRChat are usually distributed as <color=blue>.prefab</color> or <color=blue>.unitypackage </color>files. If your avatar does not appear in the import wizard, please check the installation instructions provided by the distributor.
-
-<b>If you want to import a VRM file, you can do so by clicking the <color=red>"Import VRM" button</color>, or check the VRM2-"VRM introduction and conversion" article for VRM setup instructions.</b></size>
+インポートするには、<color=green>「インポート/設定」</color>タブの左側の
+<color=red>「インポート」</color>ボタンを押してください。
+複数アバターをまとめてインポートしたい場合は、
+インポートの下のボタンよりフォルダを指定することができます。</size>
 </txt>
+<hr>black, 12</hr>
+<t> 詳しい解説 </t>
+<txt>
+インポートに対応するファイル形式は プレハブ（.prefab） 又は パッケージ（.unitypackage） です。
+これらはUnity用で用いられるファイル形式です。
+
+プレハブは複数のオブジェクト（アバターの場合は体や服などの各部分）をまとめたもので、基本的にプレハブ＝アバター本体です。
+このツールでは、プレハブをアバターとみなして管理・リスト表示しています。
+
+パッケージは、Unity用のアセット（制作物）を配布する時によく使用されます。アバターの場合は、アバター本体やシェーダー、着せ替え用の服等がまとめられて配布されています。
+
+なお、ツールのボタンを使用しなくても、Unityを起動している状態でファイルを使用することでインポートできます。
+</txt>
+<button>Discordへ参加する, Main, https://discord.gg/mkDJ7xm94Z</button>
+<button>開発者 X / Twitter をフォロー, Sub, https://twitter.com/intent/follow?screen_name=fu_virtual</button>
+<button>Webへ行く, Sub, https://uslog.tech/eauploader</button>
