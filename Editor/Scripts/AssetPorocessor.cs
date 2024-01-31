@@ -22,7 +22,7 @@ public class AssetImportProcessor : AssetPostprocessor
 
     void OnPreprocessTexture()
     {
-        if (assetPath == null || assetImporter == null) return;
+        if (assetPath == null) return;  // Nullチェックを追加
 
         foreach (var path in targetFolderPaths)
         {

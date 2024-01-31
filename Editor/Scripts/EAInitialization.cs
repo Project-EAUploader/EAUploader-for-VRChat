@@ -1,10 +1,13 @@
+#if !EA_ONBUILD
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
+using System;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 using static EAUploader;
 using static CustomPrefabUtility;
 using static AssetImportProcessor;
@@ -12,48 +15,97 @@ using static EAUploaderEditorManager;
 using static ShaderChecker;
 using VRC.SDK3A.Editor;
 
-[InitializeOnLoad]
 public class CombinedInitialization
 {
     static bool isBuilding = false;
+    private static readonly string sdkStatusFilePath = "Assets/EAUploader/SDKStatus.json";
+    private static bool initializationPerformed = false;
 
-    static CombinedInitialization()
+    [InitializeOnLoadMethod]
+    private static void InitializeOnLoad()
     {
-        CombinedOnLoad();
+        EditorApplication.update += WaitForIdle;
     }
 
+    private static void WaitForIdle()
+    {
+        if (!EditorApplication.isCompiling && !EditorApplication.isPlayingOrWillChangePlaymode)
+        {
+            // エディタがアイドル状態になったら、初期化処理を実行
+            if (!initializationPerformed)
+            {
+                PerformInitialization();
+                initializationPerformed = true;
+
+                // イベントを解除
+                EditorApplication.update -= WaitForIdle;
+            }
+        }
+    }
+
+    /*
+    static CombinedInitialization()
+    {
+        RegisterSDKCallback();
+        CheckBuildStatus();
+    }
+    */
+
+    /*
     [InitializeOnLoadMethod]
     private static void CombinedOnLoad()
     {
-        RegisterBuildEvents();
         if (!isBuilding)
         {
             PerformInitialization();
         }
     }
+    */
 
-    private static void RegisterBuildEvents()
+    public static void RegisterSDKCallback()
+    {
+        VRCSdkControlPanel.OnSdkPanelEnable += AddBuildHook;
+    }
+
+    private static void AddBuildHook(object sender, EventArgs e)
     {
         if (VRCSdkControlPanel.TryGetBuilder<IVRCSdkAvatarBuilderApi>(out var builder))
         {
             builder.OnSdkBuildStart += OnBuildStart;
             builder.OnSdkBuildFinish += OnBuildFinish;
         }
-        else
-        {
-            Debug.LogWarning("VRChat SDK window is not open. Skipping VRCSdkControlPanel setup.");
-        }
     }
 
     private static void OnBuildStart(object sender, object target)
     {
         isBuilding = true;
+        UpdateSDKStatus(true);
     }
 
     private static void OnBuildFinish(object sender, object target)
     {
         isBuilding = false;
+        UpdateSDKStatus(false);
         PerformInitialization();
+    }
+
+    private static void UpdateSDKStatus(bool isBuilding)
+    {
+        var sdkStatus = new { IsBuilding = isBuilding };
+        File.WriteAllText(sdkStatusFilePath, JsonConvert.SerializeObject(sdkStatus));
+    }
+
+    private static void CheckBuildStatus()
+    {
+        if (File.Exists(sdkStatusFilePath))
+        {
+            string json = File.ReadAllText(sdkStatusFilePath);
+            var sdkStatus = JsonConvert.DeserializeObject<dynamic>(json);
+            if (sdkStatus != null)
+            {
+                isBuilding = sdkStatus.IsBuilding;
+            }
+        }
     }
 
     private static void PerformInitialization()
@@ -135,4 +187,5 @@ public class CombinedInitialization
         }
     }
 }
+#endif
 #endif

@@ -70,7 +70,7 @@ namespace VRCWMarketPlace
             GUILayout.EndArea();
         }
 
-        private static void DrawSearchBar(float width, float height)
+        private static async void DrawSearchBar(float width, float height)
         {
             var SearchBarBoxStyle = new GUIStyle(GUI.skin.box);
             string colorCode = "#1C304A";
@@ -104,11 +104,11 @@ namespace VRCWMarketPlace
             if (GUILayout.Button(Getc("refresh", 179), ClearButtonStyle, GUILayout.Width(width * 0.05f), GUILayout.Height(height * 0.8f)))
             {
                 products.Clear();
-                FetchProducts(searchString);
+                await FetchProductsAsync(searchString);
             }
 
             // ソートボタンの処理
-            if (GUILayout.Button(Get(813), ClearButtonStyle, GUILayout.Width(width * 0.1f), GUILayout.Height(height * 0.8f)))
+            if (GUILayout.Button(Getc("sort_white", 813), ClearButtonStyle, GUILayout.Width(width * 0.1f), GUILayout.Height(height * 0.8f)))
             {
                 SortOptionsWindow.ShowWindow(isMyListPage);
             }
@@ -122,7 +122,7 @@ namespace VRCWMarketPlace
             GUILayout.EndHorizontal();
         }
 
-        private static void DrawMyListSearchBar(float width, float height)
+        private static async void DrawMyListSearchBar(float width, float height)
         {
             var SearchBarBoxStyle = new GUIStyle(GUI.skin.box);
             string colorCode = "#1C304A";
@@ -167,7 +167,7 @@ namespace VRCWMarketPlace
                 isMyListPage = false;
                 isLoading = true;
                 products.Clear();
-                FetchProducts(searchString);
+                await FetchProductsAsync(searchString);
                 isSearching = false;
             }
 
@@ -255,7 +255,7 @@ namespace VRCWMarketPlace
             scrollPosition = Vector2.zero;
         }
 
-        private static void DrawProductList(float width, float height)
+        private static async void DrawProductList(float width, float height)
         {
             Rect ProductlistArea = new Rect(0, 0, width, height);
             EditorGUI.DrawRect((ProductlistArea), Color.white);
@@ -282,7 +282,7 @@ namespace VRCWMarketPlace
                 if (GUILayout.Button(Getc("more", 805), SubButtonStyle))
                 {
                     currentPage++;
-                    FetchProducts(searchString, currentPage);
+                    await FetchProductsAsync(searchString, currentPage);
                 }
             }
 
@@ -419,24 +419,34 @@ namespace VRCWMarketPlace
         }
 
         // 商品情報の構造体
-        private static void FetchProducts(string searchQuery = "", int page = 1)
+        private static async Task FetchProductsAsync(string searchQuery = "", int page = 1)
         {
             isLoading = true;
-            string url = $"https://www.vrcw.net/product/latest/json?page={page}";
-            if (!string.IsNullOrEmpty(searchQuery))
+            string url = $"https://www.vrcw.net/product/latest/json?page={page}&keyword={UnityWebRequest.EscapeURL(searchQuery)}";
+
+            using (UnityWebRequest request = UnityWebRequest.Get(url))
             {
-                url += $"&keyword={UnityWebRequest.EscapeURL(searchQuery)}";
+                await request.SendWebRequest().ToAwaitable();
+
+                if (request.result == UnityWebRequest.Result.Success)
+                {
+                    string jsonText = request.downloadHandler.text;
+                    ProcessJsonData(jsonText);
+                }
+                else
+                {
+                    Debug.LogError("Network Error: " + request.error);
+                }
             }
 
-            currentRequest = UnityWebRequest.Get(url);
-            currentRequest.SendWebRequest().completed += OnJsonDataDownloaded;
+            isLoading = false;
         }
 
-        public static void ClearProductsAndFetchNew(string searchQuery = "")
+        public static async void ClearProductsAndFetchNew(string searchQuery = "")
         {
             isLoading = true;
             products.Clear(); // 既存の商品リストをクリア
-            FetchProducts(searchQuery); // 新しい商品情報を取得
+            await FetchProductsAsync(searchQuery); // 新しい商品情報を取得
             ResetScrollPosition();
         }
 
@@ -480,7 +490,7 @@ namespace VRCWMarketPlace
             isLoading = false;
         }
 
-        private static void ProcessProductsData(UnityWebRequest request)
+        private static async void ProcessProductsData(UnityWebRequest request)
         {
             if (request.result == UnityWebRequest.Result.Success)
             {
@@ -488,7 +498,7 @@ namespace VRCWMarketPlace
                 {
                     string jsonText = request.downloadHandler.text;
                     File.WriteAllText(jsonFilePath, jsonText); // JSONデータをファイルに保存
-                    LoadProductsFromFile(); // ファイルから商品データを読み込む
+                    await FetchProductsAsync(); // ファイルから商品データを読み込む
                 }
                 catch (Exception e)
                 {
@@ -502,7 +512,7 @@ namespace VRCWMarketPlace
             currentRequest = null;
         }
 
-        private static void LoadProductsFromFile()
+        private static async Task FetchProductsAsync()
         {
             if (File.Exists(jsonFilePath))
             {
@@ -526,7 +536,7 @@ namespace VRCWMarketPlace
             }
         }
 
-        private static void CheckImageRequest(UnityWebRequest imgRequest, Product product)
+        private static async void CheckImageRequest(UnityWebRequest imgRequest, Product product)
         {
             if (imgRequest.isDone)
             {
@@ -534,7 +544,7 @@ namespace VRCWMarketPlace
                 {
                     Texture2D texture = DownloadHandlerTexture.GetContent(imgRequest);
                     string path = ThumbnailDirectory + Path.GetFileName(imgRequest.url);
-                    SaveTextureAsPNG(texture, path);
+                    await SaveTextureAsPNGAsync(texture, path);
                     product.imagePath = path; // 画像のパスを保存
                 }
                 else
@@ -567,13 +577,13 @@ namespace VRCWMarketPlace
             {
                 UnityWebRequest imgRequest = UnityWebRequestTexture.GetTexture(product.image_url);
                 downloadRequests.Add(product.image_url, imgRequest);
-                imgRequest.SendWebRequest().completed += (op) =>
+                imgRequest.SendWebRequest().completed += async (op) =>
                 {
                     if (imgRequest.result == UnityWebRequest.Result.Success)
                     {
                         Texture2D texture = DownloadHandlerTexture.GetContent(imgRequest);
                         string path = ThumbnailDirectory + Path.GetFileName(imgRequest.url);
-                        SaveTextureAsPNG(texture, path);
+                        await SaveTextureAsPNGAsync(texture, path);
                         product.imagePath = path;
                         imageCache[path] = texture;
                     }
@@ -587,6 +597,10 @@ namespace VRCWMarketPlace
 
         private static async Task DownloadProductImageAsync(int index)
         {
+            if (index < 0 || index >= products.Count)
+            {
+                return; // 範囲外ならメソッドを終了
+            }
             Product product = products[index];
             string imagePath = ThumbnailDirectory + product.id + ".png";
 
@@ -609,7 +623,7 @@ namespace VRCWMarketPlace
                                 texture = ResizeTexture(texture, 512, (int)(512 * aspectRatio));
                             }
 
-                            SaveTextureAsPNG(texture, imagePath);
+                            await SaveTextureAsPNGAsync(texture, imagePath);
                             product.imagePath = imagePath;
                             products[index] = product;
                         }
@@ -638,17 +652,10 @@ namespace VRCWMarketPlace
             return result;
         }
 
-        private static void SaveTextureAsPNG(Texture2D texture, string path)
+        private static async Task SaveTextureAsPNGAsync(Texture2D texture, string path)
         {
             byte[] bytes = texture.EncodeToPNG();
-            string directoryPath = Path.GetDirectoryName(path);
-
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-
-            File.WriteAllBytes(path, bytes);
+            await File.WriteAllBytesAsync(path, bytes);
         }
 
         private static void MarkProduct(Product product)
@@ -990,11 +997,13 @@ namespace VRCWMarketPlace
             public string creator_twitter_url;
         }
 
+        /*
         [InitializeOnLoadMethod]
-        private static void InitializeOnLoad()
+        private static async void InitializeOnLoad()
         {
-            FetchProducts();
+            await FetchProductsAsync();
         }
+        */
     }
 
     public static class UnityWebRequestAsyncExtension
