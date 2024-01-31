@@ -391,21 +391,46 @@ public static class CustomPrefabUtility
 
         foreach (var prefabInfo in allPrefabs)
         {
-            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabInfo.Path);
-            if (prefab != null)
+            if (!IsFileLocked(new FileInfo(prefabInfo.Path)))
             {
-                Texture2D preview = GeneratePreview(prefab);
-                SavePrefabPreview(prefabInfo.Path, preview);
+                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabInfo.Path);
+                if (prefab != null)
+                {
+                    Texture2D preview = GeneratePreview(prefab);
+                    SavePrefabPreview(prefabInfo.Path, preview);
+                }
             }
-            
+            else
+            {
+                failedPrefabs.Add(prefabInfo.Path);
+            }
         }
 
         // 処理終了後に失敗リストを確認
         if (failedPrefabs.Count > 0)
         {
-            string failedPaths = string.Join("/n", failedPrefabs);
-            EditorUtility.DisplayDialog("Prefab Preview Generation Failed", $"Failed to generate previews for the following prefabs:/n{failedPaths}", "OK");
+            string failedPaths = string.Join("\n", failedPrefabs);
+            EditorUtility.DisplayDialog("Prefab Preview Generation Failed", $"Failed to generate previews for the following prefabs:\n{failedPaths}", "OK");
         }
+    }
+
+    private static bool IsFileLocked(FileInfo file)
+    {
+        try
+        {
+            using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+            {
+                stream.Close();
+            }
+        }
+        catch (IOException)
+        {
+            // ファイルがロックされているか、別のエラーが発生した場合
+            return true;
+        }
+
+        // ファイルはロックされていない
+        return false;
     }
 
     private static void SavePrefabPreview(string prefabPath, Texture2D preview)

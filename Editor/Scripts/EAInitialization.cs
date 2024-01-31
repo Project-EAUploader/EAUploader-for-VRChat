@@ -25,6 +25,8 @@ public class CombinedInitialization
     private static void InitializeOnLoad()
     {
         EditorApplication.update += WaitForIdle;
+        RegisterSDKCallback();
+        CheckBuildStatus();
     }
 
     private static void WaitForIdle()
@@ -32,7 +34,7 @@ public class CombinedInitialization
         if (!EditorApplication.isCompiling && !EditorApplication.isPlayingOrWillChangePlaymode)
         {
             // エディタがアイドル状態になったら、初期化処理を実行
-            if (!initializationPerformed)
+            if (!initializationPerformed && !IsBuilding())
             {
                 PerformInitialization();
                 initializationPerformed = true;
@@ -43,26 +45,7 @@ public class CombinedInitialization
         }
     }
 
-    /*
-    static CombinedInitialization()
-    {
-        RegisterSDKCallback();
-        CheckBuildStatus();
-    }
-    */
-
-    /*
-    [InitializeOnLoadMethod]
-    private static void CombinedOnLoad()
-    {
-        if (!isBuilding)
-        {
-            PerformInitialization();
-        }
-    }
-    */
-
-    public static void RegisterSDKCallback()
+    private static void RegisterSDKCallback()
     {
         VRCSdkControlPanel.OnSdkPanelEnable += AddBuildHook;
     }
@@ -78,15 +61,12 @@ public class CombinedInitialization
 
     private static void OnBuildStart(object sender, object target)
     {
-        isBuilding = true;
         UpdateSDKStatus(true);
     }
 
     private static void OnBuildFinish(object sender, object target)
     {
-        isBuilding = false;
         UpdateSDKStatus(false);
-        PerformInitialization();
     }
 
     private static void UpdateSDKStatus(bool isBuilding)
@@ -101,24 +81,40 @@ public class CombinedInitialization
         {
             string json = File.ReadAllText(sdkStatusFilePath);
             var sdkStatus = JsonConvert.DeserializeObject<dynamic>(json);
-            if (sdkStatus != null)
-            {
-                isBuilding = sdkStatus.IsBuilding;
-            }
+            isBuilding = sdkStatus != null && sdkStatus.IsBuilding;
         }
     }
 
     private static void PerformInitialization()
     {
+        if (IsBuilding())
+        {
+            Debug.Log("Initialization skipped because a build is in progress.");
+            return;
+        }
+
+        // プロジェクト内の全てのプレハブを取得
+        string[] prefabGuids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets" });
+        foreach (string guid in prefabGuids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            FileInfo fileInfo = new FileInfo(path);
+            if (IsFileLocked(fileInfo))
+            {
+                Debug.Log($"Prefab at path {path} is currently locked. Initialization delayed.");
+                return; // ロックされているプレハブがある場合初期化を中断
+            }
+        }
+
         EditorUtility.DisplayProgressBar("Initialization", "Initializing CustomPrefabUtility...", 0.0f);
         EnsurePrefabManagerExists();
-        CustomPrefabUtilityOnUnityLoad();
-        EditorUtility.DisplayProgressBar("Initialization", "Initializing EAUploaderEditorManager...", 0.2f);
-        EAUploaderEditorManagerOnLoad();
-        EditorUtility.DisplayProgressBar("Initialization", "Initializing SpriteImportProcessor...", 0.4f);
-        AssetImportProcessorOnEditorLoad();
-        EditorUtility.DisplayProgressBar("Initialization", "Initializing EAUploader...", 0.6f);
+        EditorUtility.DisplayProgressBar("Initialization", "Initializing EAUploader...", 0.2f);
         EAUploaderInitializeOnLoad();
+        EditorUtility.DisplayProgressBar("Initialization", "Initializing EAUploaderEditorManager...", 0.4f);
+        EAUploaderEditorManagerOnLoad();
+        CustomPrefabUtilityOnUnityLoad();
+        EditorUtility.DisplayProgressBar("Initialization", "Initializing SpriteImportProcessor...", 0.6f);
+        AssetImportProcessorOnEditorLoad();
         EditorUtility.DisplayProgressBar("Initialization", "Initializing ShaderChecker...", 0.8f);
         ShaderCheckerOnLoad();
         EditorUtility.ClearProgressBar();
@@ -185,6 +181,36 @@ public class CombinedInitialization
             Debug.Log("Focusing on existing EAUploader window.");
             windows[0].Focus();
         }
+    }
+
+    private static bool IsFileLocked(FileInfo file)
+    {
+        try
+        {
+            using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+            {
+                stream.Close();
+            }
+        }
+        catch (IOException)
+        {
+            // ファイルがロックされているか、別のエラーが発生
+            return true;
+        }
+
+        // ファイルはロックされていない
+        return false;
+    }
+
+    private static bool IsBuilding()
+    {
+        if (File.Exists(sdkStatusFilePath))
+        {
+            string json = File.ReadAllText(sdkStatusFilePath);
+            var sdkStatus = JsonConvert.DeserializeObject<dynamic>(json);
+            return sdkStatus != null && sdkStatus.IsBuilding;
+        }
+        return false;
     }
 }
 #endif
