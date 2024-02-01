@@ -1,4 +1,3 @@
-#if !EA_ONBUILD
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
@@ -7,7 +6,7 @@ using UnityEngine.SceneManagement;
 using System;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
+using System.Collections.Generic;
 using static EAUploader;
 using static CustomPrefabUtility;
 using static AssetImportProcessor;
@@ -24,9 +23,9 @@ public class CombinedInitialization
     [InitializeOnLoadMethod]
     private static void InitializeOnLoad()
     {
-        EditorApplication.update += WaitForIdle;
-        RegisterSDKCallback();
         CheckBuildStatus();
+        RegisterSDKCallback();
+        EditorApplication.update += WaitForIdle;
     }
 
     private static void WaitForIdle()
@@ -62,17 +61,20 @@ public class CombinedInitialization
     private static void OnBuildStart(object sender, object target)
     {
         UpdateSDKStatus(true);
+        CloseEAUploaderWindow();
+        SetScriptingDefineSymbol("EA_ONBUILD", true);
     }
 
     private static void OnBuildFinish(object sender, object target)
     {
         UpdateSDKStatus(false);
+        SetScriptingDefineSymbol("EA_ONBUILD", false);
     }
 
     private static void UpdateSDKStatus(bool isBuilding)
     {
-        var sdkStatus = new { IsBuilding = isBuilding };
-        File.WriteAllText(sdkStatusFilePath, JsonConvert.SerializeObject(sdkStatus));
+        var sdkStatus = new SDKStatus { IsBuilding = isBuilding };
+        File.WriteAllText(sdkStatusFilePath, JsonUtility.ToJson(sdkStatus));
     }
 
     private static void CheckBuildStatus()
@@ -80,7 +82,7 @@ public class CombinedInitialization
         if (File.Exists(sdkStatusFilePath))
         {
             string json = File.ReadAllText(sdkStatusFilePath);
-            var sdkStatus = JsonConvert.DeserializeObject<dynamic>(json);
+            var sdkStatus = JsonUtility.FromJson<SDKStatus>(json);
             isBuilding = sdkStatus != null && sdkStatus.IsBuilding;
         }
     }
@@ -183,6 +185,35 @@ public class CombinedInitialization
         }
     }
 
+    private static void CloseEAUploaderWindow()
+    {
+        var windows = Resources.FindObjectsOfTypeAll<EditorWindow>()
+            .Where(window => window.GetType().Name == "EAUploader");
+
+        foreach (var window in windows)
+        {
+            window.Close();
+        }
+    }
+
+    private static void SetScriptingDefineSymbol(string symbol, bool add)
+    {
+        var buildTargetGroup = EditorUserBuildSettings.selectedBuildTargetGroup;
+        var definesString = PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTargetGroup);
+        var allDefines = new HashSet<string>(definesString.Split(';'));
+
+        if (add)
+        {
+            allDefines.Add(symbol);
+        }
+        else
+        {
+            allDefines.Remove(symbol);
+        }
+
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup, string.Join(";", allDefines));
+    }
+
     private static bool IsFileLocked(FileInfo file)
     {
         try
@@ -207,11 +238,16 @@ public class CombinedInitialization
         if (File.Exists(sdkStatusFilePath))
         {
             string json = File.ReadAllText(sdkStatusFilePath);
-            var sdkStatus = JsonConvert.DeserializeObject<dynamic>(json);
+            var sdkStatus = JsonUtility.FromJson<SDKStatus>(json);
             return sdkStatus != null && sdkStatus.IsBuilding;
         }
         return false;
     }
+
+    [Serializable]
+    public class SDKStatus
+    {
+        public bool IsBuilding;
+    }
 }
-#endif
 #endif
