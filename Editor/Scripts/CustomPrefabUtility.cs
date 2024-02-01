@@ -462,7 +462,7 @@ public static class CustomPrefabUtility
         string prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(prefab);
         string fileName = Path.GetFileNameWithoutExtension(prefabPath);
 
-        if (fileName.StartsWith("prefab-id-v1_avtr_"){
+        if (fileName.StartsWith("prefab-id-v1_avtr_")) {
             Texture2D texture2D = new Texture2D(2, 2);
             texture2D.SetPixel(0, 0, Color.white);
             texture2D.SetPixel(1, 0, Color.white);
