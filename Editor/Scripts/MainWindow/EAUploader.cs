@@ -39,19 +39,6 @@ internal class EAUploader : EditorWindow
     public static bool skipOnDisable = false;
     private static int selectedAvatarWorldTabIndex = 0;
 
-    // [InitializeOnLoadMethod] EAInitialization.cs参照
-    public static void OnEAUploader()
-    {
-        EditorApplication.update += OpenWindowOnce;
-    }
-
-    // 一度だけウィンドウを開く
-    private static void OpenWindowOnce()
-    {
-        EditorApplication.update -= OpenWindowOnce;
-        ShowWindow();
-    }
-
     public static EAUploader ShowWindow()
     {
         var window = GetWindow<EAUploader>();

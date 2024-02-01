@@ -1,30 +1,21 @@
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
-using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
 using System;
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
-using static EAUploader;
 using static CustomPrefabUtility;
-using static AssetImportProcessor;
 using static EAUploaderEditorManager;
 using static ShaderChecker;
-using VRC.SDK3A.Editor;
 
-public class CombinedInitialization
+public class EAInitialization
 {
-    static bool isBuilding = false;
-    private static readonly string sdkStatusFilePath = "Assets/EAUploader/SDKStatus.json";
     private static bool initializationPerformed = false;
+    public static bool onBuild = false;
 
     [InitializeOnLoadMethod]
     private static void InitializeOnLoad()
     {
-        CheckBuildStatus();
-        RegisterSDKCallback();
         EditorApplication.update += WaitForIdle;
     }
 
@@ -33,7 +24,7 @@ public class CombinedInitialization
         if (!EditorApplication.isCompiling && !EditorApplication.isPlayingOrWillChangePlaymode)
         {
             // エディタがアイドル状態になったら、初期化処理を実行
-            if (!initializationPerformed && !IsBuilding())
+            if (!initializationPerformed)
             {
                 PerformInitialization();
                 initializationPerformed = true;
@@ -44,57 +35,8 @@ public class CombinedInitialization
         }
     }
 
-    private static void RegisterSDKCallback()
-    {
-        VRCSdkControlPanel.OnSdkPanelEnable += AddBuildHook;
-    }
-
-    private static void AddBuildHook(object sender, EventArgs e)
-    {
-        if (VRCSdkControlPanel.TryGetBuilder<IVRCSdkAvatarBuilderApi>(out var builder))
-        {
-            builder.OnSdkBuildStart += OnBuildStart;
-            builder.OnSdkBuildFinish += OnBuildFinish;
-        }
-    }
-
-    private static void OnBuildStart(object sender, object target)
-    {
-        UpdateSDKStatus(true);
-        CloseEAUploaderWindow();
-        SetScriptingDefineSymbol("EA_ONBUILD", true);
-    }
-
-    private static void OnBuildFinish(object sender, object target)
-    {
-        UpdateSDKStatus(false);
-        SetScriptingDefineSymbol("EA_ONBUILD", false);
-    }
-
-    private static void UpdateSDKStatus(bool isBuilding)
-    {
-        var sdkStatus = new SDKStatus { IsBuilding = isBuilding };
-        File.WriteAllText(sdkStatusFilePath, JsonUtility.ToJson(sdkStatus));
-    }
-
-    private static void CheckBuildStatus()
-    {
-        if (File.Exists(sdkStatusFilePath))
-        {
-            string json = File.ReadAllText(sdkStatusFilePath);
-            var sdkStatus = JsonUtility.FromJson<SDKStatus>(json);
-            isBuilding = sdkStatus != null && sdkStatus.IsBuilding;
-        }
-    }
-
     private static void PerformInitialization()
     {
-        if (IsBuilding())
-        {
-            Debug.Log("Initialization skipped because a build is in progress.");
-            return;
-        }
-
         // プロジェクト内の全てのプレハブを取得
         string[] prefabGuids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets" });
         foreach (string guid in prefabGuids)
@@ -108,10 +50,10 @@ public class CombinedInitialization
             }
         }
 
+        
         EditorUtility.DisplayProgressBar("Initialization", "Initializing CustomPrefabUtility...", 0.0f);
         EnsurePrefabManagerExists();
         EditorUtility.DisplayProgressBar("Initialization", "Initializing EAUploader...", 0.2f);
-        EAUploaderInitializeOnLoad();
         EditorUtility.DisplayProgressBar("Initialization", "Initializing EAUploaderEditorManager...", 0.4f);
         EAUploaderEditorManagerOnLoad();
         CustomPrefabUtilityOnUnityLoad();
@@ -149,11 +91,6 @@ public class CombinedInitialization
         processor.OnEditorLoad();
     }
 
-    private static void EAUploaderInitializeOnLoad()
-    {
-        OnEAUploader();
-    }
-
     private static void EAUploaderEditorManagerOnLoad()
     {
         OnEditorManagerLoad();
@@ -185,35 +122,6 @@ public class CombinedInitialization
         }
     }
 
-    private static void CloseEAUploaderWindow()
-    {
-        var windows = Resources.FindObjectsOfTypeAll<EditorWindow>()
-            .Where(window => window.GetType().Name == "EAUploader");
-
-        foreach (var window in windows)
-        {
-            window.Close();
-        }
-    }
-
-    private static void SetScriptingDefineSymbol(string symbol, bool add)
-    {
-        var buildTargetGroup = EditorUserBuildSettings.selectedBuildTargetGroup;
-        var definesString = PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTargetGroup);
-        var allDefines = new HashSet<string>(definesString.Split(';'));
-
-        if (add)
-        {
-            allDefines.Add(symbol);
-        }
-        else
-        {
-            allDefines.Remove(symbol);
-        }
-
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup, string.Join(";", allDefines));
-    }
-
     private static bool IsFileLocked(FileInfo file)
     {
         try
@@ -232,18 +140,7 @@ public class CombinedInitialization
         // ファイルはロックされていない
         return false;
     }
-
-    private static bool IsBuilding()
-    {
-        if (File.Exists(sdkStatusFilePath))
-        {
-            string json = File.ReadAllText(sdkStatusFilePath);
-            var sdkStatus = JsonUtility.FromJson<SDKStatus>(json);
-            return sdkStatus != null && sdkStatus.IsBuilding;
-        }
-        return false;
-    }
-
+     
     [Serializable]
     public class SDKStatus
     {

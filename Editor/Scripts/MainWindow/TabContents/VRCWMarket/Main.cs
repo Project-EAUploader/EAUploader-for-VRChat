@@ -240,6 +240,7 @@ namespace VRCWMarketPlace
 
             // 保護リストに含まれない画像を削除
             DirectoryInfo di = new DirectoryInfo(ThumbnailDirectory);
+            if (!di.Exists) return;
             foreach (FileInfo file in di.GetFiles())
             {
                 if (!protectedImages.Contains(file.FullName))
@@ -421,25 +422,26 @@ namespace VRCWMarketPlace
         // 商品情報の構造体
         private static async Task FetchProductsAsync(string searchQuery = "", int page = 1)
         {
-            isLoading = true;
-            string url = $"https://www.vrcw.net/product/latest/json?page={page}&keyword={UnityWebRequest.EscapeURL(searchQuery)}";
-
-            using (UnityWebRequest request = UnityWebRequest.Get(url))
+            if (File.Exists(jsonFilePath))
             {
-                await request.SendWebRequest().ToAwaitable();
-
-                if (request.result == UnityWebRequest.Result.Success)
+                try
                 {
-                    string jsonText = request.downloadHandler.text;
-                    ProcessJsonData(jsonText);
+                    string jsonText = await File.ReadAllTextAsync(jsonFilePath);
+                    ProductList productList = JsonUtility.FromJson<ProductList>(jsonText);
+                    if (productList.products != null)
+                    {
+                        products = new List<Product>(productList.products);
+                    }
+                    else
+                    {
+                        Debug.LogError("Failed to parse products from JSON.");
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    Debug.LogError("Network Error: " + request.error);
+                    Debug.LogError("File Read Error: " + e.Message);
                 }
             }
-
-            isLoading = false;
         }
 
         public static async void ClearProductsAndFetchNew(string searchQuery = "")
