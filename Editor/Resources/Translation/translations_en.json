@@ -111,7 +111,7 @@
         { "key": "702", "value": "Mail address (option)"},
         { "key": "703", "value": "Subject (option)"},
         { "key": "704", "value": "Message"},
-        { "key": "705", "value": "By clicking the submit button, you agree to the Privacy Policy."},
+        { "key": "705", "value": "Submissions are irrevocable. \nDo not include personal information."},
         { "key": "706", "value": "Submit"},
         { "key": "707", "value": "Transmission was successful. Thank you."},
         { "key": "708", "value": "Please fill in the 'Message' content."},

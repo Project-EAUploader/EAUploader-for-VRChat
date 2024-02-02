@@ -240,7 +240,6 @@ namespace VRCWMarketPlace
 
             // 保護リストに含まれない画像を削除
             DirectoryInfo di = new DirectoryInfo(ThumbnailDirectory);
-            if (!di.Exists) return;
             foreach (FileInfo file in di.GetFiles())
             {
                 if (!protectedImages.Contains(file.FullName))
@@ -422,26 +421,25 @@ namespace VRCWMarketPlace
         // 商品情報の構造体
         private static async Task FetchProductsAsync(string searchQuery = "", int page = 1)
         {
-            if (File.Exists(jsonFilePath))
+            isLoading = true;
+            string url = $"https://www.vrcw.net/product/latest/json?page={page}&keyword={UnityWebRequest.EscapeURL(searchQuery)}";
+
+            using (UnityWebRequest request = UnityWebRequest.Get(url))
             {
-                try
+                await request.SendWebRequest().ToAwaitable();
+
+                if (request.result == UnityWebRequest.Result.Success)
                 {
-                    string jsonText = await File.ReadAllTextAsync(jsonFilePath);
-                    ProductList productList = JsonUtility.FromJson<ProductList>(jsonText);
-                    if (productList.products != null)
-                    {
-                        products = new List<Product>(productList.products);
-                    }
-                    else
-                    {
-                        Debug.LogError("Failed to parse products from JSON.");
-                    }
+                    string jsonText = request.downloadHandler.text;
+                    ProcessJsonData(jsonText);
                 }
-                catch (Exception e)
+                else
                 {
-                    Debug.LogError("File Read Error: " + e.Message);
+                    Debug.LogError("Network Error: " + request.error);
                 }
             }
+
+            isLoading = false;
         }
 
         public static async void ClearProductsAndFetchNew(string searchQuery = "")
@@ -520,8 +518,10 @@ namespace VRCWMarketPlace
             {
                 try
                 {
-                    string jsonText = File.ReadAllText(jsonFilePath);
+                    // 非同期でファイル内容を読み込む
+                    string jsonText = await File.ReadAllTextAsync(jsonFilePath);
                     ProductList productList = JsonUtility.FromJson<ProductList>(jsonText);
+
                     if (productList.products != null)
                     {
                         products = new List<Product>(productList.products);
@@ -618,7 +618,7 @@ namespace VRCWMarketPlace
                     using (UnityWebRequest imgRequest = UnityWebRequestTexture.GetTexture(product.image_url))
                     {
                         await imgRequest.SendWebRequest().ToAwaitable();
-
+                        
                         if (imgRequest.result == UnityWebRequest.Result.Success)
                         {
                             Texture2D texture = DownloadHandlerTexture.GetContent(imgRequest);

@@ -141,9 +141,10 @@ public class Import
             AssetDatabase.Refresh();   
         }
 
+        GUILayout.Label(Get(104), h1LabelStyle);
+
         if (isVRMAvailable == true)
         {
-            GUILayout.Label(Get(104), h1LabelStyle);
             if (GUILayout.Button(Getc("help", 500), HelpButtonStyle))
             {
                 EAUploaderMessageWindow.ShowMsg(101);
@@ -157,9 +158,9 @@ public class Import
         else
         {
             GUILayout.Label(Get(109), h2LabelStyle);
-            if(GUILayout.Button(Get(139), MainButtonStyle))
+            if(GUILayout.Button(Getc("open_in_browser", 139), MainButtonStyle))
             {
-                Application.OpenURL("https://github.com/vrm-c/UniVRM/releases");
+                Application.OpenURL("https://booth.pm/ja/items/1025226");
             }
         }
 

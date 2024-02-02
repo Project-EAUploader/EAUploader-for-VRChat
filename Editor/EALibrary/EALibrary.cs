@@ -94,7 +94,13 @@ public class EALibrary
 
     private void UpdateCurrentLanguage()
     {
+        var prevLanguage = currentLanguage;
         currentLanguage = LanguageUtility.GetCurrentLanguage();
+
+        if (prevLanguage != currentLanguage)
+        {
+            LoadTags();
+        }
     }
 
     private void LoadTags()

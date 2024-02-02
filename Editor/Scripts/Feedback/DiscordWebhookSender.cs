@@ -17,58 +17,66 @@ public class DiscordWebhookSender : EditorWindow
     private static string emailAddress = "";
     private static string messageContent = "";
     private static string lng = LanguageUtility.GetCurrentLanguage();
+    private static bool sentFeedback = false;
 
     public static void OpenDiscordWebhookSenderWindow()
     {
         GetWindow<DiscordWebhookSender>("Feedback").minSize = new Vector2(400, 200);
         feedbacktitle = "";
         messageContent = "";
+        sentFeedback = false;
     }
 
     private void OnGUI()
     {
         bool isEmptyMessage = true;
-        bool sentFeedback = false;
         var backgroundColorStyle = new GUIStyle();
         backgroundColorStyle.normal.background = EditorGUIUtility.whiteTexture;
 
         GUI.Box(new Rect(0, 0, position.width, position.height), GUIContent.none, backgroundColorStyle);
 
         GUILayout.Label(Get(700), h4CenterLabelStyle);
-
-        GUILayout.Label(Get(701), NoMarginh5BlackLabelStyle);
-        authorName = GUILayout.TextField(authorName, TextFieldStyle);
-
-        GUILayout.Label(Get(702), NoMarginh5BlackLabelStyle);
-        emailAddress = GUILayout.TextField(emailAddress, TextFieldStyle);
-
-        GUILayout.Label(Get(703), NoMarginh5BlackLabelStyle);
-        feedbacktitle = GUILayout.TextField(feedbacktitle, TextFieldStyle);
-
-        GUILayout.Label(Get(704), NoMarginh5BlackLabelStyle);
-        messageContent = GUILayout.TextArea(messageContent, TextAreaStyle, GUILayout.Height(200));
-
         GUILayout.Space(10);
 
-        GUILayout.Label(Get(705), h5BlackLabelStyle);
+        if (!sentFeedback)
+        {
+            GUILayout.Label(Get(701), NoMarginh5BlackLabelStyle);
+            authorName = GUILayout.TextField(authorName, TextFieldStyle);
 
-        if (messageContent == "")
-        {
-            GUILayout.Label(Get(708), eLabel);
-        }
-        else
-        {
-            isEmptyMessage = false;
-        }
-        if (GUILayout.Button(Get(706), SubButtonStyle))
-        {
-            if (!isEmptyMessage)
+            GUILayout.Label(Get(702), NoMarginh5BlackLabelStyle);
+            emailAddress = GUILayout.TextField(emailAddress, TextFieldStyle);
+
+            GUILayout.Label(Get(703), NoMarginh5BlackLabelStyle);
+            feedbacktitle = GUILayout.TextField(feedbacktitle, TextFieldStyle);
+
+            GUILayout.Label(Get(704), NoMarginh5BlackLabelStyle);
+            messageContent = GUILayout.TextArea(messageContent, TextAreaStyle, GUILayout.Height(200));
+
+            GUILayout.Space(10);
+
+            GUILayout.Label(Get(705), h5BlackLabelStyle);
+
+            if (messageContent == "")
             {
-                sentFeedback = true;
-                SendMessageToDiscord(webhookUrl, feedbacktitle, authorName, emailAddress, messageContent);
+                GUILayout.Label(Get(708), eLabel);
+            }
+            else
+            {
+                isEmptyMessage = false;
+            }
+
+            if (GUILayout.Button(Get(706), SubButtonStyle))
+            {
+                if (!string.IsNullOrEmpty(messageContent))
+                {
+                    SendMessageToDiscord(webhookUrl, feedbacktitle, authorName, emailAddress, messageContent);
+                    // 送信後はタイトルと本文を空にする
+                    feedbacktitle = "";
+                    messageContent = "";
+                }
             }
         }
-        if (sentFeedback)
+        else
         {
             GUILayout.Label(Get(707), h5BlackLabelStyle);
         }
@@ -89,10 +97,12 @@ public class DiscordWebhookSender : EditorWindow
             try
             {
                 client.UploadString(url, json);
+                sentFeedback = true;
             }
             catch (WebException e)
             {
                 Debug.LogError("Error sending webhook: " + e.Message);
+                sentFeedback = false; 
                 if (e.Response != null)
                 {
                     using (var stream = e.Response.GetResponseStream())
@@ -103,6 +113,7 @@ public class DiscordWebhookSender : EditorWindow
                 }
             }
         }
+        Repaint();
     }
 
     private string BuildJson(string title, string author, string email, string content)
