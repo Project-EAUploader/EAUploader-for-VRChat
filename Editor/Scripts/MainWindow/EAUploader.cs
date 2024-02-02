@@ -1,16 +1,13 @@
 #if !EA_ONBUILD
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Collections.Generic;
 using System.Reflection;
 using VRCWMarketPlace;
 using static labels;
 using static styles;
+using static CustomPrefabUtility;
 
 [InitializeOnLoad]
 public static class EasyUploaderMenu
@@ -41,6 +38,7 @@ internal class EAUploader : EditorWindow
 
     public static EAUploader ShowWindow()
     {
+        OnCustomPrefabUtility();
         var window = GetWindow<EAUploader>();
         new Vector2(900, 600);  // 最小サイズ
         window.maximized = true;  // ウィンドウを最大化

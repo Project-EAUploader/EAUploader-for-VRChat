@@ -1,10 +1,6 @@
 #if !EA_ONBUILD
 using UnityEditor;
 using UnityEngine;
-using System.IO;
-using static styles;
-using static labels;
-using EAUploaderEditors;
 
 public class SetUpTabDrawer
 {

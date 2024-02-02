@@ -26,11 +26,11 @@ public class EAInitialization
             // エディタがアイドル状態になったら、初期化処理を実行
             if (!initializationPerformed)
             {
-                PerformInitialization();
-                initializationPerformed = true;
-
                 // イベントを解除
                 EditorApplication.update -= WaitForIdle;
+                initializationPerformed = true;
+
+                PerformInitialization(); 
             }
         }
     }
@@ -56,7 +56,7 @@ public class EAInitialization
         EditorUtility.DisplayProgressBar("Initialization", "Initializing EAUploader...", 0.2f);
         EditorUtility.DisplayProgressBar("Initialization", "Initializing EAUploaderEditorManager...", 0.4f);
         EAUploaderEditorManagerOnLoad();
-        CustomPrefabUtilityOnUnityLoad();
+        // CustomPrefabUtilityOnUnityLoad();
         EditorUtility.DisplayProgressBar("Initialization", "Initializing SpriteImportProcessor...", 0.6f);
         AssetImportProcessorOnEditorLoad();
         EditorUtility.DisplayProgressBar("Initialization", "Initializing ShaderChecker...", 0.8f);

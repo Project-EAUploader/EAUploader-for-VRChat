@@ -9,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System;
 using VRC.SDKBase;
-using static EAInitialization;
 
 public static class CustomPrefabUtility
 {
@@ -23,11 +22,22 @@ public static class CustomPrefabUtility
     public static Dictionary<string, Texture2D> prefabsWithPreview = new Dictionary<string, Texture2D>();
     public static Dictionary<string, Texture2D> vrchatAvatarsWithPreview = new Dictionary<string, Texture2D>();
 
-    // [InitializeOnLoadMethod]
     public static void OnCustomPrefabUtility()
     {
+        CheckIsSaved();
         UpdatePrefabInfo();
         GenerateAndSaveAllPrefabPreviews();
+    }
+
+    public static void CheckIsSaved()
+    {
+        bool isSaved = EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+
+        if (!isSaved)
+        {
+            EditorUtility.DisplayDialog("EAUploader", "Please save the scene before using EAUploader", "OK");
+            throw new Exception("Please save the scene before using EAUploader");
+        }
     }
 
     public static void UpdatePrefabInfo()
@@ -282,7 +292,7 @@ public static class CustomPrefabUtility
 
             float aspectRatio = 1.0f;
             float previewSize = Mathf.Min(position.width, position.height * aspectRatio);
-            Rect r = new Rect(position.x, position.y, previewSize, previewSize / aspectRatio); 
+            Rect r = new Rect(position.x, position.y, previewSize, previewSize / aspectRatio);
             gameObjectEditor.OnInteractivePreviewGUI(r, bgColor);
         }
     }
@@ -364,6 +374,7 @@ public static class CustomPrefabUtility
         GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
         if (prefab != null)
         {
+            Debug.Log("Generating preview in RegisterNewPrefab");
             Texture2D preview = GeneratePreview(prefab);
             SavePrefabPreview(prefabPath, preview);
         }
@@ -462,32 +473,21 @@ public static class CustomPrefabUtility
         string prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(prefab);
         string fileName = Path.GetFileNameWithoutExtension(prefabPath);
 
-        if (fileName.StartsWith("prefab-id-v1_avtr_")) {
-            Texture2D texture2D = new Texture2D(2, 2);
-            texture2D.SetPixel(0, 0, Color.white);
-            texture2D.SetPixel(1, 0, Color.white);
-            texture2D.SetPixel(0, 1, Color.white);
-            texture2D.SetPixel(1, 1, Color.white);
-            texture2D.Apply();
-            return texture2D;
+        if (fileName.StartsWith("prefab-id-v1_avtr_"))
+        {
+            Texture2D build_prefab_image = new Texture2D(2, 2);
+            build_prefab_image.SetPixel(0, 0, Color.white);
+            build_prefab_image.SetPixel(1, 0, Color.white);
+            build_prefab_image.SetPixel(0, 1, Color.white);
+            build_prefab_image.SetPixel(1, 1, Color.white);
+            build_prefab_image.Apply();
+            return build_prefab_image;
         }
 
         Scene tempScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
         GameObject cameraObject = null;
         GameObject lightObject = null;
         GameObject instance = null;
-
-        if (prefab == null)
-        {
-            Debug.LogError("GeneratePreview called with null prefab.");
-            return null;
-        }
-
-        // 現在のシーンが未保存の場合、保存するか新しいシーンを作成する
-        if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
-        {
-            return null;  // ユーザーが保存をキャンセルした場合
-        }
 
         try
         {
@@ -622,6 +622,7 @@ public static class CustomPrefabUtility
                 GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
                 if (prefab != null)
                 {
+                    GeneratePreview(prefab);
                     Texture2D preview = GeneratePreview(prefab);
                     SavePrefabPreview(path, preview);
                     shouldRefresh = true;

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using static labels;
 using static styles;
+using UnityEngine.UIElements;
 
 public static class Preview
 {
@@ -67,22 +68,7 @@ public static class Preview
 
         if (gameObjectEditor != null)
         {
-            GUIStyle previewBackgroundStyle = new GUIStyle();
-            previewBackgroundStyle.normal.background = EditorGUIUtility.whiteTexture;
-
-            float aspectRatio = 1.0f;
-            float previewSizeWidth = position.width * previewScale;
-            float previewSizeHeight = position.height * aspectRatio * previewScale;
-            Rect previewRect = new Rect(
-                position.x + previewOffset.x, 
-                position.y + previewOffset.y, 
-                previewSizeWidth, 
-                previewSizeHeight
-            );
-
-            HandleMouseEvents(previewRect);
-
-            gameObjectEditor.OnInteractivePreviewGUI(previewRect, previewBackgroundStyle);
+            previewSeciton(position, previewRectArea);
         }
         GUILayout.EndArea();
 
@@ -136,40 +122,51 @@ public static class Preview
         GUILayout.EndArea();
     }
 
-    private static void HandleMouseEvents(Rect previewRectArea)
+    private static void previewSeciton(Rect position, Rect previewRectArea)
+    {
+        GUIStyle previewBackgroundStyle = new GUIStyle();
+        previewBackgroundStyle.normal.background = EditorGUIUtility.whiteTexture;
+
+        float previewSizeWidth = position.width * previewScale;
+        float previewSizeHeight = position.height * previewScale;
+        Rect previewRect = new Rect(
+            position.x + previewOffset.x,
+            position.y + previewOffset.y,
+            previewSizeWidth,
+            previewSizeHeight
+        );
+
+        HandleMouseEvents(position, previewRect, previewRectArea);
+        gameObjectEditor.OnInteractivePreviewGUI(previewRect, previewBackgroundStyle);
+    }
+
+    private static void HandleMouseEvents(Rect position, Rect previewRect, Rect previewRectArea)
     {
         Event e = Event.current;
 
         // 拡大縮小
-        if (previewRectArea.Contains(e.mousePosition) && e.type == EventType.ScrollWheel)
+        if (e.type == EventType.ScrollWheel && previewRectArea.Contains(e.mousePosition))
         {
             // スケール変更量
             float scaleDelta = -e.delta.y * 0.05f;
             float newScale = Mathf.Max(previewScale + scaleDelta, 0.1f);
+            float oldScale = previewScale;
 
-            // 拡大縮小前の中心座標の計算
-            Vector2 oldCenter = new Vector2(
-                previewRectArea.x + previewOffset.x + (previewRectArea.width * previewScale / 2),
-                previewRectArea.y + previewOffset.y + (previewRectArea.height * previewScale / 2)
-            );
-
-            // スケール更新
             previewScale = newScale;
+                 
+            Vector2 localPreviewCenter = new Vector2(position.width / 2 * newScale, position.height / 2 * newScale);
+            Vector2 mousePosition = e.mousePosition;
+            Vector2 fixedToCenter = mousePosition - localPreviewCenter;
+            Vector2 PreviewCenter = previewRect.center;
+            Vector2 relativeMousePosition = mousePosition - PreviewCenter;
 
-            // 拡大縮小後の中心座標の計算
-            Vector2 newCenter = new Vector2(
-                previewRectArea.x + previewOffset.x + (previewRectArea.width * newScale / 2),
-                previewRectArea.y + previewOffset.y + (previewRectArea.height * newScale / 2)
-            );
-
-            // 中心座標の差分に基づいてオフセットを更新
-            previewOffset += (oldCenter - newCenter);
+            previewOffset = fixedToCenter - relativeMousePosition * (newScale / oldScale);
 
             e.Use();
         }
 
         // 移動
-        if (e.type == EventType.MouseDrag && e.button == 0 && previewRectArea.Contains(e.mousePosition))
+        if (e.type == EventType.MouseDrag && e.button == 1 && previewRectArea.Contains(e.mousePosition))
         {
             previewOffset += e.delta;
             e.Use();
