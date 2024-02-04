@@ -25,6 +25,7 @@ public static class CustomPrefabUtility
     public static void OnCustomPrefabUtility()
     {
         CheckIsSaved();
+        EnsureEAUploaderSceneExists();
         UpdatePrefabInfo();
         GenerateAndSaveAllPrefabPreviews();
     }
