@@ -1,0 +1,20 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Packages/tech.uslog.eauploader/Editor/Resources/UI/styles.uss?fileID=7433441132597879392&amp;guid=fe97900dfa847494bac4ec28615d133a&amp;type=3#styles" />
+    <ui:VisualElement name="import" class="import" style="align-items: stretch; justify-content: flex-start;">
+        <ui:Label tabindex="-1" text="インポート" parse-escape-sequences="true" display-tooltip-when-elided="true" class="title" />
+        <ui:Button text="ヘルプ" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-text-align: lower-center;" />
+        <ui:Label tabindex="-1" text="Prefab又は&#10;unitypackageをインポートします。" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Button name="import_prefab" text="インポート" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Button name="import_folder" text="フォルダの指定" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Label tabindex="-1" text="VRMのインポート" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Button text="ヘルプ" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Label tabindex="-1" text="バージョン0.xのVRM&#10;ファイルをインポートします。" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Button name="import_vrm" text="VRMのインポート" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+    </ui:VisualElement>
+    <ui:VisualElement name="settings" class="settings">
+        <ui:Label tabindex="-1" text="設定" parse-escape-sequences="true" display-tooltip-when-elided="true" class="title" />
+        <ui:DropdownField label="言語" index="-1" choices="System.Collections.Generic.List`1[System.String]" />
+        <ui:Label tabindex="-1" text="バージョン" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Button text="フィードバックを送る" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+    </ui:VisualElement>
+</ui:UXML>

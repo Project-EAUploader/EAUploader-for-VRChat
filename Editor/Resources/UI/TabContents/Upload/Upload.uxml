@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
+>
+    <Style src="project://database/Packages/tech.uslog.eauploader/Editor/Resources/UI/TabContents/Upload/AvatarUpload.uss?fileID=7433441132597879392&amp;guid=6f76a9b71f131864e84fc560c24245ac&amp;type=3#AvatarUpload" />
+	<engine:Label text="Hello World! From UXML" />
+	<engine:Label class="custom-label" text="Hello World! With Style" />
+
+</engine:UXML>

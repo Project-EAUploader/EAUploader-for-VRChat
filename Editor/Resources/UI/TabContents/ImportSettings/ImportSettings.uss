@@ -1,0 +1,22 @@
+﻿.import_settings {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+.import {
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: space-between;
+}
+
+.manage_models {
+    padding: 16px;
+    flex: 1 1 auto;
+}
+
+.library {
+    padding: 16px;
+    width: 25%;
+}

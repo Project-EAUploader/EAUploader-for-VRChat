@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/Editor/styles.uss?fileID=7433441132597879392&amp;guid=fe97900dfa847494bac4ec28615d133a&amp;type=3#styles" />
+    <ui:VisualElement name="row" class="row">
+          <ui:Label tabindex="-1" text="バージョン0.xのVRM&#10;ファイルをインポートします。" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+    </ui:VisualElement>
+</ui:UXML>
