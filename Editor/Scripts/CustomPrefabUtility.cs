@@ -215,7 +215,7 @@ public static class CustomPrefabUtility
             }
             else
             {
-                // obj.SetActive(false);  // 他のPrefabは非表示にする
+               obj.SetActive(false);  // 他のPrefabは非表示にする
             }
         }
 
@@ -506,7 +506,7 @@ public static class CustomPrefabUtility
             Scene currentScene = SceneManager.GetSceneByPath(EAUploaderScenePath);
             foreach (GameObject obj in currentScene.GetRootGameObjects())
             {
-                // obj.SetActive(false);
+                obj.SetActive(false);
             }
 
             // プレファブをインスタンス化してシーンに設置
