@@ -1,12 +1,9 @@
-using System.IO;
-using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EAUploader_beta
+namespace EAUploader_beta.UI.ImportSettings
 {
-    public class ImportSettings
+    internal class Main
     {
         public static void ShowContent(VisualElement root)
         {

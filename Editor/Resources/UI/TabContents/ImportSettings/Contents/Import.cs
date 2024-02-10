@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EAUploader_beta
+namespace EAUploader_beta.UI.ImportSettings
 {
     internal class Import
     {

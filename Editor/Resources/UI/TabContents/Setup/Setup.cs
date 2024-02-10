@@ -1,35 +1,92 @@
+using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EAUploader_beta
+namespace EAUploader_beta.UI.Setup
 {
-    public class Setup
+    internal class Main
     {
-        public static void ShowContent(VisualElement root)
+        private static Dictionary<string, Texture2D> prefabsWithPreview = new Dictionary<string, Texture2D>();
+        private static VisualElement root;
+        private static ScrollView modelList;
+        private static Components.Preview preview;
+
+        public static void ShowContent(VisualElement rootElement)
         {
+            root = rootElement;
+
             var visualTree = Resources.Load<VisualTreeAsset>("UI/TabContents/Setup/Setup");
             visualTree.CloneTree(root);
 
-            SetupButtonHandler(root);
+            modelList = root.Q<ScrollView>("model_list");
+
+            GetModelList();
+
+            preview = new Components.Preview();
+
+            preview.ShowContent(root.Q("avatar_preview"));
+
+            ButtonClickHandler();
         }
 
-        private static void SetupButtonHandler(VisualElement root)
+        private static void GetModelList()
         {
-            var buttons = root.Query<Button>();
-            buttons.ForEach(RegisterHandler);
+            prefabsWithPreview = CustomPrefabUtility.GetPrefabList();
+            modelList.Clear();
+            AddPrefabsToModelList();
         }
 
-        private static void RegisterHandler(Button button)
+        private static void AddPrefabsToModelList()
         {
-            button.RegisterCallback<ClickEvent>(PrintClickMessage);
+            foreach (var prefab in prefabsWithPreview)
+            {
+                var item = CreatePrefabItem(prefab);
+                modelList.Add(item);
+            }
         }
 
-        private static void PrintClickMessage(ClickEvent evt)
+        private static VisualElement CreatePrefabItem(KeyValuePair<string, Texture2D> prefab)
         {
-            Button button = evt.currentTarget as Button;
-            string buttonName = button.name;
+            var item = new Button(() => preview.UpdatePreview(prefab.Key))
+            {
+                style =
+                    {
+                        flexDirection = FlexDirection.Row,
+                        alignItems = Align.Center,
+                        marginTop = 5
+                    }
+            };
 
-            UnityEngine.Debug.Log($"Button {buttonName} was clicked.");
+            var previewImage = new Image { image = prefab.Value, scaleMode = ScaleMode.ScaleToFit, style = { width = 100, height = 100 } };
+            item.Add(previewImage);
+
+            var label = new Label(Path.GetFileNameWithoutExtension(prefab.Key));
+            item.Add(label);
+
+            return item;
+        }
+
+        private static void ButtonClickHandler()
+        {
+            var resetButton = root.Q<Button>("reset_view");
+            resetButton.clicked += ResetButtonClicked;
+            var changeNameButton = root.Q<Button>("change_name");
+            changeNameButton.clicked += ChangeNameButtonClicked;
+        }
+
+        private static void ResetButtonClicked()
+        {
+            preview.ResetPreview();
+        }
+
+        private static void ChangeNameButtonClicked()
+        {
+            if (Prefab.RenamePrefab.ShowWindow(EAUploaderCore.selectedPrefabPath))
+            {
+                GetModelList();
+            }
         }
     }
 }

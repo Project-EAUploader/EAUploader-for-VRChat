@@ -1,12 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<engine:UXML
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:engine="UnityEngine.UIElements"
-    xmlns:editor="UnityEditor.UIElements"
-    xsi:noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
->
-    <Style src="project://database/Packages/tech.uslog.eauploader/Editor/Resources/UI/TabContents/Upload/AvatarUpload.uss?fileID=7433441132597879392&amp;guid=6f76a9b71f131864e84fc560c24245ac&amp;type=3#AvatarUpload" />
-	<engine:Label text="Hello World! From UXML" />
-	<engine:Label class="custom-label" text="Hello World! With Style" />
-
-</engine:UXML>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss?fileID=7433441132597879392&amp;guid=33415aeb954406041803ecdae7dd5df1&amp;type=3#tailwind" />
+    <ui:Label text="Hello World! From UXML" />
+    <ui:Label text="Hello World! With Style" class="custom-label" />
+    <ui:VisualElement name="avatar_preview" style="flex-grow: 1;" />
+</ui:UXML>

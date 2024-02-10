@@ -1,31 +1,4 @@
-* {
+﻿* {
     -unity-font-definition: initial;
-}
-
-.title {
-    font-size: 24px;
-    -unity-font-style: bold;
-}
-
-.tabs {
-    height: 48px;
-    display: flex;
-    flex-direction: row;
-}
-
-.tab-button {
-    flex: 1 1 auto;
-    font-size: 24px;
-    -unity-font-style: bold;
-}
-
-.contentRoot {
-    display: flex;
-    flex: 1 1 auto;
-}
-
-.row {
-    display: flex;
-    flex-direction: row;
-    flex: 1 1 auto;
+    -unity-font: url('project://database/Assets/EAUploader/UI/Noto_Sans_JP.ttf');
 }

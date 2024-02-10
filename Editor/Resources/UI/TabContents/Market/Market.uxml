@@ -5,6 +5,7 @@
     xmlns:editor="UnityEditor.UIElements"
     xsi:noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
 >
+    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss" />
     <Style src="project://database/Packages/tech.uslog.eauploader/Editor/Resources/UI/TabContents/Market/Market.uss?fileID=7433441132597879392&amp;guid=088776fa81370374c915ab3db16bb186&amp;type=3#Market" />
 	<engine:Label text="Hello World! From UXML" />
 	<engine:Label class="custom-label" text="Hello World! With Style" />

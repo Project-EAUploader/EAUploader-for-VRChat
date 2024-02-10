@@ -1,9 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Packages/tech.uslog.eauploader/Editor/Resources/UI/styles.uss?fileID=7433441132597879392&amp;guid=fe97900dfa847494bac4ec28615d133a&amp;type=3#styles" />
-    <ui:Label tabindex="-1" text="モデルの管理" parse-escape-sequences="true" display-tooltip-when-elided="true" enable-rich-text="true" class="title" />
-    <ui:VisualElement style="flex-grow: 0; flex-shrink: 0; flex-direction: row;">
-        <ui:TextField name="searchQuery" picking-mode="Ignore" style="flex-shrink: 1; flex-grow: 1;" />
-        <ui:Button name="searchButton" text="検索" parse-escape-sequences="true" display-tooltip-when-elided="true" style="flex-shrink: 0; flex-grow: 0;" />
+    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss?fileID=7433441132597879392&amp;guid=33415aeb954406041803ecdae7dd5df1&amp;type=3#tailwind" />
+    <ui:Label tabindex="-1" text="モデルの管理" parse-escape-sequences="true" display-tooltip-when-elided="true" enable-rich-text="true" class="text-xl font-bold pb-2" />
+    <ui:VisualElement name="VisualElement" class="flex-row">
+        <ui:TextField name="searchQuery" picking-mode="Ignore" class="flex-1" />
+        <ui:Button name="searchButton" text="検索" parse-escape-sequences="true" display-tooltip-when-elided="true" class="px-4" />
     </ui:VisualElement>
-    <ui:ScrollView name="model_list" style="flex-grow: 1;"/>
+    <ui:ScrollView name="model_list" class="flex-1" />
 </ui:UXML>

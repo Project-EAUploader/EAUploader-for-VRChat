@@ -2,14 +2,14 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EAUploader_beta
+namespace EAUploader_beta.UI.MainWindow
 {
-    public class MainWindow : EditorWindow
+    internal class EAUploader_Beta : EditorWindow
     {
         [MenuItem("EAUploader_beta/Open EAUploader")]
         public static void ShowWindow()
         {
-            MainWindow wnd = GetWindow<MainWindow>();
+            EAUploader_Beta wnd = GetWindow<EAUploader_Beta>();
             wnd.titleContent = new GUIContent("EAUploader_beta");
             wnd.position = new Rect(100, 100, 1280, 640);
             wnd.minSize = new Vector2(960, 640);
@@ -20,7 +20,8 @@ namespace EAUploader_beta
 
         public void CreateGUI()
         {
-            //initial unityFontDefinition
+            currentTab = "settings";
+            rootVisualElement.styleSheets.Add(Resources.Load<StyleSheet>("UI/styles"));
             rootVisualElement.style.unityFont = Resources.Load<Font>("Fonts/NotoSansJP-Regular");
 
             // Import UXML
@@ -28,7 +29,7 @@ namespace EAUploader_beta
             visualTree.CloneTree(rootVisualElement);
 
             contentRoot = rootVisualElement.Q("contentRoot");
-            ImportSettings.ShowContent(contentRoot);
+            ImportSettings.Main.ShowContent(contentRoot);
 
             // Call the event handler
             SetupButtonHandler();
@@ -63,16 +64,16 @@ namespace EAUploader_beta
             switch (buttonName)
             {
                 case "settings":
-                    ImportSettings.ShowContent(contentRoot);
+                    ImportSettings.Main.ShowContent(contentRoot);
                     break;
                 case "setup":
-                    Setup.ShowContent(contentRoot);
+                    Setup.Main.ShowContent(contentRoot);
                     break;
                 case "upload":
-                    Upload.ShowContent(contentRoot);
+                    Upload.Main.ShowContent(contentRoot);
                     break;
                 case "market":
-                    Market.ShowContent(contentRoot);
+                    Market.Main.ShowContent(contentRoot);
                     break;
                 default:
                     break;

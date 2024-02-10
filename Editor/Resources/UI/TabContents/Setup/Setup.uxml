@@ -1,6 +1,21 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/Scripts/Editor/styles.uss?fileID=7433441132597879392&amp;guid=fe97900dfa847494bac4ec28615d133a&amp;type=3#styles" />
-    <ui:VisualElement name="row" class="row">
-          <ui:Label tabindex="-1" text="バージョン0.xのVRM&#10;ファイルをインポートします。" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss?fileID=7433441132597879392&amp;guid=33415aeb954406041803ecdae7dd5df1&amp;type=3#tailwind" />
+    <ui:VisualElement class="flex-row flex-1">
+        <ui:VisualElement name="avatar_models" class="w-one-quarter">
+            <ui:Label tabindex="-1" text="編集するアバターを選択" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            <ui:ScrollView name="model_list" class="flex-1" />
+        </ui:VisualElement>
+        <ui:VisualElement class="flex-1">
+            <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            <ui:VisualElement name="avatar_preview" style="flex-grow: 1;" />
+            <ui:VisualElement class="flex-row justify-between h-4">
+                <ui:Button text="reset" parse-escape-sequences="true" display-tooltip-when-elided="true" name="reset_view" />
+                <ui:Button text="change_name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="change_name" />
+                <ui:Button text="pin" parse-escape-sequences="true" display-tooltip-when-elided="true" name="pin" />
+                <ui:Button text="delete" parse-escape-sequences="true" display-tooltip-when-elided="true" name="delete" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="avatar_editor" class="w-one-quarter" />
     </ui:VisualElement>
 </ui:UXML>

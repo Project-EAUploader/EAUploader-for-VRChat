@@ -1,5 +1,3 @@
-#if UNITY_EDITOR
-#if !EA_ONBUILD
 using UnityEditor;
 using UnityEngine;
 using UnityEditor.SceneManagement;
@@ -662,5 +660,3 @@ public static class CustomPrefabUtility
         }
     }
 }
-#endif
-#endif

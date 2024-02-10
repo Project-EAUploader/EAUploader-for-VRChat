@@ -62,7 +62,7 @@ public class EAInitialization
         EditorUtility.DisplayProgressBar("Initialization", "Initializing ShaderChecker...", 0.8f);
         ShaderCheckerOnLoad();
         EditorUtility.ClearProgressBar();
-        OpenEAUploaderWindow();
+        //OpenEAUploaderWindow();
         // UpdateManager.ShowWindow(); 検討中
     }
 

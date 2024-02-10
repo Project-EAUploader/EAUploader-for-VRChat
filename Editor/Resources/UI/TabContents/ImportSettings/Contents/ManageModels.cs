@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EAUploader_beta
+namespace EAUploader_beta.UI.ImportSettings
 {
     internal class ManageModels
     {
@@ -91,7 +91,7 @@ namespace EAUploader_beta
 
         private static void ChangePrefabName(string prefabPath)
         {
-            if (RenamePrefab.ShowWindow(prefabPath))
+            if (Prefab.RenamePrefab.ShowWindow(prefabPath))
                 UpdateModelList();
         }
 
@@ -109,7 +109,7 @@ namespace EAUploader_beta
                 PrefabUtility.SaveAsPrefabAsset((GameObject)prefabCopy, newPrefabPath);
                 UnityEngine.Object.DestroyImmediate(prefabCopy);
 
-                RenamePrefab.ShowWindow(newPrefabPath);
+                Prefab.RenamePrefab.ShowWindow(newPrefabPath);
 
                 UpdateModelList();
             }
@@ -123,60 +123,6 @@ namespace EAUploader_beta
                 CustomPrefabUtility.RemovePrefabFromScene(prefabPath);
                 AssetDatabase.DeleteAsset(prefabPath);
                 UpdateModelList();
-            }
-        }
-    }
-
-    internal class RenamePrefab : EditorWindow
-    {
-        public string FilePath;
-        private bool _isChanged;
-
-        public static bool ShowWindow(string prefabPath)
-        {
-            RenamePrefab wnd = GetWindow<RenamePrefab>();
-            wnd.FilePath = prefabPath;
-            wnd.titleContent = new GUIContent("Prefabの名前を変更");
-            wnd.position = new Rect(100, 100, 400, 200);
-            wnd.minSize = new Vector2(400, 200);
-            wnd.maxSize = wnd.minSize;
-
-            wnd.rootVisualElement.style.unityFont = Resources.Load<Font>("Fonts/NotoSansJP-Regular");
-
-            var visualTree = new VisualElement();
-            var newPrefabName = new TextField("新しいPrefabの名前");
-            visualTree.Add(newPrefabName);
-
-            var renameButton = new Button(() => wnd.Rename(newPrefabName.value)) { text = "名前を変更" };
-            visualTree.Add(renameButton);
-
-            wnd.rootVisualElement.Add(visualTree);
-            wnd.ShowModal();
-
-            return wnd._isChanged;
-        }
-
-        private void Rename(string newPrefabName)
-        {
-            if (string.IsNullOrEmpty(newPrefabName))
-            {
-                EditorUtility.DisplayDialog("エラー", "新しいPrefabの名前が入力されていません", "OK");
-                return;
-            }
-
-            string directory = Path.GetDirectoryName(FilePath);
-            string newFilePath = Path.Combine(directory, newPrefabName + Path.GetExtension(FilePath));
-
-            if (!File.Exists(newFilePath))
-            {
-                AssetDatabase.MoveAsset(FilePath, newFilePath);
-                AssetDatabase.Refresh();
-                _isChanged = true;
-                Close();
-            }
-            else
-            {
-                EditorUtility.DisplayDialog("エラー", "この名前のファイルは既にあります。", "OK");
             }
         }
     }
