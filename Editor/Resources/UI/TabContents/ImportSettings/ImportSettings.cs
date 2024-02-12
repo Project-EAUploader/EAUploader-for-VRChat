@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EAUploader_beta.UI.ImportSettings
+namespace EAUploader.UI.ImportSettings
 {
     internal class Main
     {

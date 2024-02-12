@@ -13,7 +13,7 @@
                 <ui:Button text="reset" parse-escape-sequences="true" display-tooltip-when-elided="true" name="reset_view" />
                 <ui:Button text="change_name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="change_name" />
                 <ui:Button text="pin" parse-escape-sequences="true" display-tooltip-when-elided="true" name="pin" />
-                <ui:Button text="delete" parse-escape-sequences="true" display-tooltip-when-elided="true" name="delete" />
+                <ui:Button text="delete" parse-escape-sequences="true" display-tooltip-when-elided="true" name="delete_model" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="avatar_editor" class="w-one-quarter" />

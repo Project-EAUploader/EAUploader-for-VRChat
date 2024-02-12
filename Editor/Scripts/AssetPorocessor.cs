@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
@@ -9,30 +8,10 @@ public class AssetImportProcessor : AssetPostprocessor
 {
     private static readonly List<string> targetFolderPaths = new List<string>
     {
-        "Assets/EAUploader/PrefabPreviews",
         "Assets/EAUploader/MarketThumbnails",
         "Assets/EAUploader/MyList",
         "Packages/tech.uslog.eauploader/Editor/Resources/icons"
     };
-
-    public void OnEditorLoad()
-    {
-        OnPreprocessTexture();
-    }
-
-    void OnPreprocessTexture()
-    {
-        if (assetPath == null) return;  // Nullチェックを追加
-
-        foreach (var path in targetFolderPaths)
-        {
-            if (assetPath.Contains(path))
-            {
-                var importer = (TextureImporter)assetImporter;
-                importer.textureType = TextureImporterType.Sprite;
-            }
-        }
-    }
 
     static void OnPostprocessAllAssets(
         string[] importedAssets, 
@@ -99,4 +78,3 @@ public class AssetImportProcessor : AssetPostprocessor
         return prefabPaths;
     }
 }
-#endif

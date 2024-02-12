@@ -28,7 +28,7 @@ public class SetUpTabDrawer
         EditorGUI.DrawRect(new Rect(position.width * 0.7f - 1, 0, 2, position.height), Color.black);
 
         GUILayout.BeginArea(new Rect(position.width * 0.7f + 1, 0, position.width * 0.3f - 2, position.height));
-        EAUploaderEditors.Editors.Draw(new Rect(0, 0, position.width * 0.3f - 2, position.height));
+        EAUploader.Editors.Editors.Draw(new Rect(0, 0, position.width * 0.3f - 2, position.height));
         GUILayout.EndArea();
 
         GUILayout.EndHorizontal();

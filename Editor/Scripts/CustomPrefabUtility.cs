@@ -1,408 +1,299 @@
-using UnityEditor;
-using UnityEngine;
-using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
+﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
-using System;
-using VRC.SDKBase;
+using UnityEditor;
+using UnityEditor.Build.Content;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
-public static class CustomPrefabUtility
+namespace EAUploader.CustomPrefabUtility
 {
-    private const string PrefabsInfoPath = "Assets/EAUploader/PrefabManager.json";
-    private const string EAUploaderScenePath = "Assets/EAUploader.unity";
-    private const string PreviewSavePath = "Assets/EAUploader/PrefabPreviews";
-    private static Editor gameObjectEditor;
-    private static GameObject currentPreviewObject;
-    public static GameObject selectedPrefabInstance { get; private set; }
+    public enum PrefabStatus { Pinned, Show, Hidden, Other }
+    public enum PrefabType { VRChat, VRM, Other }
 
-    public static Dictionary<string, Texture2D> prefabsWithPreview = new Dictionary<string, Texture2D>();
-    public static Dictionary<string, Texture2D> vrchatAvatarsWithPreview = new Dictionary<string, Texture2D>();
-
-    public static void OnCustomPrefabUtility()
+    [Serializable]
+    public class PrefabInfo
     {
-        CheckIsSaved();
-        EnsureEAUploaderSceneExists();
-        UpdatePrefabInfo();
-        GenerateAndSaveAllPrefabPreviews();
+        public string Path;
+        public string Name;
+        public DateTime LastModified;
+        public PrefabType Type;
+        public PrefabStatus Status;
     }
 
-    public static void CheckIsSaved()
+    [Serializable]
+    public class PrefabInfoList
     {
-        bool isSaved = EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+        public List<PrefabInfo> Prefabs;
+    }
 
-        if (!isSaved)
+    public class PrefabManager
+    {
+        private const string PREFABS_INFO_PATH = "Assets/EAUploader/PrefabManager.json";
+        private const string PREVIEW_SAVE_PATH = "Assets/EAUploader/PrefabPreviews";
+
+        public static List<PrefabInfo> prefabInfoList;
+
+        public static void Initialize()
         {
-            EditorUtility.DisplayDialog("EAUploader", "Please save the scene before using EAUploader", "OK");
-            throw new Exception("Please save the scene before using EAUploader");
+            PrefabScene.OpenEAUploaderScene();
+            UpdatePrefabInfo();
+            PrefabPreview.GenerateAndSaveAllPrefabPreviews();
         }
-    }
 
-    public static void UpdatePrefabInfo()
-    {
-        var allPrefabs = GetAllPrefabs();
-
-        // "editing" sort
-        allPrefabs.Sort((a, b) =>
+        public static void UpdatePrefabInfo()
         {
-            if (a.Status == "editing" && b.Status != "editing")
-                return -1;
-            if (a.Status != "editing" && b.Status == "editing")
-                return 1;
-            return 0;
-        });
+            var allPrefabs = GetAllPrefabs();
 
-        SavePrefabsInfo(allPrefabs, PrefabsInfoPath);
-    }
+            allPrefabs = allPrefabs
+                .OrderByDescending(p => p.Status == PrefabStatus.Pinned)
+                .ThenByDescending(p => p.LastModified)
+                .ToList();
 
-    public static Dictionary<string, Texture2D> GetPrefabList()
-    {
-        prefabsWithPreview.Clear();
-        var allPrefabs = LoadPrefabsInfo(PrefabsInfoPath)
-                            .OrderByDescending(p => p.Status == "editing")
-                            .Where(p => p.Status != "hidden")
-                            .ToList();
+            SavePrefabsInfo(allPrefabs);
 
-        foreach (var prefab in allPrefabs)
+            if (prefabInfoList == null)
+            {
+                prefabInfoList = allPrefabs;
+            }
+        }
+
+        private static void SavePrefabsInfo(List<PrefabInfo> prefabs)
         {
-            string previewImagePath = Path.Combine(PreviewSavePath, Path.GetFileNameWithoutExtension(prefab.Path) + ".png");
+            string directory = Path.GetDirectoryName(PREFABS_INFO_PATH);
+
+            // ディレクトリが存在しない場合は作成
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            // JSONデータを生成
+            PrefabInfoList prefabList = new PrefabInfoList { Prefabs = prefabs };
+            string json = JsonUtility.ToJson(prefabList, true);
+
+            // ファイルに書き込む
+            File.WriteAllText(PREFABS_INFO_PATH, json);
+        }
+
+        private static List<PrefabInfo> LoadPrefabsInfo()
+        {
+            if (!File.Exists(PREFABS_INFO_PATH)) return new List<PrefabInfo>();
+
+            string json = File.ReadAllText(PREFABS_INFO_PATH);
+            PrefabInfoList prefabList = JsonUtility.FromJson<PrefabInfoList>(json);
+            return prefabList.Prefabs;
+        }
+
+        internal static List<PrefabInfo> GetAllPrefabs()
+        {
+            string[] prefabGuids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets" });
+            return prefabGuids
+                .Select(guid => AssetDatabase.GUIDToAssetPath(guid))
+                .Select(path => CreatePrefabInfo(path))
+                .OrderBy(p => p.LastModified)
+                .ToList();
+        }
+
+        private static PrefabInfo CreatePrefabInfo(string path)
+        {
+            return new PrefabInfo
+            {
+                Path = path,
+                Name = Path.GetFileNameWithoutExtension(path),
+                LastModified = File.GetLastWriteTime(path),
+                Type = GetPrefabType(path),
+                Status = GetPrefabStatus(path)
+            };
+        }
+
+        private static PrefabType GetPrefabType(string path)
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (prefab != null)
+            {
+                if (prefab.GetComponent("VRC_AvatarDescriptor") != null)
+                    return PrefabType.VRChat;
+                if (prefab.GetComponent("VRMMeta") != null)
+                    return PrefabType.VRM;
+            }
+            return PrefabType.Other;
+        }
+
+        private static PrefabStatus GetPrefabStatus(string path)
+        {
+            // JSONファイルからプレハブのステータスを読み込む
+            var allPrefabsInfo = LoadPrefabsInfo();
+            var prefabInfo = allPrefabsInfo.FirstOrDefault(info => info.Path == path);
+
+            var status = prefabInfo?.Status ?? PrefabStatus.Other;
+            return status;
+        }
+
+        public static Dictionary<string, Texture2D> GetPrefabList()
+        {
+            if (prefabInfoList == null)
+            {
+                prefabInfoList = LoadPrefabsInfo();
+            }
+            var prefabsWithPreview = new Dictionary<string, Texture2D>();
+            foreach (var prefab in prefabInfoList)
+            {
+                string previewImagePath = Path.Combine(PREVIEW_SAVE_PATH, Path.GetFileNameWithoutExtension(prefab.Path) + ".png");
+                if (File.Exists(previewImagePath))
+                {
+                    Texture2D preview = LoadTextureFromFile(previewImagePath);
+                    prefabsWithPreview[prefab.Path] = preview;
+                }
+            }
+
+            return prefabsWithPreview;
+        }
+
+        private static Texture2D LoadTextureFromFile(string filePath)
+        {
+            byte[] fileData = File.ReadAllBytes(filePath);
+            Texture2D texture = new Texture2D(2, 2);
+            texture.LoadImage(fileData);
+            return texture;
+        }
+
+        public static bool ShowDeletePrefabDialog(string prefabPath)
+        {
+            if (EditorUtility.DisplayDialog("Prefabの消去", "本当にPrefabを消去しますか？", "消去", "キャンセル"))
+            {
+                DeletePrefabPreview(prefabPath);
+                PrefabPreview.RemovePrefabFromScene(prefabPath);
+                AssetDatabase.DeleteAsset(prefabPath);
+                return true;
+            }
+            return false;
+        }
+
+        public static void DeletePrefabPreview(string prefabPath)
+        {
+            string previewImagePath = PrefabPreview.GetPreviewImagePath(prefabPath);
+
             if (File.Exists(previewImagePath))
             {
-                Texture2D preview = LoadTextureFromFile(previewImagePath);
-                prefabsWithPreview[prefab.Path] = preview;
+                File.Delete(previewImagePath);
             }
         }
-        return prefabsWithPreview;
     }
 
-    public static Dictionary<string, Texture2D> GetVrchatAvatarList()
+    public class RenamePrefabWindow : EditorWindow
     {
-        vrchatAvatarsWithPreview.Clear();
-        var vrchatAvatars = LoadPrefabsInfo(PrefabsInfoPath)
-                            .Where(info => info.Type == "VRChat" && info.Status != "hidden")
-                            .OrderByDescending(info => info.Status == "editing")
-                            .ToList();
-        foreach (var avatar in vrchatAvatars)
+        public string FilePath;
+        private bool _isChanged;
+
+        public bool ShowWindow(string prefabPath)
         {
-            string previewImagePath = Path.Combine(PreviewSavePath, Path.GetFileNameWithoutExtension(avatar.Path) + ".png");
-            if (File.Exists(previewImagePath))
+            RenamePrefabWindow wnd = GetWindow<RenamePrefabWindow>();
+            wnd.FilePath = prefabPath;
+            wnd.titleContent = new GUIContent("Prefabの名前を変更");
+            wnd.position = new Rect(100, 100, 400, 200);
+            wnd.minSize = new Vector2(400, 200);
+            wnd.maxSize = wnd.minSize;
+
+            wnd.rootVisualElement.style.unityFont = AssetDatabase.LoadAssetAtPath<UnityEngine.Font>("Assets/EAUploader/UI/Noto_Sans_JP.ttf");
+
+            var visualTree = new VisualElement();
+            var newPrefabName = new TextField("新しいPrefabの名前")
             {
-                Texture2D preview = LoadTextureFromFile(previewImagePath);
-                vrchatAvatarsWithPreview[avatar.Path] = preview;
-            }
-        }
-        return vrchatAvatarsWithPreview;
-    }
+                value = Path.GetFileNameWithoutExtension(prefabPath)
+            };
+            visualTree.Add(newPrefabName);
 
-    private static List<PrefabInfo> GetAllPrefabs()
-    {
-        string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets" });
-        return guids.Select(guid => AssetDatabase.GUIDToAssetPath(guid))
-                    .Select(path => new PrefabInfo
-                    {
-                        Path = path,
-                        Name = Path.GetFileNameWithoutExtension(path),
-                        LastModified = File.GetLastWriteTime(path),
-                        Type = GetPrefabType(path),
-                        Status = GetPrefabStatus(path)
-                    })
-                    .OrderBy(p => p.LastModified)
-                    .ToList();
-    }
+            var renameButton = new Button(() => wnd.Rename(newPrefabName.value)) { text = "名前を変更" };
+            visualTree.Add(renameButton);
 
-    private static string GetPrefabType(string path)
-    {
-        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-        if (prefab != null)
-        {
-            if (prefab.GetComponent("VRC_AvatarDescriptor") != null)
-                return "VRChat";
-            if (prefab.GetComponent("VRMMeta") != null)
-                return "VRM";
-        }
-        return "Other";
-    }
+            wnd.rootVisualElement.Add(visualTree);
+            wnd.ShowModal();
 
-    private static bool IsVrchatAvatar(string path)
-    {
-        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-        return prefab != null && prefab.GetComponent("VRC_AvatarDescriptor") != null;
-    }
-
-    public static void SavePrefabsInfo(List<PrefabInfo> prefabs, string filePath)
-    {
-        string directory = Path.GetDirectoryName(filePath);
-
-        // ディレクトリが存在しない場合は作成
-        if (!Directory.Exists(directory))
-        {
-            Directory.CreateDirectory(directory);
+            return wnd._isChanged;
         }
 
-        // JSONデータを生成
-        PrefabInfoList prefabList = new PrefabInfoList { Prefabs = prefabs };
-        string json = JsonUtility.ToJson(prefabList, true);
-
-        // ファイルに書き込む
-        File.WriteAllText(filePath, json);
-    }
-
-    public static List<PrefabInfo> LoadPrefabsInfo(string filePath)
-    {
-        if (!File.Exists(filePath)) return new List<PrefabInfo>();
-
-        string json = File.ReadAllText(filePath);
-        PrefabInfoList prefabList = JsonUtility.FromJson<PrefabInfoList>(json);
-        return prefabList.Prefabs;
-    }
-
-    // JSONファイルからPrefabの情報を取得するメソッド群
-    public static List<string> GetPrefabPaths()
-    {
-        return LoadPrefabsInfo(PrefabsInfoPath).Select(p => p.Path).ToList();
-    }
-
-    public static List<string> GetPrefabNames()
-    {
-        return LoadPrefabsInfo(PrefabsInfoPath).Select(p => p.Name).ToList();
-    }
-
-    public static DateTime? GetPrefabLastModified(string path)
-    {
-        return LoadPrefabsInfo(PrefabsInfoPath).FirstOrDefault(p => p.Path == path)?.LastModified;
-    }
-
-    public static List<string> GetVrchatAvatarPaths()
-    {
-        return LoadPrefabsInfo(PrefabsInfoPath)
-            .Where(info => info.Type == "VRChat")
-            .Select(info => info.Path)
-            .ToList();
-    }
-
-    public static string GetVrchatAvatarName(string path)
-    {
-        return LoadPrefabsInfo(PrefabsInfoPath)
-            .FirstOrDefault(info => info.Path == path && info.Type == "VRChat")?.Name;
-    }
-
-    public static DateTime? GetVrchatAvatarLastModified(string path)
-    {
-        return LoadPrefabsInfo(PrefabsInfoPath)
-            .FirstOrDefault(info => info.Path == path && info.Type == "VRChat")?.LastModified;
-    }
-
-    public static void SelectPrefabAndSetupScene(string prefabPath)
-    {
-        // EAUploader シーンをロード
-        if (EditorSceneManager.GetActiveScene().path != EAUploaderScenePath)
+        private void Rename(string newPrefabName)
         {
-            EditorSceneManager.OpenScene(EAUploaderScenePath, OpenSceneMode.Single);
-        }
-
-        Scene currentScene = SceneManager.GetSceneByPath(EAUploaderScenePath);
-        GameObject existingInstance = null;
-
-        // シーン内のすべてのPrefabインスタンスを検索し、非表示に
-        foreach (GameObject obj in currentScene.GetRootGameObjects())
-        {
-            if (PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(obj) == prefabPath)
+            if (string.IsNullOrEmpty(newPrefabName))
             {
-                existingInstance = obj;  // 選択されたPrefabが見つかった場合 
-            }
-            else
-            {
-               obj.SetActive(false);  // 他のPrefabは非表示にする
-            }
-        }
-
-        if (existingInstance != null)
-        {
-            // 既に存在するPrefabインスタンスをアクティブに
-            selectedPrefabInstance = existingInstance;
-            selectedPrefabInstance.SetActive(true);
-        }
-        else
-        {
-            // 新しいPrefabインスタンスをロードしてインスタンス化
-            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-            if (prefab == null)
-            {
-                Debug.LogError("Failed to load prefab from path: " + prefabPath);
+                EditorUtility.DisplayDialog("エラー", "新しいPrefabの名前が入力されていません", "OK");
                 return;
             }
 
-            GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-            instance.transform.position = Vector3.zero;
-            SceneManager.MoveGameObjectToScene(instance, currentScene);
-            selectedPrefabInstance = instance;
-        }
-    }
+            string directory = Path.GetDirectoryName(FilePath);
+            string newFilePath = Path.Combine(directory, newPrefabName + Path.GetExtension(FilePath));
 
-    public static void RemovePrefabFromScene(string prefabPath)
-    {
-        // EAUploader シーンをロード
-        if (EditorSceneManager.GetActiveScene().path != EAUploaderScenePath)
-        {
-            EditorSceneManager.OpenScene(EAUploaderScenePath, OpenSceneMode.Single);
-        }
-
-        // シーンを検索
-        Scene currentScene = SceneManager.GetSceneByPath(EAUploaderScenePath);
-        List<GameObject> instancesToRemove = new List<GameObject>();
-        foreach (GameObject obj in currentScene.GetRootGameObjects())
-        {
-            if (PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(obj) == prefabPath)
+            if (!File.Exists(newFilePath))
             {
-                instancesToRemove.Add(obj);
+                AssetDatabase.MoveAsset(FilePath, newFilePath);
+                AssetDatabase.Refresh();
+                _isChanged = true;
+                Close();
+            }
+            else
+            {
+                EditorUtility.DisplayDialog("エラー", "この名前のファイルは既にあります。", "OK");
             }
         }
-
-        // インスタンスをシーンから削除
-        foreach (var instance in instancesToRemove)
-        {
-            UnityEngine.Object.DestroyImmediate(instance);
-        }
-
-        // 必要に応じてシーンの変更を保存
-        EditorSceneManager.MarkSceneDirty(currentScene);
-        EditorSceneManager.SaveScene(currentScene);
     }
 
-    public static void DrawPrefabPreview(Rect position)
+    public class PrefabPreview
     {
-        if (selectedPrefabInstance == null)
+        private const string EAUPLOADER_SCENE_PATH = "Assets/EAUploader.unity";
+        private const string PREVIEW_SAVE_PATH = "Assets/EAUploader/PrefabPreviews";
+
+        public static Texture2D GeneratePreview(GameObject prefab)
         {
-            GUI.Label(position, "No prefab selected", EditorStyles.boldLabel);
-            return;
+            var previewRenderUtility = new PreviewRenderUtility();
+            var rect = new Rect(0, 0, 1080, 1080);
+
+            var gameObject = previewRenderUtility.InstantiatePrefabInScene(prefab);
+
+            Bounds bounds = CalculateBounds(gameObject);
+
+            previewRenderUtility.BeginStaticPreview(rect);
+            previewRenderUtility.AddSingleGO(gameObject);
+
+            previewRenderUtility.camera.backgroundColor = new UnityEngine.Color(0.9f, 0.9f, 0.9f, 1);
+            previewRenderUtility.camera.clearFlags = CameraClearFlags.SolidColor;
+            previewRenderUtility.camera.orthographic = true;
+            previewRenderUtility.camera.orthographicSize = bounds.size.y / 2;
+
+            float size = bounds.size.magnitude;
+            float distance = size / (2 * Mathf.Tan(previewRenderUtility.camera.fieldOfView * 0.5f * Mathf.Deg2Rad));
+            previewRenderUtility.camera.transform.position = bounds.center + previewRenderUtility.camera.transform.forward * distance;
+            previewRenderUtility.camera.transform.LookAt(bounds.center);
+
+            previewRenderUtility.Render();
+
+            Texture2D texture = previewRenderUtility.EndStaticPreview();
+
+            previewRenderUtility.Cleanup();
+
+            return texture;
         }
 
-        if (currentPreviewObject != selectedPrefabInstance)
+        private static Bounds CalculateBounds(GameObject obj)
         {
-            currentPreviewObject = selectedPrefabInstance;
-            gameObjectEditor = Editor.CreateEditor(selectedPrefabInstance);
-        }
-
-        if (gameObjectEditor != null)
-        {
-            GUIStyle bgColor = new GUIStyle();
-            bgColor.normal.background = EditorGUIUtility.whiteTexture;
-
-            float aspectRatio = 1.0f;
-            float previewSize = Mathf.Min(position.width, position.height * aspectRatio);
-            Rect r = new Rect(position.x, position.y, previewSize, previewSize / aspectRatio);
-            gameObjectEditor.OnInteractivePreviewGUI(r, bgColor);
-        }
-    }
-
-    public static bool IsVRMPrefab(string prefabPath)
-    {
-        var allPrefabsInfo = LoadPrefabsInfo(PrefabsInfoPath);
-        var prefabInfo = allPrefabsInfo.FirstOrDefault(info => info.Path == prefabPath);
-
-        return prefabInfo != null && prefabInfo.Type == "VRM";
-    }
-
-    public static void SetPrefabStatus(string prefabPath, string status)
-    {
-        var allPrefabs = LoadPrefabsInfo(PrefabsInfoPath);
-        var prefab = allPrefabs.FirstOrDefault(p => p.Path == prefabPath);
-        if (prefab != null)
-        {
-            prefab.Status = status;
-            SavePrefabsInfo(allPrefabs, PrefabsInfoPath);
-            // Debug.Log($"Save PrefabInfo as {allPrefabs}-{PrefabsInfoPath}");
-        }
-    }
-
-    public static Dictionary<string, Texture2D> GetHiddenPrefabList()
-    {
-        var hiddenPrefabsWithPreview = new Dictionary<string, Texture2D>();
-        var hiddenPrefabs = LoadPrefabsInfo(PrefabsInfoPath)
-                            .Where(p => p.Status == "hidden")
-                            .ToList();
-
-        foreach (var prefab in hiddenPrefabs)
-        {
-            string previewImagePath = Path.Combine(PreviewSavePath, Path.GetFileNameWithoutExtension(prefab.Path) + ".png");
-            if (File.Exists(previewImagePath))
+            var renderers = obj.GetComponentsInChildren<Renderer>();
+            Bounds bounds = new Bounds(obj.transform.position, Vector3.zero);
+            foreach (Renderer renderer in renderers)
             {
-                Texture2D preview = LoadTextureFromFile(previewImagePath);
-                hiddenPrefabsWithPreview[prefab.Path] = preview;
+                bounds.Encapsulate(renderer.bounds);
             }
-        }
-        return hiddenPrefabsWithPreview;
-    }
-
-    public static string GetPrefabStatus(string path)
-    {
-        // JSONファイルからプレハブのステータスを読み込む
-        var allPrefabsInfo = LoadPrefabsInfo(PrefabsInfoPath);
-        var prefabInfo = allPrefabsInfo.FirstOrDefault(info => info.Path == path);
-
-        return prefabInfo != null && !string.IsNullOrEmpty(prefabInfo.Status) ? prefabInfo.Status : "show";
-    }
-
-    public static void RegisterNewPrefab(string prefabPath)
-    {
-        Debug.Log($"Register: {prefabPath}");
-        if (string.IsNullOrEmpty(prefabPath) || !File.Exists(prefabPath))
-        {
-            Debug.LogError("Invalid prefab path: " + prefabPath);
-            return;
+            return bounds;
         }
 
-        // プレハブ情報を作成
-        PrefabInfo newPrefabInfo = new PrefabInfo
+        public static void GenerateAndSaveAllPrefabPreviews()
         {
-            Path = prefabPath,
-            Name = Path.GetFileNameWithoutExtension(prefabPath),
-            LastModified = File.GetLastWriteTime(prefabPath),
-            Type = GetPrefabType(prefabPath),
-            Status = "show"
-        };
+            var allPrefabs = PrefabManager.GetAllPrefabs();
 
-        var allPrefabs = LoadPrefabsInfo(PrefabsInfoPath);
-        if (!allPrefabs.Any(p => p.Path == prefabPath))
-        {
-            allPrefabs.Add(newPrefabInfo);
-            SavePrefabsInfo(allPrefabs, PrefabsInfoPath);
-        }
-
-        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-        if (prefab != null)
-        {
-            Debug.Log("Generating preview in RegisterNewPrefab");
-            Texture2D preview = GeneratePreview(prefab);
-            SavePrefabPreview(prefabPath, preview);
-        }
-    }
-
-    public static void DeletePrefabPreview(string prefabPath)
-    {
-        string previewImagePath = GetPreviewImagePath(prefabPath);
-
-        if (File.Exists(previewImagePath))
-        {
-            File.Delete(previewImagePath);
-        }
-    }
-
-    private static string GetPreviewImagePath(string prefabPath)
-    {
-        string fileName = Path.GetFileNameWithoutExtension(prefabPath);
-        return Path.Combine(PreviewSavePath, $"{fileName}.png");
-    }
-
-    private static void GenerateAndSaveAllPrefabPreviews()
-    {
-        var allPrefabs = GetAllPrefabs();
-        List<string> failedPrefabs = new List<string>(); // 失敗したプレファブを保持するリスト
-
-        foreach (var prefabInfo in allPrefabs)
-        {
-            if (!IsFileLocked(new FileInfo(prefabInfo.Path)))
+            foreach (var prefabInfo in allPrefabs)
             {
                 GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabInfo.Path);
                 if (prefab != null)
@@ -411,252 +302,97 @@ public static class CustomPrefabUtility
                     SavePrefabPreview(prefabInfo.Path, preview);
                 }
             }
-            else
+        }
+
+        private static void SavePrefabPreview(string prefabPath, Texture2D preview)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(prefabPath);
+            string savePath = Path.Combine(PREVIEW_SAVE_PATH, $"{fileName}.png");
+
+            string directoryPath = Path.GetDirectoryName(savePath);
+            if (!Directory.Exists(directoryPath))
             {
-                failedPrefabs.Add(prefabInfo.Path);
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            try
+            {
+                byte[] pngData = preview.EncodeToPNG();
+                File.WriteAllBytes(savePath, pngData);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error saving preview for prefab: {prefabPath}. \nError: {e.Message}");
+                return;
             }
         }
 
-        // 処理終了後に失敗リストを確認
-        if (failedPrefabs.Count > 0)
+        public static void SaveTextureToFile(Texture2D texture, string filePath)
         {
-            string failedPaths = string.Join("\n", failedPrefabs);
-            EditorUtility.DisplayDialog("Prefab Preview Generation Failed", $"Failed to generate previews for the following prefabs:\n{failedPaths}", "OK");
-        }
-    }
-
-    private static bool IsFileLocked(FileInfo file)
-    {
-        try
-        {
-            using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
-            {
-                stream.Close();
-            }
-        }
-        catch (IOException)
-        {
-            // ファイルがロックされているか、別のエラーが発生した場合
-            return true;
+            byte[] bytes = texture.EncodeToPNG();
+            File.WriteAllBytes(filePath, bytes);
         }
 
-        // ファイルはロックされていない
-        return false;
-    }
-
-    private static void SavePrefabPreview(string prefabPath, Texture2D preview)
-    {
-        string fileName = Path.GetFileNameWithoutExtension(prefabPath);
-        string savePath = Path.Combine(PreviewSavePath, $"{fileName}.png");
-
-        string directoryPath = Path.GetDirectoryName(savePath);
-        if (!Directory.Exists(directoryPath))
+        public static void RemovePrefabFromScene(string prefabPath)
         {
-            Directory.CreateDirectory(directoryPath);
-        }
-
-        try
-        {
-            byte[] pngData = preview.EncodeToPNG();
-            File.WriteAllBytes(savePath, pngData);
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Error saving preview for prefab: {prefabPath}. \nError: {e.Message}");
-            return;
-        }
-    }
-
-    public static Texture2D GeneratePreview(GameObject prefab)
-    {
-        string prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(prefab);
-        string fileName = Path.GetFileNameWithoutExtension(prefabPath);
-
-        if (fileName.StartsWith("prefab-id-v1_avtr_"))
-        {
-            Texture2D build_prefab_image = new Texture2D(2, 2);
-            build_prefab_image.SetPixel(0, 0, Color.white);
-            build_prefab_image.SetPixel(1, 0, Color.white);
-            build_prefab_image.SetPixel(0, 1, Color.white);
-            build_prefab_image.SetPixel(1, 1, Color.white);
-            build_prefab_image.Apply();
-            return build_prefab_image;
-        }
-
-        Scene tempScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
-        GameObject cameraObject = null;
-        GameObject lightObject = null;
-        GameObject instance = null;
-
-        try
-        {
-            instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-            instance.transform.position = Vector3.zero;
-            SceneManager.MoveGameObjectToScene(instance, tempScene);
-
             // EAUploader シーンをロード
-            if (EditorSceneManager.GetActiveScene().path != EAUploaderScenePath)
+            if (EditorSceneManager.GetActiveScene().path != EAUPLOADER_SCENE_PATH)
             {
-                EditorSceneManager.OpenScene(EAUploaderScenePath, OpenSceneMode.Single);
+                EditorSceneManager.OpenScene(EAUPLOADER_SCENE_PATH, OpenSceneMode.Single);
             }
 
-            // シーン内の他のオブジェクトを非表示にする
-            Scene currentScene = SceneManager.GetSceneByPath(EAUploaderScenePath);
+            // シーンを検索
+            Scene currentScene = SceneManager.GetSceneByPath(EAUPLOADER_SCENE_PATH);
+            List<GameObject> instancesToRemove = new List<GameObject>();
             foreach (GameObject obj in currentScene.GetRootGameObjects())
             {
-                obj.SetActive(false);
-            }
-
-            // プレファブをインスタンス化してシーンに設置
-            instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-            instance.transform.position = Vector3.zero;
-            SceneManager.MoveGameObjectToScene(instance, currentScene);
-
-            // バウンディングボックスを計算
-            Bounds bounds = CalculateBounds(instance);
-
-            // プレビュー用のカメラを設定
-            cameraObject = new GameObject("EAUploader Preview Camera");
-            var camera = cameraObject.AddComponent<Camera>();
-            camera.backgroundColor = new Color(0.9f, 0.9f, 0.9f, 1);
-            camera.clearFlags = CameraClearFlags.SolidColor;
-            camera.orthographic = true;
-
-            // カメラのアスペクト比を設定
-            camera.aspect = bounds.size.x / bounds.size.y;
-            camera.orthographicSize = bounds.size.y / 2;
-
-            camera.transform.position = bounds.center + camera.transform.forward * bounds.extents.magnitude * 2;
-            camera.transform.LookAt(bounds.center);
-
-            // プレビュー用のライトを設定
-            lightObject = new GameObject("EAUploader Preview Light");
-            var light = lightObject.AddComponent<Light>();
-            light.type = LightType.Directional;
-            light.intensity = 1f;
-            light.color = Color.white;
-
-            // ライトの位置と向きをカメラに合わせる
-            light.transform.position = camera.transform.position;
-            light.transform.rotation = camera.transform.rotation;
-
-            // レンダリング解像度を設定
-            int imageHeight = 540;
-            int imageWidth = (int)(imageHeight * camera.aspect);
-
-            // プレビュー画像をレンダリング
-            RenderTexture renderTexture = new RenderTexture(imageWidth, imageHeight, 24);
-            camera.targetTexture = renderTexture;
-            RenderTexture.active = renderTexture;
-            camera.Render();
-
-            // 画像をTexture2Dに変換
-            Texture2D preview = new Texture2D(imageWidth, imageHeight, TextureFormat.RGBA32, false);
-            preview.ReadPixels(new Rect(0, 0, imageWidth, imageHeight), 0, 0);
-            preview.Apply();
-
-            // クリーンアップ
-            RenderTexture.active = null;
-            UnityEngine.Object.DestroyImmediate(cameraObject);
-            UnityEngine.Object.DestroyImmediate(instance);
-            UnityEngine.Object.DestroyImmediate(lightObject);
-
-            return preview;
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Error generating preview for prefab: {prefab.name}. Error: {e.Message}");
-            return null;
-        }
-        finally
-        {
-            // クリーンアップ
-            if (cameraObject != null) UnityEngine.Object.DestroyImmediate(cameraObject);
-            if (lightObject != null) UnityEngine.Object.DestroyImmediate(lightObject);
-            if (instance != null) UnityEngine.Object.DestroyImmediate(instance);
-            EditorSceneManager.CloseScene(tempScene, true);
-        }
-    }
-
-    private static Bounds CalculateBounds(GameObject obj)
-    {
-        var renderers = obj.GetComponentsInChildren<Renderer>();
-        Bounds bounds = new Bounds(obj.transform.position, Vector3.zero);
-        foreach (Renderer renderer in renderers)
-        {
-            bounds.Encapsulate(renderer.bounds);
-        }
-        return bounds;
-    }
-
-    private static Texture2D LoadTextureFromFile(string filePath)
-    {
-        byte[] fileData = File.ReadAllBytes(filePath);
-        Texture2D texture = new Texture2D(2, 2);
-        texture.LoadImage(fileData);
-        return texture;
-    }
-
-    public static float GetAvatarHeight(GameObject avatar)
-    {
-        var avatarDescriptor = avatar.GetComponent<VRC_AvatarDescriptor>();
-        if (avatarDescriptor != null)
-        {
-            // ViewPosition.y がアバターの目線の高さ
-            return avatarDescriptor.ViewPosition.y;
-        }
-
-        // デフォルト
-        return 0f;
-    }
-
-    public static void Processor(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
-    {
-        bool shouldRefresh = false;
-
-        foreach (string path in importedAssets.Concat(movedAssets))
-        {
-            if (Path.GetExtension(path) == ".prefab")
-            {
-                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                if (prefab != null)
+                if (PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(obj) == prefabPath)
                 {
-                    GeneratePreview(prefab);
-                    Texture2D preview = GeneratePreview(prefab);
-                    SavePrefabPreview(path, preview);
-                    shouldRefresh = true;
+                    instancesToRemove.Add(obj);
                 }
             }
+
+            // インスタンスをシーンから削除
+            foreach (var instance in instancesToRemove)
+            {
+                UnityEngine.Object.DestroyImmediate(instance);
+            }
+
+            // 必要に応じてシーンの変更を保存
+            EditorSceneManager.MarkSceneDirty(currentScene);
+            EditorSceneManager.SaveScene(currentScene);
         }
 
-        if (shouldRefresh || deletedAssets.Any(path => Path.GetExtension(path) == ".prefab"))
+        public static string GetPreviewImagePath(string prefabPath)
         {
-            UpdatePrefabInfo();
+            string fileName = Path.GetFileNameWithoutExtension(prefabPath);
+            return Path.Combine(PREVIEW_SAVE_PATH, $"{fileName}.png");
         }
     }
 
-    [System.Serializable]
-    public class PrefabInfo
+    public class PrefabScene
     {
-        public string Path;
-        public string Name;
-        public DateTime LastModified;
-        public string Type;
-        public string Status;
-    }
+        private const string EAUPLOADER_SCENE_PATH = "Assets/EAUploader.unity";
 
-    [System.Serializable]
-    public class PrefabInfoList
-    {
-        public List<PrefabInfo> Prefabs;
-    }
-
-    public static void EnsureEAUploaderSceneExists()
-    {
-        if (!File.Exists(EAUploaderScenePath))
+        public static void OpenEAUploaderScene()
         {
-            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            EditorSceneManager.SaveScene(scene, EAUploaderScenePath);
+            CheckSceneIsSaved();
+            if (!File.Exists(EAUPLOADER_SCENE_PATH))
+            {
+                var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+                EditorSceneManager.SaveScene(scene, EAUPLOADER_SCENE_PATH);
+            }
+        }
+
+        public static void CheckSceneIsSaved()
+        {
+            bool isSaved = EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+
+            if (!isSaved)
+            {
+                EditorUtility.DisplayDialog("EAUploader", "Please save the scene before using EAUploader", "OK");
+                throw new Exception("Please save the scene before using EAUploader");
+            }
         }
     }
 }

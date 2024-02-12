@@ -6,7 +6,7 @@ using System.IO;
 using static labels;
 using static styles;
 
-namespace EAUploaderEditors
+namespace EAUploader.Editors
 {
     public static class Editors
     {

@@ -2,15 +2,15 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EAUploader_beta.UI.MainWindow
+namespace EAUploader.UI
 {
-    internal class EAUploader_Beta : EditorWindow
+    internal class EAUploader : EditorWindow
     {
-        [MenuItem("EAUploader_beta/Open EAUploader")]
+        [MenuItem("EAUploader/Open EAUploader")]
         public static void ShowWindow()
         {
-            EAUploader_Beta wnd = GetWindow<EAUploader_Beta>();
-            wnd.titleContent = new GUIContent("EAUploader_beta");
+            EAUploader wnd = GetWindow<EAUploader>();
+            wnd.titleContent = new GUIContent("EAUploader");
             wnd.position = new Rect(100, 100, 1280, 640);
             wnd.minSize = new Vector2(960, 640);
         }
@@ -22,7 +22,6 @@ namespace EAUploader_beta.UI.MainWindow
         {
             currentTab = "settings";
             rootVisualElement.styleSheets.Add(Resources.Load<StyleSheet>("UI/styles"));
-            rootVisualElement.style.unityFont = Resources.Load<Font>("Fonts/NotoSansJP-Regular");
 
             // Import UXML
             var visualTree = Resources.Load<VisualTreeAsset>("UI/MainWindow"); 

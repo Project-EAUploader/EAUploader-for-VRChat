@@ -15,11 +15,11 @@ public static class EasyUploaderMenu
     [MenuItem("EAUploader/MainWindow _%#e")]
     public static void ShowEasyUploaderWindow()
     {
-        EAUploader.ShowWindow();
+        EAUploader_Old.ShowWindow();
     }
 }
 
-internal class EAUploader : EditorWindow
+internal class EAUploader_Old : EditorWindow
 {
     private static int selectedTabIndex = 0;
     private string[] tabNames;
@@ -36,10 +36,10 @@ internal class EAUploader : EditorWindow
     public static bool skipOnDisable = false;
     private static int selectedAvatarWorldTabIndex = 0;
 
-    public static EAUploader ShowWindow()
+    public static EAUploader_Old ShowWindow()
     {
         OnCustomPrefabUtility();
-        var window = GetWindow<EAUploader>();
+        var window = GetWindow<EAUploader_Old>();
         new Vector2(900, 600);  // 最小サイズ
         window.maximized = true;  // ウィンドウを最大化
         window.Show();
@@ -48,7 +48,7 @@ internal class EAUploader : EditorWindow
 
     public static void CloseWindow()
     {
-        var window = GetWindow<EAUploader>();
+        var window = GetWindow<EAUploader_Old>();
         if (window != null)
         {
             window.Close();

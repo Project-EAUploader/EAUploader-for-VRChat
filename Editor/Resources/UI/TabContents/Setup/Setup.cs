@@ -1,10 +1,11 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EAUploader_beta.UI.Setup
+namespace EAUploader.UI.Setup
 {
     internal class Main
     {
@@ -24,16 +25,16 @@ namespace EAUploader_beta.UI.Setup
 
             GetModelList();
 
-            preview = new Components.Preview();
+            preview = new Components.Preview(root.Q("avatar_preview"), EAUploaderCore.selectedPrefabPath);
 
-            preview.ShowContent(root.Q("avatar_preview"));
+            preview.ShowContent();
 
             ButtonClickHandler();
         }
 
         private static void GetModelList()
         {
-            prefabsWithPreview = CustomPrefabUtility.GetPrefabList();
+            prefabsWithPreview = CustomPrefabUtility.PrefabManager.GetPrefabList();
             modelList.Clear();
             AddPrefabsToModelList();
         }
@@ -49,14 +50,18 @@ namespace EAUploader_beta.UI.Setup
 
         private static VisualElement CreatePrefabItem(KeyValuePair<string, Texture2D> prefab)
         {
-            var item = new Button(() => preview.UpdatePreview(prefab.Key))
+            var item = new Button(() =>
+            {
+                EAUploaderCore.selectedPrefabPath = prefab.Key;
+                preview.UpdatePreview(prefab.Key);
+            })
             {
                 style =
-                    {
-                        flexDirection = FlexDirection.Row,
-                        alignItems = Align.Center,
-                        marginTop = 5
-                    }
+                            {
+                                flexDirection = FlexDirection.Row,
+                                alignItems = Align.Center,
+                                marginTop = 5
+                            }
             };
 
             var previewImage = new Image { image = prefab.Value, scaleMode = ScaleMode.ScaleToFit, style = { width = 100, height = 100 } };
@@ -74,6 +79,8 @@ namespace EAUploader_beta.UI.Setup
             resetButton.clicked += ResetButtonClicked;
             var changeNameButton = root.Q<Button>("change_name");
             changeNameButton.clicked += ChangeNameButtonClicked;
+            var deleteButton = root.Q<Button>("delete_model");
+            deleteButton.clicked += DeleteButtonClicked;
         }
 
         private static void ResetButtonClicked()
@@ -83,7 +90,16 @@ namespace EAUploader_beta.UI.Setup
 
         private static void ChangeNameButtonClicked()
         {
-            if (Prefab.RenamePrefab.ShowWindow(EAUploaderCore.selectedPrefabPath))
+            var renameWindow = ScriptableObject.CreateInstance<CustomPrefabUtility.RenamePrefabWindow>();
+            if (renameWindow.ShowWindow(EAUploaderCore.selectedPrefabPath)) 
+            {
+                GetModelList();
+            }
+        }
+
+        private static void DeleteButtonClicked()
+        {
+            if (CustomPrefabUtility.PrefabManager.ShowDeletePrefabDialog(EAUploaderCore.selectedPrefabPath))
             {
                 GetModelList();
             }

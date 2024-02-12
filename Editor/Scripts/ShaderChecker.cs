@@ -4,75 +4,66 @@ using System.Collections.Generic;
 using System.IO;
 using static labels;
 
-// [InitializeOnLoad]
-public class ShaderChecker
+namespace EAUploader
 {
-    public static void OnShaderChecker()
+    public class ShaderChecker
     {
-        EditorApplication.update += CheckShadersOnStartup;
-    }
-
-    private static void CheckShadersOnStartup()
-    {
-        EditorApplication.update -= CheckShadersOnStartup;
-        CheckShadersInPrefabs();
-    }
-
-    public static void CheckShadersInPrefabs()
-    {
-        string[] allPrefabPaths = AssetDatabase.FindAssets("t:Prefab");
-        HashSet<string> problematicPrefabs = new HashSet<string>();
-
-        foreach (string prefabPath in allPrefabPaths)
+        public static void CheckShadersInPrefabs()
         {
-            string assetPath = AssetDatabase.GUIDToAssetPath(prefabPath);
-            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+            string[] allPrefabPaths = AssetDatabase.FindAssets("t:Prefab");
+            HashSet<string> problematicPrefabs = new HashSet<string>();
 
-            Renderer[] renderers = prefab.GetComponentsInChildren<Renderer>(true);
-            foreach (Renderer renderer in renderers)
+            foreach (string prefabPath in allPrefabPaths)
             {
-                foreach (Material material in renderer.sharedMaterials)
+                string assetPath = AssetDatabase.GUIDToAssetPath(prefabPath);
+                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+
+                Renderer[] renderers = prefab.GetComponentsInChildren<Renderer>(true);
+                foreach (Renderer renderer in renderers)
                 {
-                    if (material != null && material.shader != null)
+                    foreach (Material material in renderer.sharedMaterials)
                     {
-                        if (material.shader.name == "Hidden/InternalErrorShader" || !ShaderExists(material.shader.name))
+                        if (material != null && material.shader != null)
                         {
-                            problematicPrefabs.Add(prefab.name);
-                            break;
+                            if (material.shader.name == "Hidden/InternalErrorShader" || !ShaderExists(material.shader.name))
+                            {
+                                problematicPrefabs.Add(prefab.name);
+                                break;
+                            }
                         }
                     }
                 }
             }
-        }
 
-        if (problematicPrefabs.Count > 0)
-        {
-            string msg1 = Get(118);
-            string msg2 = Get(119);
-            string msg3 = Get(120);
-            string message = $"{msg1}\n{string.Join("\n", problematicPrefabs)}\n\n{msg2}";
-            if (EditorUtility.DisplayDialogComplex("Shader Issues Found", message, "OK", msg3, "") == 1)
+            if (problematicPrefabs.Count > 0)
             {
-                Application.OpenURL("https://www.uslog.tech/eauploader-forum/__q-a/siedagajian-tukaranaiera");
+                string msg1 = Get(118);
+                string msg2 = Get(119);
+                string msg3 = Get(120);
+                string message = $"{msg1}\n{string.Join("\n", problematicPrefabs)}\n\n{msg2}";
+                if (EditorUtility.DisplayDialogComplex("Shader Issues Found", message, "OK", msg3, "") == 1)
+                {
+                    Application.OpenURL("https://www.uslog.tech/eauploader-forum/__q-a/siedagajian-tukaranaiera");
+                }
             }
         }
-    }
 
-    private static bool ShaderExists(string shaderName)
-    {
-        return Shader.Find(shaderName) != null;
-    }
-
-    private class MyAssetPostprocessor : AssetPostprocessor
-    {
-        static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
+        private static bool ShaderExists(string shaderName)
         {
-            foreach (string path in importedAssets)
+            return Shader.Find(shaderName) != null;
+        }
+
+        private class MyAssetPostprocessor : AssetPostprocessor
+        {
+            static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
             {
-                if (path.EndsWith(".prefab"))
+                foreach (string path in importedAssets)
                 {
-                    CheckShadersInPrefabs();
-                    break;
+                    if (path.EndsWith(".prefab"))
+                    {
+                        CheckShadersInPrefabs();
+                        break;
+                    }
                 }
             }
         }

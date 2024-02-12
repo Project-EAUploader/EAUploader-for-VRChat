@@ -1,4 +1,5 @@
-﻿using System;
+﻿    using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EAUploader_beta.UI.ImportSettings
+namespace EAUploader.UI.ImportSettings
 {
     internal class ManageModels
     {
@@ -39,7 +40,8 @@ namespace EAUploader_beta.UI.ImportSettings
 
         private static void UpdatePrefabsWithPreview(string searchValue = "")
         {
-            prefabsWithPreview = CustomPrefabUtility.GetPrefabList()
+            prefabsWithPreview = CustomPrefabUtility.PrefabManager.GetPrefabList();
+            prefabsWithPreview = prefabsWithPreview
                 .Where(kvp => string.IsNullOrEmpty(searchValue) || kvp.Key.ToLower().Contains(searchValue.ToLower()))
                 .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         }
@@ -53,20 +55,33 @@ namespace EAUploader_beta.UI.ImportSettings
             }
         }
 
+        private static void ShowLargeImage(Texture2D image)
+        {
+            var window = ScriptableObject.CreateInstance<EditorWindow>();
+            window.titleContent = new GUIContent("プレビュー画面");
+            window.minSize = new Vector2(500, 500);
+
+            var preview = new Image { image = image, style = { flexGrow = 1 } };
+            window.rootVisualElement.Add(preview);
+
+            window.Show();
+        }
+
         private static VisualElement CreatePrefabItem(KeyValuePair<string, Texture2D> prefab)
         {
             var item = new VisualElement
             {
                 style =
-                {
-                    flexDirection = new StyleEnum<FlexDirection>(FlexDirection.Row),
-                    flexWrap = new StyleEnum<Wrap>(Wrap.Wrap),
-                    alignItems = new StyleEnum<Align>(Align.Center),
-                    paddingTop = 10
-                }
+                    {
+                        flexDirection = new StyleEnum<FlexDirection>(FlexDirection.Row),
+                        flexWrap = new StyleEnum<Wrap>(Wrap.Wrap),
+                        alignItems = new StyleEnum<Align>(Align.Center),
+                        paddingTop = 10
+                    }
             };
 
             var preview = new Image { image = prefab.Value, style = { width = 100, height = 100 } };
+            preview.RegisterCallback<MouseUpEvent>(evt => ShowLargeImage(prefab.Value));
             item.Add(preview);
 
             var label = new Label { text = Path.GetFileNameWithoutExtension(prefab.Key) };
@@ -74,10 +89,10 @@ namespace EAUploader_beta.UI.ImportSettings
 
             var buttons = new[]
             {
-                new { Text = "Change Name", Action = (Action)(() => ChangePrefabName(prefab.Key)) },
-                new { Text = "Copy as New Name", Action = (Action)(() => CopyPrefabAsNewName(prefab.Key)) },
-                new { Text = "Delete", Action = (Action)(() => DeletePrefab(prefab.Key)) }
-            };
+                    new { Text = "Change Name", Action = (Action)(() => ChangePrefabName(prefab.Key)) },
+                    new { Text = "Copy as New Name", Action = (Action)(() => CopyPrefabAsNewName(prefab.Key)) },
+                    new { Text = "Delete", Action = (Action)(() => DeletePrefab(prefab.Key)) }
+                };
 
             foreach (var button in buttons)
             {
@@ -91,8 +106,8 @@ namespace EAUploader_beta.UI.ImportSettings
 
         private static void ChangePrefabName(string prefabPath)
         {
-            if (Prefab.RenamePrefab.ShowWindow(prefabPath))
-                UpdateModelList();
+            var renameWindow = ScriptableObject.CreateInstance<CustomPrefabUtility.RenamePrefabWindow>();
+            if (renameWindow.ShowWindow(prefabPath)) UpdateModelList();
         }
 
         private static void CopyPrefabAsNewName(string prefabPath)
@@ -109,7 +124,8 @@ namespace EAUploader_beta.UI.ImportSettings
                 PrefabUtility.SaveAsPrefabAsset((GameObject)prefabCopy, newPrefabPath);
                 UnityEngine.Object.DestroyImmediate(prefabCopy);
 
-                Prefab.RenamePrefab.ShowWindow(newPrefabPath);
+                var renameWindow = new CustomPrefabUtility.RenamePrefabWindow();
+                renameWindow.ShowWindow(newPrefabPath);
 
                 UpdateModelList();
             }
@@ -117,11 +133,8 @@ namespace EAUploader_beta.UI.ImportSettings
 
         private static void DeletePrefab(string prefabPath)
         {
-            if (EditorUtility.DisplayDialog("Prefabの消去", "本当にPrefabを消去しますか？", "消去", "キャンセル"))
+            if (CustomPrefabUtility.PrefabManager.ShowDeletePrefabDialog(prefabPath)) 
             {
-                CustomPrefabUtility.DeletePrefabPreview(prefabPath);
-                CustomPrefabUtility.RemovePrefabFromScene(prefabPath);
-                AssetDatabase.DeleteAsset(prefabPath);
                 UpdateModelList();
             }
         }

@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EAUploader_beta.UI.Market
+namespace EAUploader.UI.Market
 {
     internal class Main
     {

@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEngine;
 
-namespace EAUploader_beta.UI.Components
+namespace EAUploader.UI.Components
 {
     internal class Preview
     {
@@ -24,18 +24,27 @@ namespace EAUploader_beta.UI.Components
         private VisualTreeAsset visualTree;
         private float previewWidth;
         private float previewHeight;
+        private string prefabPath;
 
-        public Preview()
+        public Preview(VisualElement rootElement, string prefabPath)
         {
+            root = rootElement;
+            this.prefabPath = prefabPath;
             visualTree = Resources.Load<VisualTreeAsset>(PREVIEW_VISUAL_TREE_ASSET_PATH);
         }
 
         // --- Public Methods ---
 
-        public void ShowContent(VisualElement rootElement)
+        public void ShowContent()
         {
-            root = rootElement;
-            root.Add(new Label("Select a prefab to preview"));
+            if (!TryLoadPrefab(prefabPath, out prefab))
+            {
+                root.Add(new Label("Select a prefab to preview"));
+                return;
+            } else
+            { 
+                UpdatePreview(prefabPath);
+            }
         }
 
         public void UpdatePreview(string prefabPath)
