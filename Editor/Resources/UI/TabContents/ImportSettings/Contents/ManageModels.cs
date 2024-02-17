@@ -1,4 +1,5 @@
 ﻿    using Cysharp.Threading.Tasks;
+using EAUploader.CustomPrefabUtility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +12,7 @@ namespace EAUploader.UI.ImportSettings
 {
     internal class ManageModels
     {
-        private static Dictionary<string, Texture2D> prefabsWithPreview = new Dictionary<string, Texture2D>();
+        private static List<PrefabInfo> prefabsWithPreview = new List<PrefabInfo>();
         private static VisualElement root;
         private static ScrollView modelList;
 
@@ -40,10 +41,11 @@ namespace EAUploader.UI.ImportSettings
 
         private static void UpdatePrefabsWithPreview(string searchValue = "")
         {
-            prefabsWithPreview = CustomPrefabUtility.PrefabManager.GetPrefabList();
-            prefabsWithPreview = prefabsWithPreview
-                .Where(kvp => string.IsNullOrEmpty(searchValue) || kvp.Key.ToLower().Contains(searchValue.ToLower()))
-                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            prefabsWithPreview = PrefabManager.GetAllPrefabsWithPreview();
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                prefabsWithPreview = prefabsWithPreview.Where(prefab => prefab.Name.Contains(searchValue)).ToList();
+            }
         }
 
         private static void AddPrefabsToModelList()
@@ -67,32 +69,32 @@ namespace EAUploader.UI.ImportSettings
             window.Show();
         }
 
-        private static VisualElement CreatePrefabItem(KeyValuePair<string, Texture2D> prefab)
+        private static VisualElement CreatePrefabItem(PrefabInfo prefab)
         {
             var item = new VisualElement
             {
                 style =
-                    {
-                        flexDirection = new StyleEnum<FlexDirection>(FlexDirection.Row),
-                        flexWrap = new StyleEnum<Wrap>(Wrap.Wrap),
-                        alignItems = new StyleEnum<Align>(Align.Center),
-                        paddingTop = 10
-                    }
+                {
+                    flexDirection = new StyleEnum<FlexDirection>(FlexDirection.Row),
+                    flexWrap = new StyleEnum<Wrap>(Wrap.Wrap),
+                    alignItems = new StyleEnum<Align>(Align.Center),
+                    paddingTop = 10
+                }
             };
 
-            var preview = new Image { image = prefab.Value, style = { width = 100, height = 100 } };
-            preview.RegisterCallback<MouseUpEvent>(evt => ShowLargeImage(prefab.Value));
+            var preview = new Image { image = prefab.Preview, style = { width = 100, height = 100 } };
+            preview.RegisterCallback<MouseUpEvent>(evt => ShowLargeImage(prefab.Preview));
             item.Add(preview);
 
-            var label = new Label { text = Path.GetFileNameWithoutExtension(prefab.Key) };
+            var label = new Label { text = Path.GetFileNameWithoutExtension(prefab.Path) };
             item.Add(label);
 
             var buttons = new[]
             {
-                    new { Text = "Change Name", Action = (Action)(() => ChangePrefabName(prefab.Key)) },
-                    new { Text = "Copy as New Name", Action = (Action)(() => CopyPrefabAsNewName(prefab.Key)) },
-                    new { Text = "Delete", Action = (Action)(() => DeletePrefab(prefab.Key)) }
-                };
+                new { Text = "Change Name", Action = (Action)(() => ChangePrefabName(prefab.Path)) },
+                new { Text = "Copy as New Name", Action = (Action)(() => CopyPrefabAsNewName(prefab.Path)) },
+                new { Text = "Delete", Action = (Action)(() => DeletePrefab(prefab.Path)) }
+            };
 
             foreach (var button in buttons)
             {
@@ -103,7 +105,7 @@ namespace EAUploader.UI.ImportSettings
 
             return item;
         }
-
+       
         private static void ChangePrefabName(string prefabPath)
         {
             var renameWindow = ScriptableObject.CreateInstance<CustomPrefabUtility.RenamePrefabWindow>();

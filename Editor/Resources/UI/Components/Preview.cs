@@ -75,7 +75,6 @@ namespace EAUploader.UI.Components
             prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             if (prefab == null)
             {
-                Debug.Log("Failed to load prefab");
                 return false;
             }
             return true;

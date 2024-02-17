@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss" />
+    <ui:VisualElement class="flex-1 flex-row h-48 w-64">
+        <ui:VisualElement name="Thumbnail" class="w-one-half" />
+        <ui:VisualElement name="items_info" class="w-one-half p-4">
+            <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name" class="text-sm font-bold" />
+            <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Price" class="text-sm font-bold" />
+            <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Creator" />
+            <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CreatedAt" />
+            <ui:VisualElement>
+                <ui:Button name="OpenProduct" text="商品ページ" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+                <ui:Button name="OpenSNS" text="X(Twitter)" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+                <ui:Button name="StarButton" text="気になる" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

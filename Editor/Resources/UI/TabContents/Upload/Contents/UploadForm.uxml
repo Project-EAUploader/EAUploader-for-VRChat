@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss?fileID=7433441132597879392&amp;guid=33415aeb954406041803ecdae7dd5df1&amp;type=3#tailwind" />
+    <ui:ScrollView>
+        <ui:Foldout text="Avatar Info" value="true" name="avatar_info">
+            <ui:TextField picking-mode="Ignore" label="Name" tooltip="Give your avatar a name" />
+            <ui:TextField picking-mode="Ignore" label="Description" tooltip="Describe your avatar so it is easier to remember" usage-hints="None" />
+            <ui:DropdownField label="Visibility" index="0" choices="Private,Public" />
+        </ui:Foldout>
+        <ui:Foldout text="Thumbnail" name="avatar_thumbnail" />
+    </ui:ScrollView>
+</ui:UXML>

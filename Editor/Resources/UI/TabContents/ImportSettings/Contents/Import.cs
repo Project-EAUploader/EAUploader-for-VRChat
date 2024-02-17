@@ -13,14 +13,18 @@ namespace EAUploader.UI.ImportSettings
             var visualTree = Resources.Load<VisualTreeAsset>("UI/TabContents/ImportSettings/Contents/Import");
             visualTree.CloneTree(root);
 
-            if (EAUploaderCore.HasVRM)
+            root.schedule.Execute(() =>
             {
-                root.Q<Button>("import_vrm").SetEnabled(true);
-            }
-            else
-            {
-                root.Q<Button>("import_vrm").SetEnabled(false);
-            }
+                if (EAUploaderCore.HasVRM)
+                {
+                    root.Q<Button>("import_vrm").SetEnabled(true);
+                }
+                else
+                {
+                    root.Q<Button>("import_vrm").SetEnabled(false);
+                }
+            }).Every(1000); 
+
 
             root.Q<Button>("import_prefab").clicked += ImportPrefabButtonClicked;
             root.Q<Button>("import_folder").clicked += ImportFolderButtonClicked;

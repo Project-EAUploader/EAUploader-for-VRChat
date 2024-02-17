@@ -6,13 +6,12 @@
             <ui:ScrollView name="model_list" class="flex-1" />
         </ui:VisualElement>
         <ui:VisualElement class="flex-1">
-            <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-            <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            <ui:VisualElement name="prefab_info" />
             <ui:VisualElement name="avatar_preview" style="flex-grow: 1;" />
             <ui:VisualElement class="flex-row justify-between h-4">
                 <ui:Button text="reset" parse-escape-sequences="true" display-tooltip-when-elided="true" name="reset_view" />
                 <ui:Button text="change_name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="change_name" />
-                <ui:Button text="pin" parse-escape-sequences="true" display-tooltip-when-elided="true" name="pin" />
+                <ui:Button text="pin_model" parse-escape-sequences="true" display-tooltip-when-elided="true" name="pin_model" />
                 <ui:Button text="delete" parse-escape-sequences="true" display-tooltip-when-elided="true" name="delete_model" />
             </ui:VisualElement>
         </ui:VisualElement>

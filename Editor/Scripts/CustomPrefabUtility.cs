@@ -9,6 +9,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using VRC.SDKBase;
 
 namespace EAUploader.CustomPrefabUtility
 {
@@ -23,6 +24,7 @@ namespace EAUploader.CustomPrefabUtility
         public DateTime LastModified;
         public PrefabType Type;
         public PrefabStatus Status;
+        public Texture2D Preview { get; internal set; }
     }
 
     [Serializable]
@@ -99,6 +101,20 @@ namespace EAUploader.CustomPrefabUtility
                 .ToList();
         }
 
+        public static List<PrefabInfo> GetAllPrefabsWithPreview()
+        {
+            var allPrefabs = GetAllPrefabs();
+            foreach (var prefab in allPrefabs)
+            {
+                string previewImagePath = PrefabPreview.GetPreviewImagePath(prefab.Path);
+                if (File.Exists(previewImagePath))
+                {
+                    prefab.Preview = PrefabPreview.LoadTextureFromFile(previewImagePath);
+                }
+            }
+            return allPrefabs;
+        }
+
         private static PrefabInfo CreatePrefabInfo(string path)
         {
             return new PrefabInfo
@@ -134,34 +150,6 @@ namespace EAUploader.CustomPrefabUtility
             return status;
         }
 
-        public static Dictionary<string, Texture2D> GetPrefabList()
-        {
-            if (prefabInfoList == null)
-            {
-                prefabInfoList = LoadPrefabsInfo();
-            }
-            var prefabsWithPreview = new Dictionary<string, Texture2D>();
-            foreach (var prefab in prefabInfoList)
-            {
-                string previewImagePath = Path.Combine(PREVIEW_SAVE_PATH, Path.GetFileNameWithoutExtension(prefab.Path) + ".png");
-                if (File.Exists(previewImagePath))
-                {
-                    Texture2D preview = LoadTextureFromFile(previewImagePath);
-                    prefabsWithPreview[prefab.Path] = preview;
-                }
-            }
-
-            return prefabsWithPreview;
-        }
-
-        private static Texture2D LoadTextureFromFile(string filePath)
-        {
-            byte[] fileData = File.ReadAllBytes(filePath);
-            Texture2D texture = new Texture2D(2, 2);
-            texture.LoadImage(fileData);
-            return texture;
-        }
-
         public static bool ShowDeletePrefabDialog(string prefabPath)
         {
             if (EditorUtility.DisplayDialog("Prefabの消去", "本当にPrefabを消去しますか？", "消去", "キャンセル"))
@@ -181,6 +169,24 @@ namespace EAUploader.CustomPrefabUtility
             if (File.Exists(previewImagePath))
             {
                 File.Delete(previewImagePath);
+            }
+        }
+
+        public static void PinPrefab(string prefabPath)
+        {
+            var allPrefabs = LoadPrefabsInfo();
+            var prefab = allPrefabs.FirstOrDefault(p => p.Path == prefabPath);
+            if (prefab != null)
+            {
+                if (prefab.Status == PrefabStatus.Pinned)
+                {
+                    prefab.Status = PrefabStatus.Show;
+                }
+                else
+                {
+                    prefab.Status = PrefabStatus.Pinned;
+                }
+                SavePrefabsInfo(allPrefabs);
             }
         }
     }
@@ -327,6 +333,14 @@ namespace EAUploader.CustomPrefabUtility
             }
         }
 
+        internal static Texture2D LoadTextureFromFile(string filePath)
+        {
+            byte[] fileData = File.ReadAllBytes(filePath);
+            Texture2D texture = new Texture2D(2, 2);
+            texture.LoadImage(fileData);
+            return texture;
+        }
+
         public static void SaveTextureToFile(Texture2D texture, string filePath)
         {
             byte[] bytes = texture.EncodeToPNG();
@@ -393,6 +407,22 @@ namespace EAUploader.CustomPrefabUtility
                 EditorUtility.DisplayDialog("EAUploader", "Please save the scene before using EAUploader", "OK");
                 throw new Exception("Please save the scene before using EAUploader");
             }
+        }
+    }
+
+    public class Utility
+    {
+        public static float GetAvatarHeight(GameObject avatar)
+        {
+            var avatarDescriptor = avatar.GetComponent<VRC_AvatarDescriptor>();
+            if (avatarDescriptor != null)
+            {
+                // ViewPosition.y がアバターの目線の高さ
+                return avatarDescriptor.ViewPosition.y;
+            }
+
+            // デフォルト
+            return 0f;
         }
     }
 }

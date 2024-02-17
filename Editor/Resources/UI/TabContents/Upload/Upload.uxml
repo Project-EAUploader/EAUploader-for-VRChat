@@ -1,7 +1,13 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/EAUploader/UI/tailwind.uss?fileID=7433441132597879392&amp;guid=33415aeb954406041803ecdae7dd5df1&amp;type=3#tailwind" />
     <ui:VisualElement class="flex-row flex-1">
+        <ui:VisualElement class="w-one-third" >
         <ui:VisualElement name="avatar_preview" class="flex-1" />
-        <ui:VisualElement name="vrchat_uploader" class="flex-1" />
+        <ui:VisualElement name="prefab_list_container" class="h-two-thirds"/>
+        </ui:VisualElement>
+        <ui:VisualElement class="flex-1">
+            <ui:VisualElement name="upload_form" class="h-one-half" />
+        </ui:VisualElement>
+        <ui:VisualElement name="vrchat_uploader" class="w-one-third" />
     </ui:VisualElement>
 </ui:UXML>

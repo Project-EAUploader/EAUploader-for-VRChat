@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using EAUploader.CustomPrefabUtility;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -9,7 +10,7 @@ namespace EAUploader.UI.Setup
 {
     internal class Main
     {
-        private static Dictionary<string, Texture2D> prefabsWithPreview = new Dictionary<string, Texture2D>();
+        private static List<PrefabInfo> prefabsWithPreview = new List<PrefabInfo>();
         private static VisualElement root;
         private static ScrollView modelList;
         private static Components.Preview preview;
@@ -34,7 +35,7 @@ namespace EAUploader.UI.Setup
 
         private static void GetModelList()
         {
-            prefabsWithPreview = CustomPrefabUtility.PrefabManager.GetPrefabList();
+            prefabsWithPreview = CustomPrefabUtility.PrefabManager.GetAllPrefabsWithPreview();
             modelList.Clear();
             AddPrefabsToModelList();
         }
@@ -48,12 +49,13 @@ namespace EAUploader.UI.Setup
             }
         }
 
-        private static VisualElement CreatePrefabItem(KeyValuePair<string, Texture2D> prefab)
+        private static VisualElement CreatePrefabItem(PrefabInfo prefab)
         {
             var item = new Button(() =>
             {
-                EAUploaderCore.selectedPrefabPath = prefab.Key;
-                preview.UpdatePreview(prefab.Key);
+                EAUploaderCore.selectedPrefabPath = prefab.Path;
+                UpdatePrefabInto(prefab.Path);
+                preview.UpdatePreview(prefab.Path);
             })
             {
                 style =
@@ -64,13 +66,26 @@ namespace EAUploader.UI.Setup
                             }
             };
 
-            var previewImage = new Image { image = prefab.Value, scaleMode = ScaleMode.ScaleToFit, style = { width = 100, height = 100 } };
+            var previewImage = new Image { image = prefab.Preview, scaleMode = ScaleMode.ScaleToFit, style = { width = 100, height = 100 } };
             item.Add(previewImage);
 
-            var label = new Label(Path.GetFileNameWithoutExtension(prefab.Key));
+            var label = new Label(Path.GetFileNameWithoutExtension(prefab.Path));
             item.Add(label);
 
             return item;
+        }
+
+        private static void UpdatePrefabInto(string prefabPath)
+        {
+            var prefabInfo = root.Q<VisualElement>("prefab_info");
+            prefabInfo.Clear();
+
+            var prefabName = new Label(Path.GetFileNameWithoutExtension(prefabPath));
+            prefabInfo.Add(prefabName);
+
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            var prefabHeight = new Label("Height: " + CustomPrefabUtility.Utility.GetAvatarHeight(prefab));
+            prefabInfo.Add(prefabHeight);
         }
 
         private static void ButtonClickHandler()
@@ -79,6 +94,8 @@ namespace EAUploader.UI.Setup
             resetButton.clicked += ResetButtonClicked;
             var changeNameButton = root.Q<Button>("change_name");
             changeNameButton.clicked += ChangeNameButtonClicked;
+            var pinButton = root.Q<Button>("pin_model");
+            pinButton.clicked += PinButtonClicked;
             var deleteButton = root.Q<Button>("delete_model");
             deleteButton.clicked += DeleteButtonClicked;
         }
@@ -95,6 +112,12 @@ namespace EAUploader.UI.Setup
             {
                 GetModelList();
             }
+        }
+
+        private static void PinButtonClicked()
+        {
+            CustomPrefabUtility.PrefabManager.PinPrefab(EAUploaderCore.selectedPrefabPath);
+            GetModelList();
         }
 
         private static void DeleteButtonClicked()
