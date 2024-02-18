@@ -40,7 +40,6 @@ public class Settings
             SaveLanguageSetting();
             // Update language
             labels.UpdateLanguage();
-            LanguageUtility.OnChangeEvent(languages[selectedLanguageIndex]);
 
             /* !! SDKの翻訳機能（API非公開）（許諾待ち）
             // 確認ダイアログを表示
@@ -109,7 +108,7 @@ public class Settings
 
         if (GUILayout.Button(Getc("feedback", 117), SubButtonStyle))
         {
-            DiscordWebhookSender.OpenDiscordWebhookSenderWindow();
+            EAUploader.DiscordWebhookSender.OpenDiscordWebhookSenderWindow();
         }
 
         GUILayout.EndVertical();

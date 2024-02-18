@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace EAUploader.UI
 {
-    internal class EAUploader : EditorWindow
+    public class EAUploader : EditorWindow
     {
         [MenuItem("EAUploader/Open EAUploader")]
         public static void ShowWindow()
@@ -21,16 +21,19 @@ namespace EAUploader.UI
         public void CreateGUI()
         {
             currentTab = "settings";
-            rootVisualElement.styleSheets.Add(Resources.Load<StyleSheet>("UI/styles"));
 
             // Import UXML
             var visualTree = Resources.Load<VisualTreeAsset>("UI/MainWindow"); 
             visualTree.CloneTree(rootVisualElement);
 
-            contentRoot = rootVisualElement.Q("contentRoot");
-            ImportSettings.Main.ShowContent(contentRoot);
+            rootVisualElement.schedule.Execute(() =>
+            {
+                LanguageUtility.Localization(rootVisualElement);
+            }).Every(100);
 
-            // Call the event handler
+            contentRoot = rootVisualElement.Q("contentRoot"); 
+            ImportSettings.Main.ShowContent(contentRoot);
+            
             SetupButtonHandler();
         }
 
@@ -77,6 +80,8 @@ namespace EAUploader.UI
                 default:
                     break;
             }
+
+            LanguageUtility.Localization(rootVisualElement);
         }
     }
 

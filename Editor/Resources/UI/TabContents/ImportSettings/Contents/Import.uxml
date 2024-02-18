@@ -1,20 +1,18 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/EAUploader/UI/tailwind.uss?fileID=7433441132597879392&amp;guid=33415aeb954406041803ecdae7dd5df1&amp;type=3#tailwind" />
     <ui:VisualElement name="import" class="flex-1">
-        <ui:Label tabindex="-1" text="インポート" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="text-xl font-bold pb-2" />
-        <ui:Button text="ヘルプ" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-        <ui:Label tabindex="-1" text="Prefab又は&#10;unitypackageをインポートします。" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-        <ui:Button name="import_prefab" text="インポート" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-        <ui:Button name="import_folder" text="フォルダの指定" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-        <ui:Label tabindex="-1" text="VRMのインポート" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-        <ui:Button text="ヘルプ" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-        <ui:Label tabindex="-1" text="バージョン0.xのVRM&#10;ファイルをインポートします。" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-        <ui:Button name="import_vrm" text="VRMのインポート" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Label tabindex="-1" text="Import" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="text-xl font-bold pb-2" />
+        <ui:Label tabindex="-1" text="Import a .prefab file or .unitypackage file." parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Button name="import_prefab" text="Import" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Button name="import_folder" text="Import from folder" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Label tabindex="-1" text="Import VRM" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Label tabindex="-1" text="Import the .vrm(ver. 0.x) file." parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Button name="import_vrm" text="Import VRM" parse-escape-sequences="true" display-tooltip-when-elided="true" />
     </ui:VisualElement>
     <ui:VisualElement name="settings">
-        <ui:Label tabindex="-1" text="設定" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-xl font-bold pb-2" />
-        <ui:DropdownField label="言語" index="-1" choices="System.Collections.Generic.List`1[System.String]" />
-        <ui:Label tabindex="-1" text="バージョン" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-        <ui:Button text="フィードバックを送る" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Label tabindex="-1" text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-xl font-bold pb-2" />
+        <ui:DropdownField  name="language" label="Language" index="0"/>
+        <ui:Label tabindex="-1" text="Version" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Button text="Send feedback" parse-escape-sequences="true" display-tooltip-when-elided="true" />
     </ui:VisualElement>
 </ui:UXML>

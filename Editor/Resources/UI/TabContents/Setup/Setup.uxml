@@ -2,17 +2,17 @@
     <Style src="project://database/Assets/EAUploader/UI/tailwind.uss?fileID=7433441132597879392&amp;guid=33415aeb954406041803ecdae7dd5df1&amp;type=3#tailwind" />
     <ui:VisualElement class="flex-row flex-1">
         <ui:VisualElement name="avatar_models" class="w-one-quarter">
-            <ui:Label tabindex="-1" text="編集するアバターを選択" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            <ui:Label tabindex="-1" text="Select a model" parse-escape-sequences="true" display-tooltip-when-elided="true" />
             <ui:ScrollView name="model_list" class="flex-1" />
         </ui:VisualElement>
         <ui:VisualElement class="flex-1">
             <ui:VisualElement name="prefab_info" />
             <ui:VisualElement name="avatar_preview" style="flex-grow: 1;" />
             <ui:VisualElement class="flex-row justify-between h-4">
-                <ui:Button text="reset" parse-escape-sequences="true" display-tooltip-when-elided="true" name="reset_view" />
-                <ui:Button text="change_name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="change_name" />
-                <ui:Button text="pin_model" parse-escape-sequences="true" display-tooltip-when-elided="true" name="pin_model" />
-                <ui:Button text="delete" parse-escape-sequences="true" display-tooltip-when-elided="true" name="delete_model" />
+                <ui:Button text="Reset View" parse-escape-sequences="true" display-tooltip-when-elided="true" name="reset_view" />
+                <ui:Button text="Change Name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="change_name" />
+                <ui:Button text="Pin prefab" parse-escape-sequences="true" display-tooltip-when-elided="true" name="pin_model" />
+                <ui:Button text="Delete" parse-escape-sequences="true" display-tooltip-when-elided="true" name="delete_model" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="avatar_editor" class="w-one-quarter" />

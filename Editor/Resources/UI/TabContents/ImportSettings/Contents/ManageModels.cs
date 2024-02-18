@@ -60,7 +60,7 @@ namespace EAUploader.UI.ImportSettings
         private static void ShowLargeImage(Texture2D image)
         {
             var window = ScriptableObject.CreateInstance<EditorWindow>();
-            window.titleContent = new GUIContent("プレビュー画面");
+            window.titleContent = new GUIContent(UnityEditor.L10n.Tr("Preview"));
             window.minSize = new Vector2(500, 500);
 
             var preview = new Image { image = image, style = { flexGrow = 1 } };
@@ -91,9 +91,9 @@ namespace EAUploader.UI.ImportSettings
 
             var buttons = new[]
             {
-                new { Text = "Change Name", Action = (Action)(() => ChangePrefabName(prefab.Path)) },
-                new { Text = "Copy as New Name", Action = (Action)(() => CopyPrefabAsNewName(prefab.Path)) },
-                new { Text = "Delete", Action = (Action)(() => DeletePrefab(prefab.Path)) }
+                new { Text = UnityEditor.L10n.Tr("Change Name"), Action = (Action)(() => ChangePrefabName(prefab.Path)) },
+                new { Text = UnityEditor.L10n.Tr("Copy as New Name"), Action = (Action)(() => CopyPrefabAsNewName(prefab.Path)) },
+                new { Text = UnityEditor.L10n.Tr("Delete"), Action = (Action)(() => DeletePrefab(prefab.Path)) }
             };
 
             foreach (var button in buttons)

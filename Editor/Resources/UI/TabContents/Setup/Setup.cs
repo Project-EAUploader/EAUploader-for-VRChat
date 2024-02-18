@@ -24,6 +24,7 @@ namespace EAUploader.UI.Setup
 
             modelList = root.Q<ScrollView>("model_list");
 
+
             GetModelList();
 
             preview = new Components.Preview(root.Q("avatar_preview"), EAUploaderCore.selectedPrefabPath);
@@ -91,7 +92,7 @@ namespace EAUploader.UI.Setup
         private static void ButtonClickHandler()
         {
             var resetButton = root.Q<Button>("reset_view");
-            resetButton.clicked += ResetButtonClicked;
+            resetButton.clicked += ResetButtonClicked; 
             var changeNameButton = root.Q<Button>("change_name");
             changeNameButton.clicked += ChangeNameButtonClicked;
             var pinButton = root.Q<Button>("pin_model");

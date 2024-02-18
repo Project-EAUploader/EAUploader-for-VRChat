@@ -1,4 +1,0 @@
-﻿* {
-    -unity-font-definition: initial;
-    -unity-font: url('project://database/Assets/EAUploader/UI/Noto_Sans_JP.ttf');
-}

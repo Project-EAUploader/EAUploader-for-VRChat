@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.IO;
 using static icons;
 
-[System.Serializable]
-public class LocalizationData
-{
-    public List<LocalizationItem> items;
-}
-
-[System.Serializable]
-public class LocalizationItem
-{
-    public int key;
-    public string value;
-}
-
 public class labels
 {
+    [System.Serializable]
+    public class LocalizationData
+    {
+        public List<LocalizationItem> items;
+    }
+
+    [System.Serializable]
+    public class LocalizationItem
+    {
+        public int key;
+        public string value;
+    }
+
     /// <summary>
     /// 言語設定に基づいてラベルおよびアイコン付きラベルを取得するクラス
     /// </summary>
@@ -31,7 +31,7 @@ public class labels
 
     public static void UpdateLanguage()
     {
-        language = LanguageUtility.GetCurrentLanguage();
+        language = EAUploader.LanguageUtility.GetCurrentLanguage();
         LoadTranslations();
     }
 
@@ -80,10 +80,4 @@ public class labels
         return new GUIContent(text, icon);
         }
     }
-}
-
-[System.Serializable]
-public class LanguageSetting
-{
-    public string language;
 }

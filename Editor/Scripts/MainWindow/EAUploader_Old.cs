@@ -111,7 +111,7 @@ internal class EAUploader_Old : EditorWindow
 
     void Update()
     {
-        currentLanguage = LanguageUtility.GetCurrentLanguage();
+        currentLanguage = EAUploader.LanguageUtility.GetCurrentLanguage();
         if (currentLanguage != previousLanguage)
         {
             ReloadResourcesForLanguage();

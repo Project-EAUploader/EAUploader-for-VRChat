@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -8,37 +9,52 @@ namespace EAUploader.UI.ImportSettings
 {
     internal class Import
     {
+        private static List<LanguageInfo> languageInfos = LanguageUtility.GetAvailableLanguages();
+
         public static void ShowContent(VisualElement root)
         {
             var visualTree = Resources.Load<VisualTreeAsset>("UI/TabContents/ImportSettings/Contents/Import");
             visualTree.CloneTree(root);
 
-            root.schedule.Execute(() =>
+            root.schedule.Execute(() => 
             {
                 if (EAUploaderCore.HasVRM)
                 {
                     root.Q<Button>("import_vrm").SetEnabled(true);
                 }
-                else
+                else 
                 {
                     root.Q<Button>("import_vrm").SetEnabled(false);
                 }
-            }).Every(1000); 
-
+            }).Every(1000);
 
             root.Q<Button>("import_prefab").clicked += ImportPrefabButtonClicked;
             root.Q<Button>("import_folder").clicked += ImportFolderButtonClicked;
             root.Q<Button>("import_vrm").clicked += ImportVRMButtonClicked;
+
+            root.Q<DropdownField>("language").choices = languageInfos.Select(x => x.display).ToList();
+            root.Q<DropdownField>("language").index = languageInfos.FindIndex(x => x.name == LanguageUtility.GetCurrentLanguage());
+            root.Q<DropdownField>("language").RegisterValueChangedCallback((evt) =>
+            {
+                if (evt.newValue != null)
+                {
+                    var selectedLanguage = languageInfos.Find(x => x.display == evt.newValue);
+                    if (selectedLanguage != null)
+                    {
+                        LanguageUtility.ChangeLanguage(selectedLanguage.name);
+                    }
+                }
+            });
         }
 
         private static void ImportPrefabButtonClicked()
         {
-            ImportAsset(EditorUtility.OpenFilePanelWithFilters("Assetのインポート", "", new[] { "PrefabかUnitypackageを選択", "prefab,unitypackage", "All files", "*" }));
+            ImportAsset(EditorUtility.OpenFilePanelWithFilters(Translate.Get("Import Asset"), "", new[] { Translate.Get("Import a .prefab file or .unitypackage file."), "prefab,unitypackage", "All files", "*" }));
         }
 
         private static void ImportFolderButtonClicked()
         {
-            ImportAllAssetsFromFolder(EditorUtility.OpenFolderPanel("Assetをフォルダで複数インポート", "", ""));
+            ImportAllAssetsFromFolder(EditorUtility.OpenFolderPanel(Translate.Get("Import from folder"), "", ""));
         }
 
         private static void ImportVRMButtonClicked()
@@ -52,15 +68,6 @@ namespace EAUploader.UI.ImportSettings
 
             var fileExtension = Path.GetExtension(filePath)?.ToLower();
             var fileName = Path.GetFileNameWithoutExtension(filePath);
-
-            var existingAsset = AssetDatabase.FindAssets($"t:GameObject {fileName}");
-            var existingAssetNames = string.Join("\n", existingAsset.Select(AssetDatabase.GUIDToAssetPath));
-
-            if (existingAsset.Length > 0)
-            {
-                var overwrite = EditorUtility.DisplayDialog("同じ名前のAssetが見つかりました", $"{fileName} という名前のAssetが既に存在します。\n続行しますか？\n{existingAssetNames}", "上書き", "キャンセル");
-                if (!overwrite) return;
-            }
 
             switch (fileExtension)
             {
@@ -80,15 +87,15 @@ namespace EAUploader.UI.ImportSettings
 
             var allFiles = Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories)
                 .Where(s => s.EndsWith(".prefab") || s.EndsWith(".unitypackage")).ToList();
-
+             
             if (allFiles.Count == 0)
             {
-                EditorUtility.DisplayDialog("Assetが見つかりません", "選択されたフォルダにprefab や unityパッケージファイル がありません。", "削除");
+                EditorUtility.DisplayDialog(Translate.Get("Asset not found"), Translate.Get("There are no prefab or unitypackage files in the selected folder."), "OK");
                 return;
             }
 
             var fileList = string.Join("\n", allFiles.Select(Path.GetFileName));
-            var confirmImport = EditorUtility.DisplayDialog("インポートの確認", $"以下のファイルがインポートされます:\n{fileList}", "インポート", "キャンセル");
+            var confirmImport = EditorUtility.DisplayDialog(Translate.Get("Confirm Import"), $"{Translate.Get("The following files will be imported")}:\n{fileList}", Translate.Get("Import"), Translate.Get("Cancel"));
             if (!confirmImport) return;
 
             foreach (var file in allFiles)

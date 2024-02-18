@@ -20,7 +20,7 @@ public class EAUploaderMessageWindow : EditorWindow
 
     private void LoadMsg(int msgNum)
     {
-        string language = LanguageUtility.GetCurrentLanguage();
+        string language = EAUploader.LanguageUtility.GetCurrentLanguage();
         string filePath = $"Packages/tech.uslog.eauploader/Editor/Resources/Message/{language}/{msgNum}.txt";
         if (File.Exists(filePath))
         {

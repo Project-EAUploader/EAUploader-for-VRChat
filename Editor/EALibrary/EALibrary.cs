@@ -34,7 +34,7 @@ public class LibraryIndexer
 
     public static void CreateIndex()
     {
-        currentLanguage = LanguageUtility.GetCurrentLanguage();
+        currentLanguage = EAUploader.LanguageUtility.GetCurrentLanguage();
         string articlesFolderPath = $"Packages/tech.uslog.eauploader/Editor/EALibrary/Articles/EAUploader/{currentLanguage}";
         string[] jsonFiles = Directory.GetFiles(articlesFolderPath, "*.json", SearchOption.AllDirectories);
 
@@ -73,7 +73,7 @@ public class EALibrary
 {
     private string searchQuery = "";
     private Vector2 scrollPosition;
-    private string currentLanguage = LanguageUtility.GetCurrentLanguage();
+    private string currentLanguage = EAUploader.LanguageUtility.GetCurrentLanguage();
     private string currentArticleContent = "";
     private string currentArticleFilePath;
     private List<string> tags = new List<string>();
@@ -95,7 +95,7 @@ public class EALibrary
     private void UpdateCurrentLanguage()
     {
         var prevLanguage = currentLanguage;
-        currentLanguage = LanguageUtility.GetCurrentLanguage();
+        currentLanguage = EAUploader.LanguageUtility.GetCurrentLanguage();
 
         if (prevLanguage != currentLanguage)
         {

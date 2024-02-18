@@ -1,4 +1,3 @@
-#if !EA_ONBUILD
 using UnityEngine;
 using UnityEditor;
 using System.Collections;
@@ -9,156 +8,158 @@ using System.IO;
 using static styles;
 using static labels;
 
-public class DiscordWebhookSender : EditorWindow
-{
-    private string webhookUrl = "https://discord.com/api/webhooks/1197382760873074728/CNcOYFDeVcIQbLm2pHoSlxIsZMJzxPKhUfGbG2ObKwD9XMXNzvsXHc4A21NKIz-Tz37D";
-    private static string feedbacktitle = "";
-    private static string authorName = "";
-    private static string emailAddress = "";
-    private static string messageContent = "";
-    private static string lng = LanguageUtility.GetCurrentLanguage();
-    private static bool sentFeedback = false;
+namespace EAUploader {
 
-    public static void OpenDiscordWebhookSenderWindow()
+    public class DiscordWebhookSender : EditorWindow
     {
-        GetWindow<DiscordWebhookSender>("Feedback").minSize = new Vector2(400, 200);
-        feedbacktitle = "";
-        messageContent = "";
-        sentFeedback = false;
-    }
+        private string webhookUrl = "https://discord.com/api/webhooks/1197382760873074728/CNcOYFDeVcIQbLm2pHoSlxIsZMJzxPKhUfGbG2ObKwD9XMXNzvsXHc4A21NKIz-Tz37D";
+        private static string feedbacktitle = "";
+        private static string authorName = "";
+        private static string emailAddress = "";
+        private static string messageContent = "";
+        private static string lng = LanguageUtility.GetCurrentLanguage();
+        private static bool sentFeedback = false;
 
-    private void OnGUI()
-    {
-        bool isEmptyMessage = true;
-        var backgroundColorStyle = new GUIStyle();
-        backgroundColorStyle.normal.background = EditorGUIUtility.whiteTexture;
-
-        GUI.Box(new Rect(0, 0, position.width, position.height), GUIContent.none, backgroundColorStyle);
-
-        GUILayout.Label(Get(700), h4CenterLabelStyle);
-        GUILayout.Space(10);
-
-        if (!sentFeedback)
+        public static void OpenDiscordWebhookSenderWindow()
         {
-            GUILayout.Label(Get(701), NoMarginh5BlackLabelStyle);
-            authorName = GUILayout.TextField(authorName, TextFieldStyle);
+            GetWindow<DiscordWebhookSender>("Feedback").minSize = new Vector2(400, 200);
+            feedbacktitle = "";
+            messageContent = "";
+            sentFeedback = false;
+        }
 
-            GUILayout.Label(Get(702), NoMarginh5BlackLabelStyle);
-            emailAddress = GUILayout.TextField(emailAddress, TextFieldStyle);
+        private void OnGUI()
+        {
+            bool isEmptyMessage = true;
+            var backgroundColorStyle = new GUIStyle();
+            backgroundColorStyle.normal.background = EditorGUIUtility.whiteTexture;
 
-            GUILayout.Label(Get(703), NoMarginh5BlackLabelStyle);
-            feedbacktitle = GUILayout.TextField(feedbacktitle, TextFieldStyle);
+            GUI.Box(new Rect(0, 0, position.width, position.height), GUIContent.none, backgroundColorStyle);
 
-            GUILayout.Label(Get(704), NoMarginh5BlackLabelStyle);
-            messageContent = GUILayout.TextArea(messageContent, TextAreaStyle, GUILayout.Height(200));
-
+            GUILayout.Label(Get(700), h4CenterLabelStyle);
             GUILayout.Space(10);
 
-            GUILayout.Label(Get(705), h5BlackLabelStyle);
+            if (!sentFeedback)
+            {
+                GUILayout.Label(Get(701), NoMarginh5BlackLabelStyle);
+                authorName = GUILayout.TextField(authorName, TextFieldStyle);
 
-            if (messageContent == "")
-            {
-                GUILayout.Label(Get(708), eLabel);
-            }
-            else
-            {
-                isEmptyMessage = false;
-            }
+                GUILayout.Label(Get(702), NoMarginh5BlackLabelStyle);
+                emailAddress = GUILayout.TextField(emailAddress, TextFieldStyle);
 
-            if (GUILayout.Button(Get(706), SubButtonStyle))
-            {
-                if (!string.IsNullOrEmpty(messageContent))
+                GUILayout.Label(Get(703), NoMarginh5BlackLabelStyle);
+                feedbacktitle = GUILayout.TextField(feedbacktitle, TextFieldStyle);
+
+                GUILayout.Label(Get(704), NoMarginh5BlackLabelStyle);
+                messageContent = GUILayout.TextArea(messageContent, TextAreaStyle, GUILayout.Height(200));
+
+                GUILayout.Space(10);
+
+                GUILayout.Label(Get(705), h5BlackLabelStyle);
+
+                if (messageContent == "")
                 {
-                    SendMessageToDiscord(webhookUrl, feedbacktitle, authorName, emailAddress, messageContent);
-                    // 送信後はタイトルと本文を空にする
-                    feedbacktitle = "";
-                    messageContent = "";
+                    GUILayout.Label(Get(708), eLabel);
                 }
-            }
-        }
-        else
-        {
-            GUILayout.Label(Get(707), h5BlackLabelStyle);
-        }
-    }
-
-    private void SendMessageToDiscord(string url, string title, string author, string email, string content)
-    {
-        using (WebClient client = new WebClient())
-        {
-            client.Headers[HttpRequestHeader.ContentType] = "application/json";
-
-            content = content.Replace("\n", "\r");
-
-            string json = BuildJson(title, author, email, content);
-
-            // Debug.Log("Sending JSON: " + json);
-
-            try
-            {
-                client.UploadString(url, json);
-                sentFeedback = true;
-            }
-            catch (WebException e)
-            {
-                Debug.LogError("Error sending webhook: " + e.Message);
-                sentFeedback = false; 
-                if (e.Response != null)
+                else
                 {
-                    using (var stream = e.Response.GetResponseStream())
-                    using (var reader = new StreamReader(stream))
+                    isEmptyMessage = false;
+                }
+
+                if (GUILayout.Button(Get(706), SubButtonStyle))
+                {
+                    if (!string.IsNullOrEmpty(messageContent))
                     {
-                        Debug.LogError("Response: " + reader.ReadToEnd());
+                        SendMessageToDiscord(webhookUrl, feedbacktitle, authorName, emailAddress, messageContent);
+                        // 送信後はタイトルと本文を空にする
+                        feedbacktitle = "";
+                        messageContent = "";
                     }
                 }
             }
+            else
+            {
+                GUILayout.Label(Get(707), h5BlackLabelStyle);
+            }
         }
-        Repaint();
-    }
 
-    private string BuildJson(string title, string author, string email, string content)
-    {
-        // JSON用に特殊文字をエスケープ
-        title = EscapeStringForJson(title);
-        author = EscapeStringForJson(author);
-        email = EscapeStringForJson(email);
-        content = EscapeStringForJson(content);
+        private void SendMessageToDiscord(string url, string title, string author, string email, string content)
+        {
+            using (WebClient client = new WebClient())
+            {
+                client.Headers[HttpRequestHeader.ContentType] = "application/json";
 
-        string emailField = string.IsNullOrEmpty(email) ? "\"Not provided\"" : $"\"{email}\"";
+                content = content.Replace("\n", "\r");
 
-        return $"{{" +
-            $"  \"content\": null," +
-            $"  \"embeds\": [{{" +
-            $"    \"title\": \"{title}\"," +
-            $"    \"description\": \"{content}\"," +
-            $"    \"color\": 36231," +
-            $"    \"fields\": [" +
-            $"      {{" +
-            $"        \"name\": \"メールアドレス\"," +
-            $"        \"value\": {emailField}" +
-            $"      }}," +
-            $"      {{" +
-            $"        \"name\": \"言語設定\"," +
-            $"        \"value\": \"{lng}\"" +
-            $"      }}" +
-            $"    ]," +
-            $"    \"author\": {{" +
-            $"      \"name\": \"{author}\"" +
-            $"    }}" +
-            $"  }}]" +
-            $"}}";
-    }
+                string json = BuildJson(title, author, email, content);
 
-    private string EscapeStringForJson(string input)
-    {
-        // JSONで使用される特殊文字をエスケープ
-        return input.Replace("\\", "\\\\")
-                    .Replace("\"", "\\\"")
-                    .Replace("\n", "\\n")
-                    .Replace("\r", "\\r")
-                    .Replace("\t", "\\t")
-                    .Replace("\b", "\\b")
-                    .Replace("\f", "\\f");
+                // Debug.Log("Sending JSON: " + json);
+
+                try
+                {
+                    client.UploadString(url, json);
+                    sentFeedback = true;
+                }
+                catch (WebException e)
+                {
+                    Debug.LogError("Error sending webhook: " + e.Message);
+                    sentFeedback = false;
+                    if (e.Response != null)
+                    {
+                        using (var stream = e.Response.GetResponseStream())
+                        using (var reader = new StreamReader(stream))
+                        {
+                            Debug.LogError("Response: " + reader.ReadToEnd());
+                        }
+                    }
+                }
+            }
+            Repaint();
+        }
+
+        private string BuildJson(string title, string author, string email, string content)
+        {
+            // JSON用に特殊文字をエスケープ
+            title = EscapeStringForJson(title);
+            author = EscapeStringForJson(author);
+            email = EscapeStringForJson(email);
+            content = EscapeStringForJson(content);
+
+            string emailField = string.IsNullOrEmpty(email) ? "\"Not provided\"" : $"\"{email}\"";
+
+            return $"{{" +
+                $"  \"content\": null," +
+                $"  \"embeds\": [{{" +
+                $"    \"title\": \"{title}\"," +
+                $"    \"description\": \"{content}\"," +
+                $"    \"color\": 36231," +
+                $"    \"fields\": [" +
+                $"      {{" +
+                $"        \"name\": \"メールアドレス\"," +
+                $"        \"value\": {emailField}" +
+                $"      }}," +
+                $"      {{" +
+                $"        \"name\": \"言語設定\"," +
+                $"        \"value\": \"{lng}\"" +
+                $"      }}" +
+                $"    ]," +
+                $"    \"author\": {{" +
+                $"      \"name\": \"{author}\"" +
+                $"    }}" +
+                $"  }}]" +
+                $"}}";
+        }
+
+        private string EscapeStringForJson(string input)
+        {
+            // JSONで使用される特殊文字をエスケープ
+            return input.Replace("\\", "\\\\")
+                        .Replace("\"", "\\\"")
+                        .Replace("\n", "\\n")
+                        .Replace("\r", "\\r")
+                        .Replace("\t", "\\t")
+                        .Replace("\b", "\\b")
+                        .Replace("\f", "\\f");
+        }
     }
 }
-#endif
