@@ -22,6 +22,8 @@ namespace EAUploader.UI
         {
             currentTab = "settings";
 
+            rootVisualElement.styleSheets.Add(Resources.Load<StyleSheet>("UI/styles"));
+
             // Import UXML
             var visualTree = Resources.Load<VisualTreeAsset>("UI/MainWindow"); 
             visualTree.CloneTree(rootVisualElement);

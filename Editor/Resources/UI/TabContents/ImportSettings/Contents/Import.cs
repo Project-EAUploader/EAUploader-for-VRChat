@@ -45,6 +45,9 @@ namespace EAUploader.UI.ImportSettings
                     }
                 }
             });
+
+            root.Q<Label>("version").text = EAUploaderCore.GetVersion();
+            root.Q<Button>("send_feedback").clicked += () => DiscordWebhookSender.OpenDiscordWebhookSenderWindow(); ;
         }
 
         private static void ImportPrefabButtonClicked()

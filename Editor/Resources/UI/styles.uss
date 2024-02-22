@@ -1,0 +1,17 @@
+* {
+    -unity-font-definition: initial;
+    -unity-font: url('project://database/Assets/EAUploader/UI/Noto_Sans_JP.ttf');
+}
+
+.material-icons {
+    font-size: var(--material-symbol-size);
+    -unity-font-style: normal;
+    -unity-font-definition: initial;
+    -unity-font: url('project://database/Assets/EAUploader/UI/MaterialIcons-Regular.ttf');
+}
+
+.button-with-icons {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

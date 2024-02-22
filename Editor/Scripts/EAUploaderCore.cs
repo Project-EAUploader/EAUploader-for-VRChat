@@ -10,6 +10,12 @@ namespace EAUploader
     [InitializeOnLoad]
     internal class EAUploaderCore
     {
+        [Serializable]
+        private class PackageJson
+        {
+            public string version;
+        }
+
         private const string EAUPLOADER_ASSET_PATH = "Assets/EAUploader";
         private static bool initializationPerformed = false;
         public static string selectedPrefabPath = null;
@@ -90,6 +96,14 @@ namespace EAUploader
                 byte[] notoSansJP = notoSansJPAsset.bytes;
                 File.WriteAllBytes(notoSansJPPath, notoSansJP);
             }
+
+            string materialIconsPath = $"{EAUPLOADER_ASSET_PATH}/UI/MaterialIcons-Regular.ttf";
+            if (!File.Exists(materialIconsPath))
+            {
+                TextAsset materialIconsAsset = Resources.Load("UI/MaterialIcons-Regular") as TextAsset;
+                byte[] materialIcons = materialIconsAsset.bytes;
+                File.WriteAllBytes(materialIconsPath, materialIcons);
+            }
         }
 
         private static void OpenEAUploaderWindow()
@@ -110,6 +124,21 @@ namespace EAUploader
             {
                 Debug.Log("Focusing on existing EAUploader window.");
                 windows[0].Focus();
+            }
+        }
+
+        public static string GetVersion()
+        {
+            // Get version from package.json
+            string packageJsonPath = "Packages/tech.uslog.eauploader/package.json";
+            if (File.Exists(packageJsonPath))
+            {
+                string packageJson = File.ReadAllText(packageJsonPath);
+                return Translate.Get("Version: ") + JsonUtility.FromJson<PackageJson>(packageJson).version;
+            }
+            else
+            {
+                return Translate.Get("Version: ") + "Unknown";
             }
         }
     }

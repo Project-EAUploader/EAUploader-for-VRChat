@@ -7,7 +7,7 @@
         </ui:VisualElement>
         <ui:VisualElement class="flex-1">
             <ui:VisualElement name="prefab_info" />
-            <ui:VisualElement name="avatar_preview" style="flex-grow: 1;" />
+            <ui:VisualElement name="avatar_preview" class="flex-1"/>
             <ui:VisualElement class="flex-row justify-between h-4">
                 <ui:Button text="Reset View" parse-escape-sequences="true" display-tooltip-when-elided="true" name="reset_view" />
                 <ui:Button text="Change Name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="change_name" />
@@ -15,6 +15,9 @@
                 <ui:Button text="Delete" parse-escape-sequences="true" display-tooltip-when-elided="true" name="delete_model" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="avatar_editor" class="w-one-quarter" />
+        <ui:VisualElement name="avatar_editor" class="w-one-quarter">
+            <ui:Label tabindex="-1" text="Avatar Editor" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            <ui:ScrollView name="avatar_editor_list" class="flex-1" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
