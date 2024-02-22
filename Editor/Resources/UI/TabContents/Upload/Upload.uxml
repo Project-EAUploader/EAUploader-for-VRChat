@@ -1,13 +1,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss?fileID=7433441132597879392&amp;guid=33415aeb954406041803ecdae7dd5df1&amp;type=3#tailwind" />
+    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss" />
     <ui:VisualElement class="flex-row flex-1">
-        <ui:VisualElement class="w-one-third" >
-        <ui:VisualElement name="avatar_preview" class="flex-1" />
-        <ui:VisualElement name="prefab_list_container" class="h-two-thirds"/>
+        <ui:VisualElement name="avatar_info_container" class="flex-row" style="width: 50%;">
+            <ui:VisualElement name="avatar_list" class="flex-1 border-r border-zinc-800" style="width: 100%;">
+                <ui:VisualElement name="avatar_preview" style="height: 30%;" />
+                <ui:VisualElement name="prefab_list_container" style="height: 70%;" />
+            </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement class="flex-1">
-            <ui:VisualElement name="upload_form" class="h-one-half" />
-        </ui:VisualElement>
-        <ui:VisualElement name="vrchat_uploader" class="w-one-third" />
+        <ui:VisualElement name="upload_form" style="width: 50%;" />
     </ui:VisualElement>
 </ui:UXML>

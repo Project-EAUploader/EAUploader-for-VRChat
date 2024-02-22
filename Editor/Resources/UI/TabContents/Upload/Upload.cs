@@ -3,6 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using VRC.SDK3A.Editor;
 using VRC.SDKBase.Editor;
 
 namespace EAUploader.UI.Upload
@@ -11,6 +12,7 @@ namespace EAUploader.UI.Upload
     {
         public static VisualElement root;
         public static Components.Preview preview;
+        public static VRCSdkControlPanelAvatarBuilder _builder;
 
         public static void ShowContent(VisualElement rootContainer)
         {

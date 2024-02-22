@@ -1,17 +1,19 @@
 * {
-    -unity-font-definition: initial;
-    -unity-font: url('project://database/Assets/EAUploader/UI/Noto_Sans_JP.ttf');
+    -unity-font-definition: url("/Assets/EAUploader/UI/Noto_Sans_JP SDF.asset")
 }
 
 .material-icons {
     font-size: var(--material-symbol-size);
     -unity-font-style: normal;
-    -unity-font-definition: initial;
-    -unity-font: url('project://database/Assets/EAUploader/UI/MaterialIcons-Regular.ttf');
+    -unity-font-definition: url('/Assets/EAUploader/UI/MaterialIcons-Regular SDF.asset');
 }
 
 .button-with-icons {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+
+.border-red {
+	border-color: #770000;
 }

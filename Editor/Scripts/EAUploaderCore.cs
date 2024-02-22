@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 
 namespace EAUploader
@@ -16,13 +17,28 @@ namespace EAUploader
             public string version;
         }
 
+        public static event Action<string> SelectedPrefabPathChanged;
+
+        private static string _selectedPrefabPath = null;
+        public static string selectedPrefabPath
+        {
+            get { return _selectedPrefabPath; }
+            set
+            {
+                if (_selectedPrefabPath != value)
+                {
+                    _selectedPrefabPath = value;
+                    SelectedPrefabPathChanged?.Invoke(value);
+                }
+            }
+        }
+
         private const string EAUPLOADER_ASSET_PATH = "Assets/EAUploader";
         private static bool initializationPerformed = false;
-        public static string selectedPrefabPath = null;
         public static bool HasVRM = false;
 
         static EAUploaderCore()
-        { 
+        {
             Debug.Log("EAUploader is starting...");
             EditorApplication.update += OnEditorUpdate;
         }
@@ -48,11 +64,11 @@ namespace EAUploader
         }
 
         private static void CheckIsVRMAvailable()
-        { 
+        {
             try
             {
                 string manifestPath = "Packages/packages-lock.json";
-                if (File.Exists(manifestPath)) 
+                if (File.Exists(manifestPath))
                 {
                     string manifestContent = File.ReadAllText(manifestPath);
                     HasVRM = manifestContent.Contains("\"com.vrmc.univrm\"") && manifestContent.Contains("\"jp.pokemori.vrm-converter-for-vrchat\"");
@@ -85,24 +101,36 @@ namespace EAUploader
             string tailwindUssPath = $"{EAUPLOADER_ASSET_PATH}/UI/tailwind.uss";
             if (!File.Exists(tailwindUssPath))
             {
-                string tailwindUss = Resources.Load<TextAsset>("UI/tailwind").text;
+                string tailwindUss = Resources.Load<UnityEngine.TextAsset>("UI/tailwind").text;
                 File.WriteAllText(tailwindUssPath, tailwindUss);
             }
 
             string notoSansJPPath = $"{EAUPLOADER_ASSET_PATH}/UI/Noto_Sans_JP.ttf";
             if (!File.Exists(notoSansJPPath))
             {
-                TextAsset notoSansJPAsset = Resources.Load("UI/Noto_Sans_JP") as TextAsset;
-                byte[] notoSansJP = notoSansJPAsset.bytes;
+                byte[] notoSansJP = Resources.Load<UnityEngine.TextAsset>("UI/Noto_Sans_JP").bytes;
                 File.WriteAllBytes(notoSansJPPath, notoSansJP);
+            }
+
+            string notoSansJPAssetPath = $"{EAUPLOADER_ASSET_PATH}/UI/Noto_Sans_JP SDF.asset";
+            if (!File.Exists(notoSansJPAssetPath))
+            {
+                FontAsset notoSansJPAsset = Resources.Load<FontAsset>("UI/Noto_Sans_JP SDF");
+                File.Copy(AssetDatabase.GetAssetPath(notoSansJPAsset), notoSansJPAssetPath);
             }
 
             string materialIconsPath = $"{EAUPLOADER_ASSET_PATH}/UI/MaterialIcons-Regular.ttf";
             if (!File.Exists(materialIconsPath))
             {
-                TextAsset materialIconsAsset = Resources.Load("UI/MaterialIcons-Regular") as TextAsset;
-                byte[] materialIcons = materialIconsAsset.bytes;
+                byte[] materialIcons = Resources.Load<UnityEngine.TextAsset>("UI/MaterialIcons-Regular").bytes;
                 File.WriteAllBytes(materialIconsPath, materialIcons);
+            }
+
+            string materialIconsAssetPath = $"{EAUPLOADER_ASSET_PATH}/UI/MaterialIcons-Regular SDF.asset";
+            if (!File.Exists(materialIconsAssetPath))
+            {
+                FontAsset materialIconsAsset = Resources.Load<FontAsset>("UI/MaterialIcons-Regular SDF");
+                File.Copy(AssetDatabase.GetAssetPath(materialIconsAsset), materialIconsAssetPath);
             }
         }
 

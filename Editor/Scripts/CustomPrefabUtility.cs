@@ -9,6 +9,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using VRC.SDK3.Avatars.Components;
 using VRC.SDKBase;
 
 namespace EAUploader.CustomPrefabUtility
@@ -150,6 +151,11 @@ namespace EAUploader.CustomPrefabUtility
             return status;
         }
 
+        public static GameObject GetPrefab(string prefabPath)
+        {
+            return AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        }
+
         public static bool ShowDeletePrefabDialog(string prefabPath)
         {
             if (EditorUtility.DisplayDialog("Prefabの消去", "本当にPrefabを消去しますか？", "消去", "キャンセル"))
@@ -188,6 +194,17 @@ namespace EAUploader.CustomPrefabUtility
                 }
                 SavePrefabsInfo(allPrefabs);
             }
+        }
+
+        public static VRCAvatarDescriptor GetAvatarDescriptor(string prefabPath)
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            if (prefab != null)
+            {
+                var avatarDescriptor = prefab.GetComponent<VRC.SDK3.Avatars.Components.VRCAvatarDescriptor>();
+                return avatarDescriptor;
+            }
+            return null;
         }
     }
 
@@ -381,6 +398,17 @@ namespace EAUploader.CustomPrefabUtility
         {
             string fileName = Path.GetFileNameWithoutExtension(prefabPath);
             return Path.Combine(PREVIEW_SAVE_PATH, $"{fileName}.png");
+        }
+
+
+        public static Texture2D GetPrefabPreview(string prefabPath)
+        {
+            string previewImagePath = PrefabPreview.GetPreviewImagePath(prefabPath);
+            if (File.Exists(previewImagePath))
+            {
+                return PrefabPreview.LoadTextureFromFile(previewImagePath);
+            }
+            return null;
         }
     }
 
