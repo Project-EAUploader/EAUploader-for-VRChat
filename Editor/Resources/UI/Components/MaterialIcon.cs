@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEngine;
 
-
 namespace EAUploader.UI.Components
 {
     public class MaterialIcon : Label

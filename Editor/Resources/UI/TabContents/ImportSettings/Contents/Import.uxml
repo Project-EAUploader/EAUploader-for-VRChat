@@ -9,27 +9,27 @@
     editor-extension-mode="False"
 >
     <Style src="project://database/Assets/EAUploader/UI/tailwind.uss?fileID=7433441132597879392&amp;guid=33415aeb954406041803ecdae7dd5df1&amp;type=3#tailwind" />
-    <ui:VisualElement name="import" class="flex-1">
-        <ui:Label tabindex="-1" text="Import" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="text-xl font-bold pb-2" />
+    <ui:VisualElement name="import" class="flex-1 flex-col space-y-4">
+        <ui:Label tabindex="-1" text="Import" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="text-xl font-bold pb-2 mb-2" />
         <eau:HelpButton msg-id="100" />
-        <ui:Label tabindex="-1" text="Import a .prefab file or .unitypackage file." parse-escape-sequences="true" display-tooltip-when-elided="true" />
-        <ui:Button name="import_prefab" parse-escape-sequences="true" display-tooltip-when-elided="true" class="button-with-icons">
+        <ui:Label tabindex="-1" text="Import a .prefab file or .unitypackage file." parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-lg"/>
+        <ui:Button name="import_prefab" parse-escape-sequences="true" display-tooltip-when-elided="true" class="button-with-icons mb-4">
             <eau:MaterialIcon icon="download" />
-            <ui:Label text="Import" />
+            <ui:Label text="Import"/>
         </ui:Button>
-        <ui:Button name="import_folder" parse-escape-sequences="true" display-tooltip-when-elided="true" class="button-with-icons">
+        <ui:Button name="import_folder" parse-escape-sequences="true" display-tooltip-when-elided="true" class="button-with-icons mb-4">
             <eau:MaterialIcon icon="folder" />
             <ui:Label text="Import from folder" />
         </ui:Button>
-        <ui:Label tabindex="-1" text="Import VRM" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Label tabindex="-1" text="Import VRM" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-lg"/>
         <eau:HelpButton msg-id="101" />
         <ui:Label tabindex="-1" text="Import the .vrm(ver. 0.x) file." parse-escape-sequences="true" display-tooltip-when-elided="true" />
         <ui:Button name="import_vrm" text="Import VRM" parse-escape-sequences="true" display-tooltip-when-elided="true" />
     </ui:VisualElement>
-    <ui:VisualElement name="settings">
-        <ui:Label tabindex="-1" text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-xl font-bold pb-2" />
-        <ui:VisualElement class="flex flex-row">
-		    <ui:VisualElement class="flex-row items-center">
+    <ui:VisualElement name="settings" class="flex-col space-y-4">
+        <ui:Label tabindex="-1" text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-xl font-bold pb-2 mb-2" />
+        <ui:VisualElement class="flex-row items-center">
+            <ui:VisualElement class="flex-row items-center">
                 <eau:MaterialIcon icon="language" />
                 <ui:Label text="Language: " />
             </ui:VisualElement>

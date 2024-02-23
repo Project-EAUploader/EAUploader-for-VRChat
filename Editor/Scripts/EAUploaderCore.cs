@@ -162,11 +162,11 @@ namespace EAUploader
             if (File.Exists(packageJsonPath))
             {
                 string packageJson = File.ReadAllText(packageJsonPath);
-                return Translate.Get("Version: ") + JsonUtility.FromJson<PackageJson>(packageJson).version;
+                return T7e.Get("Version: ") + JsonUtility.FromJson<PackageJson>(packageJson).version;
             }
             else
             {
-                return Translate.Get("Version: ") + "Unknown";
+                return T7e.Get("Version: ") + "Unknown";
             }
         }
     }

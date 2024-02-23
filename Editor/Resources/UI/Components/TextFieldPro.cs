@@ -27,7 +27,7 @@ namespace EAUploader.UI.Components
             }
         }
 
-        private string placeholder
+        public string placeholder
         {
             get => _placeholder;
             set
@@ -42,7 +42,15 @@ namespace EAUploader.UI.Components
 
         private string _placeholder;
         private static readonly string PlaceholderClass = TextField.ussClassName + "__placeholder";
-        private bool required;
+        public bool required
+        {
+            get => _required;
+            set
+            {
+                _required = value;
+            }
+        }
+        private bool _required;
         private bool loading;
 
         public bool Loading
@@ -87,13 +95,13 @@ namespace EAUploader.UI.Components
 
         private void ValueChanged(ChangeEvent<string> evt)
         {
-            if (!required) return;
+            if (!_required) return;
             this.Q<TextInputBase>().EnableInClassList("border-red", string.IsNullOrWhiteSpace(evt.newValue));
         }
 
         public string GetValue()
         {
-            if (required && IsPlaceholder())
+            if (_required && IsPlaceholder())
             {
                 this.Q<TextInputBase>().EnableInClassList("border-red", true);
                 return null;

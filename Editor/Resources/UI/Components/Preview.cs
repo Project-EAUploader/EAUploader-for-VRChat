@@ -42,9 +42,30 @@ namespace EAUploader.UI.Components
                 root.Add(new Label("Select a prefab to preview"));
                 return;
             } else
-            { 
+            {
+                CreateResetButton();
                 UpdatePreview(prefabPath);
             }
+        }
+
+        private void CreateResetButton()
+        {
+            var button = new Button(() =>
+            {
+                ResetPreview();
+            })
+            {
+                name = "reset_preview",
+            };
+
+            var icon = new MaterialIcon()
+            {
+                icon = "restart_alt"
+            };
+
+            button.Add(icon);
+
+            root.Add(button);
         }
 
         public void UpdatePreview(string prefabPath)
@@ -59,6 +80,8 @@ namespace EAUploader.UI.Components
                 return; // Error handling
 
             ShowPrefabPreview();
+
+            CreateResetButton();
         }
 
         public void ResetPreview()
@@ -120,7 +143,7 @@ namespace EAUploader.UI.Components
                 GUILayout.BeginArea(previewRectArea);
                 {
                     CreateOrReuseGameObjectEditor();
-                    var bgStyle = new GUIStyle { normal = { background = EditorGUIUtility.whiteTexture } };
+                    var bgStyle = new GUIStyle { normal = { background = EditorGUIUtility.whiteTexture } }; 
                     HandleMouseEvents(previewRect, previewRectArea);
                     gameObjectEditor.OnInteractivePreviewGUI(previewRect, bgStyle);
                 }

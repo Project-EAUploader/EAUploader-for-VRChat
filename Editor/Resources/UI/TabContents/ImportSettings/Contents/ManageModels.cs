@@ -1,5 +1,6 @@
 ﻿    using Cysharp.Threading.Tasks;
 using EAUploader.CustomPrefabUtility;
+using EAUploader.UI.Components;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,7 +31,7 @@ namespace EAUploader.UI.ImportSettings
             UpdateModelList();
         }
 
-        private static void UpdateModelList()
+        internal static void UpdateModelList()
         {
             var searchQuery = root.Q<TextField>("searchQuery").value;
             UpdatePrefabsWithPreview(searchQuery);
@@ -57,6 +58,62 @@ namespace EAUploader.UI.ImportSettings
             }
         }
 
+        private static VisualElement CreatePrefabItem(PrefabInfo prefab)
+        {
+            var item = new PrefabItem(prefab.Preview, prefab.Name);
+
+            return item;
+        }
+
+    }
+
+    internal class PrefabItem : VisualElement
+    {
+        public PrefabItem(Texture2D preview, string name)
+        {
+            var previewImage = new Image { 
+                image = preview, 
+                style = {
+                    width = 128,
+                    height = 128, 
+                } 
+            };
+            previewImage.RegisterCallback<MouseUpEvent>(evt => ShowLargeImage(preview));
+            Add(previewImage);
+
+            var label = new Label { text = name, style = { flexGrow = 1 } };
+            Add(label);
+
+            var controls = new VisualElement()
+            {
+                style =
+                {
+                    flexDirection = FlexDirection.Column,
+                }
+            };
+
+            var changeNameButton = new Button();
+            var changeNameIcon = new MaterialIcon() { icon = "edit", style = { fontSize = 20 } };
+            changeNameButton.Add(changeNameIcon);
+            changeNameButton.clicked += () => ChangePrefabName(name);
+
+            var copyAsNewNameButton = new Button();
+            var copyAsNewNameIcon = new MaterialIcon() { icon = "content_copy", style = { fontSize = 20 } };
+            copyAsNewNameButton.Add(copyAsNewNameIcon);
+            copyAsNewNameButton.clicked += () => CopyPrefabAsNewName(name);
+
+            var deleteButton = new Button();
+            var deleteIcon = new MaterialIcon() { icon = "delete", style = { fontSize = 20 } };
+            deleteButton.Add(deleteIcon);
+            deleteButton.clicked += () => DeletePrefab(name);
+
+            controls.Add(changeNameButton);
+            controls.Add(copyAsNewNameButton);
+            controls.Add(deleteButton);
+
+            Add(controls);
+        }
+
         private static void ShowLargeImage(Texture2D image)
         {
             var window = ScriptableObject.CreateInstance<EditorWindow>();
@@ -69,50 +126,13 @@ namespace EAUploader.UI.ImportSettings
             window.Show();
         }
 
-        private static VisualElement CreatePrefabItem(PrefabInfo prefab)
+        internal static void ChangePrefabName(string prefabPath)
         {
-            var item = new VisualElement
-            {
-                style =
-                {
-                    flexDirection = new StyleEnum<FlexDirection>(FlexDirection.Row),
-                    flexWrap = new StyleEnum<Wrap>(Wrap.Wrap),
-                    alignItems = new StyleEnum<Align>(Align.Center),
-                    paddingTop = 10
-                }
-            };
-
-            var preview = new Image { image = prefab.Preview, style = { width = 100, height = 100 } };
-            preview.RegisterCallback<MouseUpEvent>(evt => ShowLargeImage(prefab.Preview));
-            item.Add(preview);
-
-            var label = new Label { text = Path.GetFileNameWithoutExtension(prefab.Path) };
-            item.Add(label);
-
-            var buttons = new[]
-            {
-                new { Text = UnityEditor.L10n.Tr("Change Name"), Action = (Action)(() => ChangePrefabName(prefab.Path)) },
-                new { Text = UnityEditor.L10n.Tr("Copy as New Name"), Action = (Action)(() => CopyPrefabAsNewName(prefab.Path)) },
-                new { Text = UnityEditor.L10n.Tr("Delete"), Action = (Action)(() => DeletePrefab(prefab.Path)) }
-            };
-
-            foreach (var button in buttons)
-            {
-                var buttonElement = new Button { text = button.Text };
-                buttonElement.clicked += button.Action;
-                item.Add(buttonElement);
-            }
-
-            return item;
-        }
-       
-        private static void ChangePrefabName(string prefabPath)
-        {
-            var renameWindow = ScriptableObject.CreateInstance<CustomPrefabUtility.RenamePrefabWindow>();
-            if (renameWindow.ShowWindow(prefabPath)) UpdateModelList();
+            var renameWindow = ScriptableObject.CreateInstance<RenamePrefabWindow>();
+            if (renameWindow.ShowWindow(prefabPath)) ManageModels.UpdateModelList();
         }
 
-        private static void CopyPrefabAsNewName(string prefabPath)
+        internal static void CopyPrefabAsNewName(string prefabPath)
         {
             string assetName = Path.GetFileNameWithoutExtension(prefabPath);
             string directoryPath = Path.GetDirectoryName(prefabPath);
@@ -126,18 +146,18 @@ namespace EAUploader.UI.ImportSettings
                 PrefabUtility.SaveAsPrefabAsset((GameObject)prefabCopy, newPrefabPath);
                 UnityEngine.Object.DestroyImmediate(prefabCopy);
 
-                var renameWindow = new CustomPrefabUtility.RenamePrefabWindow();
+                var renameWindow = new RenamePrefabWindow();
                 renameWindow.ShowWindow(newPrefabPath);
 
-                UpdateModelList();
+                ManageModels.UpdateModelList();
             }
         }
 
-        private static void DeletePrefab(string prefabPath)
+        internal static void DeletePrefab(string prefabPath)
         {
-            if (CustomPrefabUtility.PrefabManager.ShowDeletePrefabDialog(prefabPath)) 
+            if (PrefabManager.ShowDeletePrefabDialog(prefabPath))
             {
-                UpdateModelList();
+                ManageModels.UpdateModelList();
             }
         }
     }

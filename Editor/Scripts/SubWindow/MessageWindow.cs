@@ -33,7 +33,7 @@ public class EAUploaderMessageWindow : EditorWindow
     }
 
     private void OnGUI()
-    {
+    { 
         EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), Color.white);
 
         scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);

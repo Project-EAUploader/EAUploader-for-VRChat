@@ -46,7 +46,7 @@ namespace EAUploader
 
         public static void Localization(VisualElement root)
         {
-            root.Query<TextElement>().ForEach((e) => e.text = Translate.Get(e.text));
+            root.Query<TextElement>().ForEach((e) => e.text = T7e.Get(e.text));
         }
 
         public static void ChangeLanguage(string language)
@@ -71,7 +71,7 @@ namespace EAUploader
                     string fileName = Path.GetFileNameWithoutExtension(file);
                     // Read Json file and get the language name
                     string jsonContent = File.ReadAllText(file);
-                    var translations = JsonUtility.FromJson<Translate.LocalizationData>(jsonContent);
+                    var translations = JsonUtility.FromJson<T7e.LocalizationData>(jsonContent);
                     string languageName = translations.name;
                     languages.Add(new LanguageInfo { name = fileName, display = languageName });
                 }

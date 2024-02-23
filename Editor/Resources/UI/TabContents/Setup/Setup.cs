@@ -5,6 +5,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Progress;
 
 namespace EAUploader.UI.Setup
 {
@@ -13,7 +14,7 @@ namespace EAUploader.UI.Setup
         private static List<PrefabInfo> prefabsWithPreview = new List<PrefabInfo>();
         private static VisualElement root;
         private static ScrollView modelList;
-        private static Components.Preview preview;
+        internal static Components.Preview preview;
         private static bool isEditorInfoLoaded = false;
         private static List<EditorRegistration> editorRegistrations;
         private static Dictionary<string, bool> editorFoldouts = new Dictionary<string, bool>();
@@ -33,9 +34,20 @@ namespace EAUploader.UI.Setup
 
             preview.ShowContent();
 
+            if (EAUploaderCore.selectedPrefabPath != null)
+            {
+                UpdatePrefabInto(EAUploaderCore.selectedPrefabPath);
+                preview.UpdatePreview(EAUploaderCore.selectedPrefabPath);
+            }
+
             BuildEditor();
 
             ButtonClickHandler();
+
+            root.Q<Button>("find_extentions").clicked += () =>
+            {
+                Application.OpenURL("https://www.uslog.tech/eauploader-plug-ins");
+            };
         }
 
         private static void GetModelList()
@@ -56,58 +68,45 @@ namespace EAUploader.UI.Setup
 
         private static VisualElement CreatePrefabItem(PrefabInfo prefab)
         {
-            var item = new Button(() =>
-            {
-                EAUploaderCore.selectedPrefabPath = prefab.Path;
-                UpdatePrefabInto(prefab.Path);
-                preview.UpdatePreview(prefab.Path);
-            })
-            {
-                style =
-                            {
-                                flexDirection = FlexDirection.Row,
-                                alignItems = Align.Center,
-                                marginTop = 5
-                            }
-            };
-
-            var previewImage = new Image { image = prefab.Preview, scaleMode = ScaleMode.ScaleToFit, style = { width = 100, height = 100 } };
-            item.Add(previewImage);
-
-            var label = new Label(Path.GetFileNameWithoutExtension(prefab.Path));
-            item.Add(label);
-
+            var item = new PrefabItemButton(prefab);
             return item;
         }
 
-        private static void UpdatePrefabInto(string prefabPath)
+        internal static void UpdatePrefabInto(string prefabPath)
         {
             var prefabInfo = root.Q<VisualElement>("prefab_info");
             prefabInfo.Clear();
 
-            var prefabName = new Label(Path.GetFileNameWithoutExtension(prefabPath));
+            var prefabName = new Label(T7e.Get("Now selecting: ") + Path.GetFileNameWithoutExtension(prefabPath))
+            {
+                style =
+                {
+                    fontSize = 20,
+                    unityFontStyleAndWeight = FontStyle.Bold
+                }
+            };
             prefabInfo.Add(prefabName);
 
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-            var prefabHeight = new Label("Height: " + CustomPrefabUtility.Utility.GetAvatarHeight(prefab));
+            var prefabHeight = new Label(T7e.Get("Height: ") + Utility.GetAvatarHeight(prefab) + "m")
+            {
+                style =
+                {
+                    fontSize = 15,
+                    unityFontStyleAndWeight = FontStyle.Normal
+                }
+            };
             prefabInfo.Add(prefabHeight);
         }
 
         private static void ButtonClickHandler()
         {
-            var resetButton = root.Q<Button>("reset_view");
-            resetButton.clicked += ResetButtonClicked;
             var changeNameButton = root.Q<Button>("change_name");
             changeNameButton.clicked += ChangeNameButtonClicked;
             var pinButton = root.Q<Button>("pin_model");
             pinButton.clicked += PinButtonClicked;
             var deleteButton = root.Q<Button>("delete_model");
             deleteButton.clicked += DeleteButtonClicked;
-        }
-
-        private static void ResetButtonClicked()
-        {
-            preview.ResetPreview();
         }
 
         private static void ChangeNameButtonClicked()
@@ -153,16 +152,6 @@ namespace EAUploader.UI.Setup
                 var editorItem = CreateEditorItem(editor);
                 editorList.Add(editorItem);
             }
-
-            var openInBrowserButton = new Button(() =>
-            {
-                Application.OpenURL("https://www.uslog.tech/eauploader-plug-ins");
-            })
-            {
-                text = Translate.Get("Open in browser")
-            };
-
-            editorList.Add(openInBrowserButton);
         }
 
         private static VisualElement CreateEditorItem(EditorRegistration editor)
@@ -200,9 +189,9 @@ namespace EAUploader.UI.Setup
             if (editorFoldouts[editor.EditorName])
             {
                 var editorContent = new VisualElement();
-                editorContent.Add(new Label(Translate.Get("Description: ") + editor.EditorName));
-                editorContent.Add(new Label(Translate.Get("Version: ") + editor.MenuName));
-                editorContent.Add(new Label(Translate.Get("Author: ") + editor.Author));
+                editorContent.Add(new Label(T7e.Get("Description: ") + editor.EditorName));
+                editorContent.Add(new Label(T7e.Get("Version: ") + editor.MenuName));
+                editorContent.Add(new Label(T7e.Get("Author: ") + editor.Author));
 
                 if (!string.IsNullOrEmpty(editor.Url))
                 {
@@ -211,7 +200,7 @@ namespace EAUploader.UI.Setup
                         Application.OpenURL(editor.Url);
                     })
                     {
-                        text = Translate.Get("Open the URL")
+                        text = T7e.Get("Open the URL")
                     });
                 }
 
@@ -219,6 +208,25 @@ namespace EAUploader.UI.Setup
             }
 
             return item;
+        }
+    }
+
+    internal class PrefabItemButton : Button
+    {
+        public PrefabItemButton(PrefabInfo prefab)
+        {
+            var previewImage = new Image { image = prefab.Preview, scaleMode = ScaleMode.ScaleToFit, style = { width = 100, height = 100 } };
+            Add(previewImage);
+
+            var label = new Label(Path.GetFileNameWithoutExtension(prefab.Path));
+            Add(label);
+
+            clicked += () =>
+            {
+                EAUploaderCore.selectedPrefabPath = prefab.Path;
+                Main.UpdatePrefabInto(prefab.Path);
+                Main.preview.UpdatePreview(prefab.Path);
+            };
         }
     }
 }

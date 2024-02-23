@@ -38,14 +38,6 @@
       "value": "設定"
     },
     {
-      "key": "Language",
-      "value": "言語"
-    },
-    {
-      "key": "Version",
-      "value": "バージョン"
-    },
-    {
       "key": "Send feedback",
       "value": "フィードバックを送信"
     },
@@ -112,6 +104,18 @@
     {
       "key": "Cancel",
       "value": "キャンセル"
+    },
+    {
+      "key": "Language: ",
+      "value": "言語: "
+    },
+    {
+      "key": "Version: ",
+      "value": "バージョン: "
+    },
+    {
+      "key": "Help",
+      "value": "ヘルプ"
     }
   ]
 }

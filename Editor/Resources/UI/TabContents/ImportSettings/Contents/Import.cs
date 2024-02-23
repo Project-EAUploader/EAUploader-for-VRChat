@@ -47,17 +47,17 @@ namespace EAUploader.UI.ImportSettings
             });
 
             root.Q<Label>("version").text = EAUploaderCore.GetVersion();
-            root.Q<Button>("send_feedback").clicked += () => DiscordWebhookSender.OpenDiscordWebhookSenderWindow(); ;
+            root.Q<Button>("send_feedback").clicked += () => DiscordWebhookSender.OpenDiscordWebhookSenderWindow();
         }
 
         private static void ImportPrefabButtonClicked()
         {
-            ImportAsset(EditorUtility.OpenFilePanelWithFilters(Translate.Get("Import Asset"), "", new[] { Translate.Get("Import a .prefab file or .unitypackage file."), "prefab,unitypackage", "All files", "*" }));
+            ImportAsset(EditorUtility.OpenFilePanelWithFilters(T7e.Get("Import Asset"), "", new[] { T7e.Get("Import a .prefab file or .unitypackage file."), "prefab,unitypackage", "All files", "*" }));
         }
 
         private static void ImportFolderButtonClicked()
         {
-            ImportAllAssetsFromFolder(EditorUtility.OpenFolderPanel(Translate.Get("Import from folder"), "", ""));
+            ImportAllAssetsFromFolder(EditorUtility.OpenFolderPanel(T7e.Get("Import from folder"), "", ""));
         }
 
         private static void ImportVRMButtonClicked()
@@ -93,12 +93,12 @@ namespace EAUploader.UI.ImportSettings
              
             if (allFiles.Count == 0)
             {
-                EditorUtility.DisplayDialog(Translate.Get("Asset not found"), Translate.Get("There are no prefab or unitypackage files in the selected folder."), "OK");
+                EditorUtility.DisplayDialog(T7e.Get("Asset not found"), T7e.Get("There are no prefab or unitypackage files in the selected folder."), "OK");
                 return;
             }
 
             var fileList = string.Join("\n", allFiles.Select(Path.GetFileName));
-            var confirmImport = EditorUtility.DisplayDialog(Translate.Get("Confirm Import"), $"{Translate.Get("The following files will be imported")}:\n{fileList}", Translate.Get("Import"), Translate.Get("Cancel"));
+            var confirmImport = EditorUtility.DisplayDialog(T7e.Get("Confirm Import"), $"{T7e.Get("The following files will be imported")}:\n{fileList}", T7e.Get("Import"), T7e.Get("Cancel"));
             if (!confirmImport) return;
 
             foreach (var file in allFiles)

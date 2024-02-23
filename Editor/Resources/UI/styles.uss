@@ -1,5 +1,135 @@
-* {
-    -unity-font-definition: url("/Assets/EAUploader/UI/Noto_Sans_JP SDF.asset")
+:root {
+    -unity-font-definition: url("/Assets/EAUploader/UI/Noto_Sans_JP SDF.asset");
+	background-color: white;
+}
+
+Shadow {
+    transition: 250ms;
+}
+Shadow:hover {
+    color: white;
+}
+
+Button {
+    font-size: 16px;
+	padding: 6px 16px;
+    border-width: 0px;
+    border-radius: 4px;
+	background-color: rgb(25, 118, 210);
+	color: white;
+    -unity-font-style: bold; 
+    transition: 150ms;
+}
+
+Button:hover {
+	background-color: rgb(20, 100, 180);
+}
+
+Button:active {
+	background-color: rgb(30, 130, 230);
+}
+
+Button > Label {
+    font-size: 12px;
+	color: white;
+}
+
+Button > MaterialIcon {
+	color: white;
+}
+
+
+HelpButton {
+    margin-right: auto;
+    padding: 2px 4px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    border-width: 0px;
+    border-radius: 4px;
+	background-color: rgb(25, 118, 210);
+	color: white;
+    -unity-font-style: bold; 
+    transition: 150ms;
+}
+
+HelpButton:hover {
+	background-color: rgb(20, 100, 180);
+}
+
+HelpButton:active {
+	background-color: rgb(30, 130, 230);
+}
+
+HelpButton > Label {
+    font-size: 12px;
+	color: white;
+}
+
+HelpButton > MaterialIcon {
+	color: white;
+}
+
+PrefabItemButton {
+	border-width: 1px;
+	border-color: rgb(200, 200, 200);
+	flex-direction: row;
+	margin-bottom: 4px;
+	background-color: white;
+}
+
+PrefabItemButton:hover {
+	background-color: rgb(240, 240, 240);
+}
+
+PrefabItemButton > Image {
+	margin-right: 16px;
+}
+
+PrefabItemButton > Label {
+	font-size: 12px;
+}
+
+Label {
+    color: black;
+}
+
+MaterialIcon {
+    color: black;
+}
+
+PrefabItem {
+    flex-direction: row;
+	align-items: center;
+	margin-top: 4px;
+	border-width: 1px;
+	border-radius: 4px;
+	border-color: rgb(200, 200, 200);
+	background-color: white;
+	color: black;
+	transition: 150ms;
+}
+
+PrefabItem > Image {
+	margin-right: 16px;
+}
+
+PrefabItem > Label {
+	font-size: 16px;
+
+}
+
+TextInput {
+	font-size: 16px;
+	padding: 6px 16px;
+	border-width: 1px;
+	border-radius: 4px;
+	border-color: rgb(200, 200, 200);
+	background-color: white;
+	color: black;
+	transition: 150ms
 }
 
 .material-icons {
@@ -16,4 +146,35 @@
 
 .border-red {
 	border-color: #770000;
+}
+
+.tab-button {
+    flex: 1;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	color: white;
+    font-size: 16px;
+}
+
+#reset_preview {
+	position: absolute;
+	bottom: 0;
+	margin: 8px;
+	padding: 4px;
+	border-radius: 4px;
+	background-color: rgb(25, 118, 210);
+
+}
+
+#reset_preview > MaterialIcon {
+	color: white;
+}
+
+#reset_preview:hover {
+	background-color: rgb(20, 100, 180);
+}
+
+#reset_preview:active {
+	background-color: rgb(30, 130, 230);
 }

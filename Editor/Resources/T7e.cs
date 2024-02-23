@@ -6,7 +6,7 @@ using System;
 
 namespace EAUploader
 {
-    public class Translate
+    public class T7e
     {
         [Serializable]
         public class LocalizationData

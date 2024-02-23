@@ -1,23 +1,48 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements"
+    xmlns:eau="EAUploader.UI.Components"
+    xsi="http://www.w3.org/2001/XMLSchema-instance"
+    engine="UnityEngine.UIElements"
+    editor="UnityEditor.UIElements"
+    noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
+    editor-extension-mode="False">
     <Style src="project://database/Assets/EAUploader/UI/tailwind.uss?fileID=7433441132597879392&amp;guid=33415aeb954406041803ecdae7dd5df1&amp;type=3#tailwind" />
     <ui:VisualElement class="flex-row flex-1">
-        <ui:VisualElement name="avatar_models" class="w-one-quarter">
-            <ui:Label tabindex="-1" text="Select a model" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:VisualElement name="avatar_models" class="w-one-quarter p-4 border-r border-zinc-300">
+            <ui:Label tabindex="-1" text="Select a model" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-xl font-bold mb-4"/>
             <ui:ScrollView name="model_list" class="flex-1" />
         </ui:VisualElement>
-        <ui:VisualElement class="flex-1">
-            <ui:VisualElement name="prefab_info" />
-            <ui:VisualElement name="avatar_preview" class="flex-1"/>
-            <ui:VisualElement class="flex-row justify-between h-4">
-                <ui:Button text="Reset View" parse-escape-sequences="true" display-tooltip-when-elided="true" name="reset_view" />
-                <ui:Button text="Change Name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="change_name" />
-                <ui:Button text="Pin prefab" parse-escape-sequences="true" display-tooltip-when-elided="true" name="pin_model" />
-                <ui:Button text="Delete" parse-escape-sequences="true" display-tooltip-when-elided="true" name="delete_model" />
+        <ui:VisualElement class="flex-1 border-r border-zinc-300">
+            <ui:VisualElement name="prefab_info" class="p-4 border-b border-b-zinc-300">
+                <ui:Label text="Select the avatar you wish to set up from the list on the left." />
+            </ui:VisualElement>
+            <ui:VisualElement name="avatar_preview" class="flex-1 border-b border-b-zinc-300"/>
+            <ui:VisualElement class="flex-row justify-between h-8 m-4">
+                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="change_name" class="text-2xl">
+                    <eau:MaterialIcon icon="edit" />
+                </ui:Button>
+                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="pin_model" class="text-2xl">
+                    <eau:MaterialIcon icon="push_pin" />
+                </ui:Button>
+                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="delete_model" class="text-2xl">
+                    <eau:MaterialIcon icon="delete" />
+                </ui:Button>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="avatar_editor" class="w-one-quarter">
-            <ui:Label tabindex="-1" text="Avatar Editor" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:VisualElement name="avatar_editor" class="w-one-quarter p-4">
+            <ui:VisualElement class="pb-4 border-b-2 border-b-zinc-300">
+                <ui:Label tabindex="-1" text="Avatar Editor" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-xl font-bold pb-2"/>
+                <eau:HelpButton msg-id="103" />
+            </ui:VisualElement>
             <ui:ScrollView name="avatar_editor_list" class="flex-1" />
+            <ui:VisualElement>
+				<eau:HelpButton msg-id="104" class="mb-2"/>
+                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="find_extentions" class="text-2xl button-with-icons">
+					<eau:MaterialIcon icon="open_in_browser" />
+                    <ui:Label text="Find extentions" />
+				</ui:Button>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

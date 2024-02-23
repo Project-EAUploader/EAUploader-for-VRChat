@@ -3,7 +3,7 @@
     <ui:Label tabindex="-1" text="Manage Model" parse-escape-sequences="true" display-tooltip-when-elided="true" enable-rich-text="true" class="text-xl font-bold pb-2" />
     <ui:VisualElement name="VisualElement" class="flex-row">
         <ui:TextField name="searchQuery" picking-mode="Ignore" class="flex-1" />
-        <ui:Button name="searchButton" text="Search" parse-escape-sequences="true" display-tooltip-when-elided="true" class="px-4" />
+        <ui:Button name="searchButton" text="Search" parse-escape-sequences="true" display-tooltip-when-elided="true" class="px-4 ml-2" />
     </ui:VisualElement>
     <ui:ScrollView name="model_list" class="flex-1" />
 </ui:UXML>
