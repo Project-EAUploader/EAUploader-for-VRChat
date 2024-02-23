@@ -30,8 +30,8 @@
                 </ui:Button>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="avatar_editor" class="w-one-quarter p-4">
-            <ui:VisualElement class="pb-4 border-b-2 border-b-zinc-300">
+        <ui:VisualElement name="avatar_editor" class="w-one-quarter p-4"> 
+            <ui:VisualElement class="pb-4 mb-4 border-b border-b-zinc-300">
                 <ui:Label tabindex="-1" text="Avatar Editor" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-xl font-bold pb-2"/>
                 <eau:HelpButton msg-id="103" />
             </ui:VisualElement>

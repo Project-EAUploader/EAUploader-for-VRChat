@@ -1,6 +1,9 @@
 :root {
     -unity-font-definition: url("/Assets/EAUploader/UI/Noto_Sans_JP SDF.asset");
 	background-color: white;
+	--primary: rgb(25, 118, 210);
+	--primary-hover: rgb(20, 100, 180);
+	--primary-active: rgb(30, 130, 230);
 }
 
 Shadow {
@@ -15,18 +18,18 @@ Button {
 	padding: 6px 16px;
     border-width: 0px;
     border-radius: 4px;
-	background-color: rgb(25, 118, 210);
+	background-color: var(--primary);
 	color: white;
     -unity-font-style: bold; 
     transition: 150ms;
 }
 
 Button:hover {
-	background-color: rgb(20, 100, 180);
+	background-color: var(--primary-hover);
 }
 
 Button:active {
-	background-color: rgb(30, 130, 230);
+	background-color: var(--primary-active);
 }
 
 Button > Label {
@@ -49,14 +52,14 @@ HelpButton {
     font-size: 16px;
     border-width: 0px;
     border-radius: 4px;
-	background-color: rgb(25, 118, 210);
+	background-color: var(--primary);
 	color: white;
     -unity-font-style: bold; 
     transition: 150ms;
 }
 
 HelpButton:hover {
-	background-color: rgb(20, 100, 180);
+	background-color: var(--primary-hover);
 }
 
 HelpButton:active {
@@ -122,14 +125,87 @@ PrefabItem > Label {
 }
 
 TextInput {
-	font-size: 16px;
-	padding: 6px 16px;
+	font-size: 12px;
+	padding: 4px 16px;
 	border-width: 1px;
 	border-radius: 4px;
 	border-color: rgb(200, 200, 200);
 	background-color: white;
 	color: black;
 	transition: 150ms
+}
+
+TextElement {
+	cursor: text;
+}
+
+TextFieldPro {
+	align-items: center;
+}
+
+ContentWarningsField {
+	flex-direction: row;
+}
+
+.tag-button {
+    flex-direction: row;
+	justify-content: center;
+    padding: 2px 12px;
+	margin-bottom: 4px;
+	margin-right: 4px;
+	background-color: white;
+	border-width: 1px;
+	border-radius: 12px;
+	border-color: rgb(200, 200, 200);
+	transition: 150ms;
+}
+
+.tag-button:hover {
+	background-color: rgb(240, 240, 240);
+}
+
+.tag-button > Label {
+    color: black;
+	margin-left: 4px;
+}
+
+.checked {
+	background-color: var(--primary);
+	color: white;
+}
+
+.checked:hover {
+	background-color: var(--primary-hover);
+}
+
+.checked > Label {
+	color: white;
+}
+
+DropdownField {
+	align-items: center;
+}
+
+DropdownField > VisualElement {
+	padding: 4px 16px;
+	border-width: 1px;
+	border-radius: 4px;
+	border-color: rgb(200, 200, 200);
+	background-color: white;
+	color: black;
+	transition: 150ms;
+}
+
+DropdownField:hover > VisualElement {
+	background-color: rgb(240, 240, 240);
+}
+
+DropdownField > Label {
+	color: black;
+}
+
+DropdownField > VisualElement > PopupTextElement {
+	color: black;
 }
 
 .material-icons {
@@ -145,7 +221,7 @@ TextInput {
 }
 
 .border-red {
-	border-color: #770000;
+	border-color: #550000;
 }
 
 .tab-button {
@@ -163,7 +239,7 @@ TextInput {
 	margin: 8px;
 	padding: 4px;
 	border-radius: 4px;
-	background-color: rgb(25, 118, 210);
+	background-color: var(--primary);
 
 }
 
@@ -172,9 +248,34 @@ TextInput {
 }
 
 #reset_preview:hover {
-	background-color: rgb(20, 100, 180);
+	background-color: var(--primary-hover)
 }
 
 #reset_preview:active {
-	background-color: rgb(30, 130, 230);
+	background-color: var(--primary-active)
+}
+
+.link {
+	padding: 0px;
+	background-color: transparent;
+	color: var(--primary);
+}
+
+.link:hover {
+	background-color: transparent;
+	color: var(--primary-hover);
+	cursor: link;
+}
+
+.selected {
+	background-color: var(--primary);
+	border-color: var(--primary);
+}
+
+.selected > Label {
+	color: white;
+}
+
+.selected:hover {
+	background-color: var(--primary-hover);
 }

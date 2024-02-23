@@ -55,6 +55,9 @@ namespace EAUploader
 
         public static async void BuildAvatar()
         {
+            // Open the SDK Control Panel
+            VRCSdkControlPanel.GetWindow<VRCSdkControlPanel>().Show();
+
             var selectedPrefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);
 
 

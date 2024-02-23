@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using EAUploader.CustomPrefabUtility;
+using EAUploader.UI.Components;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -17,7 +18,7 @@ namespace EAUploader.UI.Setup
         internal static Components.Preview preview;
         private static bool isEditorInfoLoaded = false;
         private static List<EditorRegistration> editorRegistrations;
-        private static Dictionary<string, bool> editorFoldouts = new Dictionary<string, bool>();
+        internal static Dictionary<string, bool> editorFoldouts = new Dictionary<string, bool>();
 
         public static void ShowContent(VisualElement rootElement)
         {
@@ -47,7 +48,7 @@ namespace EAUploader.UI.Setup
             root.Q<Button>("find_extentions").clicked += () =>
             {
                 Application.OpenURL("https://www.uslog.tech/eauploader-plug-ins");
-            };
+            }; 
         }
 
         private static void GetModelList()
@@ -120,7 +121,7 @@ namespace EAUploader.UI.Setup
 
         private static void PinButtonClicked()
         {
-            CustomPrefabUtility.PrefabManager.PinPrefab(EAUploaderCore.selectedPrefabPath);
+            PrefabManager.PinPrefab(EAUploaderCore.selectedPrefabPath);
             GetModelList();
         }
 
@@ -132,7 +133,7 @@ namespace EAUploader.UI.Setup
             }
         }
 
-        private static void BuildEditor()
+        internal static void BuildEditor()
         {
             if (!isEditorInfoLoaded)
             {
@@ -156,12 +157,20 @@ namespace EAUploader.UI.Setup
 
         private static VisualElement CreateEditorItem(EditorRegistration editor)
         {
-            var item = new VisualElement
-            {
+            var item = new EditorItem(editor);
+
+            return item;
+        }
+    }
+
+    internal class EditorItem : VisualElement
+    {
+        public EditorItem(EditorRegistration editor)
+        {
+            var buttonGroup = new VisualElement() { 
                 style =
                 {
-                    alignItems = Align.Center,
-                    marginTop = 5
+                    flexDirection = FlexDirection.Row,
                 }
             };
 
@@ -170,44 +179,81 @@ namespace EAUploader.UI.Setup
                 EditorApplication.ExecuteMenuItem(editor.MenuName);
             })
             {
-                text = editor.EditorName
+                text = editor.EditorName,
+                style =
+                {
+                    flexGrow = 1, 
+                    borderBottomRightRadius = 0,
+                    borderTopRightRadius = 0,
+                    borderRightColor = new StyleColor(new Color(0.0784313725f , 0.3921568627f, 0.7058823529f,1)),
+                    borderRightWidth = 1, 
+                }
             };
 
-            item.Add(item_button);
+            buttonGroup.Add(item_button);
 
             var foldoutButton = new Button(() =>
             {
-                editorFoldouts[editor.EditorName] = !editorFoldouts[editor.EditorName];
-                BuildEditor();
+                Main.editorFoldouts[editor.EditorName] = !Main.editorFoldouts[editor.EditorName];
+                Main.BuildEditor();
             })
             {
-                text = "More"
+                style =
+                {
+                    width = 50,
+                    justifyContent = Justify.Center,
+                    paddingLeft = 2,
+                    paddingRight = 2,
+                    borderBottomLeftRadius = 0,
+                    borderTopLeftRadius = 0,
+                }
             };
 
-            item.Add(foldoutButton);
+            buttonGroup.Add(foldoutButton);
 
-            if (editorFoldouts[editor.EditorName])
+            Add(buttonGroup);
+
+            var expandMore = new MaterialIcon { icon = "expand_more" };
+            expandMore.style.fontSize = 20;
+            var expandLess = new MaterialIcon { icon = "expand_less" };
+            expandLess.style.fontSize = 20;
+
+            if (Main.editorFoldouts[editor.EditorName])
             {
-                var editorContent = new VisualElement();
+                foldoutButton.Add(expandLess);
+                var editorContent = new VisualElement()
+                {
+                    style =
+                    {
+                        paddingBottom = 8,
+                        paddingLeft = 8,
+                        paddingRight = 8,
+                        paddingTop = 8,
+                    }
+                };
                 editorContent.Add(new Label(T7e.Get("Description: ") + editor.EditorName));
                 editorContent.Add(new Label(T7e.Get("Version: ") + editor.MenuName));
                 editorContent.Add(new Label(T7e.Get("Author: ") + editor.Author));
 
                 if (!string.IsNullOrEmpty(editor.Url))
                 {
-                    editorContent.Add(new Button(() =>
+                    var openButton = new Button(() =>
                     {
                         Application.OpenURL(editor.Url);
                     })
                     {
-                        text = T7e.Get("Open the URL")
-                    });
+                        text = T7e.Get("Open the link")
+                    };
+
+                    openButton.AddToClassList("link");
+                    editorContent.Add(openButton);
                 }
 
-                item.Add(editorContent);
+                Add(editorContent);
+            } else
+            {
+                foldoutButton.Add(expandMore);
             }
-
-            return item;
         }
     }
 
@@ -226,6 +272,16 @@ namespace EAUploader.UI.Setup
                 EAUploaderCore.selectedPrefabPath = prefab.Path;
                 Main.UpdatePrefabInto(prefab.Path);
                 Main.preview.UpdatePreview(prefab.Path);
+
+                EnableInClassList("selected", true);
+
+                foreach (var child in parent.Children())
+                {
+                    if (child != this)
+                    {
+                        child.EnableInClassList("selected", false);
+                    }
+                }
             };
         }
     }

@@ -35,16 +35,36 @@ namespace EAUploader.UI.Upload
 
             foreach (var prefab in prefabList)
             {
-                var prefabButton = new Button(() =>
-                {
-                    EAUploaderCore.selectedPrefabPath = prefab.Path;
-                    preview.UpdatePreview(prefab.Path);
-                })
-                {
-                    text = Path.GetFileNameWithoutExtension(prefab.Path)
-                };
+                var prefabButton = new PrefabItemButton(prefab);
                 prefabListContainer.Add(prefabButton);
             }
+        }
+    }
+
+    internal class PrefabItemButton : Button
+    {
+        public PrefabItemButton(PrefabInfo prefab)
+        {
+            var previewImage = new Image { image = prefab.Preview, scaleMode = ScaleMode.ScaleToFit, style = { width = 100, height = 100 } };
+            Add(previewImage);
+
+            var label = new Label(Path.GetFileNameWithoutExtension(prefab.Path));
+            Add(label);
+
+            clicked += () =>
+            {
+                EAUploaderCore.selectedPrefabPath = prefab.Path;
+                Main.preview.UpdatePreview(prefab.Path);
+                EnableInClassList("selected", true);
+
+                foreach (var child in parent.Children())
+                {
+                    if (child != this)
+                    {
+                        child.EnableInClassList("selected", false);
+                    }
+                }
+            };
         }
     }
 }

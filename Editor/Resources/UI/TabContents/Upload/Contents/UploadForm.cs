@@ -1,13 +1,10 @@
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
-using System.IO;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using VRC.Core;
-using VRC.SDK3A.Editor;
-using VRC.SDKBase.Editor;
 using VRC.SDKBase.Editor.Api;
+using VRC.SDKBase.Editor.Elements;
 
 namespace EAUploader.UI.Upload
 {
@@ -69,7 +66,6 @@ namespace EAUploader.UI.Upload
                 {
                     OnSelectedPrefabPathChanged(EAUploaderCore.selectedPrefabPath);
                 }
-                
             }).Every(1000);
 
             root.Q<Button>("build").clicked += Build;
@@ -96,7 +92,6 @@ namespace EAUploader.UI.Upload
                 Debug.Log("Building avatar");
 
                 AvatarUploader.BuildAvatar();
-
             }
         }
 
@@ -118,12 +113,14 @@ namespace EAUploader.UI.Upload
             {
                 Debug.Log("Uploading avatar");
 
+                var tags = root.Q<UI.Components.ContentWarningsField>("content-warnings").Tags;
+
                 VRCAvatar avatar = new VRCAvatar()
                 {
                     Name = contentName,
                     Description = contentDescription,
                     ReleaseStatus = releaseStatus.ToLower(),
-                    Tags = new System.Collections.Generic.List<string>()
+                    Tags = tags,
                 };
 
                 var previewImage = PrefabPreview.GetPreviewImagePath(selectedPrefabPath);

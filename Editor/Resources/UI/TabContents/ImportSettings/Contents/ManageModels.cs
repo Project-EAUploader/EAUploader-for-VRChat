@@ -89,20 +89,54 @@ namespace EAUploader.UI.ImportSettings
                 style =
                 {
                     flexDirection = FlexDirection.Column,
+                    height = new StyleLength(new Length(100, LengthUnit.Percent)),
                 }
             };
 
-            var changeNameButton = new Button();
+            var changeNameButton = new Button()
+            {
+                style =
+                {
+                    borderBottomLeftRadius = 0,
+                    borderBottomRightRadius = 0,
+                    flexGrow = 1,
+                    justifyContent = Justify.Center
+                }
+            };
             var changeNameIcon = new MaterialIcon() { icon = "edit", style = { fontSize = 20 } };
             changeNameButton.Add(changeNameIcon);
             changeNameButton.clicked += () => ChangePrefabName(name);
 
-            var copyAsNewNameButton = new Button();
+            var copyAsNewNameButton = new Button()
+            {
+                style =
+                {
+                    borderBottomLeftRadius = 0,
+                    borderBottomRightRadius = 0,
+                    borderTopLeftRadius = 0,
+                    borderTopRightRadius = 0,
+                    borderBottomColor = new StyleColor(new Color(0.0784313725f , 0.3921568627f, 0.7058823529f,1)),
+                    borderTopColor = new StyleColor(new Color(0.0784313725f , 0.3921568627f, 0.7058823529f,1)),
+                    borderBottomWidth = 1,
+                    borderTopWidth = 1,
+                    flexGrow = 1,
+                    justifyContent = Justify.Center
+                }
+            };
             var copyAsNewNameIcon = new MaterialIcon() { icon = "content_copy", style = { fontSize = 20 } };
             copyAsNewNameButton.Add(copyAsNewNameIcon);
             copyAsNewNameButton.clicked += () => CopyPrefabAsNewName(name);
 
-            var deleteButton = new Button();
+            var deleteButton = new Button()
+            {
+                style =
+                {
+                    borderTopLeftRadius = 0,
+                    borderTopRightRadius = 0,
+                    flexGrow = 1,
+                    justifyContent = Justify.Center
+                }
+            };
             var deleteIcon = new MaterialIcon() { icon = "delete", style = { fontSize = 20 } };
             deleteButton.Add(deleteIcon);
             deleteButton.clicked += () => DeletePrefab(name);
