@@ -5,11 +5,11 @@ using UnityEngine.UIElements;
 
 namespace EAUploader.UI.Components
 {
-    public class HelpButton : Button
+    public class HelpButton : VisualElement
     {
         public new class UxmlFactory : UxmlFactory<HelpButton, UxmlTraits> { }
 
-        public new class UxmlTraits : Button.UxmlTraits
+        public new class UxmlTraits : VisualElement.UxmlTraits
         {
             UxmlIntAttributeDescription _msgId = new UxmlIntAttributeDescription { name = "msg-id" };
 
@@ -29,21 +29,31 @@ namespace EAUploader.UI.Components
 
         private int msg_id;
 
-
         public HelpButton()
         {
-            AddToClassList("help-button");
+            var shadow = new Shadow()
+            {
+                shadowDistance = 0,
+                shadowCornerRadius = 8,
+                shadowOffsetY = 2,
+            };
+            var button = new Button();
+            button.AddToClassList("help-button");
 
             var icon = new MaterialIcon()
             {
                 icon = "help"
             };
-            Add(icon);
+            button.Add(icon);
 
             var label = new Label(T7e.Get("Help"));
-            Add(label);
+            button.Add(label);
 
-            RegisterCallback<ClickEvent>(OnButtonClicked);
+            button.RegisterCallback<ClickEvent>(OnButtonClicked);
+
+            shadow.Add(button);
+
+            Add(shadow);
         }
 
         private void OnButtonClicked(ClickEvent evt)

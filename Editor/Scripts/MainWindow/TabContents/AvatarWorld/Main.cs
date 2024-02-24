@@ -1,4 +1,3 @@
-#if !EA_ONBUILD
 using UnityEngine;
 using UnityEditor;
 using System.IO;
@@ -67,4 +66,3 @@ public static class AvatarWorldTabDrawer
         }
     }
 }
-#endif

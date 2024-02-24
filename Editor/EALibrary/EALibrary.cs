@@ -1,4 +1,3 @@
-#if !EA_ONBUILD
 using UnityEditor;
 using UnityEngine;
 using System;
@@ -505,4 +504,3 @@ public class EALibrary
         return $"Packages/tech.uslog.eauploader/Editor/EALibrary/Articles/EAUploader/{currentLanguage}";
     }
 }
-#endif

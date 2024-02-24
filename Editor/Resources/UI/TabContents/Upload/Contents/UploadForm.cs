@@ -36,13 +36,17 @@ namespace EAUploader.UI.Upload
                 else
                 {
                     loginStatus.Add(new Label("You need to login to upload avatar"));
-                    loginStatus.Add(new Button(() =>
-                    {
-                        VRCSdkControlPanel.GetWindow<VRCSdkControlPanel>().Show();
-                    })
+
+                    var loginButton = new ShadowButton()
                     {
                         text = "Login"
-                    });
+                    };
+
+                    loginButton.clicked += () =>
+                    {
+                        VRCSdkControlPanel.GetWindow<VRCSdkControlPanel>().Show();
+                    };
+                    loginStatus.Add(loginButton);
 
                     var uploadMain = root.Q<VisualElement>("upload_main");
                     uploadMain.style.display = DisplayStyle.None;
@@ -68,8 +72,8 @@ namespace EAUploader.UI.Upload
                 }
             }).Every(1000);
 
-            root.Q<Button>("build").clicked += Build;
-            root.Q<Button>("upload").clicked += Upload;
+            root.Q<ShadowButton>("build").clicked += Build;
+            root.Q<ShadowButton>("upload").clicked += Upload;
         }
 
         private static void OnSelectedPrefabPathChanged(string path)

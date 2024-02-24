@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using EAUploader.UI.Components;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -20,17 +21,17 @@ namespace EAUploader.UI.ImportSettings
             {
                 if (EAUploaderCore.HasVRM)
                 {
-                    root.Q<Button>("import_vrm").SetEnabled(true);
+                    root.Q<ShadowButton>("import_vrm").SetEnabled(true);
                 }
                 else 
                 {
-                    root.Q<Button>("import_vrm").SetEnabled(false);
+                    root.Q<ShadowButton>("import_vrm").SetEnabled(false);
                 }
             }).Every(1000);
 
-            root.Q<Button>("import_prefab").clicked += ImportPrefabButtonClicked;
-            root.Q<Button>("import_folder").clicked += ImportFolderButtonClicked;
-            root.Q<Button>("import_vrm").clicked += ImportVRMButtonClicked;
+            root.Q<ShadowButton>("import_prefab").clicked += ImportPrefabButtonClicked;
+            root.Q<ShadowButton>("import_folder").clicked += ImportFolderButtonClicked;
+            root.Q<ShadowButton>("import_vrm").clicked += ImportVRMButtonClicked;
 
             root.Q<DropdownField>("language").choices = languageInfos.Select(x => x.display).ToList();
             root.Q<DropdownField>("language").index = languageInfos.FindIndex(x => x.name == LanguageUtility.GetCurrentLanguage());
@@ -47,7 +48,7 @@ namespace EAUploader.UI.ImportSettings
             });
 
             root.Q<Label>("version").text = EAUploaderCore.GetVersion();
-            root.Q<Button>("send_feedback").clicked += () => DiscordWebhookSender.OpenDiscordWebhookSenderWindow();
+            root.Q<ShadowButton>("send_feedback").clicked += () => DiscordWebhookSender.OpenDiscordWebhookSenderWindow();
         }
 
         private static void ImportPrefabButtonClicked()

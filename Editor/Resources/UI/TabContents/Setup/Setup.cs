@@ -45,7 +45,7 @@ namespace EAUploader.UI.Setup
 
             ButtonClickHandler();
 
-            root.Q<Button>("find_extentions").clicked += () =>
+            root.Q<ShadowButton>("find_extentions").clicked += () =>
             {
                 Application.OpenURL("https://www.uslog.tech/eauploader-plug-ins");
             }; 
@@ -102,11 +102,11 @@ namespace EAUploader.UI.Setup
 
         private static void ButtonClickHandler()
         {
-            var changeNameButton = root.Q<Button>("change_name");
+            var changeNameButton = root.Q<ShadowButton>("change_name");
             changeNameButton.clicked += ChangeNameButtonClicked;
-            var pinButton = root.Q<Button>("pin_model");
+            var pinButton = root.Q<ShadowButton>("pin_model");
             pinButton.clicked += PinButtonClicked;
-            var deleteButton = root.Q<Button>("delete_model");
+            var deleteButton = root.Q<ShadowButton>("delete_model");
             deleteButton.clicked += DeleteButtonClicked;
         }
 

@@ -4,18 +4,15 @@
 	--primary: rgb(25, 118, 210);
 	--primary-hover: rgb(20, 100, 180);
 	--primary-active: rgb(30, 130, 230);
-}
-
-Shadow {
-    transition: 250ms;
-}
-Shadow:hover {
-    color: white;
+	--secondary: rgb(1, 0, 88);
 }
 
 Button {
     font-size: 16px;
 	padding: 6px 16px;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
     border-width: 0px;
     border-radius: 4px;
 	background-color: var(--primary);
@@ -41,39 +38,39 @@ Button > MaterialIcon {
 	color: white;
 }
 
+.none {
+	height: 100%;
+	width: 100%;
+}
 
 HelpButton {
     margin-right: auto;
-    padding: 2px 4px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 16px;
-    border-width: 0px;
-    border-radius: 4px;
-	background-color: var(--primary);
-	color: white;
-    -unity-font-style: bold; 
-    transition: 150ms;
 }
 
-HelpButton:hover {
+.help-button {
+	margin-right: auto;
+	padding: 2px 4px;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	font-size: 16px;
+	border-width: 0px;
+	border-radius: 4px;
+	background-color: var(--primary);
+	color: white;
+	-unity-font-style: bold; 
+	transition: 150ms;
+}
+
+.help-button:hover {
 	background-color: var(--primary-hover);
 }
 
-HelpButton:active {
+.help-button:active {
 	background-color: rgb(30, 130, 230);
 }
 
-HelpButton > Label {
-    font-size: 12px;
-	color: white;
-}
-
-HelpButton > MaterialIcon {
-	color: white;
-}
 
 PrefabItemButton {
 	border-width: 1px;
@@ -235,23 +232,25 @@ DropdownField > VisualElement > PopupTextElement {
 
 #reset_preview {
 	position: absolute;
-	bottom: 0;
 	margin: 8px;
+	bottom: 0;
+}
+
+#reset_preview Button {
 	padding: 4px;
 	border-radius: 4px;
 	background-color: var(--primary);
-
 }
 
 #reset_preview > MaterialIcon {
 	color: white;
 }
 
-#reset_preview:hover {
+#reset_preview Button:hover {
 	background-color: var(--primary-hover)
 }
 
-#reset_preview:active {
+#reset_preview Button:active {
 	background-color: var(--primary-active)
 }
 
@@ -278,4 +277,73 @@ DropdownField > VisualElement > PopupTextElement {
 
 .selected:hover {
 	background-color: var(--primary-hover);
+}
+
+.search-button Button {
+	padding: 8px 24px;
+}
+
+.editor-icons Button {
+	font-size: 24px;
+}
+
+.unity-progress-bar__background {
+	height: 36px;
+	border-radius: 4px;
+	border-color: rgb(200, 200, 200);
+}
+
+.unity-progress-bar__progress {
+    background-color: var(--primary);
+	border-radius: 4px;
+}
+
+ProgressBar Label {
+	color: white;
+}
+
+.article-image {
+	background-color: rgb(180, 180, 180);
+}
+
+
+.unity-list-view__item {
+	border-bottom-width: 1px;
+	border-color: rgb(200, 200, 200);
+	background-color: white;
+	color: black;
+	transition: 150ms;
+}
+
+	.unity-list-view__item:hover {
+	background-color: rgb(240, 240, 240);
+}
+
+#product_row {
+	flex-direction: row;
+}
+
+.product_item {
+	flex-direction: row;
+	margin: 4px;
+	border-radius: 4px;
+	border-width: 1px;
+	border-color: rgb(200, 200, 200);
+	align-items: center;
+	width: 360px;
+	padding: 8px;
+	translate: 0px 50%;
+	opacity: 0;
+	transition-property: opacity, translate;
+	transition-duration: 1000ms;
+	transition-timing-function: ease;
+}
+
+.product_item__show {
+	opacity: 1;
+	translate: 0px 0px;
+}
+
+#product_thumbnail {
+	margin-right: 8px;
 }

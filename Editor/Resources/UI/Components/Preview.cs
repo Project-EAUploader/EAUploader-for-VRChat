@@ -50,12 +50,14 @@ namespace EAUploader.UI.Components
 
         private void CreateResetButton()
         {
-            var button = new Button(() =>
-            {
-                ResetPreview();
-            })
+            var button = new ShadowButton()
             {
                 name = "reset_preview",
+            };
+
+            button.clicked += () =>
+            {
+                ResetPreview();
             };
 
             var icon = new MaterialIcon()

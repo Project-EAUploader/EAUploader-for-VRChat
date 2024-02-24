@@ -3,6 +3,6 @@
     <ui:VisualElement class="flex-1 flex-row">
         <ui:VisualElement name="import_settings" class="w-one-quarter p-4 border-r border-zinc-300" />
         <ui:VisualElement name="manage_models" class="flex-1 p-4 border-r border-zinc-300" />
-        <ui:VisualElement name="library_container" class="w-one-quarter p-4" />
+        <ui:VisualElement name="library_container" class="p-4" style="width: 30%"/>
     </ui:VisualElement>
 </ui:UXML>

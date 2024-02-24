@@ -36,9 +36,9 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:Label text="Step 3: Before Upload..." class="text-xl font-bold pb-2" />
-            <ui:Button text="Build and Test" name="build" />
+            <eau:ShadowButton text="Build and Test" name="build" />
             <ui:Label text="Step 4: Upload!" class="text-xl font-bold pb-2" />
-		    <ui:Button text="Upload" name="upload" />
+		    <eau:ShadowButton text="Upload" name="upload" />
             <ui:VisualElement name="upload_status" class="pb-2" />
         </ui:VisualElement>
     </ui:VisualElement>

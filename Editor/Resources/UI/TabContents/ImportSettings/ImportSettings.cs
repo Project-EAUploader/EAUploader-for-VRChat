@@ -17,9 +17,7 @@ namespace EAUploader.UI.ImportSettings
 
             Import.ShowContent(root.Q("import_settings"));
             ManageModels.ShowContent(root.Q("manage_models"));
-
-
-            //ShowEALibrary();
+            EALibrary.ShowContent(root.Q("library_container"));
         }
     }
 }

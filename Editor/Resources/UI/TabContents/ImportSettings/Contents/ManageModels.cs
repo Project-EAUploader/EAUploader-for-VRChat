@@ -25,7 +25,7 @@ namespace EAUploader.UI.ImportSettings
 
             modelList = root.Q<ScrollView>("model_list");
 
-            var searchButton = root.Q<Button>("searchButton");
+            var searchButton = root.Q<ShadowButton>("searchButton");
             searchButton.clicked += UpdateModelList;
 
             UpdateModelList();

@@ -19,15 +19,15 @@
             </ui:VisualElement>
             <ui:VisualElement name="avatar_preview" class="flex-1 border-b border-b-zinc-300"/>
             <ui:VisualElement class="flex-row justify-between h-8 m-4">
-                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="change_name" class="text-2xl">
+                <eau:ShadowButton parse-escape-sequences="true" display-tooltip-when-elided="true" name="change_name" class="text-2xl editor-icons">
                     <eau:MaterialIcon icon="edit" />
-                </ui:Button>
-                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="pin_model" class="text-2xl">
+                </eau:ShadowButton>
+                <eau:ShadowButton parse-escape-sequences="true" display-tooltip-when-elided="true" name="pin_model" class="text-2xl editor-icons">
                     <eau:MaterialIcon icon="push_pin" />
-                </ui:Button>
-                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="delete_model" class="text-2xl">
+                </eau:ShadowButton>
+                <eau:ShadowButton parse-escape-sequences="true" display-tooltip-when-elided="true" name="delete_model" class="text-2xl editor-icons">
                     <eau:MaterialIcon icon="delete" />
-                </ui:Button>
+                </eau:ShadowButton>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="avatar_editor" class="w-one-quarter p-4"> 
@@ -38,10 +38,10 @@
             <ui:ScrollView name="avatar_editor_list" class="flex-1" />
             <ui:VisualElement>
 				<eau:HelpButton msg-id="104" class="mb-2"/>
-                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="find_extentions" class="text-2xl button-with-icons">
+                <eau:ShadowButton parse-escape-sequences="true" display-tooltip-when-elided="true" name="find_extentions" class="text-2xl button-with-icons">
 					<eau:MaterialIcon icon="open_in_browser" />
                     <ui:Label text="Find extentions" />
-				</ui:Button>
+				</eau:ShadowButton>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
