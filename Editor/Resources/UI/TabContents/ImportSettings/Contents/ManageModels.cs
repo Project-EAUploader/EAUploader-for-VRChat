@@ -80,13 +80,15 @@ namespace EAUploader.UI.ImportSettings
             previewImage.RegisterCallback<MouseUpEvent>(evt => ShowLargeImage(prefab.Preview));
             Add(previewImage);
 
-            var label = new Label { text = prefab.Name, style = { flexGrow = 1 } };
+            var label = new Label { text = prefab.Name, style = { flexGrow = 1, flexShrink = 1 } };
             Add(label);
 
             var controls = new VisualElement()
             {
                 style =
                 {
+                    position = Position.Absolute,
+                    right = 0,
                     flexDirection = FlexDirection.Column,
                     height = new StyleLength(new Length(100, LengthUnit.Percent)),
                 }

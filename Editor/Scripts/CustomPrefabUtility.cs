@@ -173,6 +173,7 @@ namespace EAUploader.CustomPrefabUtility
             {
                 DeletePrefabPreview(prefabPath);
                 AssetDatabase.DeleteAsset(prefabPath);
+                EAUploaderCore.selectedPrefabPath = null;
                 return true;
             }
             return false;
