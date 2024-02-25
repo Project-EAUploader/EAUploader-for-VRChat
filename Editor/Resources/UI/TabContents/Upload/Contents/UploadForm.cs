@@ -18,6 +18,21 @@ namespace EAUploader.UI.Upload
             var visualTree = Resources.Load<VisualTreeAsset>("UI/TabContents/Upload/Contents/UploadForm");
             visualTree.CloneTree(root);
 
+            root.Q<Label>("loginSDKLabel").text = T7e.Get("Login to VRChat");
+            root.Q<Label>("checkPermissionLabel").text = T7e.Get("Check you are allowed to upload avatar");
+            root.Q<Label>("modelInfoLabel").text = T7e.Get("Model Info");
+            root.Q<Label>("addThumbnailLabel").text = T7e.Get("Set thumbnail");
+            root.Q<Label>("buildLabel").text = T7e.Get("Build");
+            root.Q<Label>("buildandtestLabel").text = T7e.Get("Build as Test");
+            root.Q<Label>("uploadLabel").text = T7e.Get("Upload");
+
+            root.Q<TextFieldPro>("content-name").label = T7e.Get("Name");
+            root.Q<TextFieldPro>("content-name").placeholder = T7e.Get("Give your avatar a name");
+            root.Q<TextFieldPro>("content-description").label = T7e.Get("Description");
+            root.Q<TextFieldPro>("content-description").placeholder = T7e.Get("Describe your avatar so it is easier to remember!");
+            root.Q<ContentWarningsField>("content-warnings").label = T7e.Get("Content Warnings");
+            root.Q<DropdownField>("release-status").label = T7e.Get("Visibility");
+
             root.schedule.Execute(() =>
             {
                 var loginStatus = root.Q<VisualElement>("login_status");
@@ -28,17 +43,17 @@ namespace EAUploader.UI.Upload
 
                 if (VRC.Core.APIUser.IsLoggedIn)
                 {
-                    loginStatus.Add(new Label("Logged in as " + VRC.Core.APIUser.CurrentUser.displayName));
+                    loginStatus.Add(new Label(T7e.Get("Logged in as ") + VRC.Core.APIUser.CurrentUser.displayName));
                     var uploadMain = root.Q<VisualElement>("upload_main");
                     permissionStatus.style.display = DisplayStyle.Flex;
                 }
                 else
                 {
-                    loginStatus.Add(new Label("You need to login to upload avatar"));
+                    loginStatus.Add(new Label(T7e.Get("You need to login to upload avatar")));
 
                     var loginButton = new ShadowButton()
                     {
-                        text = "Login"
+                        text = T7e.Get("Login")
                     };
 
                     loginButton.clicked += () =>
@@ -54,13 +69,13 @@ namespace EAUploader.UI.Upload
 
                 if (APIUser.CurrentUser != null && APIUser.CurrentUser.canPublishAvatars)
                 {
-                    permissionStatus.Add(new Label("You have permission to upload avatar"));
+                    permissionStatus.Add(new Label(T7e.Get("You have permission to upload avatar")));
                     var uploadMain = root.Q<VisualElement>("upload_main");
                     uploadMain.style.display = DisplayStyle.Flex;
                 }
                 else
                 {
-                    permissionStatus.Add(new Label("You don't have permission to upload avatar"));
+                    permissionStatus.Add(new Label(T7e.Get("You cannot upload an avatar with your current trust rank. You can immediately increase your rank by spending time on VRChat and adding friends. Or you can join VRChat+ (for a fee) to raise your rank immediately.")));
                     var uploadMain = root.Q<VisualElement>("upload_main");
                     uploadMain.style.display = DisplayStyle.None;
                 }
@@ -72,6 +87,7 @@ namespace EAUploader.UI.Upload
             }).Every(1000);
 
             root.Q<ShadowButton>("build").clicked += Build;
+            root.Q<ShadowButton>("buildandtest").clicked += BuildAndTest;
             root.Q<ShadowButton>("upload").clicked += Upload;
         }
 
@@ -95,6 +111,19 @@ namespace EAUploader.UI.Upload
                 Debug.Log("Building avatar");
 
                 AvatarUploader.BuildAvatar();
+            }
+        }
+
+        private static void BuildAndTest()
+        {
+            Debug.Log("BuildandTest button clicked");
+            var selectedPrefabPath = EAUploaderCore.selectedPrefabPath;
+
+            if (selectedPrefabPath != null)
+            {
+                Debug.Log("Building avatar as Test");
+
+                AvatarUploader.BuildAndTest();
             }
         }
 
@@ -133,7 +162,7 @@ namespace EAUploader.UI.Upload
                 var uploadStatus = root.Q<VisualElement>("upload_status");
                 uploadStatus.Clear();
 
-                uploadStatus.Add(new Label("Uploading avatar..."));
+                uploadStatus.Add(new Label(T7e.Get("Uploading avatar...")));
                 var progress = new ProgressBar()
                 {
                     lowValue = 0,

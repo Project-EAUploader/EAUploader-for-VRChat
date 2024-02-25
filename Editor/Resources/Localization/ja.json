@@ -116,6 +116,98 @@
     {
       "key": "Help",
       "value": "ヘルプ"
+    },
+    {
+      "key": "Now selecting: ",
+      "value": "選択中のプレハブ："
+    },
+    {
+      "key": "Height",
+      "value": "アバターの高さ"
+    },
+    {
+      "key": "Avatar Editor",
+      "value": "編集ツール"
+    },
+    {
+      "key": "Find extentions",
+      "value": "他の拡張機能を探す"
+    },
+    {
+      "key": "Select an Avatar to Upload",
+      "value": "アップロードするアバターを選択"
+    },
+    {
+      "key": "Logged in as ",
+      "value": "ログインしているユーザー名："
+    },
+    {
+      "key": "You need to login to upload avatar",
+      "value": "アップロードするためにはVRChatへログインしてください。"
+    },
+    {
+      "key": "Login",
+      "value": "ログイン"
+    },
+    {
+      "key": "You have permission to upload avatar",
+      "value": "アバターのアップロードが許可されています。"
+    },
+    {
+      "key": "You cannot upload an avatar with your current trust rank. You can immediately increase your rank by spending time on VRChat and adding friends. Or you can join VRChat+ (for a fee) to raise your rank immediately.",
+      "value": "現在のトラストランクではアバターをアップロードできません。アバターをアップロードするには、NewUser以上になる必要があります。\nVRChatで過ごし、フレンドを増やすことですぐにランクを上げることができます。又は、VRChat+に加入（有料）することで即時ランクを上げることができます。"
+    },
+    {
+      "key": "Uploading avatar...",
+      "value": "アバターをアップロード中..."
+    },
+    {
+      "key": "Login to VRChat",
+      "value": "VRChatへログイン"
+    },
+    {
+      "key": "Check you are allowed to upload avatar",
+      "value": "アバターのアップロード権限"
+    },
+    {
+      "key": "Model Info",
+      "value": "アバター情報"
+    },
+    {
+      "key": "Set thumbnail",
+      "value": "サムネイル"
+    },
+    {
+      "key": "Name",
+      "value": "アバターの名前"
+    },
+    {
+      "key": "Give your avatar a name",
+      "value": "アバターの名前を入力してください"
+    },
+    {
+      "key": "Description",
+      "value": "アバターの説明"
+    },
+    {
+      "key": "Describe your avatar so it is easier to remember!",
+      "value": "メモとしての説明を入力"
+    },
+    {
+      "key": "Content Warnings",
+      "value": "警告の設定"
+    },
+    {
+      "key": "Visibility",
+      "value": "公開設定"
+    },
+    {
+      "key": "Build",
+      "value": "ビルド"
+    },
+    {
+      "key": "Build as Test",
+      "value": "テストとしてビルド"
     }
   ]
 }

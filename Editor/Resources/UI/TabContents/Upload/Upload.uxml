@@ -12,7 +12,7 @@
         <ui:VisualElement name="avatar_info_container" class="flex-row" style="width: 30%;">
             <ui:VisualElement name="avatar_list" class="flex-1 border-r border-zinc-300" style="width: 100%;">
                 <ui:VisualElement name="avatar_list_header" class="p-2 border-b border-b-zinc-300">
-					<ui:Label text="Select an Avatar to Upload" class="text-xl font-bold pb-2"/>
+					<ui:Label name="uploadLabel" class="text-xl font-bold pb-2"/>
                     <eau:HelpButton msg-id="105" />
                 </ui:VisualElement>
                 <ui:VisualElement name="avatar_preview" class="flex-1 border-b border-b-zinc-300"/>

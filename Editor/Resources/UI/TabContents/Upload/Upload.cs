@@ -24,6 +24,12 @@ namespace EAUploader.UI.Upload
             preview.ShowContent();
 
             CreatePrefabList();
+
+            var uploadLabel = root.Q<Label>("uploadLabel");
+            if (uploadLabel != null)
+            {
+                uploadLabel.text = T7e.Get("Select an Avatar to Upload");
+            }
         }
 
         private static void CreatePrefabList()
