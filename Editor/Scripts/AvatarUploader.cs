@@ -71,6 +71,26 @@ namespace EAUploader
             }
         }
 
+        public static async void BuildAndTest()
+        {
+            // Open the SDK Control Panel
+            VRCSdkControlPanel.GetWindow<VRCSdkControlPanel>().Show();
+
+            var selectedPrefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);
+
+
+            if (!VRCSdkControlPanel.TryGetBuilder<IVRCSdkAvatarBuilderApi>(out var builder)) return;
+
+            try
+            {
+                await builder.BuildAndTest(selectedPrefab);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+            }
+        }
+
         public static async void UploadAvatar(VRCAvatar avatar, string previewImagePath)
         {
             var selectedPrefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);

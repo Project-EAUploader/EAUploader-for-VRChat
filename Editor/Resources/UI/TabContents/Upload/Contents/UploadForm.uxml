@@ -8,15 +8,15 @@
     noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
     editor-extension-mode="False">
     <ui:VisualElement class="p-4">
-        <ui:Label text="Step 0: Login VRChat SDK" class="text-xl font-bold pb-2" />
+        <ui:Label class="text-xl font-bold pb-2" name="loginSDKLabel" />
         <ui:VisualElement name="login_status" class="pb-2" />
-        <ui:Label text="Step 0.5: Check you are allowed to upload avatar" class="text-xl font-bold pb-2" />
+        <ui:Label class="text-xl font-bold pb-2" name="checkPermissionLabel" />
         <ui:VisualElement name="permission_status" class="pb-2" />
         <ui:VisualElement name="upload_main">
             <ui:VisualElement class="flex-row">
                 <ui:VisualElement class="w-one-half">
-                    <ui:Label text="Step 1: Model Info" class="text-xl font-bold pb-2" />
-                    <ui:VisualElement text="Avatar Info" value="true" class="pb-2 pr-4">
+                    <ui:Label class="text-xl font-bold pb-2" name="modelInfoLabel" />
+                    <ui:VisualElement value="true" class="pb-2 pr-4" name="avatarInfo">
                         <ui:VisualElement>
                             <eau:TextFieldPro class="pb-2" label="Name" name="content-name" placeholder="Give your avatar a name" required="true" />
                             <eau:TextFieldPro class="pb-2" label="Description" name="content-description" placeholder="Describe your avatar so it is easier to remember!" required="true" />
@@ -26,18 +26,20 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement class="w-one-half">
-                    <ui:Label text="Step 2: Add Thumbnail" class="text-xl font-bold pb-2" />
-                    <ui:VisualElement text="Thumbnail" name="avatar_thumbnail" class="pb-2">
+                    <ui:Label class="text-xl font-bold pb-2" name="addThumbnailLabel" />
+                    <ui:VisualElement name="avatar_thumbnail" class="pb-2">
                         <ui:VisualElement name="thumbnail" class="flex-row h-64">
-				            <ui:Image name="thumbnail-image"/>
+                            <ui:Image name="thumbnail-image"/>
                         </ui:VisualElement> 
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:Label text="Step 3: Before Upload..." class="text-xl font-bold pb-2" />
-            <eau:ShadowButton text="Build and Test" name="build" />
-            <ui:Label text="Step 4: Upload!" class="text-xl font-bold pb-2" />
-		    <eau:ShadowButton text="Upload" name="upload" />
+            <ui:Label class="text-xl font-bold pb-2" name="buildLabel" />
+            <eau:ShadowButton text="Build" name="build"/>
+            <ui:Label class="text-xl font-bold pb-2" name="buildandtestLabel" />
+            <eau:ShadowButton text="Build as Test" name="buildandtest"/>
+            <ui:Label class="text-xl font-bold pb-2" name="uploadLabel" />
+            <eau:ShadowButton text="Upload" name="upload"/>
             <ui:VisualElement name="upload_status" class="pb-2" />
         </ui:VisualElement>
     </ui:VisualElement>
