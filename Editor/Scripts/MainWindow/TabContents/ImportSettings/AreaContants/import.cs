@@ -10,7 +10,7 @@ using static Texture;
 public class Import
 {
     private static string lastImportedFile;
-    public static bool isVRMAvailable = EAUploader.HasVRM;
+    public static bool isVRMAvailable = EAUploader_Old.HasVRM;
 
     public static void Draw(Rect position)
     {
@@ -169,7 +169,7 @@ public class Import
         GUILayout.Label(Get(142), h2LabelStyle);
         if(GUILayout.Button(Getc("travel_explor", 143), MainButtonStyle))
         {
-            EAUploader.ChangeTab(3);
+            EAUploader_Old.ChangeTab(3);
         }
 
         GUILayout.EndArea();

@@ -1,0 +1,33 @@
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements"
+    xmlns:eau="EAUploader.UI.Components"
+    xsi="http://www.w3.org/2001/XMLSchema-instance"
+    engine="UnityEngine.UIElements"
+    editor="UnityEditor.UIElements"
+    noNamespaceSchemaLocation="../../../../../../../../UIElementsSchema/UIElements.xsd"
+    editor-extension-mode="False"
+>
+    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss" />
+    <ui:VisualElement name="product_thumbnail" class="h-32 w-32" />
+    <ui:VisualElement name="items_info" class="flex-1">
+        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name" class="text-sm font-bold" />
+        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Price" class="text-sm font-bold" />
+        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Creator" />
+        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CreatedAt" />
+        <ui:VisualElement>
+            <ui:Button name="OpenProduct">
+                <eau:MaterialIcon icon="shopping_bag" />
+                <ui:Label text="商品ページ" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            </ui:Button>
+            <ui:Button name="OpenSNS">
+                <eau:MaterialIcon icon="open_in_browser" />
+                <ui:Label text="X(Twitter)" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            </ui:Button>
+            <ui:Button name="StarButton">
+                <eau:MaterialIcon icon="star" />
+                <ui:Label text="気になる" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            </ui:Button>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

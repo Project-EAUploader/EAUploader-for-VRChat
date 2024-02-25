@@ -1,0 +1,117 @@
+{
+  "name": "한국어",
+  "items": [
+    {
+      "key": "Import/Settings",
+      "value": "가져오기/설정"
+    },
+    {
+      "key": "Setup",
+      "value": "설정"
+    },
+    {
+      "key": "Upload",
+      "value": "업로드"
+    },
+    {
+      "key": "Market",
+      "value": "시장"
+    },
+    {
+      "key": "Import",
+      "value": "가져오기"
+    },
+    {
+      "key": "Import from folder",
+      "value": "폴더에서 가져오기"
+    },
+    {
+      "key": "Import VRM",
+      "value": "VRM 가져오기"
+    },
+    {
+      "key": "Import the .vrm(ver. 0.x) file.",
+      "value": ".vrm(ver. 0.x) 파일을 가져옵니다."
+    },
+    {
+      "key": "Settings",
+      "value": "설정"
+    },
+    {
+      "key": "Language",
+      "value": "언어"
+    },
+    {
+      "key": "Version",
+      "value": "버전"
+    },
+    {
+      "key": "Send feedback",
+      "value": "피드백 보내기"
+    },
+    {
+      "key": "Manage Model",
+      "value": "모델 관리"
+    },
+    {
+      "key": "Search",
+      "value": "검색"
+    },
+    {
+      "key": "Change Name",
+      "value": "이름 변경"
+    },
+    {
+      "key": "Copy as New Name",
+      "value": "새 이름으로 복사"
+    },
+    {
+      "key": "Delete",
+      "value": "삭제"
+    },
+    {
+      "key": "Preview",
+      "value": "미리보기"
+    },
+    {
+      "key": "Reset View",
+      "value": "뷰 재설정"
+    },
+    {
+      "key": "Pin prefab",
+      "value": "프리팹 고정"
+    },
+    {
+      "key": "Select a model",
+      "value": "모델 선택"
+    },
+    {
+      "key": "Import Asset",
+      "value": "자산 가져오기"
+    },
+    {
+      "key": "Import a .prefab file or .unitypackage file.",
+      "value": ".prefab 파일 또는 .unitypackage 파일을 선택합니다."
+    },
+    {
+      "key": "Asset not found",
+      "value": "자산을 찾을 수 없습니다"
+    },
+    {
+      "key": "There are no prefab or unitypackage files in the selected folder.",
+      "value": "선택한 폴더에 프리팹 또는 유니티 패키지 파일이 없습니다."
+    },
+    {
+      "key": "Confirm Import",
+      "value": "가져오기 확인"
+    },
+    {
+      "key": "The following files will be imported",
+      "value": "다음 파일들이 가져와집니다"
+    },
+    {
+      "key": "Cancel",
+      "value": "취소"
+    }
+  ]
+}

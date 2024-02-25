@@ -1,8 +1,6 @@
-#if !EA_ONBUILD
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using static LanguageUtility;
 
 public static class AvatarWorldTabDrawer
 {
@@ -11,7 +9,7 @@ public static class AvatarWorldTabDrawer
 
     public static void Draw(Rect position)
     {
-        string language = LanguageUtility.GetCurrentLanguage();
+        string language = EAUploader.LanguageUtility.GetCurrentLanguage();
         EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), Color.white);
 
         float areaHeight = (position.height - BorderHeight * 3) / 4;
@@ -68,4 +66,3 @@ public static class AvatarWorldTabDrawer
         }
     }
 }
-#endif

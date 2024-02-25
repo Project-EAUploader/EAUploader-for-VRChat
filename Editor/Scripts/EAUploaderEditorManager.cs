@@ -1,4 +1,3 @@
-#if !EA_ONBUILD
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
@@ -6,125 +5,127 @@ using System.IO;
 using System.Linq;
 using System;
 
-public static class EAUploaderEditorManager
+namespace EAUploader
 {
-    public delegate void EditorRegisteredHandler(EditorRegistration editorRegistration);
-    public static event EditorRegisteredHandler OnEditorRegistered;
-    
-    public static void OnEditorManagerLoad()
+    public class EAUploaderEditorManager
     {
-        EnsureJsonFileExists();
-        ClearJsonFile();
-        LoadEditorInfoFromJson();
-    }
+        public delegate void EditorRegisteredHandler(EditorRegistration editorRegistration);
+        public static event EditorRegisteredHandler OnEditorRegistered;
 
-    private static List<EditorRegistration> registeredEditors = new List<EditorRegistration>();
-
-    public static void RegisterEditor(EditorRegistration editorRegistration)
-    {
-        if (editorRegistration != null && !registeredEditors.Contains(editorRegistration))
+        public static void OnEditorManagerLoad()
         {
-            registeredEditors.Add(editorRegistration);
-            SaveEditorInfoToJson();
-
-            OnEditorRegistered?.Invoke(editorRegistration);
+            EnsureJsonFileExists();
+            ClearJsonFile();
+            LoadEditorInfoFromJson();
         }
-    }
 
-    private static void LoadEditorInfoFromJson()
-    {
-        if (File.Exists(JsonFilePath))
+        private static List<EditorRegistration> registeredEditors = new List<EditorRegistration>();
+
+        public static void RegisterEditor(EditorRegistration editorRegistration)
         {
-            string json = File.ReadAllText(JsonFilePath);
-            EditorInfoList editorsList = JsonUtility.FromJson<EditorInfoList>(json);
-
-            if (editorsList?.editors != null)
+            if (editorRegistration != null && !registeredEditors.Contains(editorRegistration))
             {
-                foreach (var editorInfo in editorsList.editors)
+                registeredEditors.Add(editorRegistration);
+                SaveEditorInfoToJson();
+
+                OnEditorRegistered?.Invoke(editorRegistration);
+            }
+        }
+
+        private static void LoadEditorInfoFromJson()
+        {
+            if (File.Exists(JsonFilePath))
+            {
+                string json = File.ReadAllText(JsonFilePath);
+                EditorInfoList editorsList = JsonUtility.FromJson<EditorInfoList>(json);
+
+                if (editorsList?.editors != null)
                 {
-                    EditorRegistration registration = new EditorRegistration
+                    foreach (var editorInfo in editorsList.editors)
                     {
-                        EditorName = editorInfo.EditorName,
-                        Description = editorInfo.Description,
-                        Version = editorInfo.Version,
-                        Author = editorInfo.Author,
-                        Url = editorInfo.Url
-                    };
-                    registeredEditors.Add(registration);
+                        EditorRegistration registration = new EditorRegistration
+                        {
+                            EditorName = editorInfo.EditorName,
+                            Description = editorInfo.Description,
+                            Version = editorInfo.Version,
+                            Author = editorInfo.Author,
+                            Url = editorInfo.Url
+                        };
+                        registeredEditors.Add(registration);
+                    }
                 }
             }
         }
-    }
 
-    public static IEnumerable<EditorRegistration> GetRegisteredEditors()
-    {
-        return registeredEditors;
-    }
-
-    private static string JsonFilePath => "Assets/EAUploader/EditorsManage.json";
-
-    private static void SaveEditorInfoToJson()
-    {
-        var editorInfos = registeredEditors.Select(editor => new EditorInfo
+        public static IEnumerable<EditorRegistration> GetRegisteredEditors()
         {
-            EditorName = editor.EditorName,
-            Description = editor.Description,
-            Version = editor.Version,
-            Author = editor.Author,
-            Url = editor.Url
-        }).ToList();
+            return registeredEditors;
+        }
 
-        var editorsWrapper = new EditorInfoList { editors = editorInfos };
+        private static string JsonFilePath => "Assets/EAUploader/EditorsManage.json";
 
-        string json = JsonUtility.ToJson(editorsWrapper, true);
-        File.WriteAllText(JsonFilePath, json);
-    }
-
-    private static void ClearJsonFile()
-    {
-        var editorsWrapper = new EditorInfoList { editors = new List<EditorInfo>() };
-        string json = JsonUtility.ToJson(editorsWrapper, true);
-        File.WriteAllText(JsonFilePath, json);
-    }
-
-    private static void EnsureJsonFileExists()
-    {
-        if (!File.Exists(JsonFilePath))
+        private static void SaveEditorInfoToJson()
         {
-            string directoryPath = Path.GetDirectoryName(JsonFilePath);
-            if (!Directory.Exists(directoryPath))
+            var editorInfos = registeredEditors.Select(editor => new EditorInfo
             {
-                Directory.CreateDirectory(directoryPath);
-            }
+                EditorName = editor.EditorName,
+                Description = editor.Description,
+                Version = editor.Version,
+                Author = editor.Author,
+                Url = editor.Url
+            }).ToList();
 
-            File.WriteAllText(JsonFilePath, "{}");
+            var editorsWrapper = new EditorInfoList { editors = editorInfos };
+
+            string json = JsonUtility.ToJson(editorsWrapper, true);
+            File.WriteAllText(JsonFilePath, json);
+        }
+
+        private static void ClearJsonFile()
+        {
+            var editorsWrapper = new EditorInfoList { editors = new List<EditorInfo>() };
+            string json = JsonUtility.ToJson(editorsWrapper, true);
+            File.WriteAllText(JsonFilePath, json);
+        }
+
+        private static void EnsureJsonFileExists()
+        {
+            if (!File.Exists(JsonFilePath))
+            {
+                string directoryPath = Path.GetDirectoryName(JsonFilePath);
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                File.WriteAllText(JsonFilePath, "{}");
+            }
+        }
+
+        [System.Serializable]
+        private class EditorInfoList
+        {
+            public List<EditorInfo> editors;
+        }
+
+        [System.Serializable]
+        private class EditorInfo
+        {
+            public string EditorName;
+            public string Description;
+            public string Version;
+            public string Author;
+            public string Url;
         }
     }
 
-    [System.Serializable]
-    private class EditorInfoList
+    public class EditorRegistration
     {
-        public List<EditorInfo> editors;
-    }
-
-    [System.Serializable]
-    private class EditorInfo
-    {
-        public string EditorName;
-        public string Description;
-        public string Version;
-        public string Author;
-        public string Url;
+        public string MenuName { get; set; }
+        public string EditorName { get; set; }
+        public string Description { get; set; }
+        public string Version { get; set; }
+        public string Author { get; set; }
+        public string Url { get; set; }
     }
 }
-
-public class EditorRegistration
-{
-    public string MenuName { get; set; }
-    public string EditorName { get; set; }
-    public string Description { get; set; }
-    public string Version { get; set; }
-    public string Author { get; set; }
-    public string Url { get; set; }
-}
-#endif

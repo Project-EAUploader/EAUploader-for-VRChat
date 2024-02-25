@@ -1,0 +1,121 @@
+{
+  "name": "日本語",
+  "items": [
+    {
+      "key": "Import/Settings",
+      "value": "インポート/設定"
+    },
+    {
+      "key": "Setup",
+      "value": "セットアップ"
+    },
+    {
+      "key": "Upload",
+      "value": "アップロード"
+    },
+    {
+      "key": "Market",
+      "value": "マーケット"
+    },
+    {
+      "key": "Import",
+      "value": "インポート"
+    },
+    {
+      "key": "Import from folder",
+      "value": "フォルダからインポート"
+    },
+    {
+      "key": "Import VRM",
+      "value": "VRMをインポート"
+    },
+    {
+      "key": "Import the .vrm(ver. 0.x) file.",
+      "value": ".vrm(ver. 0.x)ファイルをインポートします。"
+    },
+    {
+      "key": "Settings",
+      "value": "設定"
+    },
+    {
+      "key": "Send feedback",
+      "value": "フィードバックを送信"
+    },
+    {
+      "key": "Manage Model",
+      "value": "モデルの管理"
+    },
+    {
+      "key": "Search",
+      "value": "検索"
+    },
+    {
+      "key": "Change Name",
+      "value": "名前を変更"
+    },
+    {
+      "key": "Copy as New Name",
+      "value": "新しい名前としてコピー"
+    },
+    {
+      "key": "Delete",
+      "value": "削除"
+    },
+    {
+      "key": "Preview",
+      "value": "プレビュー"
+    },
+    {
+      "key": "Reset View",
+      "value": "ビューをリセット"
+    },
+    {
+      "key": "Pin prefab",
+      "value": "プレハブをピン留め"
+    },
+    {
+      "key": "Select a model",
+      "value": "編集するアバターを選択"
+    },
+    {
+      "key": "Import Asset",
+      "value": "Assetのインポート"
+    },
+    {
+      "key": "Import a .prefab file or .unitypackage file.",
+      "value": "PrefabかUnitypackageを選択"
+    },
+    {
+      "key": "Asset not found",
+      "value": "Assetが見つかりません"
+    },
+    {
+      "key": "There are no prefab or unitypackage files in the selected folder.",
+      "value": "選択されたフォルダにprefab や unityパッケージファイル がありません。"
+    },
+    {
+      "key": "Confirm Import",
+      "value": "インポートの確認"
+    },
+    {
+      "key": "The following files will be imported",
+      "value": "以下のファイルがインポートされます"
+    },
+    {
+      "key": "Cancel",
+      "value": "キャンセル"
+    },
+    {
+      "key": "Language: ",
+      "value": "言語: "
+    },
+    {
+      "key": "Version: ",
+      "value": "バージョン: "
+    },
+    {
+      "key": "Help",
+      "value": "ヘルプ"
+    }
+  ]
+}

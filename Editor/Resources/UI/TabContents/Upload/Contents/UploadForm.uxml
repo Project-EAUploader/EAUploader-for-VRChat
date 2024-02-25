@@ -1,0 +1,45 @@
+<ui:UXML 
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements"
+    xmlns:eau="EAUploader.UI.Components"
+    xsi="http://www.w3.org/2001/XMLSchema-instance"
+    engine="UnityEngine.UIElements" 
+    editor="UnityEditor.UIElements"
+    noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
+    editor-extension-mode="False">
+    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss?fileID=7433441132597879392&amp;guid=33415aeb954406041803ecdae7dd5df1&amp;type=3#tailwind" />
+    <ui:VisualElement class="p-4">
+        <ui:Label text="Step 0: Login VRChat SDK" class="text-xl font-bold pb-2" />
+        <ui:VisualElement name="login_status" class="pb-2" />
+        <ui:Label text="Step 0.5: Check you are allowed to upload avatar" class="text-xl font-bold pb-2" />
+        <ui:VisualElement name="permission_status" class="pb-2" />
+        <ui:VisualElement name="upload_main">
+            <ui:VisualElement class="flex-row">
+                <ui:VisualElement class="w-one-half">
+                    <ui:Label text="Step 1: Model Info" class="text-xl font-bold pb-2" />
+                    <ui:VisualElement text="Avatar Info" value="true" class="pb-2 pr-4">
+                        <ui:VisualElement>
+                            <eau:TextFieldPro class="pb-2" label="Name" name="content-name" placeholder="Give your avatar a name" required="true" />
+                            <eau:TextFieldPro class="pb-2" label="Description" name="content-description" placeholder="Describe your avatar so it is easier to remember!" required="true" />
+                        </ui:VisualElement>
+                        <eau:ContentWarningsField label="Content Warnings" name="content-warnings" class="pb-2"/>
+                        <ui:DropdownField name="release-status" label="Visibility" index="0" choices="Private,Public" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="w-one-half">
+                    <ui:Label text="Step 2: Add Thumbnail" class="text-xl font-bold pb-2" />
+                    <ui:VisualElement text="Thumbnail" name="avatar_thumbnail" class="pb-2">
+                        <ui:VisualElement name="thumbnail" class="flex-row h-64">
+				            <ui:Image name="thumbnail-image"/>
+                        </ui:VisualElement> 
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Label text="Step 3: Before Upload..." class="text-xl font-bold pb-2" />
+            <eau:ShadowButton text="Build and Test" name="build" />
+            <ui:Label text="Step 4: Upload!" class="text-xl font-bold pb-2" />
+		    <eau:ShadowButton text="Upload" name="upload" />
+            <ui:VisualElement name="upload_status" class="pb-2" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
