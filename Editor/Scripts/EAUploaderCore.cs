@@ -96,19 +96,6 @@ namespace EAUploader
                 File.WriteAllText(prefabManagerPath, "{}");
             }
 
-            string tailwindUssPath = $"{EAUPLOADER_ASSET_PATH}/UI/tailwind.uss";
-            if (!File.Exists(tailwindUssPath))
-            {
-                UnityEngine.TextAsset tailwindUss = Resources.Load<UnityEngine.TextAsset>("UI/tailwind");
-                if (tailwindUss == null)
-                {
-                    Debug.LogError("Failed to load tailwind.uss from resources.");
-                    return;
-                }
-                string tailwindUssContent = tailwindUss.text;
-                File.WriteAllText(tailwindUssPath, tailwindUssContent);
-            }
-
             string notoSansJPPath = $"{EAUPLOADER_ASSET_PATH}/UI/Noto_Sans_JP.ttf";
             if (!File.Exists(notoSansJPPath))
             {
