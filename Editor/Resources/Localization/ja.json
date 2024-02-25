@@ -208,6 +208,26 @@
     {
       "key": "Build as Test",
       "value": "テストとしてビルド"
+    },
+    {
+      "key": "Sexually Suggestive",
+      "value": "性的な示唆"
+    },
+    {
+      "key": "Adult Language and Themes",
+      "value": "成人向けの言葉・表現"
+    },
+    {
+      "key": "Graphic Violence",
+      "value": "暴力的な表現"
+    },
+    {
+      "key": "Excessive Gore",
+      "value": "過剰な流血・血糊"
+    },
+    {
+      "key": "Extreme Horror",
+      "value": "過激なホラー"
     }
   ]
 }

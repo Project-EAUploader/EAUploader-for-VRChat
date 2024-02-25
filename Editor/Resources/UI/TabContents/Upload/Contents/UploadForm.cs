@@ -18,21 +18,6 @@ namespace EAUploader.UI.Upload
             var visualTree = Resources.Load<VisualTreeAsset>("UI/TabContents/Upload/Contents/UploadForm");
             visualTree.CloneTree(root);
 
-            root.Q<Label>("loginSDKLabel").text = T7e.Get("Login to VRChat");
-            root.Q<Label>("checkPermissionLabel").text = T7e.Get("Check you are allowed to upload avatar");
-            root.Q<Label>("modelInfoLabel").text = T7e.Get("Model Info");
-            root.Q<Label>("addThumbnailLabel").text = T7e.Get("Set thumbnail");
-            root.Q<Label>("buildLabel").text = T7e.Get("Build");
-            root.Q<Label>("buildandtestLabel").text = T7e.Get("Build as Test");
-            root.Q<Label>("uploadLabel").text = T7e.Get("Upload");
-
-            root.Q<TextFieldPro>("content-name").label = T7e.Get("Name");
-            root.Q<TextFieldPro>("content-name").placeholder = T7e.Get("Give your avatar a name");
-            root.Q<TextFieldPro>("content-description").label = T7e.Get("Description");
-            root.Q<TextFieldPro>("content-description").placeholder = T7e.Get("Describe your avatar so it is easier to remember!");
-            root.Q<ContentWarningsField>("content-warnings").label = T7e.Get("Content Warnings");
-            root.Q<DropdownField>("release-status").label = T7e.Get("Visibility");
-
             root.schedule.Execute(() =>
             {
                 var loginStatus = root.Q<VisualElement>("login_status");
