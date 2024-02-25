@@ -5,7 +5,10 @@
 	--primary-hover: rgb(20, 100, 180);
 	--primary-active: rgb(30, 130, 230);
 	--primary-selected: rgb(22, 105, 200);
-	--secondary: rgb(1, 0, 88);
+	--secondary: rgb(255, 152, 0);
+	--secondary-hover: rgb(230, 130, 0);
+	--secondary-active: rgb(255, 160, 0);
+	--secondary-selected: rgb(240, 140, 0);
 }
 
 Button {
@@ -274,19 +277,6 @@ DropdownField > VisualElement > PopupTextElement {
 	background-color: transparent;
 	color: var(--primary-hover);
 	cursor: link;
-}
-
-.selected {
-	background-color: var(--primary);
-	border-color: var(--primary);
-}
-
-.selected > Label {
-	color: white;
-}
-
-.selected:hover {
-	background-color: var(--primary-hover);
 }
 
 .search-button Button {

@@ -25,6 +25,8 @@ namespace EAUploader.UI.Setup
             var visualTree = Resources.Load<VisualTreeAsset>("UI/TabContents/Setup/Setup");
             visualTree.CloneTree(root);
 
+            root.styleSheets.Add(Resources.Load<StyleSheet>("UI/TabContents/Setup/Setup"));
+
             modelList = root.Q<ScrollView>("model_list");
 
             GetModelList();
@@ -125,7 +127,7 @@ namespace EAUploader.UI.Setup
 
         private static void DeleteButtonClicked()
         {
-            if (CustomPrefabUtility.PrefabManager.ShowDeletePrefabDialog(EAUploaderCore.selectedPrefabPath))
+            if (PrefabManager.ShowDeletePrefabDialog(EAUploaderCore.selectedPrefabPath))
             {
                 GetModelList();
             }
@@ -270,6 +272,12 @@ namespace EAUploader.UI.Setup
             if (EAUploaderCore.selectedPrefabPath == prefab.Path)
             {
                 EnableInClassList("selected", true);
+            }
+
+            // Check pinned
+            if (PrefabManager.IsPinned(prefab.Path))
+            {
+                EnableInClassList("pinned", true);
             }
 
             clicked += () =>

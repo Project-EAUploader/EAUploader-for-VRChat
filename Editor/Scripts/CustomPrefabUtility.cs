@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -110,6 +111,11 @@ namespace EAUploader.CustomPrefabUtility
         public static List<PrefabInfo> GetAllPrefabsWithPreview()
         {
             var allPrefabs = GetAllPrefabs();
+            allPrefabs = allPrefabs
+                .OrderByDescending(p => p.Status == PrefabStatus.Pinned)
+                .ThenByDescending(p => p.LastModified)
+                .ToList();
+
             foreach (var prefab in allPrefabs)
             {
                 string previewImagePath = PrefabPreview.GetPreviewImagePath(prefab.Path);
@@ -209,6 +215,13 @@ namespace EAUploader.CustomPrefabUtility
                 return avatarDescriptor;
             }
             return null;
+        }
+
+        public static bool IsPinned(string prefabPath)
+        {
+            var allPrefabs = LoadPrefabsInfo();
+            var prefab = allPrefabs.FirstOrDefault(p => p.Path == prefabPath);
+            return prefab?.Status == PrefabStatus.Pinned;
         }
     }
 
