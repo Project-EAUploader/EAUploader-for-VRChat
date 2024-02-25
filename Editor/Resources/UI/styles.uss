@@ -1,5 +1,5 @@
 :root {
-    -unity-font-definition: url("/Assets/EAUploader/UI/Noto_Sans_JP.ttf");
+    -unity-font-definition: url("project:///Assets/EAUploader/UI/Noto_Sans_JP.ttf");
 	background-color: white;
 	--primary: rgb(25, 118, 210);
 	--primary-hover: rgb(20, 100, 180);
