@@ -47,6 +47,9 @@ namespace EAUploader.UI.ImportSettings
 
         private static void Initialize()
         {
+            currentQuerySearch = string.Empty;
+            currentFilterTag = string.Empty;
+
             var articleContainer = root.Q<VisualElement>("article_container");
             var articleList = articleContainer.Q<ListView>("article_list");
             articleList.makeItem = MakeItem;
