@@ -39,6 +39,7 @@ namespace EAUploader.UI.ImportSettings
         {
             root = rootElement;
             var visualTree = Resources.Load<VisualTreeAsset>("UI/TabContents/ImportSettings/Contents/EALibrary/EALibrary");
+            root.styleSheets.Add(Resources.Load<StyleSheet>("UI/TabContents/ImportSettings/Contents/EALibrary/EALibrary"));
             visualTree.CloneTree(root);
 
             Initialize();
@@ -99,7 +100,7 @@ namespace EAUploader.UI.ImportSettings
             var article = GetArticleIndex()[index];
             element.Q<Image>("image").image = AssetDatabase.LoadAssetAtPath<Texture2D>(GetArticleData(article.Title).thumbnail);
             element.Q<Label>("title").text = article.Title;
-        }
+        } 
 
         private static void OnSelectionChanged(IEnumerable<object> selected)
         {

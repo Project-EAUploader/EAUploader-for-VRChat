@@ -122,8 +122,8 @@
       "value": "選択中のプレハブ："
     },
     {
-      "key": "Height",
-      "value": "アバターの高さ"
+      "key": "Height: ",
+      "value": "アバターの高さ: "
     },
     {
       "key": "Avatar Editor",

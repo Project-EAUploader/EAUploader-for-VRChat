@@ -10,7 +10,7 @@
 >
     <ui:Label tabindex="-1" text="EAUploader Library" parse-escape-sequences="true" display-tooltip-when-elided="true" enable-rich-text="true" class="text-xl font-bold pb-2" />
     <ui:VisualElement class="border-b border-b-zinc-300 pb-4">
-        <ui:VisualElement name="VisualElement" class="flex-row pb-4">
+        <ui:VisualElement class="flex-row pb-4">
             <ui:TextField name="search_query" picking-mode="Ignore" class="flex-1" />
             <eau:ShadowButton name="search_button" text="Search" parse-escape-sequences="true" display-tooltip-when-elided="true" class="ml-2 search-button" />
         </ui:VisualElement>

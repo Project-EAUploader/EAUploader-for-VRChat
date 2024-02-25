@@ -1,9 +1,9 @@
-<ui:UXML 
+<ui:UXML
     xmlns:ui="UnityEngine.UIElements"
     xmlns:uie="UnityEditor.UIElements"
     xmlns:eau="EAUploader.UI.Components"
     xsi="http://www.w3.org/2001/XMLSchema-instance"
-    engine="UnityEngine.UIElements" 
+    engine="UnityEngine.UIElements"
     editor="UnityEditor.UIElements"
     noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
     editor-extension-mode="False">
@@ -44,7 +44,6 @@
             <eau:HelpButton msg-id="112" />
             <ui:Label text = "Upload" class="text-xl font-bold pb-2" name="uploadLabel" />
             <eau:ShadowButton text="Upload" name="upload"/>
-            <ui:VisualElement name="upload_status" class="pb-2" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -306,23 +306,6 @@ ProgressBar Label {
 	color: white;
 }
 
-.article-image {
-	background-color: rgb(180, 180, 180);
-}
-
-
-.unity-list-view__item {
-	border-bottom-width: 1px;
-	border-color: var(--default);
-	background-color: white;
-	color: black;
-	transition: 150ms;
-}
-
-	.unity-list-view__item:hover {
-	background-color: var(--default-hover);
-}
-
 #product_row {
 	flex-direction: row;
 }
