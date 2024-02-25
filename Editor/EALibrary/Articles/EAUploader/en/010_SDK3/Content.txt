@@ -1,6 +1,0 @@
-<t>― About the VRChatSDK Panel ―</t>
-<txt>
-<size=20>Content Magager tab</size>
-<size=14>In Content Magager tab, you can see what worlds and avatars you have uploaded so far.
-You can edit it in more detail, which you can see on the web page with the press of a button.</size>
-</txt>

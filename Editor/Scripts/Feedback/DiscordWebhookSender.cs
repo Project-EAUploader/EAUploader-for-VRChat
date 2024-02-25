@@ -1,16 +1,12 @@
-using UnityEngine;
-using UnityEditor;
-using System.Collections;
-using System.Net;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
-using static styles;
-using static labels;
-using UnityEngine.UIElements;
 using EAUploader.UI.Components;
+using System.IO;
+using System.Net;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UIElements;
 
-namespace EAUploader {
+namespace EAUploader
+{
 
     public class DiscordWebhookSender : EditorWindow
     {

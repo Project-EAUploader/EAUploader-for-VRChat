@@ -1,11 +1,8 @@
-#if !EA_ONBUILD
+/*
+using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
-using System.IO;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using static styles;
-using static Texture;
 
 public class ArticleRenderer
 {
@@ -159,7 +156,7 @@ public class ArticleRenderer
                             break;
                         }
                     }
-                    else if(tag.StartsWith("<t>"))
+                    else if (tag.StartsWith("<t>"))
                     {
                         int textEndIndex = content.IndexOf("</t>", currentIndex);
                         if (textEndIndex != -1)
@@ -392,4 +389,5 @@ public class ArticleRenderer
         Section
     }
 }
-#endif
+
+*/

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static labels;
 
 namespace EAUploader
 {
@@ -36,9 +35,9 @@ namespace EAUploader
 
             if (problematicPrefabs.Count > 0)
             {
-                string msg1 = Get(118);
-                string msg2 = Get(119);
-                string msg3 = Get(120);
+                string msg1 = T7e.Get("Prefabs with missing or problematic shaders:");
+                string msg2 = T7e.Get("Please confirm the required shaders from the avatar distributor.");
+                string msg3 = T7e.Get("Why am I seeing this?");
                 string message = $"{msg1}\n{string.Join("\n", problematicPrefabs)}\n\n{msg2}";
                 if (EditorUtility.DisplayDialogComplex("Shader Issues Found", message, "OK", msg3, "") == 1)
                 {
