@@ -9,6 +9,10 @@
 	--secondary-hover: rgb(230, 130, 0);
 	--secondary-active: rgb(255, 160, 0);
 	--secondary-selected: rgb(240, 140, 0);
+	--default: rgb(200, 200, 200);
+	--default-hover: rgb(240, 240, 240);
+	--default-active: rgb(210, 210, 210);
+	--default-selected: rgb(190, 190, 190);
 }
 
 Button {
@@ -78,14 +82,14 @@ HelpButton {
 
 PrefabItemButton {
 	border-width: 1px;
-	border-color: rgb(200, 200, 200);
+	border-color: var(--default);
 	flex-direction: row;
 	margin-bottom: 4px;
 	background-color: white;
 }
 
 PrefabItemButton:hover {
-	background-color: rgb(240, 240, 240);
+	background-color: var(--default-hover);
 }
 
 PrefabItemButton > Image {
@@ -110,7 +114,7 @@ PrefabItem {
 	margin-top: 4px;
 	border-width: 1px;
 	border-radius: 4px;
-	border-color: rgb(200, 200, 200);
+	border-color: var(--default);
 	background-color: white;
 	color: black;
 	transition: 150ms;
@@ -130,7 +134,7 @@ TextInput {
 	padding: 4px 16px;
 	border-width: 1px;
 	border-radius: 4px;
-	border-color: rgb(200, 200, 200);
+	border-color: var(--default);
 	background-color: white;
 	color: black;
 	transition: 150ms
@@ -161,12 +165,12 @@ ArticleRenderer {
 	background-color: white;
 	border-width: 1px;
 	border-radius: 12px;
-	border-color: rgb(200, 200, 200);
+	border-color: var(--default);
 	transition: 150ms;
 }
 
 .tag-button:hover {
-	background-color: rgb(240, 240, 240);
+	background-color: var(--default-hover);
 }
 
 .tag-button > Label {
@@ -195,14 +199,14 @@ DropdownField > VisualElement {
 	padding: 4px 16px;
 	border-width: 1px;
 	border-radius: 4px;
-	border-color: rgb(200, 200, 200);
+	border-color: var(--default);
 	background-color: white;
 	color: black;
 	transition: 150ms;
 }
 
 DropdownField:hover > VisualElement {
-	background-color: rgb(240, 240, 240);
+	background-color: var(--default-hover);
 }
 
 DropdownField > Label {
@@ -290,7 +294,7 @@ DropdownField > VisualElement > PopupTextElement {
 .unity-progress-bar__background {
 	height: 36px;
 	border-radius: 4px;
-	border-color: rgb(200, 200, 200);
+	border-color: var(--default);
 }
 
 .unity-progress-bar__progress {
@@ -309,14 +313,14 @@ ProgressBar Label {
 
 .unity-list-view__item {
 	border-bottom-width: 1px;
-	border-color: rgb(200, 200, 200);
+	border-color: var(--default);
 	background-color: white;
 	color: black;
 	transition: 150ms;
 }
 
 	.unity-list-view__item:hover {
-	background-color: rgb(240, 240, 240);
+	background-color: var(--default-hover);
 }
 
 #product_row {
@@ -328,7 +332,7 @@ ProgressBar Label {
 	margin: 4px;
 	border-radius: 4px;
 	border-width: 1px;
-	border-color: rgb(200, 200, 200);
+	border-color: var(--default);
 	align-items: center;
 	width: 360px;
 	padding: 8px;
@@ -367,4 +371,30 @@ ProgressBar Label {
 
 #close_button {
 	margin: 8px;
+}
+
+.selected {
+	background-color: var(--primary);
+	border-color: var(--primary);
+}
+
+.selected > Label {
+	color: white;
+}
+
+.selected:hover {
+	background-color: var(--primary-hover);
+}
+
+.pinned {
+	background-color: white;
+	border-color: var(--secondary);
+}
+
+.pinned:hover {
+	background-color: var(--default-hover);
+}
+
+.selected.pinned {
+	background-color: var(--secondary);
 }

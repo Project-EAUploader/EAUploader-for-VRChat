@@ -54,6 +54,11 @@ namespace EAUploader.UI.Upload
                 EnableInClassList("selected", true);
             }
 
+            if (PrefabManager.IsPinned(prefab.Path))
+            {
+                EnableInClassList("pinned", true);
+            }
+
             clicked += () =>
             {
                 EAUploaderCore.selectedPrefabPath = prefab.Path;
