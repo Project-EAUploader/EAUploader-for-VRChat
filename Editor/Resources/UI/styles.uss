@@ -440,3 +440,9 @@ ProgressBar Label {
 .unity-base-slider__drag-container {
 	align-items: center;
 }
+
+VisualElement {
+	transition-duration: 150ms;
+	transition-timing-function: ease-out;
+	transition-property: translate, opacity;
+}
