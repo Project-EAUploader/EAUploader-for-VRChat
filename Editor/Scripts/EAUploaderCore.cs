@@ -3,8 +3,6 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
-
 
 namespace EAUploader
 {
@@ -118,25 +116,11 @@ namespace EAUploader
                 File.WriteAllBytes(notoSansJPPath, notoSansJP);
             }
 
-            string notoSansJPAssetPath = $"{EAUPLOADER_ASSET_PATH}/UI/Noto_Sans_JP SDF.asset";
-            if (!File.Exists(notoSansJPAssetPath))
-            {
-                FontAsset notoSansJPAsset = Resources.Load<FontAsset>("UI/Noto_Sans_JP SDF");
-                File.Copy(AssetDatabase.GetAssetPath(notoSansJPAsset), notoSansJPAssetPath);
-            }
-
             string materialIconsPath = $"{EAUPLOADER_ASSET_PATH}/UI/MaterialIcons-Regular.ttf";
             if (!File.Exists(materialIconsPath))
             {
                 byte[] materialIcons = Resources.Load<UnityEngine.TextAsset>("UI/MaterialIcons-Regular").bytes;
                 File.WriteAllBytes(materialIconsPath, materialIcons);
-            }
-
-            string materialIconsAssetPath = $"{EAUPLOADER_ASSET_PATH}/UI/MaterialIcons-Regular SDF.asset";
-            if (!File.Exists(materialIconsAssetPath))
-            {
-                FontAsset materialIconsAsset = Resources.Load<FontAsset>("UI/MaterialIcons-Regular SDF");
-                File.Copy(AssetDatabase.GetAssetPath(materialIconsAsset), materialIconsAssetPath);
             }
         }
 

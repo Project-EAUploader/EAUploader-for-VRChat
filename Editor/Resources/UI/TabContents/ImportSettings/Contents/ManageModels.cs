@@ -1,7 +1,5 @@
-﻿    using Cysharp.Threading.Tasks;
-using EAUploader.CustomPrefabUtility;
+﻿using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -71,12 +69,13 @@ namespace EAUploader.UI.ImportSettings
     {
         public PrefabItem(Texture2D preview, string name)
         {
-            var previewImage = new Image { 
-                image = preview, 
+            var previewImage = new Image
+            {
+                image = preview,
                 style = {
                     width = 128,
-                    height = 128, 
-                } 
+                    height = 128,
+                }
             };
             previewImage.RegisterCallback<MouseUpEvent>(evt => ShowLargeImage(preview));
             Add(previewImage);

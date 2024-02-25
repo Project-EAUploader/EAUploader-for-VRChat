@@ -2,8 +2,6 @@ using EAUploader.CustomPrefabUtility;
 using System;
 using UnityEditor;
 using UnityEngine;
-using VRC.Core;
-using VRC.SDK3.Editor;
 using VRC.SDK3A.Editor;
 using VRC.SDKBase.Editor;
 using VRC.SDKBase.Editor.Api;
@@ -61,7 +59,7 @@ namespace EAUploader
             var selectedPrefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);
 
 
-            if (!VRCSdkControlPanel.TryGetBuilder<IVRCSdkAvatarBuilderApi>(out var builder)) return; 
+            if (!VRCSdkControlPanel.TryGetBuilder<IVRCSdkAvatarBuilderApi>(out var builder)) return;
 
             try
             {

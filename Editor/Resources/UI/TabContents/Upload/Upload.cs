@@ -1,10 +1,8 @@
 using EAUploader.CustomPrefabUtility;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using VRC.SDK3A.Editor;
-using VRC.SDKBase.Editor;
 
 namespace EAUploader.UI.Upload
 {

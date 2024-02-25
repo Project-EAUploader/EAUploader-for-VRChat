@@ -1,5 +1,5 @@
 :root {
-    -unity-font-definition: url("/Assets/EAUploader/UI/Noto_Sans_JP SDF.asset");
+    -unity-font-definition: url("/Assets/EAUploader/UI/Noto_Sans_JP.ttf");
 	background-color: white;
 	--primary: rgb(25, 118, 210);
 	--primary-hover: rgb(20, 100, 180);
@@ -208,7 +208,7 @@ DropdownField > VisualElement > PopupTextElement {
 .material-icons {
     font-size: var(--material-symbol-size);
     -unity-font-style: normal;
-    -unity-font-definition: url('/Assets/EAUploader/UI/MaterialIcons-Regular SDF.asset');
+    -unity-font-definition: url('/Assets/EAUploader/UI/MaterialIcons-Regular.ttf');
 }
 
 .button-with-icons {
@@ -347,3 +347,22 @@ ProgressBar Label {
 #product_thumbnail {
 	margin-right: 8px;
 }
+
+#market_item {
+	height: 240px;
+}
+
+#market_item {
+	flex-direction: row;
+}
+
+#market_item > ImageButton {
+	width: 480px;
+	cursor: link;
+}
+
+#market_item > ImageButton > Image {
+	cursor: link;
+}
+
+	

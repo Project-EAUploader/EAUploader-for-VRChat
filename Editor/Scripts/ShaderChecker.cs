@@ -1,7 +1,6 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using System.Collections.Generic;
-using System.IO;
 using static labels;
 
 namespace EAUploader

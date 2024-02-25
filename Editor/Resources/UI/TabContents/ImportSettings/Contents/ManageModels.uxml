@@ -8,7 +8,6 @@
     noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
     editor-extension-mode="False"
 >
-    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss?fileID=7433441132597879392&amp;guid=33415aeb954406041803ecdae7dd5df1&amp;type=3#tailwind" />
     <ui:Label tabindex="-1" text="Manage Model" parse-escape-sequences="true" display-tooltip-when-elided="true" enable-rich-text="true" class="text-xl font-bold pb-2" />
     <ui:VisualElement name="VisualElement" class="flex-row pb-4">
         <ui:TextField name="searchQuery" picking-mode="Ignore" class="flex-1" />

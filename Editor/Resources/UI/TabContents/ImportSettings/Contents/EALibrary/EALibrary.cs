@@ -30,6 +30,7 @@ namespace EAUploader.UI.ImportSettings
     internal class EALibrary
     {
         private static VisualElement root;
+        const string ARTICLES_FOLDER_PATH = "Packages/tech.uslog.eauploader/Editor/Resources/UI/TabContents/ImportSettings/Contents/EALibrary/Articles/EAUploader/";
         private static string currentLanguage;
         private static string currentQuerySearch = string.Empty;
         private static string currentFilterTag = string.Empty;
@@ -136,7 +137,7 @@ namespace EAUploader.UI.ImportSettings
         private static List<ArticleIndex> GetArticleIndex()
         {
             currentLanguage = LanguageUtility.GetCurrentLanguage();
-            string articlesFolderPath = $"Packages/tech.uslog.eauploader/Editor/EALibrary/Articles/EAUploader/{currentLanguage}";
+            string articlesFolderPath = ARTICLES_FOLDER_PATH + currentLanguage;
             var articleIndex = new List<ArticleIndex>();
             var articleFiles = Directory.GetFiles(articlesFolderPath, "*.json", SearchOption.AllDirectories);
             foreach (var file in articleFiles)
@@ -168,7 +169,7 @@ namespace EAUploader.UI.ImportSettings
         private static Article GetArticleData(string title)
         {
             currentLanguage = LanguageUtility.GetCurrentLanguage();
-            string articlesFolderPath = $"Packages/tech.uslog.eauploader/Editor/EALibrary/Articles/EAUploader/{currentLanguage}";
+            string articlesFolderPath = ARTICLES_FOLDER_PATH + currentLanguage;
             var articleFiles = Directory.GetFiles(articlesFolderPath, "*.json", SearchOption.AllDirectories);
             foreach (var file in articleFiles)
             {

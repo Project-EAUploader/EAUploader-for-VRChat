@@ -1,5 +1,3 @@
-using EAUploader.UI.Components;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 

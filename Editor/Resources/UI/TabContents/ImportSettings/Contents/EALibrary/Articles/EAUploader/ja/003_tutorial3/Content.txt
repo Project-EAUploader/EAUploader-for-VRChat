@@ -1,0 +1,71 @@
+<t>― シェーダーの変更 ―</t>
+<txt>
+<size=18>「シェーダー」とは</size>
+
+<size=14>シェーダーは、「オブジェクト（アバターなど）を画面に描画するプログラム」です。
+シェーダーを変更することで、色味や質感を変えることができます。
+既にプログラムされている物を使用するため、プログラミングをする必要はありません。
+
+シェーダーの変更は、<color=green>「セットアップ」</color>タブの右側のツール一覧にある
+<color=green>「シェーダーの編集」</color>から編集画面を開くことで変更できます。
+プロジェクト内に導入済みのシェーダーは、編集画面の右側に一覧で表示されます。
+
+<color=red>Unityで使用するシェーダーには、VRChatのアバターに適さないものもあります。</color>
+シェーダーを探す時は「VRChat用シェーダー」等で検索して、VRChatに適したシェーダーを試使用してください。
+
+<size=16>〇 アバターをインポートした後、シェーダーエラーが出た場合</size>
+<color=red>アバターによってはシェーダーが指定されています。</color>
+配布元が指定しているシェーダーがありますので、それを検索してダウンロードし、導入してください。</size>
+
+<size=16>〇 現在Shader Editorが対応している事</size>
+現在EAUploaderに標準で追加されているShaderEditorは、<color=red>シェーダーの変更の適用のみ</color>サポートしています。
+シェーダーのパラメータ設定は、従来のUnityエディタを使用する必要がありますので、ご注意ください。
+今後のアップデートで、シェーダーのパラメータ設定をサポートする予定です。
+</txt>
+<hr>black, 12</hr>
+<t>代表的なVRChat標準以外のシェーダー</t>
+<txt>
+<size=14>アバター用に使用される代表的なシェーダーを以下に紹介します。</size>
+
+<size=18>ユニティちゃんトゥーンシェーダー2.0 (UTS2)</size>
+
+<size=14>セル風3DCGアニメーションの制作現場での要望に応えるような形で設計された、映像志向のトゥーンシェーダーです。</size>
+</txt>
+<button>UTS2 配布ページ, Link, https://unity-chan.com/download/releaseNote.php?id=UTS2_0</button>
+
+<hr>black, 12</hr>
+
+<section>iliToon_thumbnail.png, 50, <size=18>iliToon</size>
+
+<size=14>アバターを用いたサービス（VRChat等）向けに開発されたシェーダーで、簡単に調整でき、美麗かつ軽量なためVRChat用アバターで広く使われています。</size></section>
+<button>iliToon 配布ページ, Link, https://booth.pm/ja/items/3087170</button>
+
+<hr>black, 12</hr>
+
+<txt>
+<size=18>UnlitWF</size>
+
+<size=14>UnlitWF/UnToon は、テクスチャをそのまま描画するUnlitシェーダに、さまざまな効果を追加する発想で設計されたトゥーンシェーダです。
+光源に応じた明度/色調の調整はもちろん、NormalMap/MetallicMap/Matcapなどの各種効果、階調陰/アウトラインといったトゥーン描画を得意としています。
+簡単な設定でダイナミックに変化する描画を行うことができます。</size>
+</txt>
+<button>UnlitWF 導入案内ページ, Link, https://github.com/whiteflare/Unlit_WF_ShaderSuite/wiki/UnlitWF-VPM-package-Installation-procedure</button>
+
+<hr>black, 12</hr>
+
+<t>シェーダーの種類</t>
+<txt>
+シェーダーには大まかな種類分けがあります。
+アバターでよく使用されるのは、standard系とtoon系です。
+リアルな影を表現する時はstandard系、
+アニメ調のアバターにはtoon系がよく使用されます。
+
+基本はどちらかに統一して使用しますが、影にこだわる場合は複数種類を使うことがあります。ただし、複数種類のシェーダーを使用すると、アバターが一気にpoor、very poor評価になるため、注意が必要です。
+
+シェーダーを適切に使用することで、アバターを改変せずとも幅広い表現の変化を可能にします。
+アバターの形を変えずに雰囲気や見え方を細かく調整したい方は、是非シェーダーについて調べて学んでみてください。
+</txt>
+
+<button>Discordへ参加する, Main, https://discord.gg/mkDJ7xm94Z</button>
+<button>開発者 X / Twitter をフォロー, Sub, https://twitter.com/intent/follow?screen_name=fu_virtual</button>
+<button>Webへ行く, Sub, https://uslog.tech/eauploader</button>

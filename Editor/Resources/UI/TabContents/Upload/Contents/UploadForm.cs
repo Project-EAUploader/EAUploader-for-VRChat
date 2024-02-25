@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using VRC.Core;
 using VRC.SDKBase.Editor.Api;
-using VRC.SDKBase.Editor.Elements;
 
 namespace EAUploader.UI.Upload
 {
@@ -148,7 +147,7 @@ namespace EAUploader.UI.Upload
                     {
                         progress.value = AvatarUploader.Percentage;
                         progress.title = AvatarUploader.Status;
-                    } 
+                    }
                 }).Every(1000);
             }
         }

@@ -1,0 +1,5 @@
+<t>― VRChatSDKパネルについて ―</t>
+<txt>
+<size=20>Settingタブ</size>
+<size=14></size>
+</txt>

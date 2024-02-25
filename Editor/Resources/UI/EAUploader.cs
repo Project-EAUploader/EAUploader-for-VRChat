@@ -23,9 +23,10 @@ namespace EAUploader.UI
             currentTab = "settings";
 
             rootVisualElement.styleSheets.Add(Resources.Load<StyleSheet>("UI/styles"));
+            rootVisualElement.styleSheets.Add(Resources.Load<StyleSheet>("UI/tailwind"));
 
             // Import UXML
-            var visualTree = Resources.Load<VisualTreeAsset>("UI/MainWindow"); 
+            var visualTree = Resources.Load<VisualTreeAsset>("UI/MainWindow");
             visualTree.CloneTree(rootVisualElement);
 
             rootVisualElement.schedule.Execute(() =>
@@ -33,9 +34,9 @@ namespace EAUploader.UI
                 LanguageUtility.Localization(rootVisualElement);
             }).Every(100);
 
-            contentRoot = rootVisualElement.Q("contentRoot"); 
+            contentRoot = rootVisualElement.Q("contentRoot");
             ImportSettings.Main.ShowContent(contentRoot);
-            
+
             SetupButtonHandler();
         }
 

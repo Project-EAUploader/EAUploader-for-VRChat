@@ -7,7 +7,6 @@
     editor="UnityEditor.UIElements"
     noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd"
     editor-extension-mode="False">
-    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss" />
     <ui:VisualElement name="tabs" class="tabs flex-row h-8">
         <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="settings" class="tab-button">
             <eau:MaterialIcon icon="settings" />

@@ -8,7 +8,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static VRCWMarketPlace.VRCWMarket;
 
 namespace EAUploader.UI.Market
 {

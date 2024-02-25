@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace EAUploader.UI.Components
@@ -49,7 +48,7 @@ namespace EAUploader.UI.Components
             }
         }
 
-        public EventHandler<Tuple<string,bool>> OnToggleTag;
+        public EventHandler<Tuple<string, bool>> OnToggleTag;
 
         public bool value;
 
@@ -80,7 +79,7 @@ namespace EAUploader.UI.Components
                 }
             };
 
-            Add(label); 
+            Add(label);
 
             var group = new VisualElement()
             {

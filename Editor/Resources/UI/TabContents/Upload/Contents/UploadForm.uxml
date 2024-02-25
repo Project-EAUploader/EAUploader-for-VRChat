@@ -7,7 +7,6 @@
     editor="UnityEditor.UIElements"
     noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
     editor-extension-mode="False">
-    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss?fileID=7433441132597879392&amp;guid=33415aeb954406041803ecdae7dd5df1&amp;type=3#tailwind" />
     <ui:VisualElement class="p-4">
         <ui:Label text="Step 0: Login VRChat SDK" class="text-xl font-bold pb-2" />
         <ui:VisualElement name="login_status" class="pb-2" />

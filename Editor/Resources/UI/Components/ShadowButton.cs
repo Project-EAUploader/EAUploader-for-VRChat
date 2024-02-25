@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace EAUploader.UI.Components
 {
-    public class ShadowButton : VisualElement 
+    public class ShadowButton : VisualElement
     {
         private readonly VisualElement _container;
 
@@ -16,7 +16,7 @@ namespace EAUploader.UI.Components
         {
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
-                get 
+                get
                 {
                     yield return new UxmlChildElementDescription(typeof(VisualElement));
                 }
@@ -27,7 +27,7 @@ namespace EAUploader.UI.Components
             public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
             {
                 base.Init(ve, bag, cc);
-                var ShadowButton = ve as ShadowButton; 
+                var ShadowButton = ve as ShadowButton;
 
                 ShadowButton.text = _text.GetValueFromBag(bag, cc);
             }
@@ -38,7 +38,7 @@ namespace EAUploader.UI.Components
         public string text;
 
         public ShadowButton()
-        { 
+        {
             _container = new VisualElement();
             _container.AddToClassList("none");
             hierarchy.Add(_container);

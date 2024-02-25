@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
 using System.Collections.Generic;
@@ -6,7 +5,6 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.Progress;
 
 namespace EAUploader.UI.Setup
 {
@@ -48,7 +46,7 @@ namespace EAUploader.UI.Setup
             root.Q<ShadowButton>("find_extentions").clicked += () =>
             {
                 Application.OpenURL("https://www.uslog.tech/eauploader-plug-ins");
-            }; 
+            };
         }
 
         private static void GetModelList()
@@ -167,7 +165,8 @@ namespace EAUploader.UI.Setup
     {
         public EditorItem(EditorRegistration editor)
         {
-            var buttonGroup = new VisualElement() { 
+            var buttonGroup = new VisualElement()
+            {
                 style =
                 {
                     flexDirection = FlexDirection.Row,
@@ -182,11 +181,11 @@ namespace EAUploader.UI.Setup
                 text = editor.EditorName,
                 style =
                 {
-                    flexGrow = 1, 
+                    flexGrow = 1,
                     borderBottomRightRadius = 0,
                     borderTopRightRadius = 0,
                     borderRightColor = new StyleColor(new Color(0.0784313725f , 0.3921568627f, 0.7058823529f,1)),
-                    borderRightWidth = 1, 
+                    borderRightWidth = 1,
                 }
             };
 
@@ -250,7 +249,8 @@ namespace EAUploader.UI.Setup
                 }
 
                 Add(editorContent);
-            } else
+            }
+            else
             {
                 foldoutButton.Add(expandMore);
             }

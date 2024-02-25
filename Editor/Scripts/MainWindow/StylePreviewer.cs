@@ -72,7 +72,7 @@ public class StylePreviewerWindow : EditorWindow
             else if (styleName.Contains("Popup"))
             {
                 EditorGUILayout.Popup(0, new string[] { "Option 1", "Option 2" }, style);
-            }
+            } 
             else if (styleName.Contains("Box"))
             {
                 GUILayout.Box("Box", style);

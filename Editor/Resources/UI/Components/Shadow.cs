@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -113,7 +112,7 @@ namespace EAUploader.UI.Components
             k_Vertices[9].tint = Color.clear;
             k_Vertices[10].tint = Color.clear;
             k_Vertices[11].tint = Color.clear;
- 
+
             // Inside rectangle
             k_Vertices[4].position = new Vector3(0 + halfSpread, r.height - halfSpread, Vertex.nearZ);
             k_Vertices[5].position = new Vector3(0 + halfSpread, 0 + halfSpread, Vertex.nearZ);

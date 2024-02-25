@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using UnityEditor;
-using UnityEditor.Build.Content;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -37,13 +35,11 @@ namespace EAUploader.CustomPrefabUtility
     public class PrefabManager
     {
         private const string PREFABS_INFO_PATH = "Assets/EAUploader/PrefabManager.json";
-        private const string PREVIEW_SAVE_PATH = "Assets/EAUploader/PrefabPreviews";
 
         public static List<PrefabInfo> prefabInfoList;
 
         public static void Initialize()
         {
-            PrefabScene.OpenEAUploaderScene();
             UpdatePrefabInfo();
             PrefabPreview.GenerateAndSaveAllPrefabPreviews();
         }
@@ -409,32 +405,6 @@ namespace EAUploader.CustomPrefabUtility
                 return PrefabPreview.LoadTextureFromFile(previewImagePath);
             }
             return null;
-        }
-    }
-
-    public class PrefabScene
-    {
-        private const string EAUPLOADER_SCENE_PATH = "Assets/EAUploader.unity";
-
-        public static void OpenEAUploaderScene()
-        {
-            CheckSceneIsSaved();
-            if (!File.Exists(EAUPLOADER_SCENE_PATH))
-            {
-                var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-                EditorSceneManager.SaveScene(scene, EAUPLOADER_SCENE_PATH);
-            }
-        }
-
-        public static void CheckSceneIsSaved()
-        {
-            bool isSaved = EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
-
-            if (!isSaved)
-            {
-                EditorUtility.DisplayDialog("EAUploader", "Please save the scene before using EAUploader", "OK");
-                throw new Exception("Please save the scene before using EAUploader");
-            }
         }
     }
 

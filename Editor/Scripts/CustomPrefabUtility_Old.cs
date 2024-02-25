@@ -1,11 +1,11 @@
-using UnityEditor;
-using UnityEngine;
-using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using VRC.SDKBase;
 
 public static class CustomPrefabUtility
@@ -213,7 +213,7 @@ public static class CustomPrefabUtility
             }
             else
             {
-               obj.SetActive(false);  // 他のPrefabは非表示にする
+                obj.SetActive(false);  // 他のPrefabは非表示にする
             }
         }
 

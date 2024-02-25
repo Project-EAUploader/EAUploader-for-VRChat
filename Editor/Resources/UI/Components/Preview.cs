@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEditor;
-using UnityEngine.UIElements;
+﻿using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace EAUploader.UI.Components
 {
@@ -41,7 +36,8 @@ namespace EAUploader.UI.Components
             {
                 root.Add(new Label("Select a prefab to preview"));
                 return;
-            } else
+            }
+            else
             {
                 CreateResetButton();
                 UpdatePreview(prefabPath);
@@ -104,7 +100,7 @@ namespace EAUploader.UI.Components
             }
             return true;
         }
-         
+
         private void ShowPrefabPreview()
         {
             var previewContainer = root.Q<VisualElement>("preview_area");
@@ -145,7 +141,7 @@ namespace EAUploader.UI.Components
                 GUILayout.BeginArea(previewRectArea);
                 {
                     CreateOrReuseGameObjectEditor();
-                    var bgStyle = new GUIStyle { normal = { background = EditorGUIUtility.whiteTexture } }; 
+                    var bgStyle = new GUIStyle { normal = { background = EditorGUIUtility.whiteTexture } };
                     HandleMouseEvents(previewRect, previewRectArea);
                     gameObjectEditor.OnInteractivePreviewGUI(previewRect, bgStyle);
                 }
