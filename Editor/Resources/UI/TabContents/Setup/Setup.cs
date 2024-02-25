@@ -29,7 +29,7 @@ namespace EAUploader.UI.Setup
 
             GetModelList();
 
-            preview = new Components.Preview(root.Q("avatar_preview"), EAUploaderCore.selectedPrefabPath);
+            preview = new Preview(root.Q("avatar_preview"), EAUploaderCore.selectedPrefabPath);
 
             preview.ShowContent();
 
@@ -51,7 +51,7 @@ namespace EAUploader.UI.Setup
 
         private static void GetModelList()
         {
-            prefabsWithPreview = CustomPrefabUtility.PrefabManager.GetAllPrefabsWithPreview();
+            prefabsWithPreview = PrefabManager.GetAllPrefabsWithPreview();
             modelList.Clear();
             AddPrefabsToModelList();
         }
