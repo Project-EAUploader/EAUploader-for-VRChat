@@ -132,5 +132,15 @@ namespace EAUploader
                 return T7e.Get("Version: ") + "Unknown";
             }
         }
+
+        [MenuItem("EAUploader/Reload")]
+        public static void ReloadSDK()
+        {
+            selectedPrefabPath = null;
+            EAUploaderEditorManager.OnEditorManagerLoad();
+            ShaderChecker.CheckShadersInPrefabs();
+            CustomPrefabUtility.PrefabManager.Initialize();
+            CheckIsVRMAvailable();
+        }
     }
 }
