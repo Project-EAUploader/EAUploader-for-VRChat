@@ -19,8 +19,6 @@ namespace EAUploader
             string[] movedAssets,
             string[] movedFromAssetPaths)
         {
-            Debug.Log("OnPostprocessAllAssets");
-
             foreach (var asset in importedAssets)
             {
                 if (asset.EndsWith(".prefab"))
