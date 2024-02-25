@@ -4,6 +4,7 @@
 	--primary: rgb(25, 118, 210);
 	--primary-hover: rgb(20, 100, 180);
 	--primary-active: rgb(30, 130, 230);
+	--primary-selected: rgb(22, 105, 200);
 	--secondary: rgb(1, 0, 88);
 }
 
@@ -144,6 +145,10 @@ ContentWarningsField {
 	flex-direction: row;
 }
 
+ArticleRenderer {
+	padding: 16px;
+}
+
 .tag-button {
     flex-direction: row;
 	justify-content: center;
@@ -223,11 +228,16 @@ DropdownField > VisualElement > PopupTextElement {
 
 .tab-button {
     flex: 1;
+	border-radius: 0px;
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
 	color: white;
     font-size: 16px;
+}
+
+.tab-button__selected {
+	background-color: var(--primary-selected);
 }
 
 #reset_preview {
@@ -365,4 +375,6 @@ ProgressBar Label {
 	cursor: link;
 }
 
-	
+#close_button {
+	margin: 8px;
+}

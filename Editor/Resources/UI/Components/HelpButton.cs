@@ -65,13 +65,13 @@ namespace EAUploader.UI.Components
     public class EAUploaderMessageWindow : EditorWindow
     {
         private ScrollView scrollView;
-        private Label contentLabel;
         private static readonly Vector2 windowSize = new Vector2(600, 300);
 
         // Call this method to show the window
         public static void ShowMsg(int msgNum)
         {
             var window = GetWindow<EAUploaderMessageWindow>(T7e.Get("Message"));
+            window.scrollView.Clear();
             window.LoadMsg(msgNum);
             window.minSize = windowSize;
             window.ShowUtility();
@@ -80,15 +80,12 @@ namespace EAUploader.UI.Components
         private void LoadMsg(int msgNum)
         {
             string language = LanguageUtility.GetCurrentLanguage();
-            string content = Resources.Load<TextAsset>($"Message/{language}/{msgNum}").text;
-            if (content != null)
-            {
-                contentLabel.text = content;
-            }
-            else
-            {
-                contentLabel.text = $"Message file not found for language {language} and message number {msgNum}.";
-            }
+            // get content path
+
+            string contentPath = $"Packages/tech.uslog.eauploader/Editor/Resources/Message/{language}/{msgNum}.txt";
+            var article = new ArticleRenderer(contentPath);
+
+            scrollView.Add(article);
         }
 
         private void OnEnable()
@@ -100,17 +97,16 @@ namespace EAUploader.UI.Components
             // Create a ScrollView
             scrollView = new ScrollView();
             scrollView.style.flexGrow = 1;
+            scrollView.style.flexShrink = 1;
             root.Add(scrollView);
 
-            // Create a Label for the content
-            contentLabel = new Label();
-            contentLabel.style.whiteSpace = WhiteSpace.Normal;
-            scrollView.Add(contentLabel);
-
             // Create a Button to close the window
-            var closeButton = new Button(Close);
+            var closeButton = new ShadowButton()
+            {
+                name = "close_button",
+            };
+            closeButton.clicked += Close;
             closeButton.text = T7e.Get("Close");
-            closeButton.style.marginTop = 10;
             root.Add(closeButton);
         }
     }

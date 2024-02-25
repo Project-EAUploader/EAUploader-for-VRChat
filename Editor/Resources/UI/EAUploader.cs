@@ -37,6 +37,8 @@ namespace EAUploader.UI
             contentRoot = rootVisualElement.Q("contentRoot");
             ImportSettings.Main.ShowContent(contentRoot);
 
+            rootVisualElement.Q<Button>("settings").EnableInClassList("tab-button__selected", true);
+
             SetupButtonHandler();
         }
 
@@ -65,6 +67,13 @@ namespace EAUploader.UI
             currentTab = buttonName;
 
             contentRoot.Clear();
+
+            rootVisualElement.Query<Button>().ForEach((b) =>
+            {
+                b.EnableInClassList("tab-button__selected", false);
+            });
+
+            button.EnableInClassList("tab-button__selected", true);
 
             switch (buttonName)
             {

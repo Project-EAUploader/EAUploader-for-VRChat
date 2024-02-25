@@ -116,9 +116,8 @@ namespace EAUploader.UI.ImportSettings
                     var articleData = GetArticleData(articleIndexItem.Title);
                     if (articleData == null) continue;
 
-                    var content = new Label(File.ReadAllText(articleData.contentFile));
-                    content.AddToClassList("content");
-                    articleContent.Add(content);
+                    var articleRenderer = new ArticleRenderer(articleData.contentFile);
+                    articleContent.Add(articleRenderer);
 
                     root.Q<VisualElement>("article_content_container").EnableInClassList("hidden", false);
                     root.Q<VisualElement>("article_list").EnableInClassList("hidden", true);
