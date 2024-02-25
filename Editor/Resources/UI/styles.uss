@@ -429,9 +429,7 @@ ProgressBar Label {
 	width: 4px;
 	background-color: var(--default);
 	border-width: 0px;
-	transition-duration: 75ms;
-	transition-timing-function: ease-out;
-	transition-property: background-color, width, border-radius;
+	transition: 150ms;
 }
 
 .unity-base-slider__dragger:hover {
