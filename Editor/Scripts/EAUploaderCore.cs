@@ -7,7 +7,7 @@ using UnityEngine;
 namespace EAUploader
 {
     [InitializeOnLoad]
-    internal class EAUploaderCore
+    public class EAUploaderCore
     {
         [Serializable]
         private class PackageJson
