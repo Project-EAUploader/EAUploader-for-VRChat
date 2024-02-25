@@ -49,6 +49,11 @@ namespace EAUploader.UI.Upload
             var label = new Label(Path.GetFileNameWithoutExtension(prefab.Path));
             Add(label);
 
+            if (EAUploaderCore.selectedPrefabPath == prefab.Path)
+            {
+                EnableInClassList("selected", true);
+            }
+
             clicked += () =>
             {
                 EAUploaderCore.selectedPrefabPath = prefab.Path;
