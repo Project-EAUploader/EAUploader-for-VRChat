@@ -61,6 +61,15 @@ namespace EAUploader.CustomPrefabUtility
             }
         }
 
+        public static void ImportPrefab(string prefabPath)
+        {
+            GameObject prefab = GetPrefab(prefabPath);
+            Texture2D preview = PrefabPreview.GeneratePreview(prefab);
+            PrefabPreview.SavePrefabPreview(prefabPath, preview);
+
+            UI.ImportSettings.ManageModels.UpdateModelList();
+        }
+
         private static void SavePrefabsInfo(List<PrefabInfo> prefabs)
         {
             string directory = Path.GetDirectoryName(PREFABS_INFO_PATH);
@@ -157,7 +166,6 @@ namespace EAUploader.CustomPrefabUtility
             if (EditorUtility.DisplayDialog("Prefabの消去", "本当にPrefabを消去しますか？", "消去", "キャンセル"))
             {
                 DeletePrefabPreview(prefabPath);
-                PrefabPreview.RemovePrefabFromScene(prefabPath);
                 AssetDatabase.DeleteAsset(prefabPath);
                 return true;
             }
@@ -197,7 +205,7 @@ namespace EAUploader.CustomPrefabUtility
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             if (prefab != null)
             {
-                var avatarDescriptor = prefab.GetComponent<VRC.SDK3.Avatars.Components.VRCAvatarDescriptor>();
+                var avatarDescriptor = prefab.GetComponent<VRCAvatarDescriptor>();
                 return avatarDescriptor;
             }
             return null;
@@ -250,6 +258,27 @@ namespace EAUploader.CustomPrefabUtility
             if (!File.Exists(newFilePath))
             {
                 AssetDatabase.MoveAsset(FilePath, newFilePath);
+
+                string previewImagePath = PrefabPreview.GetPreviewImagePath(FilePath);
+                string newPreviewImagePath = Path.Combine(Path.GetDirectoryName(previewImagePath), newPrefabName + ".png");
+
+                if (File.Exists(previewImagePath))
+                {
+                    try
+                    {
+                        Debug.Log($"Moving preview image: {previewImagePath} -> {newPreviewImagePath}");
+                        if (File.Exists(newPreviewImagePath))
+                        {
+                            File.Delete(newPreviewImagePath);
+                        }
+                        File.Move(previewImagePath, newPreviewImagePath);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError($"Error moving preview image: {e.Message}");
+                    }
+                }
+
                 AssetDatabase.Refresh();
                 _isChanged = true;
                 Close();
@@ -323,7 +352,7 @@ namespace EAUploader.CustomPrefabUtility
             }
         }
 
-        private static void SavePrefabPreview(string prefabPath, Texture2D preview)
+        internal static void SavePrefabPreview(string prefabPath, Texture2D preview)
         {
             string fileName = Path.GetFileNameWithoutExtension(prefabPath);
             string savePath = Path.Combine(PREVIEW_SAVE_PATH, $"{fileName}.png");
@@ -358,36 +387,6 @@ namespace EAUploader.CustomPrefabUtility
         {
             byte[] bytes = texture.EncodeToPNG();
             File.WriteAllBytes(filePath, bytes);
-        }
-
-        public static void RemovePrefabFromScene(string prefabPath)
-        {
-            // EAUploader シーンをロード
-            if (EditorSceneManager.GetActiveScene().path != EAUPLOADER_SCENE_PATH)
-            {
-                EditorSceneManager.OpenScene(EAUPLOADER_SCENE_PATH, OpenSceneMode.Single);
-            }
-
-            // シーンを検索
-            Scene currentScene = SceneManager.GetSceneByPath(EAUPLOADER_SCENE_PATH);
-            List<GameObject> instancesToRemove = new List<GameObject>();
-            foreach (GameObject obj in currentScene.GetRootGameObjects())
-            {
-                if (PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(obj) == prefabPath)
-                {
-                    instancesToRemove.Add(obj);
-                }
-            }
-
-            // インスタンスをシーンから削除
-            foreach (var instance in instancesToRemove)
-            {
-                UnityEngine.Object.DestroyImmediate(instance);
-            }
-
-            // 必要に応じてシーンの変更を保存
-            EditorSceneManager.MarkSceneDirty(currentScene);
-            EditorSceneManager.SaveScene(currentScene);
         }
 
         public static string GetPreviewImagePath(string prefabPath)

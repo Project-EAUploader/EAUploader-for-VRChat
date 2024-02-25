@@ -71,7 +71,6 @@ namespace EAUploader.UI.ImportSettings
             if (string.IsNullOrEmpty(filePath)) return;
 
             var fileExtension = Path.GetExtension(filePath)?.ToLower();
-            var fileName = Path.GetFileNameWithoutExtension(filePath);
 
             switch (fileExtension)
             {

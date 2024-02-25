@@ -58,7 +58,7 @@ namespace EAUploader.UI.ImportSettings
 
         private static VisualElement CreatePrefabItem(PrefabInfo prefab)
         {
-            var item = new PrefabItem(prefab.Preview, prefab.Name);
+            var item = new PrefabItem(prefab);
 
             return item;
         }
@@ -67,20 +67,20 @@ namespace EAUploader.UI.ImportSettings
 
     internal class PrefabItem : VisualElement
     {
-        public PrefabItem(Texture2D preview, string name)
+        public PrefabItem(PrefabInfo prefab)
         {
             var previewImage = new Image
             {
-                image = preview,
+                image = prefab.Preview,
                 style = {
                     width = 128,
                     height = 128,
                 }
             };
-            previewImage.RegisterCallback<MouseUpEvent>(evt => ShowLargeImage(preview));
+            previewImage.RegisterCallback<MouseUpEvent>(evt => ShowLargeImage(prefab.Preview));
             Add(previewImage);
 
-            var label = new Label { text = name, style = { flexGrow = 1 } };
+            var label = new Label { text = prefab.Name, style = { flexGrow = 1 } };
             Add(label);
 
             var controls = new VisualElement()
@@ -104,7 +104,7 @@ namespace EAUploader.UI.ImportSettings
             };
             var changeNameIcon = new MaterialIcon() { icon = "edit", style = { fontSize = 20 } };
             changeNameButton.Add(changeNameIcon);
-            changeNameButton.clicked += () => ChangePrefabName(name);
+            changeNameButton.clicked += () => ChangePrefabName(prefab.Path);
 
             var copyAsNewNameButton = new Button()
             {
@@ -124,7 +124,7 @@ namespace EAUploader.UI.ImportSettings
             };
             var copyAsNewNameIcon = new MaterialIcon() { icon = "content_copy", style = { fontSize = 20 } };
             copyAsNewNameButton.Add(copyAsNewNameIcon);
-            copyAsNewNameButton.clicked += () => CopyPrefabAsNewName(name);
+            copyAsNewNameButton.clicked += () => CopyPrefabAsNewName(prefab.Path);
 
             var deleteButton = new Button()
             {
@@ -138,7 +138,7 @@ namespace EAUploader.UI.ImportSettings
             };
             var deleteIcon = new MaterialIcon() { icon = "delete", style = { fontSize = 20 } };
             deleteButton.Add(deleteIcon);
-            deleteButton.clicked += () => DeletePrefab(name);
+            deleteButton.clicked += () => DeletePrefab(prefab.Path);
 
             controls.Add(changeNameButton);
             controls.Add(copyAsNewNameButton);
