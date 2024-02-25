@@ -34,7 +34,7 @@ namespace EAUploader.UI.Components
         {
             if (!TryLoadPrefab(prefabPath, out prefab))
             {
-                root.Add(new Label("Select a prefab to preview"));
+                root.Add(new Label(T7e.Get("Select a prefab to preview")));
                 return;
             }
             else

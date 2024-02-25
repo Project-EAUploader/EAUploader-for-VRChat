@@ -228,6 +228,14 @@
     {
       "key": "Extreme Horror",
       "value": "過激なホラー"
+    },
+    {
+      "key": "Select a prefab to preview",
+      "value": "アバターを選択してください。"
+    },
+    {
+      "key": "Select the avatar you wish to set up from the list on the left.",
+      "value": "左のリストから設定したいアバターを選択してください。"
     }
   ]
 }
