@@ -398,3 +398,45 @@ ProgressBar Label {
 .selected.pinned {
 	background-color: var(--secondary);
 }
+
+.unity-scroller {
+	width: 16px;
+	background-color: rgba(0, 0, 0, 0);
+	border-width: 0px;
+}
+
+.unity-slider {
+	margin-top: 16px;
+	margin-bottom: 16px;
+}
+
+.unity-scroller:hover .unity-base-slider__dragger {
+	width: 8px;
+	border-radius: 4px;
+}
+
+.unity-repeat-button {
+	opacity: 0;
+	transition: 75ms;
+}
+
+.unity-scroller:hover .unity-repeat-button {
+	opacity: 1;
+}
+
+.unity-base-slider__dragger {
+	border-radius: 2px;
+	width: 4px;
+	background-color: var(--default);
+	border-width: 0px;
+	transition-duration: 150ms;
+	transition-timing-function: ease-out;
+}
+
+.unity-base-slider__dragger:hover {
+	background-color: var(--default-active);
+}
+
+.unity-base-slider__drag-container {
+	align-items: center;
+}
