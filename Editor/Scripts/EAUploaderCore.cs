@@ -95,26 +95,6 @@ namespace EAUploader
             {
                 File.WriteAllText(prefabManagerPath, "{}");
             }
-
-            string uiPath = $"{EAUPLOADER_ASSET_PATH}/UI";
-            if (!AssetDatabase.IsValidFolder(uiPath))
-            {
-                AssetDatabase.CreateFolder(EAUPLOADER_ASSET_PATH, "UI");
-            }
-
-            string notoSansJPPath = $"{EAUPLOADER_ASSET_PATH}/UI/Noto_Sans_JP.ttf";
-            if (!File.Exists(notoSansJPPath))
-            {
-                byte[] notoSansJP = Resources.Load<UnityEngine.TextAsset>("UI/Noto_Sans_JP").bytes;
-                File.WriteAllBytes(notoSansJPPath, notoSansJP);
-            }
-
-            string materialIconsPath = $"{EAUPLOADER_ASSET_PATH}/UI/MaterialIcons-Regular.ttf";
-            if (!File.Exists(materialIconsPath))
-            {
-                byte[] materialIcons = Resources.Load<UnityEngine.TextAsset>("UI/MaterialIcons-Regular").bytes;
-                File.WriteAllBytes(materialIconsPath, materialIcons);
-            }
         }
 
         private static void OpenEAUploaderWindow()

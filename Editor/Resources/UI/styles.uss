@@ -1,5 +1,5 @@
 :root {
-    -unity-font-definition: url("project:///Assets/EAUploader/UI/Noto_Sans_JP.ttf");
+    -unity-font-definition: resource("UI/Noto_Sans_JP");
 	background-color: white;
 	--primary: rgb(25, 118, 210);
 	--primary-hover: rgb(20, 100, 180);
@@ -208,7 +208,7 @@ DropdownField > VisualElement > PopupTextElement {
 .material-icons {
     font-size: var(--material-symbol-size);
     -unity-font-style: normal;
-    -unity-font-definition: url('/Assets/EAUploader/UI/MaterialIcons-Regular.ttf');
+    -unity-font-definition: resource("UI/MaterialIcons-Regular");
 }
 
 .button-with-icons {
