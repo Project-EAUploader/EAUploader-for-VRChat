@@ -236,6 +236,10 @@
     {
       "key": "Select the avatar you wish to set up from the list on the left.",
       "value": "左のリストから設定したいアバターを選択してください。"
+    },
+    {
+      "key": "Filter tag",
+      "value": "タグで絞り込み"
     }
   ]
 }
