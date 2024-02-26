@@ -1,5 +1,6 @@
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -14,6 +15,13 @@ namespace EAUploader.UI.Upload
         private static VisualElement root;
         private static bool isCloned = false;
         private static string thumbnailUrl = null;
+
+        private static readonly Dictionary<string, string> BUILD_TARGET_ICONS = new Dictionary<string, string>
+        {
+            { "Windows", "fab fa-windows" },
+            { "Android", "fab fa-android" },
+            { "iOS", "fab fa-apple" }
+        };
 
         public static void ShowContent(VisualElement rootContainer)
         {
@@ -94,7 +102,112 @@ namespace EAUploader.UI.Upload
                 avatarThumbnail.image = previewImage;
 
                 Validate();
+
+                var switcherBlock = root.Q("platform-switcher");
+                var options = GetBuildTargetOptions();
+                var currentTarget = GetCurrentBuildTarget();
+                var selectedIndex = options.IndexOf(currentTarget);
+                if (!BUILD_TARGET_ICONS.TryGetValue(currentTarget, out var iconClass))
+                {
+                    iconClass = "";
+                }
+                if (selectedIndex == -1)
+                {
+                    selectedIndex = 0;
+                }
+                var popup = new PopupField<string>("Selected Platform", options, selectedIndex)
+                {
+                    name = "platform-switcher-popup"
+                };
+                var icon = new VisualElement();
+                icon.AddToClassList("icon");
+                icon.AddToClassList(iconClass);
+
+                popup.hierarchy.Insert(0, icon);
+                popup.schedule.Execute(() =>
+                {
+                    currentTarget = GetCurrentBuildTarget();
+                    popup.SetValueWithoutNotify(currentTarget);
+                }).Every(500);
+                popup.RegisterValueChangedCallback(evt =>
+                {
+                    switch (evt.newValue)
+                    {
+                        case "Windows":
+                            {
+                                if (EditorUtility.DisplayDialog("Build Target Switcher", "Are you sure you want to switch your build target to Windows? This could take a while.", "Confirm", "Cancel"))
+                                {
+                                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Standalone;
+                                    EditorUserBuildSettings.SwitchActiveBuildTargetAsync(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64);
+                                }
+
+                                break;
+                            }
+                        case "Android":
+                            {
+                                if (EditorUtility.DisplayDialog("Build Target Switcher", "Are you sure you want to switch your build target to Android? This could take a while.", "Confirm", "Cancel"))
+                                {
+                                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Android;
+                                    EditorUserBuildSettings.SwitchActiveBuildTargetAsync(BuildTargetGroup.Android, BuildTarget.Android);
+                                }
+
+                                break;
+                            }
+                        case "iOS":
+                            {
+                                if (ApiUserPlatforms.CurrentUserPlatforms?.SupportsiOS != true) return;
+                                if (EditorUtility.DisplayDialog("Build Target Switcher", "Are you sure you want to switch your build target to iOS? This could take a while.", "Confirm", "Cancel"))
+                                {
+                                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.iOS;
+                                    EditorUserBuildSettings.SwitchActiveBuildTargetAsync(BuildTargetGroup.iOS, BuildTarget.iOS);
+                                }
+
+                                break;
+                            }
+                    }
+                });
+                popup.AddToClassList("flex-grow-1");
+                switcherBlock.Add(popup);
+
             }
+        }
+
+        private static List<string> GetBuildTargetOptions()
+        {
+            var options = new List<string>
+        {
+            "Windows",
+            "Android"
+        };
+            if (ApiUserPlatforms.CurrentUserPlatforms?.SupportsiOS == true)
+            {
+                options.Add("iOS");
+            }
+
+            return options;
+        }
+
+        private static string GetCurrentBuildTarget()
+        {
+            string currentTarget;
+            switch (EditorUserBuildSettings.activeBuildTarget)
+            {
+                case BuildTarget.StandaloneWindows:
+                case BuildTarget.StandaloneWindows64:
+                    currentTarget = "Windows";
+                    break;
+                case BuildTarget.Android:
+                    currentTarget = "Android";
+                    break;
+                case BuildTarget.iOS:
+                    currentTarget = "iOS";
+                    break;
+                default:
+                    currentTarget = "Unsupported Target Platform";
+                    break;
+            }
+
+            return currentTarget;
         }
 
         private static void Validate()
@@ -163,25 +276,26 @@ namespace EAUploader.UI.Upload
 
         private static void BuildAndTest()
         {
-            Debug.Log("BuildandTest button clicked");
             var selectedPrefabPath = EAUploaderCore.selectedPrefabPath;
 
             if (selectedPrefabPath != null)
             {
-                Debug.Log("Building avatar as Test");
-
                 AvatarUploader.BuildAndTest();
             }
         }
 
         private static void Upload()
         {
-            Debug.Log("Upload button clicked");
             var selectedPrefabPath = EAUploaderCore.selectedPrefabPath;
 
             var contentName = root.Q<TextFieldPro>("content-name").GetValue();
             var contentDescription = root.Q<TextFieldPro>("content-description").GetValue();
             var releaseStatus = root.Q<DropdownField>("release-status").value;
+
+            if (root.Q<Toggle>("confirm_term").value == false)
+            {
+                return;
+            }
 
             if (string.IsNullOrEmpty(contentName) || string.IsNullOrEmpty(contentDescription))
             {
@@ -190,8 +304,6 @@ namespace EAUploader.UI.Upload
 
             if (selectedPrefabPath != null)
             {
-                Debug.Log("Uploading avatar");
-
                 var tags = root.Q<UI.Components.ContentWarningsField>("content-warnings").Tags;
 
                 VRCAvatar avatar = new VRCAvatar()
