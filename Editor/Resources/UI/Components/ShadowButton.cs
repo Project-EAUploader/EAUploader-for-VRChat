@@ -35,7 +35,21 @@ namespace EAUploader.UI.Components
 
         public Action clicked;
 
-        public string text;
+        public string text
+        {
+            get => _text;
+            set
+            {
+                _text = value;
+                var label = contentContainer.Q<Label>();
+                if (label != null)
+                {
+                    label.text = value;
+                }
+            }
+        }
+
+        private string _text;
 
         public ShadowButton()
         {
