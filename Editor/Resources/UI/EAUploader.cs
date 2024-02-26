@@ -1,3 +1,4 @@
+using EAUploader.UI.Components;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -24,6 +25,8 @@ namespace EAUploader.UI
 
             rootVisualElement.styleSheets.Add(Resources.Load<StyleSheet>("UI/styles"));
             rootVisualElement.styleSheets.Add(Resources.Load<StyleSheet>("UI/tailwind"));
+
+            rootVisualElement.style.flexDirection = FlexDirection.ColumnReverse;
 
             // Import UXML
             var visualTree = Resources.Load<VisualTreeAsset>("UI/MainWindow");
