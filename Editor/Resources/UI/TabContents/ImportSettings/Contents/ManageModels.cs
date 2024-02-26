@@ -181,7 +181,7 @@ namespace EAUploader.UI.ImportSettings
                 PrefabUtility.SaveAsPrefabAsset((GameObject)prefabCopy, newPrefabPath);
                 UnityEngine.Object.DestroyImmediate(prefabCopy);
 
-                var renameWindow = new RenamePrefabWindow();
+                var renameWindow = ScriptableObject.CreateInstance<RenamePrefabWindow>();
                 renameWindow.ShowWindow(newPrefabPath);
 
                 ManageModels.UpdateModelList();
