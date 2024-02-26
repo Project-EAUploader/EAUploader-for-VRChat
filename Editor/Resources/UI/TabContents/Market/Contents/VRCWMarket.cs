@@ -480,6 +480,8 @@ namespace EAUploader.UI.Market
 
         private static async Task FetchProducts(string searchQuery = "", int page = 1)
         {
+            root.Q<VisualElement>("fetching_data_container").EnableInClassList("fetching_data__hidden", false);
+
             if (page <= cachedPage)
             {
                 return;
@@ -497,6 +499,7 @@ namespace EAUploader.UI.Market
                     if (response.IsSuccessStatusCode)
                     {
                         string jsonText = await response.Content.ReadAsStringAsync();
+                        root.Q<VisualElement>("fetching_data_container").EnableInClassList("fetching_data__hidden", true);
                         ProcessJsonData(jsonText, page);
                     }
                     else

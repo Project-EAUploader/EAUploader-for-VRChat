@@ -16,6 +16,13 @@
     </ui:VisualElement>
     <ui:VisualElement name="shop_container" class="flex-1 flex-row">
         <ui:ListView name="shop_item_list" class="w-96 h-full border-r border-r-zinc-400"/>
+        <ui:VisualElement name="fetching_data_container" class="fetching_data__hidden" picking-mode="Ignore">
+            <eau:Shadow shadow-offset-y="2" shadow-corner-radius="32" shadow-distance="-8">
+                <ui:VisualElement class="fetching_data">
+                    <ui:Label text="Fetching data..." />
+                </ui:VisualElement>
+            </eau:Shadow>
+        </ui:VisualElement>
         <ui:VisualElement name="product_detail_container" class="flex-1 p-4" />
     </ui:VisualElement>
 </ui:UXML>

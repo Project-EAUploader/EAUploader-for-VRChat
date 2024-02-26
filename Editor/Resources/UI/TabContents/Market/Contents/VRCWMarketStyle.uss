@@ -59,3 +59,30 @@ ProductInfoItem > VisualElement {
 	right: 0;
 	bottom: 0;
 }
+
+#fetching_data_container {
+	position: absolute;
+	bottom: 16;
+	width: 384px;
+	height: 32px;
+	flex-direction: row;
+	justify-content: center;
+	opacity: 1;
+	transition: 150ms;
+}
+
+#fetching_data_container.fetching_data__hidden {
+	bottom: -32px;
+	opacity: 0;
+}
+
+
+.fetching_data {
+	flex-grow: 1;
+	border-radius: 16px;
+	width: 128px;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	background-color: white;
+}
