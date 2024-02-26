@@ -13,6 +13,7 @@
 	--default-hover: rgb(240, 240, 240);
 	--default-active: rgb(210, 210, 210);
 	--default-selected: rgb(190, 190, 190);
+	flex-direction: column-reverse;
 }
 
 VisualElement {
