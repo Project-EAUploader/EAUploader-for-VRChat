@@ -93,6 +93,7 @@ namespace EAUploader.UI.Market
         private static int cachedPage = 0;
         private static List<Product> allProducts = new List<Product>();
         private static bool isMyPage = false;
+        private static string searchQuery = "";
 
         public static void ShowContent(VisualElement rootContainer)
         {
@@ -146,7 +147,7 @@ namespace EAUploader.UI.Market
             {
                 if (scrollView.verticalScroller.highValue == value)
                 {
-                    await FetchProducts("", cachedPage + 1);
+                    await FetchProducts(cachedPage + 1);
                     productList.itemsSource = GetProductsIndex();
                     productList.Rebuild();
                 }
@@ -155,18 +156,10 @@ namespace EAUploader.UI.Market
 
         private static async void SearchButtonClicked()
         {
-            var searchQuery = root.Q<TextFieldPro>("search_input").GetValue();
-            Debug.Log(searchQuery);
+            searchQuery = root.Q<TextFieldPro>("search_input").GetValue();
             allProducts.Clear();
             cachedPage = 0;
-            if (searchQuery == string.Empty)
-            {
-                await FetchProducts();
-            }
-            else
-            {
-                await FetchProducts(searchQuery);
-            }
+            await FetchProducts();
             UpdateProductList();
         }
 
@@ -481,7 +474,7 @@ namespace EAUploader.UI.Market
             return null;
         }
 
-        private static async Task FetchProducts(string searchQuery = "", int page = 1)
+        private static async Task FetchProducts(int page = 1)
         {
             root.Q<VisualElement>("fetching_data_container").EnableInClassList("fetching_data__hidden", false);
 
