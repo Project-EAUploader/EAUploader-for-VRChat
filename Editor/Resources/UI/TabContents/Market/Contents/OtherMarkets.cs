@@ -45,8 +45,7 @@ namespace EAUploader.UI.Market
                     name = "market_element_container",
                 };
 
-                var marketText = File.ReadAllText(file);
-                var marketElement = new Label(marketText);
+                var marketElement = new ArticleRenderer(file);
                 marketElement.AddToClassList("market");
                 marketElementContainer.Add(marketElement);
 

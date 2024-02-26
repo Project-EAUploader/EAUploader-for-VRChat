@@ -55,6 +55,21 @@ Button:active {
 	background-color: var(--primary-active);
 }
 
+ImageButton {
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	border-width: 0px;
+	border-radius: 0px;
+	background-color: white;
+	color: white;
+	transition: 150ms;
+}
+
+ImageButton:hover {
+	background-color: var(--default-hover);
+}
+
 ShadowButton:disabled {
 	opacity: 1;
 }
@@ -363,6 +378,8 @@ ProgressBar Label {
 
 #market_item {
 	height: 240px;
+	border-bottom-width: 1px;
+	border-bottom-color: var(--default);
 }
 
 #market_item {
@@ -372,6 +389,8 @@ ProgressBar Label {
 #market_item > ImageButton {
 	width: 480px;
 	cursor: link;
+	border-right-width: 1px;
+	border-right-color: var(--default);
 }
 
 #market_item > ImageButton > Image {
