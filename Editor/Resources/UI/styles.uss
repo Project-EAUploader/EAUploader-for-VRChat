@@ -487,3 +487,7 @@ ProgressBar Label {
 .active {
 	background-color: var(--primary-selected);
 }
+
+#market_element_container {
+	flex-grow: 1;
+}
