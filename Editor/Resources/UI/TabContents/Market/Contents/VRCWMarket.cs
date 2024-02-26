@@ -106,7 +106,6 @@ namespace EAUploader.UI.Market
 
         private static async void Initialize()
         {
-            // Create json file to store stared items
             if (!File.Exists(STARED_ITEMS_PATH))
             {
                 File.WriteAllText(STARED_ITEMS_PATH, "{}");
@@ -141,6 +140,17 @@ namespace EAUploader.UI.Market
             searchButton.clicked += SearchButtonClicked;
             refreshButton.clicked += RefreshButtonClicked;
             myListButton.clicked += MyListButtonClicked;
+
+            var scrollView = productList.Q<ScrollView>();
+            scrollView.verticalScroller.valueChanged += async (value) =>
+            {
+                if (scrollView.verticalScroller.highValue == value)
+                {
+                    await FetchProducts("", cachedPage + 1);
+                    productList.itemsSource = GetProductsIndex();
+                    productList.Rebuild();
+                }
+            };
         }
 
         private static async void SearchButtonClicked()
@@ -198,7 +208,15 @@ namespace EAUploader.UI.Market
         {
             var product = GetProductsIndex()[index];
             element.Q<Label>("Name").text = product.name;
-            element.Q<Label>("Price").text = product.price.ToString();
+
+            string priceText = product.price_display_mode switch
+            {
+                "min" => $"{product.price}円 ~",
+                "max" => $"~ {product.price}円",
+                _ => $"{product.price}円"
+            };
+
+            element.Q<Label>("Price").text = priceText;
             element.Q<Label>("Creator").text = product.creator_name;
 
             var image = element.Q<Image>("Image");
@@ -301,6 +319,7 @@ namespace EAUploader.UI.Market
             {
                 href = product.product_type.url
             }));
+
             detailInfo.Add(new ProductInfoItem("価格", new Label(priceText)));
 
             var formatContainer = new VisualElement()

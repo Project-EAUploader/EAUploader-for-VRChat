@@ -4,6 +4,7 @@
 	background-color: white;
 	color: black;
 	overflow: hidden;
+	background-color: white;
 	transition: 150ms;
 }
 
@@ -15,9 +16,16 @@
 	background-color: var(--default-selected);
 } 
 
-.product-item__image {
+.product-item__image_container {
 	width: 128px;
 	flex-shrink: 0;
+	padding: 8px;
+	margin-left: 8px 0px;
+}
+
+.product-item__image Image {
+	border-radius: 4px;
+	overflow: hidden;
 }
 
 .product_detail__image {
@@ -43,4 +51,11 @@ ProductInfoItem > VisualElement {
 	-unity-font-style: bold;
 	padding: 8px;
 	margin-bottom: 8px;
+}
+
+.unity-scroller {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
 }
