@@ -55,6 +55,14 @@ Button:active {
 	background-color: var(--primary-active);
 }
 
+ShadowButton:disabled {
+	opacity: 1;
+}
+
+ShadowButton:disabled Button {
+	background-color: var(--default);
+}
+
 Button > Label {
     font-size: 12px;
 	color: white;

@@ -155,7 +155,8 @@ namespace EAUploader.UI.Market
 
         private static async void SearchButtonClicked()
         {
-            var searchQuery = root.Q<TextField>("search_input").value;
+            var searchQuery = root.Q<TextFieldPro>("search_input").GetValue();
+            Debug.Log(searchQuery);
             allProducts.Clear();
             cachedPage = 0;
             if (searchQuery == string.Empty)
@@ -189,6 +190,8 @@ namespace EAUploader.UI.Market
             var productList = root.Q<ListView>("shop_item_list");
             productList.itemsSource = GetProductsIndex();
             productList.Rebuild();
+            var scrollView = productList.Q<ScrollView>();
+            scrollView.verticalScroller.value = 0;
 
             var productDetailContainer = root.Q<VisualElement>("product_detail_container");
             productDetailContainer.Clear();

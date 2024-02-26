@@ -75,7 +75,7 @@ namespace EAUploader.UI.Components
             }
         }
 
-        public TextFieldPro() : base()
+        public TextFieldPro()
         {
             RegisterCallback<FocusOutEvent>(evt => FocusOut());
             RegisterCallback<FocusInEvent>(evt => FocusIn());
@@ -103,6 +103,9 @@ namespace EAUploader.UI.Components
             if (_required && IsPlaceholder())
             {
                 this.Q<TextInputBase>().EnableInClassList("border-red", true);
+                return null;
+            } else if (IsPlaceholder())
+            {
                 return null;
             }
             return text;
