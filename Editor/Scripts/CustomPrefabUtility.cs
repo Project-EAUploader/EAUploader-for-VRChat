@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
-using VRC.SDK3.Avatars.Components;
 using VRC.SDKBase;
+using UnityEditor.Animations;
+#if VRC_SDK_VRCSDK3
+using VRCAvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
+using VRCExpressionParameters = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionParameters;
+#else
+using VRCAvatarDescriptor = VRCAvatars3Validator.Mocks.VRCAvatarDescriptorMock;
+using VRCExpressionParameters = VRCAvatars3Validator.Mocks.VRCExpressionParametersMock;
+#endif
 
 namespace EAUploader.CustomPrefabUtility
 {
@@ -434,6 +438,17 @@ namespace EAUploader.CustomPrefabUtility
 
             // デフォルト
             return 0f;
+        }
+
+        public static bool CheckAvatarHasVRCAvatarDescriptor(GameObject avatar)
+        {
+            if (avatar == null) return false;
+            return avatar.GetComponent<VRC_AvatarDescriptor>() != null;
+        }
+
+        public static VRC_AvatarDescriptor GetAvatarDescriptor(GameObject avatar)
+        {
+            return avatar.GetComponent<VRC_AvatarDescriptor>();
         }
     }
 }

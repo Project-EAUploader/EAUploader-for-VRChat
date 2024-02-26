@@ -1,4 +1,5 @@
 using EAUploader.CustomPrefabUtility;
+using EAUploader.UI.Components;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -24,12 +25,6 @@ namespace EAUploader.UI.Upload
             preview.ShowContent();
 
             CreatePrefabList();
-
-            var uploadLabel = root.Q<Label>("uploadLabel");
-            if (uploadLabel != null)
-            {
-                uploadLabel.text = T7e.Get("Select an Avatar to Upload");
-            }
         }
 
         private static void CreatePrefabList()
@@ -39,7 +34,8 @@ namespace EAUploader.UI.Upload
 
             foreach (var prefab in prefabList)
             {
-                var prefabButton = new PrefabItemButton(prefab);
+                var hasDescriptor = Utility.CheckAvatarHasVRCAvatarDescriptor(PrefabManager.GetPrefab(prefab.Path));
+                var prefabButton = new PrefabItemButton(prefab, hasDescriptor);
                 prefabListContainer.Add(prefabButton);
             }
         }
@@ -47,13 +43,42 @@ namespace EAUploader.UI.Upload
 
     internal class PrefabItemButton : Button
     {
-        public PrefabItemButton(PrefabInfo prefab)
+        public PrefabItemButton(PrefabInfo prefab, bool hasDescriptor)
         {
             var previewImage = new Image { image = prefab.Preview, scaleMode = ScaleMode.ScaleToFit, style = { width = 100, height = 100 } };
             Add(previewImage);
 
+            var labelContainer = new VisualElement()
+            {
+                style =
+                {
+                    flexDirection = FlexDirection.Column,
+                    alignItems = Align.Center,
+                    justifyContent = Justify.Center,
+                }
+            };
+
             var label = new Label(Path.GetFileNameWithoutExtension(prefab.Path));
-            Add(label);
+            labelContainer.Add(label);
+
+            if (!hasDescriptor)
+            {
+                var warning = new VisualElement()
+                {
+                    style = {
+                        flexDirection = FlexDirection.Row,
+                    }
+                };
+                warning.AddToClassList("noDescriptor");
+                var warningIcon = new MaterialIcon { icon = "warning" };
+                var warningLabel = new Label(T7e.Get("No VRCAvatarDescriptor"));
+                warning.Add(warningIcon);
+                warning.Add(warningLabel);
+                labelContainer.Add(warning);
+                SetEnabled(false);
+            }
+
+            Add(labelContainer);
 
             if (EAUploaderCore.selectedPrefabPath == prefab.Path)
             {

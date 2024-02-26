@@ -1,5 +1,6 @@
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
 using VRC.Core;
@@ -11,91 +12,139 @@ namespace EAUploader.UI.Upload
     {
         public static VisualElement root;
         public static Components.Preview preview;
+        public static bool isCloned = false;
 
         public static void ShowContent(VisualElement rootContainer)
         {
+            isCloned = false;
             root = rootContainer;
-            var visualTree = Resources.Load<VisualTreeAsset>("UI/TabContents/Upload/Contents/UploadForm");
-            visualTree.CloneTree(root);
 
+            EAUploaderCore.SelectedPrefabPathChanged += OnSelectedPrefabPathChanged;
+
+            if (EAUploaderCore.selectedPrefabPath == null)
+            {
+                root.Add(new Label(T7e.Get("Select a prefab to upload")));
+                return;
+            }
+
+
+            var hasDescriptor = Utility.CheckAvatarHasVRCAvatarDescriptor(PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath));
+
+            if (!hasDescriptor)
+            {
+                root.Q("upload_form").Add(new Label(T7e.Get("No VRCAvatarDescriptor")));
+                return;
+            }
+            else
+            {
+                var visualTree = Resources.Load<VisualTreeAsset>("UI/TabContents/Upload/Contents/UploadForm");
+                visualTree.CloneTree(root);
+
+                isCloned = true;
+
+                root.Q<ShadowButton>("buildandtest").clicked += BuildAndTest;
+                root.Q<ShadowButton>("upload").clicked += Upload;
+
+                Validate();
+            }
+
+            var loginStatus = root.Q<VisualElement>("login_status");
+            var permissionStatus = root.Q<VisualElement>("permission_status");
+            var uploadMain = root.Q<VisualElement>("upload_main");
+
+            UpdateStatus(loginStatus, permissionStatus, uploadMain);
+
+            var isLoggined = APIUser.IsLoggedIn;
             root.schedule.Execute(() =>
             {
-                var loginStatus = root.Q<VisualElement>("login_status");
-                loginStatus.Clear();
-
-                var permissionStatus = root.Q<VisualElement>("permission_status");
-                permissionStatus.Clear();
-
-                if (VRC.Core.APIUser.IsLoggedIn)
+                if (isLoggined != APIUser.IsLoggedIn)
                 {
-                    loginStatus.Add(new Label(T7e.Get("Logged in as ") + VRC.Core.APIUser.CurrentUser.displayName));
-                    var uploadMain = root.Q<VisualElement>("upload_main");
-                    permissionStatus.style.display = DisplayStyle.Flex;
-                }
-                else
-                {
-                    loginStatus.Add(new Label(T7e.Get("You need to login to upload avatar")));
-
-                    var loginButton = new ShadowButton()
-                    {
-                        text = T7e.Get("Login")
-                    };
-
-                    loginButton.clicked += () =>
-                    {
-                        VRCSdkControlPanel.GetWindow<VRCSdkControlPanel>().Show();
-                    };
-                    loginStatus.Add(loginButton);
-
-                    var uploadMain = root.Q<VisualElement>("upload_main");
-                    uploadMain.style.display = DisplayStyle.None;
-                    permissionStatus.style.display = DisplayStyle.None;
-                }
-
-                if (APIUser.CurrentUser != null && APIUser.CurrentUser.canPublishAvatars)
-                {
-                    permissionStatus.Add(new Label(T7e.Get("You have permission to upload avatar")));
-                    var uploadMain = root.Q<VisualElement>("upload_main");
-                    uploadMain.style.display = DisplayStyle.Flex;
-                }
-                else
-                {
-                    permissionStatus.Add(new Label(T7e.Get("You cannot upload an avatar with your current trust rank. You can immediately increase your rank by spending time on VRChat and adding friends. Or you can join VRChat+ (for a fee) to raise your rank immediately.")));
-                    var uploadMain = root.Q<VisualElement>("upload_main");
-                    uploadMain.style.display = DisplayStyle.None;
-                }
-
-                if (EAUploaderCore.selectedPrefabPath != null)
-                {
-                    OnSelectedPrefabPathChanged(EAUploaderCore.selectedPrefabPath);
+                    isLoggined = APIUser.IsLoggedIn;
+                    UpdateStatus(loginStatus, permissionStatus, uploadMain);
                 }
             }).Every(1000);
-
-            root.Q<ShadowButton>("build").clicked += Build;
-            root.Q<ShadowButton>("buildandtest").clicked += BuildAndTest;
-            root.Q<ShadowButton>("upload").clicked += Upload;
         }
 
         private static void OnSelectedPrefabPathChanged(string path)
         {
             if (path != null)
             {
+                if (!isCloned)
+                {
+                    root.Clear();
+                    var visualTree = Resources.Load<VisualTreeAsset>("UI/TabContents/Upload/Contents/UploadForm");
+                    visualTree.CloneTree(root);
+                    isCloned = true;
+                }
+
                 var avatarThumbnail = root.Q<Image>("thumbnail-image");
                 var previewImage = PrefabPreview.GetPrefabPreview(path);
                 avatarThumbnail.image = previewImage;
+
+                root.Q<ShadowButton>("buildandtest").clicked += BuildAndTest;
+                root.Q<ShadowButton>("upload").clicked += Upload;
+
+                Validate();
             }
         }
 
-        private static void Build()
+        private static void Validate()
         {
-            Debug.Log("Build button clicked");
-            var selectedPrefabPath = EAUploaderCore.selectedPrefabPath;
-
-            if (selectedPrefabPath != null)
+            var avatarDescriptor = Utility.GetAvatarDescriptor(PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath));
+            var avatarUploader = new AvatarUploader();
+            var validations = avatarUploader.CheckAvatarForValidationIssues(avatarDescriptor);
+            var validationList = root.Q<ScrollView>("validation_list");
+            validationList.Clear();
+            foreach (var validation in validations)
             {
-                Debug.Log("Building avatar");
+                var validationItem = new ValidationItem(validation);
+                validationList.Add(validationItem);
+            }
+        }
 
-                AvatarUploader.BuildAvatar();
+        private static void UpdateStatus(VisualElement loginStatus, VisualElement permissionStatus, VisualElement uploadMain)
+        {
+            loginStatus.Clear();
+            permissionStatus.Clear();
+
+            if (VRC.Core.APIUser.IsLoggedIn)
+            {
+                loginStatus.Add(new Label(T7e.Get("Logged in as ") + VRC.Core.APIUser.CurrentUser.displayName));
+                permissionStatus.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                loginStatus.Add(new Label(T7e.Get("You need to login to upload avatar")));
+
+                var loginButton = new ShadowButton()
+                {
+                    text = T7e.Get("Login")
+                };
+
+                loginButton.clicked += () =>
+                {
+                    VRCSdkControlPanel.GetWindow<VRCSdkControlPanel>().Show();
+                };
+                loginStatus.Add(loginButton);
+
+                uploadMain.style.display = DisplayStyle.None;
+                permissionStatus.style.display = DisplayStyle.None;
+            }
+
+            if (APIUser.CurrentUser != null && APIUser.CurrentUser.canPublishAvatars)
+            {
+                permissionStatus.Add(new Label(T7e.Get("You have permission to upload avatar")));
+                uploadMain.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                permissionStatus.Add(new Label(T7e.Get("You cannot upload an avatar with your current trust rank. You can immediately increase your rank by spending time on VRChat and adding friends. Or you can join VRChat+ (for a fee) to raise your rank immediately.")));
+                uploadMain.style.display = DisplayStyle.None;
+            }
+
+            if (EAUploaderCore.selectedPrefabPath != null)
+            {
+                OnSelectedPrefabPathChanged(EAUploaderCore.selectedPrefabPath);
             }
         }
 
@@ -163,6 +212,44 @@ namespace EAUploader.UI.Upload
                         progress.title = AvatarUploader.Status;
                     }
                 }).Every(1000);
+            }
+        }
+    }
+
+    public class ValidationItem : VisualElement
+    {
+        public ValidationItem(AvatarUploader.ValidateResult validateResult)
+        {
+            switch (validateResult.ResultType)
+            {
+                case AvatarUploader.ValidateResult.ValidateResultType.Error:
+                    AddToClassList("error");
+                    break;
+                case AvatarUploader.ValidateResult.ValidateResultType.Warning:
+                    AddToClassList("warning");
+                    break;
+                case AvatarUploader.ValidateResult.ValidateResultType.Info:
+                    AddToClassList("info");
+                    break;
+                case AvatarUploader.ValidateResult.ValidateResultType.Success:
+                    AddToClassList("success");
+                    break;
+                case AvatarUploader.ValidateResult.ValidateResultType.Link:
+                    AddToClassList("link");
+                    break;
+            }
+            var message = validateResult.ResultMessage;
+            Add(new Label(message));
+
+            if (validateResult.Open != null)
+            {
+                var button = new ShadowButton()
+                {
+                    text = "Select"
+                };
+
+                button.clicked += validateResult.Open;
+                Add(button);
             }
         }
     }

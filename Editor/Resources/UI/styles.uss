@@ -13,6 +13,7 @@
 	--default-hover: rgb(240, 240, 240);
 	--default-active: rgb(210, 210, 210);
 	--default-selected: rgb(190, 190, 190);
+	--warning: rgb(176, 0, 32);
 }
 
 VisualElement {
@@ -68,6 +69,10 @@ ImageButton {
 
 ImageButton:hover {
 	background-color: var(--default-hover);
+}
+
+ShadowButton {
+	flex-shrink: 0;
 }
 
 ShadowButton:disabled {
@@ -137,8 +142,12 @@ PrefabItemButton > Image {
 	margin-right: 16px;
 }
 
-PrefabItemButton > Label {
+PrefabItemButton * {
 	font-size: 12px;
+}
+
+.noDescriptor * {
+	color: var(--warning);
 }
 
 Label {
@@ -406,7 +415,7 @@ ProgressBar Label {
 	border-color: var(--primary);
 }
 
-.selected > Label {
+.selected Label {
 	color: white;
 }
 
@@ -490,4 +499,23 @@ ProgressBar Label {
 
 #market_element_container {
 	flex-grow: 1;
+}
+
+ValidationItem {
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 4px;
+	border-radius: 4px;
+	border-width: 1px;
+	border-color: var(--default);
+	padding: 4px;
+}
+
+ValidationItem Label {
+	flex-shrink: 1;
+	flex-grow: 1;
+}
+
+#validation_list {
+	padding: 4px;
 }

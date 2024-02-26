@@ -7,13 +7,13 @@
     editor="UnityEditor.UIElements"
     noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
     editor-extension-mode="False">
-    <ui:VisualElement class="p-4">
+    <ui:VisualElement class="p-4 flex-1 border-b border-b-zinc-300">
         <ui:Label text = "Login to VRChat" class="text-xl font-bold pb-2" name="loginSDKLabel" />
         <ui:VisualElement name="login_status" class="pb-2" />
         <ui:Label text = "Check you are allowed to upload avatar" class="text-xl font-bold pb-2" name="checkPermissionLabel" />
         <ui:VisualElement name="permission_status" class="pb-2" />
         <ui:VisualElement name="upload_main">
-            <ui:VisualElement class="flex-row">
+            <ui:VisualElement class="flex-row ">
                 <ui:VisualElement class="w-one-half">
                     <ui:VisualElement class="flex-row pb-2">
                         <ui:Label text="Model Info" class="text-xl font-bold" name="modelInfoLabel" />
@@ -37,11 +37,11 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement class="flex-row mb-2">
-                <ui:Label text = "Build" class="text-xl font-bold" name="buildLabel" />
-                <eau:HelpButton msg-id="110" class="ml-4 self-center"/>
-            </ui:VisualElement>
-            <eau:ShadowButton text="Build" name="build" class="mb-2"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement class="flex-row max-h-48">
+        <ui:ScrollView name="validation_list" class="flex-1 border-r border-r-zinc-300"/>
+        <ui:VisualElement class="flex-1 p-4">
             <ui:VisualElement class="flex-row mb-2">
                 <ui:Label text = "Build as Test" class="text-xl font-bold" name="buildandtestLabel" />
                 <eau:HelpButton msg-id="111" class="ml-4 self-center"/>
