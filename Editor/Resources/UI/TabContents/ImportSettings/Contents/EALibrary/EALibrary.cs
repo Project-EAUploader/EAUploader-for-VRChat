@@ -34,6 +34,7 @@ namespace EAUploader.UI.ImportSettings
         private static string currentLanguage;
         private static string currentQuerySearch = string.Empty;
         private static string currentFilterTag = string.Empty;
+        private static List<ArticleIndex> articleIndexCache;
 
         public static void ShowContent(VisualElement rootElement)
         {
@@ -66,7 +67,7 @@ namespace EAUploader.UI.ImportSettings
                 var searchQuery = root.Q<TextField>("search_query");
                 currentQuerySearch = searchQuery.value;
                 var articleList = root.Q<ListView>("article_list");
-                articleList.itemsSource = GetArticleIndex();
+                articleList.itemsSource = GetFilteredArticleIndex();
                 articleList.Rebuild();
             };
 
@@ -76,18 +77,13 @@ namespace EAUploader.UI.ImportSettings
             filterTag.choices.AddRange(GetArticleIndex().SelectMany(article => article.Tags).Distinct());
             filterTag.index = 0;
 
+
             filterTag.RegisterValueChangedCallback(evt =>
             {
+                if (evt.newValue == T7e.Get("Filter by Tag")) return;
                 currentFilterTag = evt.newValue;
                 var articleList = root.Q<ListView>("article_list");
-                if (currentFilterTag == T7e.Get("All"))
-                {
-                    articleList.itemsSource = GetArticleIndex();
-                }
-                else
-                {
-                    articleList.itemsSource = GetArticleIndex();
-                }
+                articleList.itemsSource = GetFilteredArticleIndex();
                 articleList.Rebuild();
             });
         }
@@ -100,14 +96,14 @@ namespace EAUploader.UI.ImportSettings
 
         private static void BindItem(VisualElement element, int index)
         {
-            var article = GetArticleIndex()[index];
+            var article = GetFilteredArticleIndex()[index];
             element.Q<Image>("image").image = AssetDatabase.LoadAssetAtPath<Texture2D>(GetArticleData(article.Title).thumbnail);
             element.Q<Label>("title").text = article.Title;
-        } 
+        }
 
         private static void OnSelectionChanged(IEnumerable<object> selected)
         {
-            var articleIndex = GetArticleIndex();
+            var articleIndex = GetFilteredArticleIndex();
             if (articleIndex == null) return;
 
             var articleContent = root.Q<ScrollView>("article_content");
@@ -139,6 +135,11 @@ namespace EAUploader.UI.ImportSettings
 
         private static List<ArticleIndex> GetArticleIndex()
         {
+            if (articleIndexCache != null)
+            {
+                return articleIndexCache;
+            }
+
             currentLanguage = LanguageUtility.GetCurrentLanguage();
             string articlesFolderPath = ARTICLES_FOLDER_PATH + currentLanguage;
             var articleIndex = new List<ArticleIndex>();
@@ -154,7 +155,13 @@ namespace EAUploader.UI.ImportSettings
                 });
             }
 
-            var filteredIndex = articleIndex
+            articleIndexCache = articleIndex;
+            return articleIndex;
+        }
+
+        private static List<ArticleIndex> GetFilteredArticleIndex()
+        {
+            var filteredIndex = GetArticleIndex()
             .Where(article => article.Title.ToLower().Contains(currentQuerySearch.ToLower()))
             .Where(article => article.Keywords.Any(keyword => keyword.ToLower().Contains(currentQuerySearch.ToLower())))
             .ToList();

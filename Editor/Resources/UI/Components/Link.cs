@@ -28,11 +28,19 @@ namespace EAUploader.UI.Components
             }
         }
 
-        public string href;
+        public string href
+        {
+            get => _href;
+            set
+            {
+                _href = value;
+            }
+        }
+        private string _href;
 
         public Link()
         {
-
+            RegisterCallback<PointerDownEvent>(HyperlinkOnPointerUp);
         }
 
         public Link(string text) : base(text)
