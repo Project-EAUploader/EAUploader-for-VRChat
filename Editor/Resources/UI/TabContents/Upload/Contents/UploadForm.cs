@@ -1,6 +1,7 @@
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using VRC.Core;
@@ -10,9 +11,9 @@ namespace EAUploader.UI.Upload
 {
     internal class UploadForm
     {
-        public static VisualElement root;
-        public static Components.Preview preview;
-        public static bool isCloned = false;
+        private static VisualElement root;
+        private static bool isCloned = false;
+        private static string thumbnailUrl = null;
 
         public static void ShowContent(VisualElement rootContainer)
         {
@@ -27,7 +28,6 @@ namespace EAUploader.UI.Upload
                 return;
             }
 
-
             var hasDescriptor = Utility.CheckAvatarHasVRCAvatarDescriptor(PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath));
 
             if (!hasDescriptor)
@@ -35,54 +35,63 @@ namespace EAUploader.UI.Upload
                 root.Q("upload_form").Add(new Label(T7e.Get("No VRCAvatarDescriptor")));
                 return;
             }
-            else
+
+            CloneVisualTree();
+
+            Validate();
+            UpdateStatus();
+        }
+
+        private static void CloneVisualTree()
+        {
+            if (!isCloned)
             {
+                root.Clear();
                 var visualTree = Resources.Load<VisualTreeAsset>("UI/TabContents/Upload/Contents/UploadForm");
                 visualTree.CloneTree(root);
-
                 isCloned = true;
 
-                root.Q<ShadowButton>("buildandtest").clicked += BuildAndTest;
-                root.Q<ShadowButton>("upload").clicked += Upload;
-
-                Validate();
+                BindButtons();
             }
+        }
 
-            var loginStatus = root.Q<VisualElement>("login_status");
-            var permissionStatus = root.Q<VisualElement>("permission_status");
-            var uploadMain = root.Q<VisualElement>("upload_main");
+        private static void BindButtons()
+        {
+            root.Q<ShadowButton>("buildandtest").clicked += BuildAndTest;
+            root.Q<ShadowButton>("upload").clicked += Upload;
+            root.Q<ShadowButton>("add_thumbnail").clicked += AddThumbnail;
+            root.Q<ShadowButton>("remove_thumbnail").clicked += RemoveThumbnail;
+        }
 
-            UpdateStatus(loginStatus, permissionStatus, uploadMain);
-
-            var isLoggined = APIUser.IsLoggedIn;
-            root.schedule.Execute(() =>
+        private static void AddThumbnail()
+        {
+            var path = EditorUtility.OpenFilePanel("Select Thumbnail", "", "png,jpg,jpeg");
+            if (path.Length != 0)
             {
-                if (isLoggined != APIUser.IsLoggedIn)
-                {
-                    isLoggined = APIUser.IsLoggedIn;
-                    UpdateStatus(loginStatus, permissionStatus, uploadMain);
-                }
-            }).Every(1000);
+                var avatarThumbnail = root.Q<Image>("thumbnail-image");
+                var texture = new Texture2D(2, 2);
+                texture.LoadImage(File.ReadAllBytes(path));
+                avatarThumbnail.image = texture;
+                thumbnailUrl = path;
+            }
+        }
+
+        private static void RemoveThumbnail()
+        {
+            var avatarThumbnail = root.Q<Image>("thumbnail-image");
+            avatarThumbnail.image = PrefabPreview.GetPrefabPreview(EAUploaderCore.selectedPrefabPath);
+            thumbnailUrl = null;
         }
 
         private static void OnSelectedPrefabPathChanged(string path)
         {
             if (path != null)
             {
-                if (!isCloned)
-                {
-                    root.Clear();
-                    var visualTree = Resources.Load<VisualTreeAsset>("UI/TabContents/Upload/Contents/UploadForm");
-                    visualTree.CloneTree(root);
-                    isCloned = true;
-                }
+                CloneVisualTree();
 
                 var avatarThumbnail = root.Q<Image>("thumbnail-image");
                 var previewImage = PrefabPreview.GetPrefabPreview(path);
                 avatarThumbnail.image = previewImage;
-
-                root.Q<ShadowButton>("buildandtest").clicked += BuildAndTest;
-                root.Q<ShadowButton>("upload").clicked += Upload;
 
                 Validate();
             }
@@ -102,8 +111,12 @@ namespace EAUploader.UI.Upload
             }
         }
 
-        private static void UpdateStatus(VisualElement loginStatus, VisualElement permissionStatus, VisualElement uploadMain)
+        private static void UpdateStatus()
         {
+            var loginStatus = root.Q<VisualElement>("login_status");
+            var permissionStatus = root.Q<VisualElement>("permission_status");
+            var uploadMain = root.Q<VisualElement>("upload_main");
+
             loginStatus.Clear();
             permissionStatus.Clear();
 
@@ -170,7 +183,7 @@ namespace EAUploader.UI.Upload
             var contentDescription = root.Q<TextFieldPro>("content-description").GetValue();
             var releaseStatus = root.Q<DropdownField>("release-status").value;
 
-            if (contentName == null || contentDescription == null)
+            if (string.IsNullOrEmpty(contentName) || string.IsNullOrEmpty(contentDescription))
             {
                 return;
             }
@@ -189,10 +202,16 @@ namespace EAUploader.UI.Upload
                     Tags = tags,
                 };
 
-                var previewImage = PrefabPreview.GetPreviewImagePath(selectedPrefabPath);
+                string thumbnailPath = PrefabPreview.GetPreviewImagePath(selectedPrefabPath);
 
-                AvatarUploader.UploadAvatar(avatar, previewImage);
+                if (thumbnailUrl != null)
+                {
+                    thumbnailPath = thumbnailUrl;
+                }
 
+                AvatarUploader.UploadAvatar(avatar, thumbnailPath);
+
+                /*
                 var uploadStatus = root.Q<VisualElement>("upload_status");
                 uploadStatus.Clear();
 
@@ -212,6 +231,7 @@ namespace EAUploader.UI.Upload
                         progress.title = AvatarUploader.Status;
                     }
                 }).Every(1000);
+                */
             }
         }
     }
@@ -241,14 +261,17 @@ namespace EAUploader.UI.Upload
             var message = validateResult.ResultMessage;
             Add(new Label(message));
 
-            if (validateResult.Open != null)
+            if (validateResult.ResultType == AvatarUploader.ValidateResult.ValidateResultType.Link)
             {
                 var button = new ShadowButton()
                 {
-                    text = "Select"
+                    text = "Open Link"
                 };
 
-                button.clicked += validateResult.Open;
+                button.clicked += () =>
+                {
+                    Application.OpenURL(validateResult.Link);
+                };
                 Add(button);
             }
         }

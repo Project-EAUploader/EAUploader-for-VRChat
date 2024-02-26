@@ -169,14 +169,16 @@ namespace EAUploader
             public string ResultMessage { get; private set; }
             public Action Open { get; private set; }
             public Action Fix { get; private set; }
+            public string Link { get; private set; }
 
-            public ValidateResult(UnityEngine.Object target, ValidateResultType resultType, string resultMessage, Action open, Action fix)
+            public ValidateResult(UnityEngine.Object target, ValidateResultType resultType, string resultMessage, Action open, Action fix, string link = null)
             {
                 Target = target;
                 ResultType = resultType;
                 ResultMessage = resultMessage;
                 Open = open;
                 Fix = fix;
+                Link = link;
             }
         }
 
@@ -287,7 +289,7 @@ namespace EAUploader
                 }
 
                 if (AnalyzeIK(avatar, anim) == false)
-                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, $"See Avatar Rig Requirements for more information. <a>{VRCSdkControlPanelHelp.AVATAR_RIG_REQUIREMENTS_URL}</a>", null, null));
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, $"See Avatar Rig Requirements for more information.", null, null, VRCSdkControlPanelHelp.AVATAR_RIG_REQUIREMENTS_URL));
             }
 
             ValidateFeatures(avatar, anim, perfStats);
@@ -1022,8 +1024,7 @@ namespace EAUploader
             {
                 results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, "One or more of the animation states on this avatar have Write Defaults turned on. We recommend keeping Write Defaults off and explicitly animating any parameter that needs to be set by the animation instead.",
                                                                                       null, null));
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, $"Write Defaults Guidelines <a>{VRCSdkControlPanelHelp.AVATAR_WRITE_DEFAULTS_ON_STATES_URL}</a>",
-                                                                                                         null, null));
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, $"Write Defaults Guidelines", null, null, VRCSdkControlPanelHelp.AVATAR_WRITE_DEFAULTS_ON_STATES_URL));
             }
 
             foreach (AvatarPerformanceCategory perfCategory in Enum.GetValues(typeof(AvatarPerformanceCategory)))
@@ -1139,8 +1140,7 @@ namespace EAUploader
                 CheckPerformanceInfo(avatar, perfStats, perfCategory, show, null);
             }
 
-            results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, $"Avatar Optimization Tips <a>{VRCSdkControlPanelHelp.AVATAR_OPTIMIZATION_TIPS_URL}</a>",
-                                                                                     null, null));
+            results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, $"Avatar Optimization Tips", null, null, VRCSdkControlPanelHelp.AVATAR_OPTIMIZATION_TIPS_URL));
         }
 
         private void OpenAnimatorControllerWindow(object animatorController)

@@ -34,6 +34,10 @@
                         <ui:VisualElement name="thumbnail" class="flex-row h-64">
                             <ui:Image name="thumbnail-image"/>
                         </ui:VisualElement>
+                        <ui:VisualElement class="flex-row">
+                            <eau:ShadowButton text="Add Thumbnail" name="add_thumbnail"/>
+                            <eau:ShadowButton text="Delete Thumbnail" name="remove_thumbnail"/>
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
