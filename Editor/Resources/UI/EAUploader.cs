@@ -12,7 +12,7 @@ namespace EAUploader.UI
             EAUploader wnd = GetWindow<EAUploader>();
             wnd.titleContent = new GUIContent("EAUploader");
             wnd.position = new Rect(100, 100, 1280, 640);
-            wnd.minSize = new Vector2(960, 640);
+            wnd.minSize = new Vector2(1080, 640);
         }
 
         private VisualElement contentRoot = null;

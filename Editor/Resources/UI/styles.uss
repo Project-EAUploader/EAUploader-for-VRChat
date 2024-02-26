@@ -15,6 +15,24 @@
 	--default-selected: rgb(190, 190, 190);
 }
 
+VisualElement {
+	transition-duration: 150ms;
+	transition-timing-function: ease-out;
+	transition-property: translate, opacity;
+}
+
+Link {
+	color: var(--primary);
+	cursor: link;
+}
+
+Link:hover {
+	color: var(--primary-hover);
+	border-bottom-width: 1px;
+	border-bottom-color: var(--primary-hover);
+	margin-bottom: -1px;
+}
+
 Button {
     font-size: 16px;
 	padding: 6px 16px;
@@ -382,20 +400,36 @@ ProgressBar Label {
 	background-color: var(--secondary);
 }
 
-.unity-scroller {
+.unity-scroller--vertical {
 	width: 16px;
 	background-color: rgba(0, 0, 0, 0);
 	border-width: 0px;
 }
 
-.unity-slider {
+.unity-scroller--vertical:hover .unity-base-slider__dragger {
+	width: 8px;
+	border-radius: 4px;
+}
+
+..unity-scroller--horizontal {
+	height: 16px;
+	background-color: rgba(0, 0, 0, 0);
+	border-width: 0px;
+}
+
+.unity-scroller--horizontal:hover .unity-base-slider__dragger {
+	height: 8px;
+	border-radius: 4px;
+}
+
+.unity-scroller--vertical .unity-slider {
 	margin-top: 16px;
 	margin-bottom: 16px;
 }
 
-.unity-scroller:hover .unity-base-slider__dragger {
-	width: 8px;
-	border-radius: 4px;
+.unity-scroller--horizontal .unity-slider {
+	margin-left: 16px;
+	margin-right: 16px;
 }
 
 .unity-repeat-button {
@@ -421,10 +455,4 @@ ProgressBar Label {
 
 .unity-base-slider__drag-container {
 	align-items: center;
-}
-
-VisualElement {
-	transition-duration: 150ms;
-	transition-timing-function: ease-out;
-	transition-property: translate, opacity;
 }
