@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using EAUploader.UI.Components;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -84,231 +85,308 @@ namespace EAUploader.UI.Market
 
         public struct StaredProductList
         {
-            public StaredProduct[] staredProducts;
-        }
-
-        [Serializable]
-        public struct StaredProduct
-        {
-            public int id;
-            public string name;
-            public int price;
-            public string price_display_mode;
-            public string creator_name;
-            public string created_at;
-            public string url;
-            public string image_url;
-            public string creator_twitter_url;
+            public int[] staredProducts;
         }
 
         private static VisualElement root;
         private static string STARED_ITEMS_PATH = "Assets/EAUploader/StaredItems.json";
-        private static List<List<Product>> productsPage = new List<List<Product>>();
+        private static int cachedPage = 0;
+        private static List<Product> allProducts = new List<Product>();
+        private static bool isMyPage = false;
 
-        public static async void ShowContent(VisualElement rootContainer)
+        public static void ShowContent(VisualElement rootContainer)
         {
             root = rootContainer;
             var visualTree = Resources.Load<VisualTreeAsset>("UI/TabContents/Market/Contents/VRCWMarket");
+            root.styleSheets.Add(Resources.Load<StyleSheet>("UI/TabContents/Market/Contents/VRCWMarketStyle"));
             visualTree.CloneTree(root);
 
             Initialize();
-
-            root.Q<Button>("my_list").clicked += async () =>
-            {
-                // Open the stared items page
-                var staredItemsPage = root.Q<VisualElement>("shop_items_container");
-
-                var items = new VisualElement();
-                items.AddToClassList("stared_items_container");
-
-                var back_button = new Button();
-                back_button.text = T7e.Get("Back");
-                back_button.clicked += async () =>
-                {
-                    await ShowProducts();
-                };
-
-                items.Add(back_button);
-
-                var staredItems = new List<StaredProduct>();
-
-                if (File.Exists(STARED_ITEMS_PATH))
-                {
-                    string jsonTextFromFile = File.ReadAllText(STARED_ITEMS_PATH);
-                    if (!string.IsNullOrEmpty(jsonTextFromFile))
-                    {
-                        StaredProductList staredProductList = JsonUtility.FromJson<StaredProductList>(jsonTextFromFile);
-                        if (staredProductList.staredProducts != null)
-                        {
-                            staredItems.AddRange(staredProductList.staredProducts);
-                        }
-                    }
-                }
-
-                foreach (var product in staredItems)
-                {
-                    var item = new VisualElement();
-                    item.AddToClassList("product_item");
-                    var itemUxml = Resources.Load<VisualTreeAsset>("UI/TabContents/Market/Contents/VRCWMarketItem");
-
-                    itemUxml.CloneTree(item);
-
-                    item.Q<Label>("Name").text = product.name;
-                    item.Q<Label>("Price").text = product.price.ToString();
-                    item.Q<Label>("Creator").text = product.creator_name;
-                    item.Q<Label>("CreatedAt").text = product.created_at;
-                    item.Q<Button>("OpenProduct").clicked += () =>
-                    {
-                        Application.OpenURL(product.url);
-                    };
-                    item.Q<Button>("OpenSNS").clicked += () =>
-                    {
-                        Application.OpenURL(product.creator_twitter_url);
-                    };
-                    item.Q<Button>("StarButton").clicked += () =>
-                    {
-                        // Remove the item from the list
-                        var newStaredItems = new List<StaredProduct>(staredItems);
-                        newStaredItems.Remove(product);
-                        StaredProductList newStaredProductList = new StaredProductList { staredProducts = newStaredItems.ToArray() };
-                        string newJson = JsonUtility.ToJson(newStaredProductList);
-                        File.WriteAllText(STARED_ITEMS_PATH, newJson);
-
-                        item.Q<Button>("StarButton").SetEnabled(true);
-                    };
-
-                    var image = await DownloadProductImage(product.image_url);
-                    var thumbnail = item.Q<VisualElement>("product_thumbnail");
-                    if (image != null)
-                    {
-                        var imageElement = new Image();
-                        imageElement.image = image;
-                        thumbnail.Add(imageElement);
-                    }
-
-                    items.Add(item);
-
-                    await UniTask.Delay(100);
-                    item.AddToClassList("product_item__show");
-                }
-
-                staredItemsPage.Clear();
-
-                staredItemsPage.Add(items);
-            };
-
-            await FetchProducts();
-            await ShowProducts();
         }
 
-        private static void Initialize()
+        private static async void Initialize()
         {
             // Create json file to store stared items
             if (!File.Exists(STARED_ITEMS_PATH))
             {
                 File.WriteAllText(STARED_ITEMS_PATH, "{}");
             }
+
+            var productDetailContainer = root.Q<VisualElement>("product_detail_container");
+            productDetailContainer.Clear();
+
+            var label = new Label(T7e.Get("商品を選択して詳細を見る"));
+            productDetailContainer.Add(label);
+
+            await FetchProducts();
+
+            var storeContainer = root.Q<VisualElement>("shop_container");
+            var productList = storeContainer.Q<ListView>("shop_item_list");
+
+            productList.makeItem = MakeItem;
+            productList.bindItem = BindItem;
+            productList.fixedItemHeight = 128;
+            productList.itemsSource = GetProductsIndex();
+            productList.selectionType = SelectionType.Single;
+            productList.selectionChanged += OnSelectionChanged;
+
+            var searchButton = root.Q<Button>("search_button");
+            var refreshButton = root.Q<Button>("refresh_button");
+            var myListButton = root.Q<Button>("my_list");
+
+            searchButton.clicked -= SearchButtonClicked;
+            refreshButton.clicked -= RefreshButtonClicked;
+            myListButton.clicked -= MyListButtonClicked;
+
+            searchButton.clicked += SearchButtonClicked;
+            refreshButton.clicked += RefreshButtonClicked;
+            myListButton.clicked += MyListButtonClicked;
         }
 
-        private static async Task ShowProducts()
+        private static async void SearchButtonClicked()
         {
-            // Draw the items
-            var items = root.Q<VisualElement>("shop_items_container");
-            items.Clear();
-
-            int itemsPerRow = 4;
-
-            List<Product> allProducts = new List<Product>();
-            foreach (var page in productsPage)
+            var searchQuery = root.Q<TextField>("search_input").value;
+            allProducts.Clear();
+            cachedPage = 0;
+            if (searchQuery == string.Empty)
             {
-                allProducts.AddRange(page);
+                await FetchProducts();
+            }
+            else
+            {
+                await FetchProducts(searchQuery);
+            }
+            UpdateProductList();
+        }
+
+        private static async void RefreshButtonClicked()
+        {
+            allProducts.Clear();
+            cachedPage = 0;
+            await FetchProducts();
+            UpdateProductList();
+        }
+
+        private static void MyListButtonClicked()
+        {
+            isMyPage = !isMyPage;
+            root.Q<Button>("my_list").EnableInClassList("active", isMyPage);
+            UpdateProductList();
+        }
+
+        private static void UpdateProductList()
+        {
+            var productList = root.Q<ListView>("shop_item_list");
+            productList.itemsSource = GetProductsIndex();
+            productList.Rebuild();
+
+            var productDetailContainer = root.Q<VisualElement>("product_detail_container");
+            productDetailContainer.Clear();
+
+            var label = new Label(T7e.Get("商品を選択して詳細を見る"));
+            productDetailContainer.Add(label);
+        }
+
+
+        private static VisualElement MakeItem()
+        {
+            var item = Resources.Load<VisualTreeAsset>("UI/TabContents/Market/Contents/VRCWMarketItem");
+            return item.CloneTree();
+        }
+
+        private static async void BindItem(VisualElement element, int index)
+        {
+            var product = GetProductsIndex()[index];
+            element.Q<Label>("Name").text = product.name;
+            element.Q<Label>("Price").text = product.price.ToString();
+            element.Q<Label>("Creator").text = product.creator_name;
+
+            var image = element.Q<Image>("Image");
+            image.scaleMode = ScaleMode.ScaleAndCrop;
+
+            if (product.image_url != null)
+            {
+                var texture = await GetProductImage(product.image_url);
+                image.image = texture;
             }
 
+            element.Q<MaterialIcon>("star").EnableInClassList("hidden", !IsProductMarked(product.id));
+        }
 
-            int rowCount = Mathf.CeilToInt((float)allProducts.Count / itemsPerRow); // Calculate the number of rows needed
-
-            for (int row = 0; row < rowCount; row++)
+        private static List<Product> GetProductsIndex()
+        {
+            var products = new List<Product>();
+            
+            if (isMyPage)
             {
-                var rowContainer = new VisualElement()
+                if (File.Exists(STARED_ITEMS_PATH))
                 {
-                    name = "product_row"
-                };
+                    string jsonTextFromFile = File.ReadAllText(STARED_ITEMS_PATH);
+                    StaredProductList staredProductList = JsonUtility.FromJson<StaredProductList>(jsonTextFromFile);
 
-                items.Add(rowContainer);
-
-                for (int col = 0; col < itemsPerRow; col++)
-                {
-                    int index = row * itemsPerRow + col;
-                    if (index >= allProducts.Count)
+                    if (staredProductList.staredProducts != null)
                     {
-                        break; // Break if there are no more products to display
-                    }
-
-                    var product = allProducts[index];
-                    var item = new VisualElement();
-                    item.AddToClassList("product_item");
-                    var itemUxml = Resources.Load<VisualTreeAsset>("UI/TabContents/Market/Contents/VRCWMarketItem");
-
-                    itemUxml.CloneTree(item);
-
-                    item.Q<Label>("Name").text = product.name;
-                    item.Q<Label>("Price").text = product.price.ToString();
-                    item.Q<Label>("Creator").text = product.creator_name;
-                    item.Q<Label>("CreatedAt").text = product.created_at;
-                    item.Q<Button>("OpenProduct").clicked += () =>
-                    {
-                        OpenProductPage(product);
-                    };
-                    item.Q<Button>("OpenSNS").clicked += () =>
-                    {
-                        OpenSNSPage(product);
-                    };
-
-                    bool isMarked = IsProductMarked(product.id);
-
-                    if (isMarked)
-                    {
-                        item.Q<Button>("StarButton").Q<Label>().text = T7e.Get("Stared");
-                        item.Q<Button>("StarButton").SetEnabled(false);
-                    }
-                    else
-                    {
-
-                        item.Q<Button>("StarButton").clicked += () =>
+                        foreach (var staredProductId in staredProductList.staredProducts)
                         {
-                            ToggleStared(product);
-                        };
+                            var product = allProducts.Find(p => p.id == staredProductId);
+                            products.Add(product);
+                        }
                     }
-
-                    var image = await DownloadProductImage(product.image_url);
-                    var thumbnail = item.Q<VisualElement>("product_thumbnail");
-                    if (image != null)
-                    {
-                        var imageElement = new Image();
-                        imageElement.image = image;
-                        thumbnail.Add(imageElement);
-                    }
-
-                    rowContainer.Add(item);
-
-                    await UniTask.Delay(100);
-                    item.AddToClassList("product_item__show");
                 }
             }
-
-            // Create load more button
-            var loadMoreButton = new ShadowButton()
+            else
             {
-                name = "LoadMore"
-            };
-            loadMoreButton.text = T7e.Get("Load More");
-            loadMoreButton.clicked += async () =>
+                products = allProducts;
+            }
+
+            return products;
+        }
+
+        private static async void OnSelectionChanged(IEnumerable<object> selected)
+        {
+            // Clear the product detail container
+            var productDetailContainer = root.Q<VisualElement>("product_detail_container");
+            productDetailContainer.Clear();
+
+            var productDetail = Resources.Load<VisualTreeAsset>("UI/TabContents/Market/Contents/VRCWMarketDetail");
+            productDetail.CloneTree(productDetailContainer);
+
+            var item = selected.First();
+
+            var product = (Product)item;
+
+            productDetailContainer.Q<Label>("name").text = product.name;
+
+            if (!string.IsNullOrEmpty(product.image_url))
             {
-                int nextPage = productsPage.Count + 1;
-                await MoreProducts(nextPage);
+                var texture = await GetProductImage(product.image_url);
+                var imageElement = productDetailContainer.Q<Image>("image");
+                imageElement.scaleMode = ScaleMode.ScaleToFit;
+                imageElement.image = texture;
+            }
+
+            var detailInfo = productDetailContainer.Q<ScrollView>("product-detail__info");
+            detailInfo.Clear();
+
+            string priceText = product.price_display_mode switch
+            {
+                "min" => $"{product.price}円 ~",
+                "max" => $"~ {product.price}円",
+                _ => $"{product.price}円"
             };
 
-            items.Add(loadMoreButton);
+            List<string> ruleTexts = new List<string>();
+
+            if (product.rule_outofvrc == "1")
+            {
+                ruleTexts.Add("VRChat以外で利用可能: 〇");
+            }
+
+            if (product.rule_commerce == "1")
+            {
+                ruleTexts.Add("商用利用可能: 〇");
+            }
+
+            if (product.rule_modify == "1")
+            {
+                ruleTexts.Add("任意に改変可能: 〇");
+            }
+
+            if (product.rule_reuseparts == "1")
+            {
+                ruleTexts.Add("パーツの流用可能: 〇");
+            }
+
+            detailInfo.Add(new ProductInfoItem("区分", new Link(product.product_type.name)
+            {
+                href = product.product_type.url
+            }));
+            detailInfo.Add(new ProductInfoItem("価格", new Label(priceText)));
+
+            var formatContainer = new VisualElement()
+            {
+                style = { flexDirection = FlexDirection.Row, flexWrap = Wrap.Wrap }
+            };
+            foreach (var format in product.format)
+            {
+                formatContainer.Add(new Link(format.name)
+                {
+                    href = $"https://www.vrcw.net/search?keyword={Uri.EscapeDataString(format.name)}&mode=product",
+                    style = { marginRight = 8 }
+                });
+            }
+
+            detailInfo.Add(new ProductInfoItem("配布形式", formatContainer));
+
+            if (product.polygon != -1)
+            {
+                detailInfo.Add(new ProductInfoItem("ポリゴン数", new Label($"△{product.polygon}")));
+            }
+
+            detailInfo.Add(new ProductInfoItem(
+                "販売・配布ページ",
+                new Link(product.url)
+                {
+                    href = product.url
+                }));
+            detailInfo.Add(new ProductInfoItem("制作者名", new Label(product.creator_name)));
+            detailInfo.Add(new ProductInfoItem(
+                "制作者Twitter",
+                new Link($"@{product.creator_twitter.account}")
+                {
+                    href = product.creator_twitter.url
+                }));
+            if (product.creator_hide_vrcname == 0)
+            {
+                detailInfo.Add(new ProductInfoItem("制作者VRC名", new Label(product.creator_vrcname)));
+            }
+            if (ruleTexts.Count > 0)
+            {
+                detailInfo.Add(new ProductInfoItem("規約", new Label(string.Join("\n", ruleTexts))));
+            }
+
+            var keywordsContainer = new VisualElement()
+            {
+                style = { flexDirection = FlexDirection.Row, flexWrap = Wrap.Wrap }
+            };
+
+            foreach (var keyword in product.keyword.Split(' '))
+            {
+                keywordsContainer.Add(new Link(keyword)
+                {
+                    href = $"https://www.vrcw.net/search?keyword={Uri.EscapeDataString(keyword)}&mode=product",
+                    style = { marginRight = 8 }
+                });
+            }
+
+            detailInfo.Add(new ProductInfoItem("キーワード", keywordsContainer));
+
+            var categoryContainer = new VisualElement()
+            {
+                style = { flexDirection = FlexDirection.Row, flexWrap = Wrap.Wrap }
+            };
+
+            foreach (var category in product.category)
+            {
+                categoryContainer.Add(new Link(category.name)
+                {
+                    href = category.url,
+                    style = { marginRight = 8 }
+                });
+            }
+
+            detailInfo.Add(new ProductInfoItem("カテゴリ", categoryContainer));
+
+            var likeButton = productDetailContainer.Q<ShadowButton>("like_button");
+            likeButton.text = IsProductMarked(product.id) ? "マイリストから消去する" : "マイリストに追加する";
+            likeButton.clicked += () =>
+                {
+                    ToggleStared(product);
+                    likeButton.text = IsProductMarked(product.id) ? "マイリストから消去する" : "マイリストに追加する";
+                    var productList = root.Q<ListView>("shop_item_list");
+                    productList.itemsSource = GetProductsIndex();
+                    productList.Rebuild();
+                };
         }
 
         private static bool IsProductMarked(int productId)
@@ -322,7 +400,7 @@ namespace EAUploader.UI.Market
                 {
                     foreach (var staredProduct in staredProductList.staredProducts)
                     {
-                        if (staredProduct.id == productId)
+                        if (staredProduct == productId)
                         {
                             return true;
                         }
@@ -332,96 +410,26 @@ namespace EAUploader.UI.Market
             return false;
         }
 
-        private static async Task MoreProducts(int page)
+        private static async Task<Texture2D> GetProductImage(string image_url)
         {
-            await FetchProducts(page: page);
+            string cachePath = Path.Combine("Assets/EAUploader/Cache");
 
-            // Show the new products
-
-            var items = root.Q<VisualElement>("shop_items_container");
-            items.Remove(items.Q<ShadowButton>("LoadMore"));
-
-            int itemsPerRow = 4;
-
-            List<Product> products = productsPage[page - 1];
-
-            int rowCount = Mathf.CeilToInt((float)products.Count / itemsPerRow); // Calculate the number of rows needed
-
-            for (int row = 0; row < rowCount; row++)
+            if (!Directory.Exists(cachePath))
             {
-                var rowContainer = new VisualElement()
-                {
-                    name = "product_row"
-                };
-
-                items.Add(rowContainer);
-
-                for (int col = 0; col < itemsPerRow; col++)
-                {
-                    int index = row * itemsPerRow + col;
-                    if (index >= products.Count)
-                    {
-                        break; // Break if there are no more products to display
-                    }
-
-                    var product = products[index];
-                    var item = new VisualElement();
-                    item.AddToClassList("product_item");
-                    var itemUxml = Resources.Load<VisualTreeAsset>("UI/TabContents/Market/Contents/VRCWMarketItem");
-
-                    itemUxml.CloneTree(item);
-
-                    item.Q<Label>("Name").text = product.name;
-                    item.Q<Label>("Price").text = product.price.ToString();
-                    item.Q<Label>("Creator").text = product.creator_name;
-                    item.Q<Label>("CreatedAt").text = product.created_at;
-                    item.Q<Button>("OpenProduct").clicked += () =>
-                    {
-                        OpenProductPage(product);
-                    };
-                    item.Q<Button>("OpenSNS").clicked += () =>
-                    {
-                        OpenSNSPage(product);
-                    };
-                    item.Q<Button>("StarButton").clicked += () =>
-                    {
-                        ToggleStared(product);
-                    };
-
-                    var image = await DownloadProductImage(product.image_url);
-                    var thumbnail = item.Q<VisualElement>("product_thumbnail");
-                    if (image != null)
-                    {
-                        var imageElement = new Image();
-                        imageElement.image = image;
-                        thumbnail.Add(imageElement);
-                    }
-
-                    rowContainer.Add(item);
-
-                    await UniTask.Delay(100);
-                    item.AddToClassList("product_item__show");
-                }
+                Directory.CreateDirectory(cachePath);
             }
 
-            // Create load more button
-            var loadMoreButton = new ShadowButton()
+            string fileName = Path.GetFileName(image_url);
+            string filePath = Path.Combine(cachePath, fileName);
+
+            if (File.Exists(filePath))
             {
-                name = "LoadMore"
-            };
+                byte[] fileData = File.ReadAllBytes(filePath);
+                Texture2D texture = new Texture2D(2, 2);
+                texture.LoadImage(fileData);
+                return texture;
+            }
 
-            loadMoreButton.text = T7e.Get("Load More");
-            loadMoreButton.clicked += async () =>
-            {
-                int nextPage = productsPage.Count + 1;
-                await MoreProducts(nextPage);
-            };
-
-            items.Add(loadMoreButton);
-        }
-
-        private static async UniTask<Texture2D> DownloadProductImage(string image_url)
-        {
             using (HttpClient client = new HttpClient())
             {
                 try
@@ -430,8 +438,12 @@ namespace EAUploader.UI.Market
                     if (response.IsSuccessStatusCode)
                     {
                         byte[] imageBytes = await response.Content.ReadAsByteArrayAsync();
-                        Texture2D texture = new Texture2D(2, 2); // Initialize with arbitrary size
+                        Texture2D texture = new Texture2D(2, 2);
                         texture.LoadImage(imageBytes);
+
+                        byte[] resizedImageBytes = texture.EncodeToPNG();
+                        File.WriteAllBytes(filePath, resizedImageBytes);
+
                         return texture;
                     }
                     else
@@ -449,7 +461,14 @@ namespace EAUploader.UI.Market
 
         private static async Task FetchProducts(string searchQuery = "", int page = 1)
         {
-            string url = $"https://www.vrcw.net/product/latest/json?page={page}&keyword={Uri.EscapeDataString(searchQuery)}"; // Use Uri.EscapeDataString for proper URL encoding
+            if (page <= cachedPage)
+            {
+                return;
+            }
+
+            cachedPage = page;
+
+            string url = $"https://www.vrcw.net/product/latest/json?page={page}{(searchQuery != "" ? $"&keyword={searchQuery}" : "")}";
 
             using (HttpClient client = new HttpClient())
             {
@@ -478,12 +497,7 @@ namespace EAUploader.UI.Market
             ProductList newProducts = JsonUtility.FromJson<ProductList>(jsonText);
             if (newProducts.products != null)
             {
-                if (page >= productsPage.Count)
-                {
-                    productsPage.Add(new List<Product>());
-                }
-
-                productsPage[page - 1] = newProducts.products.ToList();
+                allProducts.AddRange(newProducts.products);
             }
             else
             {
@@ -503,38 +517,43 @@ namespace EAUploader.UI.Market
 
         private static void ToggleStared(Product product)
         {
-            List<StaredProduct> staredProducts = new List<StaredProduct>();
-            if (File.Exists(STARED_ITEMS_PATH))
+            if (!File.Exists(STARED_ITEMS_PATH)) return;
+
+            string jsonTextFromFile = File.ReadAllText(STARED_ITEMS_PATH);
+            if (string.IsNullOrEmpty(jsonTextFromFile)) return;
+
+            StaredProductList staredProductList = JsonUtility.FromJson<StaredProductList>(jsonTextFromFile);
+            if (staredProductList.staredProducts == null)
             {
-                string jsonTextFromFile = File.ReadAllText(STARED_ITEMS_PATH);
-                if (!string.IsNullOrEmpty(jsonTextFromFile))
+                staredProductList.staredProducts = new int[] { product.id };
+            }
+            else
+            {
+                var staredProductsSet = new HashSet<int>(staredProductList.staredProducts);
+                if (!staredProductsSet.Add(product.id))
                 {
-                    StaredProductList staredProductList = JsonUtility.FromJson<StaredProductList>(jsonTextFromFile);
-                    if (staredProductList.staredProducts != null)
-                    {
-                        staredProducts.AddRange(staredProductList.staredProducts);
-                    }
+                    staredProductsSet.Remove(product.id);
                 }
+                staredProductList.staredProducts = staredProductsSet.ToArray();
             }
 
-            StaredProduct staredProduct = new StaredProduct
+            string jsonText = JsonUtility.ToJson(staredProductList);
+            File.WriteAllText(STARED_ITEMS_PATH, jsonText);
+        }
+    }
+
+    public class ProductInfoItem : VisualElement
+    {
+        public ProductInfoItem(string label, VisualElement value)
+        {
+            var labelElement = new Label(label)
             {
-                id = product.id,
-                name = product.name,
-                price = product.price,
-                price_display_mode = product.price_display_mode,
-                creator_name = product.creator_name,
-                created_at = product.created_at,
-                url = product.url,
-                image_url = product.image_url,
-                creator_twitter_url = product.creator_twitter.url
+                name = "product-detail__info__label"
             };
-
-            staredProducts.Add(staredProduct);
-
-            StaredProductList newStaredProductList = new StaredProductList { staredProducts = staredProducts.ToArray() };
-            string newJson = JsonUtility.ToJson(newStaredProductList);
-            File.WriteAllText(STARED_ITEMS_PATH, newJson);
+            var valueElement = new VisualElement();
+            valueElement.Add(value);
+            Add(labelElement);
+            Add(valueElement);
         }
     }
 }

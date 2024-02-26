@@ -456,3 +456,7 @@ ProgressBar Label {
 .unity-base-slider__drag-container {
 	align-items: center;
 }
+
+.active {
+	background-color: var(--primary-selected);
+}

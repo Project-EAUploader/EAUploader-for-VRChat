@@ -1,32 +1,22 @@
-<ui:UXML
-    xmlns:ui="UnityEngine.UIElements"
+<UXML
+    xmlns="UnityEngine.UIElements"
     xmlns:uie="UnityEditor.UIElements"
     xmlns:eau="EAUploader.UI.Components"
     xsi="http://www.w3.org/2001/XMLSchema-instance"
     engine="UnityEngine.UIElements"
     editor="UnityEditor.UIElements"
-    noNamespaceSchemaLocation="../../../../../../../../UIElementsSchema/UIElements.xsd"
+    noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
     editor-extension-mode="False"
 >
-    <ui:VisualElement name="product_thumbnail" class="h-32 w-32" />
-    <ui:VisualElement name="items_info" class="flex-1">
-        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name" class="text-sm font-bold" />
-        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Price" class="text-sm font-bold" />
-        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Creator" />
-        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CreatedAt" />
-        <ui:VisualElement>
-            <ui:Button name="OpenProduct">
-                <eau:MaterialIcon icon="shopping_bag" />
-                <ui:Label text="商品ページ" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-            </ui:Button>
-            <ui:Button name="OpenSNS">
-                <eau:MaterialIcon icon="open_in_browser" />
-                <ui:Label text="X(Twitter)" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-            </ui:Button>
-            <ui:Button name="StarButton">
-                <eau:MaterialIcon icon="star" />
-                <ui:Label text="気になる" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-            </ui:Button>
-        </ui:VisualElement>
-    </ui:VisualElement>
-</ui:UXML>
+    <VisualElement class="product-item flex-row">
+		<VisualElement class="product-item__image">
+            <Image name="Image" />
+        </VisualElement>
+        <VisualElement class="product-item__info p-4">
+            <Label name="Name" class="text-sm font-bold flex-1 overflow-hidden" />
+            <Label name="Price" class="text-sm font-bold" />
+            <Label name="Creator" />
+        </VisualElement>
+        <eau:MaterialIcon name="star" icon="star" class="absolute right-0 text-2xl p-4 text-yellow-400 hidden" />
+    </VisualElement>
+</UXML>
