@@ -272,6 +272,32 @@ DropdownField > VisualElement > PopupTextElement {
 	color: black;
 }
 
+PopupField {
+	align-items: center;
+}
+
+PopupField > VisualElement {
+	padding: 4px 16px;
+	border-width: 1px;
+	border-radius: 4px;
+	border-color: var(--default);
+	background-color: white;
+	color: black;
+	transition: 150ms;
+}
+
+PopupField:hover > VisualElement {
+	background-color: var(--default-hover);
+}
+
+PopupField > Label {
+	color: black;
+}
+
+PopupField	 > VisualElement > PopupTextElement {
+	color: black;
+}
+
 .material-icons {
     font-size: var(--material-symbol-size);
     -unity-font-style: normal;

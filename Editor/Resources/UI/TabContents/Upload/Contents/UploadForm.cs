@@ -179,23 +179,11 @@ namespace EAUploader.UI.Upload
                     var options = GetBuildTargetOptions();
                     var currentTarget = GetCurrentBuildTarget();
                     var selectedIndex = options.IndexOf(currentTarget);
-                    if (!BUILD_TARGET_ICONS.TryGetValue(currentTarget, out var iconClass))
-                    {
-                        iconClass = "";
-                    }
-                    if (selectedIndex == -1)
-                    {
-                        selectedIndex = 0;
-                    }
+
                     var popup = new PopupField<string>(T7e.Get("Selected Platform"), options, selectedIndex)
                     {
                         name = "platform-switcher-popup"
                     };
-                    var icon = new VisualElement();
-                    icon.AddToClassList("icon");
-                    icon.AddToClassList(iconClass);
-
-                    popup.hierarchy.Insert(0, icon);
                     popup.schedule.Execute(() =>
                     {
                         currentTarget = GetCurrentBuildTarget();
