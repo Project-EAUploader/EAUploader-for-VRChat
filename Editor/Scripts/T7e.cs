@@ -22,7 +22,7 @@ namespace EAUploader
 
         private static Dictionary<string, Dictionary<string, string>> allTranslations;
 
-        public static string Get(string key)
+        public static string Get(string key, params object[] args)
         {
             if (allTranslations == null)
             {
@@ -33,7 +33,8 @@ namespace EAUploader
 
             if (allTranslations != null && allTranslations.ContainsKey(currentLanguage) && allTranslations[currentLanguage].ContainsKey(key))
             {
-                return allTranslations[currentLanguage][key];
+                string formatString = allTranslations[currentLanguage][key];
+                return string.Format(formatString, args);
             }
             else
             {
