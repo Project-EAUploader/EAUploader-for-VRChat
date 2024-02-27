@@ -1,5 +1,6 @@
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
+using EAUploader.VRCSDK;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -49,6 +50,8 @@ namespace EAUploader.UI.Upload
 
             Validate();
             UpdateStatus();
+
+            OnSelectedPrefabPathChanged(EAUploaderCore.selectedPrefabPath);
         }
 
         private static void CloneVisualTree()
@@ -103,6 +106,7 @@ namespace EAUploader.UI.Upload
                 avatarThumbnail.image = previewImage;
 
                 Validate();
+                UpdateStatus();
 
                 var switcherBlock = root.Q("platform-switcher");
                 if (switcherBlock.Q("platform-switcher-popup") == null)
@@ -221,8 +225,8 @@ namespace EAUploader.UI.Upload
         private static void Validate()
         {
             var avatarDescriptor = Utility.GetAvatarDescriptor(PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath));
-            var avatarUploader = new AvatarUploader();
-            var validations = avatarUploader.CheckAvatarForValidationIssues(avatarDescriptor);
+            var avatarValidation = new Validation();
+            var validations = avatarValidation.CheckAvatarForValidationIssues(avatarDescriptor);
             var validationList = root.Q<ScrollView>("validation_list");
             validationList.Clear();
             foreach (var validation in validations)
@@ -271,11 +275,6 @@ namespace EAUploader.UI.Upload
             {
                 permissionStatus.Add(new Label(T7e.Get("You cannot upload an avatar with your current trust rank. You can immediately increase your rank by spending time on VRChat and adding friends. Or you can join VRChat+ (for a fee) to raise your rank immediately.")));
                 uploadMain.style.display = DisplayStyle.None;
-            }
-
-            if (EAUploaderCore.selectedPrefabPath != null)
-            {
-                OnSelectedPrefabPathChanged(EAUploaderCore.selectedPrefabPath);
             }
         }
 
@@ -355,23 +354,23 @@ namespace EAUploader.UI.Upload
 
     public class ValidationItem : VisualElement
     {
-        public ValidationItem(AvatarUploader.ValidateResult validateResult)
+        public ValidationItem(ValidateResult validateResult)
         {
             switch (validateResult.ResultType)
             {
-                case AvatarUploader.ValidateResult.ValidateResultType.Error:
+                case ValidateResult.ValidateResultType.Error:
                     AddToClassList("error");
                     break;
-                case AvatarUploader.ValidateResult.ValidateResultType.Warning:
+                case ValidateResult.ValidateResultType.Warning:
                     AddToClassList("warning");
                     break;
-                case AvatarUploader.ValidateResult.ValidateResultType.Info:
+                case ValidateResult.ValidateResultType.Info:
                     AddToClassList("info");
                     break;
-                case AvatarUploader.ValidateResult.ValidateResultType.Success:
+                case ValidateResult.ValidateResultType.Success:
                     AddToClassList("success");
                     break;
-                case AvatarUploader.ValidateResult.ValidateResultType.Link:
+                case ValidateResult.ValidateResultType.Link:
                     AddToClassList("link");
                     break;
                 default:
@@ -381,7 +380,7 @@ namespace EAUploader.UI.Upload
             var message = validateResult.ResultMessage;
             Add(new Label(message));
 
-            if (validateResult.ResultType == AvatarUploader.ValidateResult.ValidateResultType.Link)
+            if (validateResult.ResultType == ValidateResult.ValidateResultType.Link)
             {
                 var button = new ShadowButton()
                 {
