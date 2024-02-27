@@ -946,7 +946,7 @@ namespace EAUploader
                 //Dynamic Bones
                 if (perfStats.dynamicBone != null && (perfStats.dynamicBone.Value.colliderCount > 0 || perfStats.dynamicBone.Value.componentCount > 0))
                 {
-                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, "This avatar uses depreciated DynamicBone components. Upgrade to PhysBones to guarantee future compatibility.",
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, T7e.Get("This avatar uses depreciated DynamicBone components. Upgrade to PhysBones to guarantee future compatibility."),
                         null, () => AvatarDynamicsSetup.ConvertDynamicBonesToPhysBones(new GameObject[] { avatar.gameObject })));
                 }
             }
@@ -978,31 +978,31 @@ namespace EAUploader
             }
 
             if (componentsToRemoveNames.Count > 0)
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "The following component types are found on the Avatar and will be removed by the client: " +
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("The following component types are found on the Avatar and will be removed by the client: ") +
                                        string.Join(", ", componentsToRemoveNames.ToArray()), delegate { ShowRestrictedComponents(toRemove); }, delegate { FixRestrictedComponents(toRemove); }));
 
             List<AudioSource> audioSources =
                 avatar.gameObject.GetComponentsInChildrenExcludingEditorOnly<AudioSource>(true).ToList();
             if (audioSources.Count > 0)
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, "Audio sources found on Avatar, they will be adjusted to safe limits, if necessary.",
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, T7e.Get("Audio sources found on Avatar, they will be adjusted to safe limits, if necessary."),
                                                           GetAvatarSubSelectAction(avatar, typeof(AudioSource)), null));
 
             foreach (var audioSource in audioSources)
             {
                 if (audioSource.clip && audioSource.clip.loadType == AudioClipLoadType.DecompressOnLoad && !audioSource.clip.loadInBackground)
-                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "Found an audio clip with load type `Decompress On Load` which doesn't have `Load In Background` enabled.\nPlease enable `Load In Background` on the audio clip.",
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("Found an audio clip with load type `Decompress On Load` which doesn't have `Load In Background` enabled.\nPlease enable `Load In Background` on the audio clip."),
                                                                                                  GetAvatarAudioSourcesWithDecompressOnLoadWithoutBackgroundLoad(avatar), null));
             }
 
             List<VRCStation> stations =
                 avatar.gameObject.GetComponentsInChildrenExcludingEditorOnly<VRCStation>(true).ToList();
             if (stations.Count > 0)
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, "Stations found on Avatar, they will be adjusted to safe limits, if necessary.",
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, T7e.Get("Stations found on Avatar, they will be adjusted to safe limits, if necessary."),
                                                                              GetAvatarSubSelectAction(avatar, typeof(VRCStation)), null));
 
             if (VRCSdkControlPanel.HasSubstances(avatar.gameObject))
             {
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, "This avatar has one or more Substance materials, which is not supported and may break in-game. Please bake your Substances to regular materials.",
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, T7e.Get("This avatar has one or more Substance materials, which is not supported and may break in-game. Please bake your Substances to regular materials."),
                     () => Selection.objects = VRCSdkControlPanel.GetSubstanceObjects(avatar.gameObject), null));
             }
 
@@ -1013,16 +1013,16 @@ namespace EAUploader
             IEnumerable<Shader> illegalShaders = VRC.SDK3.Validation.AvatarValidation.FindIllegalShaders(avatar.gameObject);
             foreach (Shader s in illegalShaders)
             {
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "Avatar uses unsupported shader '" + s.name + "'. You can only use the shaders provided in 'VRChat/Mobile' for Quest avatars.",
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("Avatar uses unsupported shader '") + s.name + T7e.Get("'. You can only use the shaders provided in 'VRChat/Mobile' for Quest avatars."),
                                                                                       delegate () { Selection.activeObject = avatar.gameObject; }, null));
             }
 #endif
 
             if (ScanAvatarForWriteDefaults(avatarSDK3))
             {
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, "One or more of the animation states on this avatar have Write Defaults turned on. We recommend keeping Write Defaults off and explicitly animating any parameter that needs to be set by the animation instead.",
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, T7e.Get("One or more of the animation states on this avatar have Write Defaults turned on. We recommend keeping Write Defaults off and explicitly animating any parameter that needs to be set by the animation instead."),
                                                                                       null, null));
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, "Write Defaults Guidelines", null, null, VRCSdkControlPanelHelp.AVATAR_WRITE_DEFAULTS_ON_STATES_URL));
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, T7e.Get("Write Defaults Guidelines"), null, null, VRCSdkControlPanelHelp.AVATAR_WRITE_DEFAULTS_ON_STATES_URL));
             }
 
             foreach (AvatarPerformanceCategory perfCategory in Enum.GetValues(typeof(AvatarPerformanceCategory)))
@@ -1144,7 +1144,7 @@ namespace EAUploader
                 CheckPerformanceInfo(avatar, perfStats, perfCategory, show, null);
             }
 
-            results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, "Avatar Optimization Tips", null, null, VRCSdkControlPanelHelp.AVATAR_OPTIMIZATION_TIPS_URL));
+            results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, T7e.Get("Avatar Optimization Tips"), null, null, VRCSdkControlPanelHelp.AVATAR_OPTIMIZATION_TIPS_URL));
         }
 
         private void OpenAnimatorControllerWindow(object animatorController)
@@ -1200,7 +1200,7 @@ namespace EAUploader
             if (LegacyBlendShapeNormalsPropertyInfo == null)
             {
                 Debug.LogError(
-                    "Could not check for legacy blend shape normals because 'legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes' was not found.");
+                    T7e.Get("Could not check for legacy blend shape normals because 'legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes' was not found."));
                 return;
             }
 
@@ -1210,7 +1210,7 @@ namespace EAUploader
                 ScanMeshesForIncorrectBlendShapeNormalsSetting(avatarMeshes);
             if (incorrectlyConfiguredMeshes.Count > 0)
             {
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "This avatar contains skinned meshes that were imported with Blendshape Normals set to 'Calculate' but aren't using 'Legacy Blendshape Normals'. This will significantly increase the size of the uploaded avatar. This must be fixed in the mesh import settings before uploading.",
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("This avatar contains skinned meshes that were imported with Blendshape Normals set to 'Calculate' but aren't using 'Legacy Blendshape Normals'. This will significantly increase the size of the uploaded avatar. This must be fixed in the mesh import settings before uploading."),
                     null, () => EnableLegacyBlendShapeNormals(incorrectlyConfiguredMeshes)));
             }
         }
@@ -1381,7 +1381,7 @@ namespace EAUploader
                 ScanMeshesForDisabledMeshReadWriteSetting(avatarMeshes);
             if (incorrectlyConfiguredMeshes.Count > 0)
             {
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "This avatar contains meshes that were imported with Read/Write disabled. This must be fixed in the mesh import settings before uploading.",
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("This avatar contains meshes that were imported with Read/Write disabled. This must be fixed in the mesh import settings before uploading."),
                     null, () => EnableMeshReadWrite(incorrectlyConfiguredMeshes)));
             }
         }

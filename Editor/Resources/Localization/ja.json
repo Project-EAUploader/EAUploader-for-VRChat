@@ -420,6 +420,62 @@
     {
       "key": "VRCExpressionsMenu uses an invalid parameter for a control.\nControl: ",
       "value": "VRCExpressionsMenuがコントロールに無効なパラメータを使用しています。\nControl: "
+    },
+    {
+      "key": "This avatar uses depreciated DynamicBone components. Upgrade to PhysBones to guarantee future compatibility.",
+      "value": "このアバターは非推奨の DynamicBone コンポーネントを使用しています。将来の互換性を保証するには、PhysBonesにアップグレードしてください。"
+    },
+    {
+      "key": "The following component types are found on the Avatar and will be removed by the client: ",
+      "value": "次のコンポーネント・タイプはアバターにあり、クライアントによって削除されます: "
+    },
+    {
+      "key": "Audio sources found on Avatar, they will be adjusted to safe limits, if necessary.",
+      "value": "アバターに含まれるオーディオソースは、必要に応じて安全な範囲に調整されます。"
+    },
+    {
+      "key": "Found an audio clip with load type `Decompress On Load` which doesn't have `Load In Background` enabled.\nPlease enable `Load In Background` on the audio clip.",
+      "value": "ロードタイプが`Decompress On Load`で、`Load In Background`が有効になっていないオーディオクリップが見つかりました。"
+    },
+    {
+      "key": "Stations found on Avatar, they will be adjusted to safe limits, if necessary.",
+      "value": "アバターに含まれるStationsは、必要に応じて安全な範囲に調整されます。"
+    },
+    {
+      "key": "This avatar has one or more Substance materials, which is not supported and may break in-game. Please bake your Substances to regular materials.",
+      "value": "このアバターには1つ以上のサブスタンスマテリアルがありますが、これはサポートされておらず、ゲーム内で壊れる可能性があります。サブスタンスを通常のマテリアルにベイクしてください。"
+    },
+    {
+      "key": "Avatar uses unsupported shader '",
+      "value": "アバターはサポートされていないシェーダー「"
+    },
+    {
+      "key": "'. You can only use the shaders provided in 'VRChat/Mobile' for Quest avatars.",
+      "value": "」を使用しています。クエストアバターには、VRChat/Mobileで提供されているシェーダーしか使用できません。"
+    },
+    {
+      "key": "One or more of the animation states on this avatar have Write Defaults turned on. We recommend keeping Write Defaults off and explicitly animating any parameter that needs to be set by the animation instead.",
+      "value": "このアバターの1つ以上のアニメーションステートで、デフォルト書き込みがオンになっています。Write Defaults をオフにしておき、アニメーションで設定する必要があるパラメータは明示的にアニメーション化することをお勧めします。"
+    },
+    {
+      "key": "Write Defaults Guidelines",
+      "value": "デフォルトの書き込みガイドライン"
+    },
+    {
+      "key": "Avatar Optimization Tips",
+      "value": "アバター最適化のヒント"
+    },
+    {
+      "key": "Could not check for legacy blend shape normals because 'legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes' was not found.",
+      "value": "'legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes'が見つからなかったため、レガシーブレンド形状の法線をチェックできませんでした。"
+    },
+    {
+      "key": "This avatar contains skinned meshes that were imported with Blendshape Normals set to 'Calculate' but aren't using 'Legacy Blendshape Normals'. This will significantly increase the size of the uploaded avatar. This must be fixed in the mesh import settings before uploading.",
+      "value": "このアバターには、ブレンドシェイプ法線を「計算」に設定してインポートされたスキンメッシュが含まれていますが、「レガシーブレンドシェイプ法線」は使用されていません。これにより、アップロードされるアバターのサイズが大幅に増加します。これは、アップロードする前にメッシュインポート設定で修正する必要があります。"
+    },
+    {
+      "key": "This avatar contains meshes that were imported with Read/Write disabled. This must be fixed in the mesh import settings before uploading.",
+      "value": "このアバターには、Read/Writeが無効な状態でインポートされたメッシュが含まれています。これは、アップロードする前にメッシュインポート設定で修正する必要があります。"
     }
   ]
 }
