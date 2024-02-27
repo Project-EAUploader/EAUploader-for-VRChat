@@ -722,7 +722,7 @@ namespace EAUploader
                     && !gestureLayer.isDefault)
                 {
                     AnimatorController controller = gestureLayer.animatorController as AnimatorController;
-                    if (controller != null && controller.layers[0].avatarMask == null)
+                    if (controller is AnimatorController animController && animController.layers[0].avatarMask == null)
                         results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("Gesture Layer needs valid mask on first animator layer"),
                                                        delegate { OpenAnimatorControllerWindow(animController); }, null));
                 }
