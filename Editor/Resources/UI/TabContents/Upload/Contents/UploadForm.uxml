@@ -10,8 +10,10 @@
     <ui:VisualElement class="p-4 flex-1 border-b border-b-zinc-300">
         <ui:Label text = "Login to VRChat" class="text-xl font-bold pb-2" name="loginSDKLabel" />
         <ui:VisualElement name="login_status" class="pb-2" />
-        <ui:Label text = "Check you are allowed to upload avatar" class="text-xl font-bold pb-2" name="checkPermissionLabel" />
-        <ui:VisualElement name="permission_status" class="pb-2" />
+        <ui:VisualElement name="permission_status_container">
+            <ui:Label text="Check you are allowed to upload avatar" class="text-xl font-bold pb-2" name="checkPermissionLabel" />
+            <ui:VisualElement name="permission_status" class="pb-2" />
+        </ui:VisualElement>
         <ui:VisualElement name="upload_main">
             <ui:VisualElement class="flex-row ">
                 <ui:VisualElement class="w-one-half">
@@ -43,24 +45,26 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement class="flex-colum">
-        <ui:ScrollView name="validation_list" class="flex-1"/>
-    </ui:VisualElement>
-    <ui:VisualElement class="flex-colum">
-        <ui:VisualElement name="platform-switcher" class="pb-2" />
-        <ui:VisualElement class="flex-row mb-2">
-            <ui:Label text = "Build as Test" class="text-xl font-bold" name="buildandtestLabel" />
-            <eau:HelpButton msg-id="111" class="ml-4 self-center"/>
+    <ui:VisualElement name="upload_action">
+        <ui:VisualElement class="flex-colum">
+            <ui:ScrollView name="validation_list" class="flex-1"/>
         </ui:VisualElement>
-        <eau:ShadowButton text="Build as Test" name="buildandtest" class="mb-2"/>
-        <ui:VisualElement class="flex-row mb-2">
-            <ui:Label text = "Upload" class="text-xl font-bold" name="uploadLabel" />
-            <eau:HelpButton msg-id="112" class="ml-4 self-center"/>
+        <ui:VisualElement class="flex-colum">
+            <ui:VisualElement name="platform-switcher" class="pb-2" />
+            <ui:VisualElement class="flex-row mb-2">
+                <ui:Label text = "Build as Test" class="text-xl font-bold" name="buildandtestLabel" />
+                <eau:HelpButton msg-id="111" class="ml-4 self-center"/>
+            </ui:VisualElement>
+            <eau:ShadowButton text="Build as Test" name="buildandtest" class="mb-2"/>
+            <ui:VisualElement class="flex-row mb-2">
+                <ui:Label text = "Upload" class="text-xl font-bold" name="uploadLabel" />
+                <eau:HelpButton msg-id="112" class="ml-4 self-center"/>
+            </ui:VisualElement>
+            <ui:VisualElement class="flex-row mb-2">
+                <ui:Toggle name="confirm_term" class="mb-2"/>
+                <ui:Label text="The information provided above is accurate and I have the rights to upload this content to VRChat" name="uploadLabel" />
+            </ui:VisualElement>
+            <eau:ShadowButton text="Upload" name="upload"/>
         </ui:VisualElement>
-        <ui:VisualElement class="flex-row mb-2">
-            <ui:Toggle name="confirm_term" class="mb-2"/>
-            <ui:Label text="The information provided above is accurate and I have the rights to upload this content to VRChat" name="uploadLabel" />
-        </ui:VisualElement>
-        <eau:ShadowButton text="Upload" name="upload"/>
     </ui:VisualElement>
 </ui:UXML>

@@ -17,6 +17,9 @@ namespace EAUploader.UI.Upload
         private static VisualElement root;
         private static bool isCloned = false;
         private static string thumbnailUrl = null;
+        private static bool isLoggedin;
+        private static bool isFormNull = true;
+        private static bool isConfirmTerm = false;
 
         private static readonly Dictionary<string, string> BUILD_TARGET_ICONS = new Dictionary<string, string>
         {
@@ -28,9 +31,20 @@ namespace EAUploader.UI.Upload
         public static void ShowContent(VisualElement rootContainer)
         {
             isCloned = false;
+            isLoggedin = APIUser.IsLoggedIn;
             root = rootContainer;
 
             EAUploaderCore.SelectedPrefabPathChanged += OnSelectedPrefabPathChanged;
+
+            root.schedule.Execute(() =>
+            {
+                if (APIUser.IsLoggedIn != isLoggedin)
+                {
+                    isLoggedin = APIUser.IsLoggedIn;
+                    UpdateStatus();
+                }
+            }).Every(500);
+
 
             if (EAUploaderCore.selectedPrefabPath == null)
             {
@@ -47,6 +61,7 @@ namespace EAUploader.UI.Upload
             }
 
             CloneVisualTree();
+            checkCanUpload();
 
             Validate();
             UpdateStatus();
@@ -63,16 +78,46 @@ namespace EAUploader.UI.Upload
                 visualTree.CloneTree(root);
                 isCloned = true;
 
-                BindButtons();
+                BindEvents();
             }
         }
 
-        private static void BindButtons()
+        private static void BindEvents()
         {
             root.Q<ShadowButton>("buildandtest").clicked += async () => await BuildAndTestAsync();
             root.Q<ShadowButton>("upload").clicked += async () => await UploadAsync();
             root.Q<ShadowButton>("add_thumbnail").clicked += AddThumbnail;
             root.Q<ShadowButton>("remove_thumbnail").clicked += RemoveThumbnail;
+            root.Q<TextFieldPro>("content-name").RegisterValueChangedCallback(evt =>
+            {
+                if (string.IsNullOrEmpty(root.Q<TextFieldPro>("content-name").GetValue()))
+                {
+                    isFormNull = true;
+                }
+                else
+                {
+                    isFormNull = false;
+                }
+                checkCanUpload();
+            });
+            root.Q<Toggle>("confirm_term").RegisterValueChangedCallback(evt =>
+            {
+                isConfirmTerm = evt.newValue;
+                checkCanUpload();
+            });
+        }
+
+        private static void checkCanUpload()
+        {
+            var uploadButton = root.Q<ShadowButton>("upload");
+            if (isFormNull || !isConfirmTerm)
+            {
+                uploadButton.SetEnabled(false);
+            }
+            else
+            {
+                uploadButton.SetEnabled(true);
+            }
         }
 
         private static void AddThumbnail()
@@ -239,8 +284,10 @@ namespace EAUploader.UI.Upload
         private static void UpdateStatus()
         {
             var loginStatus = root.Q<VisualElement>("login_status");
+            var permissionStatusContainer = root.Q<VisualElement>("permission_status_container");
             var permissionStatus = root.Q<VisualElement>("permission_status");
             var uploadMain = root.Q<VisualElement>("upload_main");
+            var uploadAction = root.Q<VisualElement>("upload_action");
 
             loginStatus.Clear();
             permissionStatus.Clear();
@@ -248,7 +295,7 @@ namespace EAUploader.UI.Upload
             if (VRC.Core.APIUser.IsLoggedIn)
             {
                 loginStatus.Add(new Label(T7e.Get("Logged in as ") + VRC.Core.APIUser.CurrentUser.displayName));
-                permissionStatus.style.display = DisplayStyle.Flex;
+                permissionStatusContainer.style.display = DisplayStyle.Flex;
             }
             else
             {
@@ -263,18 +310,20 @@ namespace EAUploader.UI.Upload
                 loginStatus.Add(loginButton);
 
                 uploadMain.style.display = DisplayStyle.None;
-                permissionStatus.style.display = DisplayStyle.None;
+                permissionStatusContainer.style.display = DisplayStyle.None;
             }
 
             if (APIUser.CurrentUser != null && APIUser.CurrentUser.canPublishAvatars)
             {
                 permissionStatus.Add(new Label(T7e.Get("You have permission to upload avatar")));
                 uploadMain.style.display = DisplayStyle.Flex;
+                uploadAction.style.display = DisplayStyle.Flex;
             }
             else
             {
                 permissionStatus.Add(new Label(T7e.Get("You cannot upload an avatar with your current trust rank. You can immediately increase your rank by spending time on VRChat and adding friends. Or you can join VRChat+ (for a fee) to raise your rank immediately.")));
                 uploadMain.style.display = DisplayStyle.None;
+                uploadAction.style.display = DisplayStyle.None;
             }
         }
 
