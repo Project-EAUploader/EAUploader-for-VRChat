@@ -48,7 +48,17 @@ namespace EAUploader.UI.Upload
 
             if (EAUploaderCore.selectedPrefabPath == null)
             {
-                root.Add(new Label(T7e.Get("Select a prefab to upload")));
+                var label = new Label(T7e.Get("Select a prefab to upload"))
+                {
+                    style =
+                    {
+                        flexGrow = 1,
+                        unityTextAlign = TextAnchor.MiddleCenter,
+                        fontSize = 24,
+                        unityFontStyleAndWeight = FontStyle.Bold
+                    }
+                };
+                root.Add(label);
                 return;
             }
 
@@ -56,7 +66,17 @@ namespace EAUploader.UI.Upload
 
             if (!hasDescriptor)
             {
-                root.Q("upload_form").Add(new Label(T7e.Get("No VRCAvatarDescriptor")));
+                var label = new Label(T7e.Get("No VRCAvatarDescriptor"))
+                {
+                    style =
+                    {
+                        flexGrow = 1,
+                        unityTextAlign = TextAnchor.MiddleCenter,
+                        fontSize = 24,
+                        unityFontStyleAndWeight = FontStyle.Bold
+                    }
+                };
+                root.Q("upload_form").Add(label);
                 return;
             }
 
