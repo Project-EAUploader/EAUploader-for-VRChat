@@ -30,14 +30,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Info;
-                            text = string.Format("Overall Performance: {0}", AvatarPerformanceStats.GetPerformanceRatingDisplayName(rating));
+                            text = T7e.Get("Overall Performance: {0}", AvatarPerformanceStats.GetPerformanceRatingDisplayName(rating));
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Overall Performance: {0} - This avatar may not perform well on many systems." +
                                 " See additional warnings for suggestions on how to improve performance. Click 'Avatar Optimization Tips' below for more information.",
                                 AvatarPerformanceStats.GetPerformanceRatingDisplayName(rating)
@@ -50,7 +50,7 @@ namespace EAUploader.VRCSDK
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
                             if(ValidationEditorHelpers.IsMobilePlatform())
                             {
-                                text = string.Format(
+                                text = T7e.Get(
                                     "Overall Performance: {0} - This avatar does not meet minimum performance requirements for VRChat. " +
                                     "It will be blocked by default on VRChat for Quest, and will not show unless a user chooses to show your avatar." +
                                     " See additional warnings for suggestions on how to improve performance. Click 'Avatar Optimization Tips' below for more information.",
@@ -58,7 +58,7 @@ namespace EAUploader.VRCSDK
                             }
                             else
                             {
-                                text = string.Format(
+                                text = T7e.Get(
                                     "Overall Performance: {0} - This avatar does not meet minimum performance requirements for VRChat. " +
                                     "It may be blocked by users depending on their Performance settings." +
                                     " See additional warnings for suggestions on how to improve performance. Click 'Avatar Optimization Tips' below for more information.",
@@ -78,20 +78,20 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Excellent:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Info;
-                            text = string.Format("Triangles: {0}", perfStats.polyCount);
+                            text = T7e.Get("Triangles: {0}", perfStats.polyCount);
                             break;
                         }
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Info;
-                            text = string.Format("Triangles: {0} (Recommended: {1})", perfStats.polyCount, AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).polyCount);
+                            text = T7e.Get("Triangles: {0} (Recommended: {1})", perfStats.polyCount, AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).polyCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Triangles: {0} - Please try to reduce your avatar triangle count to less than {1} (Recommended: {2})",
                                 perfStats.polyCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Good, isMobilePlatform).polyCount,
@@ -102,7 +102,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Triangles: {0} - This avatar has too many triangles. " +
                                 (ValidationEditorHelpers.IsMobilePlatform()
                                     ? "It will be blocked by default on VRChat for Quest, and will not show unless a user chooses to show your avatar."
@@ -125,7 +125,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Excellent:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Bounding box (AABB) size: {0}", perfStats.aabb.GetValueOrDefault().size.ToString());
+                            text = T7e.Get("Bounding box (AABB) size: {0}", perfStats.aabb.GetValueOrDefault().size.ToString());
                             break;
                         }
                         case PerformanceRating.Good:
@@ -133,7 +133,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Bounding box (AABB) size: {0} (Recommended: {1})",
                                 perfStats.aabb.GetValueOrDefault().size.ToString(),
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).aabb.size.ToString());
@@ -143,7 +143,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "This avatar's bounding box (AABB) is too large on at least one axis. Current size: {0}, Maximum size: {1}",
                                 perfStats.aabb.GetValueOrDefault().size.ToString(),
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Poor, isMobilePlatform).aabb.size.ToString());
@@ -162,14 +162,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Skinned Mesh Renderers: {0}", perfStats.skinnedMeshCount);
+                            text = T7e.Get("Skinned Mesh Renderers: {0}", perfStats.skinnedMeshCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Skinned Mesh Renderers: {0} (Recommended: {1}) - Combine multiple skinned meshes for optimal performance.",
                                 perfStats.skinnedMeshCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).skinnedMeshCount);
@@ -179,7 +179,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Skinned Mesh Renderers: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many skinned meshes." +
                                 " Combine multiple skinned meshes for optimal performance.",
                                 perfStats.skinnedMeshCount,
@@ -200,14 +200,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Mesh Renderers: {0}", perfStats.meshCount);
+                            text = T7e.Get("Mesh Renderers: {0}", perfStats.meshCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Mesh Renderers: {0} (Recommended: {1}) - Combine multiple meshes for optimal performance.",
                                 perfStats.meshCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).meshCount);
@@ -217,7 +217,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Mesh Renderers: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many meshes. Combine multiple meshes for optimal performance.",
                                 perfStats.meshCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Poor, isMobilePlatform).meshCount,
@@ -237,14 +237,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Material Slots: {0}", perfStats.materialCount);
+                            text = T7e.Get("Material Slots: {0}", perfStats.materialCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Material Slots: {0} (Recommended: {1}) - Combine materials and atlas textures for optimal performance.",
                                 perfStats.materialCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).materialCount);
@@ -254,7 +254,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Material Slots: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many materials. Combine materials and atlas textures for optimal performance.",
                                 perfStats.materialCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Poor, isMobilePlatform).materialCount,
@@ -274,14 +274,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Animator Count: {0}", perfStats.animatorCount);
+                            text = T7e.Get("Animator Count: {0}", perfStats.animatorCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Animator Count: {0} (Recommended: {1}) - Avoid using extra Animators for optimal performance.",
                                 perfStats.animatorCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).animatorCount);
@@ -291,7 +291,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Animator Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many Animators. Avoid using extra Animators for optimal performance.",
                                 perfStats.animatorCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Poor, isMobilePlatform).animatorCount,
@@ -311,14 +311,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Bones: {0}", perfStats.boneCount);
+                            text = T7e.Get("Bones: {0}", perfStats.boneCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Bones: {0} (Recommended: {1}) - Reduce number of bones for optimal performance.",
                                 perfStats.boneCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).boneCount);
@@ -328,7 +328,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Bones: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many bones. Reduce number of bones for optimal performance.",
                                 perfStats.boneCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Poor, isMobilePlatform).boneCount,
@@ -348,14 +348,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Lights: {0}", perfStats.lightCount);
+                            text = T7e.Get("Lights: {0}", perfStats.lightCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Lights: {0} (Recommended: {1}) - Avoid use of dynamic lights for optimal performance.",
                                 perfStats.lightCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).lightCount);
@@ -365,7 +365,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Lights: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many dynamic lights. Avoid use of dynamic lights for optimal performance.",
                                 perfStats.lightCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Poor, isMobilePlatform).lightCount,
@@ -385,14 +385,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Particle Systems: {0}", perfStats.particleSystemCount);
+                            text = T7e.Get("Particle Systems: {0}", perfStats.particleSystemCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Particle Systems: {0} (Recommended: {1}) - Reduce number of particle systems for better performance.",
                                 perfStats.particleSystemCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).particleSystemCount);
@@ -402,7 +402,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Particle Systems: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many particle systems." +
                                 " Reduce number of particle systems for better performance.",
                                 perfStats.particleSystemCount,
@@ -423,14 +423,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Total Combined Max Particle Count: {0}", perfStats.particleTotalCount);
+                            text = T7e.Get("Total Combined Max Particle Count: {0}", perfStats.particleTotalCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Total Combined Max Particle Count: {0} (Recommended: {1}) - Reduce 'Max Particles' across all particle systems for better performance.",
                                 perfStats.particleTotalCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).particleTotalCount);
@@ -440,7 +440,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Total Combined Max Particle Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar uses too many particles." +
                                 " Reduce 'Max Particles' across all particle systems for better performance.",
                                 perfStats.particleTotalCount,
@@ -461,14 +461,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Mesh Particle Total Max Poly Count: {0}", perfStats.particleMaxMeshPolyCount);
+                            text = T7e.Get("Mesh Particle Total Max Poly Count: {0}", perfStats.particleMaxMeshPolyCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Mesh Particle Total Max Poly Count: {0} (Recommended: {1}) - Reduce number of triangles in particle meshes, and reduce 'Max Particles' for better performance.",
                                 perfStats.particleMaxMeshPolyCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).particleMaxMeshPolyCount);
@@ -478,7 +478,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Mesh Particle Total Max Poly Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar uses too many mesh particle triangles." +
                                 " Reduce number of triangles in particle meshes, and reduce 'Max Particles' for better performance.",
                                 perfStats.particleMaxMeshPolyCount,
@@ -499,7 +499,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Particle Trails Enabled: {0}", perfStats.particleTrailsEnabled);
+                            text = T7e.Get("Particle Trails Enabled: {0}", perfStats.particleTrailsEnabled);
                             break;
                         }
                         case PerformanceRating.Medium:
@@ -507,7 +507,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Particle Trails Enabled: {0} (Recommended: {1}) - Avoid particle trails for better performance.",
                                 perfStats.particleTrailsEnabled,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).particleTrailsEnabled);
@@ -526,7 +526,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Particle Collision Enabled: {0}", perfStats.particleCollisionEnabled);
+                            text = T7e.Get("Particle Collision Enabled: {0}", perfStats.particleCollisionEnabled);
                             break;
                         }
                         case PerformanceRating.Medium:
@@ -534,7 +534,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Particle Collision Enabled: {0} (Recommended: {1}) - Avoid particle collision for better performance.",
                                 perfStats.particleCollisionEnabled,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).particleCollisionEnabled);
@@ -553,14 +553,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Trail Renderers: {0}", perfStats.trailRendererCount);
+                            text = T7e.Get("Trail Renderers: {0}", perfStats.trailRendererCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Trail Renderers: {0} (Recommended: {1}) - Reduce number of TrailRenderers for better performance.",
                                 perfStats.trailRendererCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).trailRendererCount);
@@ -570,7 +570,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Trail Renderers: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many TrailRenderers. Reduce number of TrailRenderers for better performance.",
                                 perfStats.trailRendererCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Poor, isMobilePlatform).trailRendererCount,
@@ -590,14 +590,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Line Renderers: {0}", perfStats.lineRendererCount);
+                            text = T7e.Get("Line Renderers: {0}", perfStats.lineRendererCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Line Renderers: {0} (Recommended: {1}) - Reduce number of LineRenderers for better performance.",
                                 perfStats.lineRendererCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).lineRendererCount);
@@ -607,7 +607,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Line Renderers: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many LineRenderers. Reduce number of LineRenderers for better performance.",
                                 perfStats.lineRendererCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Poor, isMobilePlatform).lineRendererCount,
@@ -627,14 +627,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Dynamic Bone Components: {0}", perfStats.dynamicBone?.componentCount);
+                            text = T7e.Get("Dynamic Bone Components: {0}", perfStats.dynamicBone?.componentCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Dynamic Bone Components: {0} (Recommended: {1}) - Reduce number of DynamicBone components for better performance.",
                                 perfStats.dynamicBone?.componentCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).dynamicBone.componentCount);
@@ -644,7 +644,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Dynamic Bone Components: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many DynamicBone components." +
                                 " Reduce number of DynamicBone components for better performance.",
                                 perfStats.dynamicBone?.componentCount,
@@ -665,14 +665,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Dynamic Bone Simulated Bone Count: {0}", perfStats.dynamicBone?.transformCount);
+                            text = T7e.Get("Dynamic Bone Simulated Bone Count: {0}", perfStats.dynamicBone?.transformCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Dynamic Bone Simulated Bone Count: {0} (Recommended: {1}) - " +
                                 "Reduce number of transforms in hierarchy under DynamicBone components, or set EndLength or EndOffset to zero to reduce the number of simulated bones.",
                                 perfStats.dynamicBone?.transformCount,
@@ -683,7 +683,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Dynamic Bone Simulated Bone Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many bones simulated by DynamicBone." +
                                 " Reduce number of transforms in hierarchy under DynamicBone components, or set EndLength or EndOffset to zero to reduce the number of simulated bones.",
                                 perfStats.dynamicBone?.transformCount,
@@ -704,14 +704,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Dynamic Bone Collider Count: {0}", perfStats.dynamicBone?.colliderCount);
+                            text = T7e.Get("Dynamic Bone Collider Count: {0}", perfStats.dynamicBone?.colliderCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Dynamic Bone Collider Count: {0} (Recommended: {1}) - Avoid use of DynamicBoneColliders for better performance.",
                                 perfStats.dynamicBone?.colliderCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).dynamicBone.colliderCount);
@@ -721,7 +721,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Dynamic Bone Collider Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many DynamicBoneColliders." +
                                 " Avoid use of DynamicBoneColliders for better performance.",
                                 perfStats.dynamicBone?.colliderCount,
@@ -742,14 +742,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Dynamic Bone Collision Check Count: {0}", perfStats.dynamicBone?.collisionCheckCount);
+                            text = T7e.Get("Dynamic Bone Collision Check Count: {0}", perfStats.dynamicBone?.collisionCheckCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Dynamic Bone Collision Check Count: {0} (Recommended: {1}) - Avoid use of DynamicBoneColliders for better performance.",
                                 perfStats.dynamicBone?.collisionCheckCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).dynamicBone.collisionCheckCount);
@@ -759,7 +759,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Dynamic Bone Collision Check Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many DynamicBoneColliders." +
                                 " Avoid use of DynamicBoneColliders for better performance.",
                                 perfStats.dynamicBone?.collisionCheckCount,
@@ -788,14 +788,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Phys Bone Components: {0}", perfStats.physBone?.componentCount);
+                            text = T7e.Get("Phys Bone Components: {0}", perfStats.physBone?.componentCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Phys Bone Components: {0} (Recommended: {1}) - Reduce number of VRCPhysBone components for better performance.",
                                 perfStats.physBone?.componentCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).physBone.componentCount);
@@ -805,7 +805,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = isMobilePlatform ? PerformanceInfoDisplayLevel.Error : PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Phys Bone Components: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many VRCPhysBone components." +
                                 " {3}",
                                 perfStats.physBone?.componentCount,
@@ -827,14 +827,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Phys Bone Transform Count: {0}", perfStats.physBone?.transformCount);
+                            text = T7e.Get("Phys Bone Transform Count: {0}", perfStats.physBone?.transformCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Phys Bone Transform Count: {0} (Recommended: {1}) - This avatar has many VRCPhysBone transforms and may perform poorly." +
                                 "Reduce number of transforms in hierarchy under VRCPhysBone components.",
                                 perfStats.physBone?.transformCount,
@@ -845,7 +845,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = isMobilePlatform ? PerformanceInfoDisplayLevel.Error : PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Phys Bone Transform Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many VRCPhysBone transforms and will perform poorly." +
                                 " {3}",
                                 perfStats.physBone?.transformCount,
@@ -875,14 +875,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Phys Bone Collider Count: {0}", perfStats.physBone?.colliderCount);
+                            text = T7e.Get("Phys Bone Collider Count: {0}", perfStats.physBone?.colliderCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Phys Bone Collider Count: {0} (Recommended: {1}) - Reduce the usage of VRCPhysBoneColliders for better performance.",
                                 perfStats.physBone?.colliderCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).physBone.colliderCount);
@@ -892,7 +892,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = isMobilePlatform ? PerformanceInfoDisplayLevel.Error : PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Phys Bone Collider Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many VRCPhysBoneColliders." +
                                 " {3}",
                                 perfStats.dynamicBone?.colliderCount,
@@ -914,14 +914,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Phys Bone Collision Check Count: {0}", perfStats.physBone?.collisionCheckCount);
+                            text = T7e.Get("Phys Bone Collision Check Count: {0}", perfStats.physBone?.collisionCheckCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Phys Bone Collision Check Count: {0} (Recommended: {1}) - Reduce the usage of VRCPhysBoneColliders for better performance.",
                                 perfStats.physBone?.collisionCheckCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).physBone.collisionCheckCount);
@@ -931,7 +931,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = isMobilePlatform ? PerformanceInfoDisplayLevel.Error : PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Phys Bone Collision Check Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many VRCPhysBoneColliders." +
                                 " {3}",
                                 perfStats.physBone?.collisionCheckCount,
@@ -961,14 +961,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Contact Component Count: {0}", perfStats.contactCount);
+                            text = T7e.Get("Contact Component Count: {0}", perfStats.contactCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Contact Component Count: {0} (Recommended: {1}) - Reduce the usage of VRCContact components for optimal performance.",
                                 perfStats.contactCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).contactCount);
@@ -978,7 +978,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = isMobilePlatform ? PerformanceInfoDisplayLevel.Error : PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Contact Component Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many VRCContact components. {3}",
                                 perfStats.contactCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Poor, isMobilePlatform).contactCount,
@@ -999,14 +999,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Cloth Component Count: {0}", perfStats.clothCount);
+                            text = T7e.Get("Cloth Component Count: {0}", perfStats.clothCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Cloth Component Count: {0} (Recommended: {1}) - Avoid use of cloth for optimal performance.",
                                 perfStats.clothCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).clothCount);
@@ -1016,7 +1016,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Cloth Component Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many Cloth components. Avoid use of cloth for optimal performance.",
                                 perfStats.clothCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Poor, isMobilePlatform).clothCount,
@@ -1036,14 +1036,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Cloth Total Vertex Count: {0}", perfStats.clothMaxVertices);
+                            text = T7e.Get("Cloth Total Vertex Count: {0}", perfStats.clothMaxVertices);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Cloth Total Vertex Count: {0} (Recommended: {1}) - Reduce number of vertices in cloth meshes for improved performance.",
                                 perfStats.clothMaxVertices,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).clothMaxVertices);
@@ -1053,7 +1053,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Cloth Total Vertex Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many vertices in cloth meshes." +
                                 " Reduce number of vertices in cloth meshes for improved performance.",
                                 perfStats.clothMaxVertices,
@@ -1074,14 +1074,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Physics Collider Count: {0}", perfStats.physicsColliderCount);
+                            text = T7e.Get("Physics Collider Count: {0}", perfStats.physicsColliderCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Physics Collider Count: {0} (Recommended: {1}) - Avoid use of colliders for optimal performance.",
                                 perfStats.physicsColliderCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).physicsColliderCount);
@@ -1091,7 +1091,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Physics Collider Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many colliders. Avoid use of colliders for optimal performance.",
                                 perfStats.physicsColliderCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Poor, isMobilePlatform).physicsColliderCount,
@@ -1111,14 +1111,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Physics Rigidbody Count: {0}", perfStats.physicsRigidbodyCount);
+                            text = T7e.Get("Physics Rigidbody Count: {0}", perfStats.physicsRigidbodyCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Physics Rigidbody Count: {0} (Recommended: {1}) - Avoid use of rigidbodies for optimal performance.",
                                 perfStats.physicsRigidbodyCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).physicsRigidbodyCount);
@@ -1128,7 +1128,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Physics Rigidbody Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many rigidbodies. Avoid use of rigidbodies for optimal performance.",
                                 perfStats.physicsRigidbodyCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Poor, isMobilePlatform).physicsRigidbodyCount,
@@ -1148,14 +1148,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Audio Sources: {0}", perfStats.audioSourceCount);
+                            text = T7e.Get("Audio Sources: {0}", perfStats.audioSourceCount);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Audio Sources: {0} (Recommended: {1}) - Reduce number of audio sources for better performance.",
                                 perfStats.audioSourceCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).audioSourceCount);
@@ -1165,7 +1165,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Audio Sources: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many audio sources. Reduce number of audio sources for better performance.",
                                 perfStats.audioSourceCount,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Poor, isMobilePlatform).audioSourceCount,
@@ -1185,14 +1185,14 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.Good:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Verbose;
-                            text = string.Format("Texture Memory Usage: {0} MB", perfStats.textureMegabytes);
+                            text = T7e.Get("Texture Memory Usage: {0} MB", perfStats.textureMegabytes);
                             break;
                         }
                         case PerformanceRating.Medium:
                         case PerformanceRating.Poor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Texture Memory Usage: {0} MB (Recommended: {1} MB) - Lower the resolution of your textures in the texture import settings.",
                                 perfStats.textureMegabytes,
                                 AvatarPerformanceStats.GetStatLevelForRating(PerformanceRating.Excellent, isMobilePlatform).textureMegabytes);
@@ -1202,7 +1202,7 @@ namespace EAUploader.VRCSDK
                         case PerformanceRating.VeryPoor:
                         {
                             displayLevel = PerformanceInfoDisplayLevel.Warning;
-                            text = string.Format(
+                            text = T7e.Get(
                                 "Texture Memory Usage: {0} MB (Maximum: {1} MB, Recommended: {2} MB) - This avatar's total texture resolution is too high. " +
                                 "Lower the resolution of your largest textures in the texture import settings. " +
                                 (
