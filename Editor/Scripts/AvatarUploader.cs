@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -98,7 +99,7 @@ namespace EAUploader
         }
 
 
-        public static async void BuildAvatar()
+        public static async Task BuildAvatarAsync()
         {
             // Open the SDK Control Panel
             VRCSdkControlPanel.GetWindow<VRCSdkControlPanel>().Show();
@@ -118,7 +119,7 @@ namespace EAUploader
             }
         }
 
-        public static async void BuildAndTest()
+        public static async Task BuildAndTestAsync()
         {
             // Open the SDK Control Panel
             VRCSdkControlPanel.GetWindow<VRCSdkControlPanel>().Show();
@@ -138,7 +139,7 @@ namespace EAUploader
             }
         }
 
-        public static async void UploadAvatar(VRCAvatar avatar, string previewImagePath)
+        public static async Task UploadAvatarAsync(VRCAvatar avatar, string previewImagePath)
         {
             var selectedPrefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);
 
@@ -204,13 +205,14 @@ namespace EAUploader
             };
         }
 
-        private List<ValidateResult> results = new List<ValidateResult>();
+        private readonly List<ValidateResult> results = new List<ValidateResult>();
 
-        public List<ValidateResult> CheckAvatarForValidationIssues(VRC_AvatarDescriptor avatar)
+        public List<ValidateResult>? CheckAvatarForValidationIssues(VRC_AvatarDescriptor avatar)
         {
             results.Clear();
 
             if (avatar == null) return null;
+
             string vrcFilePath = UnityWebRequest.UnEscapeURL(EditorPrefs.GetString("currentBuildingAssetBundlePath"));
             bool isMobilePlatform = ValidationEditorHelpers.IsMobilePlatform();
             if (!string.IsNullOrEmpty(vrcFilePath) &&
@@ -219,7 +221,7 @@ namespace EAUploader
                 results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, ValidationHelpers.GetAssetBundleOverSizeLimitMessageSDKWarning(ContentType.Avatar, fileSize, isMobilePlatform), delegate { Selection.activeObject = avatar.gameObject; }, null));
             }
 
-            AvatarPerformanceStats perfStats = new AvatarPerformanceStats(ValidationEditorHelpers.IsMobilePlatform());
+            var perfStats = new AvatarPerformanceStats(ValidationEditorHelpers.IsMobilePlatform());
             AvatarPerformance.CalculatePerformanceStats(avatar.Name, avatar.gameObject, perfStats, isMobilePlatform);
 
             var OverallResults = CheckPerformanceInfo(avatar, perfStats, AvatarPerformanceCategory.Overall,
@@ -275,21 +277,8 @@ namespace EAUploader
                 Transform rShoulder = anim.GetBoneTransform(HumanBodyBones.RightUpperArm);
                 if (lShoulder == null || rShoulder == null)
                     results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "Your avatar is humanoid, but its upper arms aren't specified!", delegate { Selection.activeObject = avatar.gameObject; }, null));
-                if (lShoulder != null && rShoulder != null)
-                {
-                    Vector3 shoulderPosition = lShoulder.position - avatar.transform.position;
-                    if (shoulderPosition.y < 0.2f)
-                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "This avatar is too short. The minimum is 20cm shoulder height.", delegate { Selection.activeObject = avatar.gameObject; }, null));
-                    else if (shoulderPosition.y < 1.0f)
-                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, "This avatar is shorter than average.", delegate { Selection.activeObject = avatar.gameObject; }, null));
-                    else if (shoulderPosition.y > 5.0f)
-                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "This avatar is too tall. The maximum is 5m shoulder height.", delegate { Selection.activeObject = avatar.gameObject; }, null));
-                    else if (shoulderPosition.y > 2.5f)
-                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, "This avatar is taller than average.", delegate { Selection.activeObject = avatar.gameObject; }, null));
-                }
-
-                if (AnalyzeIK(avatar, anim) == false)
-                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, $"See Avatar Rig Requirements for more information.", null, null, VRCSdkControlPanelHelp.AVATAR_RIG_REQUIREMENTS_URL));
+                if (!AnalyzeIK(avatar, anim))
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, "See Avatar Rig Requirements for more information.", null, null, VRCSdkControlPanelHelp.AVATAR_RIG_REQUIREMENTS_URL));
             }
 
             ValidateFeatures(avatar, anim, perfStats);
@@ -320,9 +309,9 @@ namespace EAUploader
                 // additional messages for Poor and Very Poor Avatars
 #if UNITY_ANDROID || UNITY_IOS
                 if (rating > PerformanceRating.Poor)
-                    _builder.OnGUIInformation(avatar, "This avatar will be blocked by default due to performance. Your fallback will be shown instead.");
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Info, "This avatar will be blocked by default due to performance. Your fallback will be shown instead.", null, null));
                 else if (rating > PerformanceRating.Medium)
-                    _builder.OnGUIInformation(avatar, "Other users may choose to block this avatar due to performance. Your fallback will be shown instead.");
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Info, "This avatar will be blocked by default due to performance. Your fallback will be shown instead.", null, null));
 #else
                 if (rating > PerformanceRating.Medium)
                     results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Info, "This avatar will be blocked by default due to performance. Your fallback will be shown instead.", null, null));
@@ -343,7 +332,7 @@ namespace EAUploader
             SDKPerformanceDisplay.GetSDKPerformanceInfoText(perfStats, perfCategory, out string text,
                 out PerformanceInfoDisplayLevel displayLevel);
 
-            var results = new List<ValidateResult>();
+            var validationResults = new List<ValidateResult>();
 
             switch (displayLevel)
             {
@@ -355,38 +344,38 @@ namespace EAUploader
                     {
                         if (ShowAvatarPerformanceDetails)
                         {
-                            results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Success, text, show, fix));
+                            validationResults.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Success, text, show, fix));
                         }
 
                         break;
                     }
                 case PerformanceInfoDisplayLevel.Info:
                     {
-                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Success, text, show, fix));
+                        validationResults.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Success, text, show, fix));
                         break;
                     }
                 case PerformanceInfoDisplayLevel.Warning:
                     {
-                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, text, show, fix));
+                        validationResults.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, text, show, fix));
                         break;
                     }
                 case PerformanceInfoDisplayLevel.Error:
                     {
-                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, text, show, fix));
-                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, text, show, fix));
+                        validationResults.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, text, show, fix));
+                        validationResults.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, text, show, fix));
                         break;
                     }
                 default:
                     {
-                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "Unknown performance display level.", show, fix));
+                        validationResults.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "Unknown performance display level.", show, fix));
                         break;
                     }
             }
 
-            return results;
+            return validationResults;
         }
 
-        private ValidateResult VerifyAvatarMipMapStreaming(Component avatar)
+        private ValidateResult? VerifyAvatarMipMapStreaming(Component avatar)
         {
             List<TextureImporter> badTextureImporters = new List<TextureImporter>();
             List<UnityEngine.Object> badTextures = new List<UnityEngine.Object>();
@@ -407,8 +396,7 @@ namespace EAUploader
                         string path = AssetDatabase.GetAssetPath(t);
                         if (string.IsNullOrEmpty(path))
                             continue;
-                        TextureImporter importer = AssetImporter.GetAtPath(path) as TextureImporter;
-                        if (importer != null && importer.mipmapEnabled && !importer.streamingMipmaps)
+                        if (AssetImporter.GetAtPath(path) is TextureImporter importer && importer.mipmapEnabled && !importer.streamingMipmaps)
                         {
                             badTextureImporters.Add(importer);
                             badTextures.Add(t);
@@ -420,7 +408,7 @@ namespace EAUploader
             if (badTextureImporters.Count == 0)
                 return null;
 
-            return new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "This avatar has mipmapped textures without 'Streaming Mip Maps' enabled.", () => { Selection.objects = badTextures.ToArray(); }, () =>
+            return new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "This avatar has mipmapped textures without 'Streaming Mip Maps' enabled.", () => Selection.objects = badTextures.ToArray(), () =>
             {
                 List<string> paths = new List<string>();
                 foreach (TextureImporter t in badTextureImporters)
@@ -437,7 +425,7 @@ namespace EAUploader
             });
         }
 
-        private ValidateResult VerifyMaxTextureSize(Component avatar)
+        private ValidateResult? VerifyMaxTextureSize(Component avatar)
         {
             var renderers = avatar.gameObject.GetComponentsInChildrenExcludingEditorOnly<Renderer>(true);
             List<TextureImporter> badTextureImporters = VRCSdkControlPanel.GetOversizeTextureImporters(renderers);
@@ -465,17 +453,17 @@ namespace EAUploader
 
         private bool AnalyzeIK(Object ad, Animator anim)
         {
-            bool hasHead;
-            bool hasFeet;
-            bool hasHands;
+            bool hasHead = false;
+            bool hasFeet = false;
+            bool hasHands = false;
 #if VRC_SDK_VRCSDK2
-            bool hasThreeFingers;
+            bool hasThreeFingers = false;
 #endif
-            bool correctSpineHierarchy;
-            bool correctLeftArmHierarchy;
-            bool correctRightArmHierarchy;
-            bool correctLeftLegHierarchy;
-            bool correctRightLegHierarchy;
+            bool correctSpineHierarchy = false;
+            bool correctLeftArmHierarchy = false;
+            bool correctRightArmHierarchy = false;
+            bool correctLeftLegHierarchy = false;
+            bool correctRightLegHierarchy = false;
 
             bool status = true;
 
@@ -485,9 +473,9 @@ namespace EAUploader
             Transform lHand = anim.GetBoneTransform(HumanBodyBones.LeftHand);
             Transform rHand = anim.GetBoneTransform(HumanBodyBones.RightHand);
 
-            hasHead = null != head;
-            hasFeet = (null != lFoot && null != rFoot);
-            hasHands = (null != lHand && null != rHand);
+            hasHead = head != null;
+            hasFeet = (lFoot != null && rFoot != null);
+            hasHands = (lHand != null && rHand != null);
 
             if (!hasHead || !hasFeet || !hasHands)
             {
@@ -513,40 +501,36 @@ namespace EAUploader
             Transform rClav = anim.GetBoneTransform(HumanBodyBones.RightShoulder);
 
 
-            if (null == neck || null == lClav || null == rClav || null == pelvis || null == torso || null == chest)
+            if (neck == null || lClav == null || rClav == null || pelvis == null || torso == null || chest == null)
             {
                 string missingElements =
-                    ((null == neck) ? "Neck, " : "") +
-                    (((null == lClav) || (null == rClav)) ? "Shoulders, " : "") +
-                    ((null == pelvis) ? "Pelvis, " : "") +
-                    ((null == torso) ? "Spine, " : "") +
-                    ((null == chest) ? "Chest, " : "");
+                    ((neck == null) ? "Neck, " : "") +
+                    (((lClav == null) || (rClav == null)) ? "Shoulders, " : "") +
+                    ((pelvis == null) ? "Pelvis, " : "") +
+                    ((torso == null) ? "Spine, " : "") +
+                    ((chest == null) ? "Chest, " : "");
                 missingElements = missingElements.Remove(missingElements.LastIndexOf(',')) + ".";
                 results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, "Spine hierarchy missing elements, please map: " + missingElements,
                                                           delegate { Selection.activeObject = anim.gameObject; }, null));
                 return false;
             }
 
-            if (null != upperChest)
-                correctSpineHierarchy =
-                    lClav.parent == upperChest && rClav.parent == upperChest && neck.parent == upperChest;
-            else
-                correctSpineHierarchy = lClav.parent == chest && rClav.parent == chest && neck.parent == chest;
+            correctSpineHierarchy = (upperChest != null) ? (lClav.parent == upperChest && rClav.parent == upperChest && neck.parent == upperChest) : (lClav.parent == chest && rClav.parent == chest && neck.parent == chest);
 
             if (!correctSpineHierarchy)
             {
                 results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, "Spine hierarchy incorrect. Make sure that the parent of both Shoulders and the Neck is the Chest (or UpperChest if set).",
-                                                         delegate
-                                                         {
-                                                             List<Object> gos = new List<Object>
-                                          {
-                                              lClav.gameObject,
-                                              rClav.gameObject,
-                                              neck.gameObject,
-                                              null != upperChest ? upperChest.gameObject : chest.gameObject
-                                          };
-                                                             Selection.objects = gos.ToArray();
-                                                         }, null));
+                    delegate
+                    {
+                        List<Object> gos = new List<Object>
+                        {
+                            lClav.gameObject,
+                            rClav.gameObject,
+                            neck.gameObject,
+                            upperChest?.gameObject ?? chest.gameObject
+                        };
+                        Selection.objects = gos.ToArray();
+                    }, null));
                 return false;
             }
 
@@ -563,18 +547,18 @@ namespace EAUploader
             if (!(correctLeftArmHierarchy && correctRightArmHierarchy))
             {
                 results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, "LowerArm is not first child of UpperArm or Hand is not first child of LowerArm: you may have problems with Forearm rotations.",
-                                                                             delegate
-                                                                             {
-                                                                                 List<Object> gos = new List<Object>();
-                                                                                 if (!correctLeftArmHierarchy && lShoulder)
-                                                                                     gos.Add(lShoulder.gameObject);
-                                                                                 if (!correctRightArmHierarchy && rShoulder)
-                                                                                     gos.Add(rShoulder.gameObject);
-                                                                                 if (gos.Count > 0)
-                                                                                     Selection.objects = gos.ToArray();
-                                                                                 else
-                                                                                     Selection.activeObject = anim.gameObject;
-                                                                             }, null));
+                    delegate
+                    {
+                        List<Object> gos = new List<Object>();
+                        if (!correctLeftArmHierarchy && lShoulder)
+                            gos.Add(lShoulder.gameObject);
+                        if (!correctRightArmHierarchy && rShoulder)
+                            gos.Add(rShoulder.gameObject);
+                        if (gos.Count > 0)
+                            Selection.objects = gos.ToArray();
+                        else
+                            Selection.activeObject = anim.gameObject;
+                    }, null));
                 status = false;
             }
 
@@ -589,18 +573,18 @@ namespace EAUploader
             if (!(correctLeftLegHierarchy && correctRightLegHierarchy))
             {
                 results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, "LowerLeg is not first child of UpperLeg or Foot is not first child of LowerLeg: you may have problems with Shin rotations.",
-                                                                                                delegate
-                                                                                                {
-                                                                                                    List<Object> gos = new List<Object>();
-                                                                                                    if (!correctLeftLegHierarchy && lHip)
-                                                                                                        gos.Add(lHip.gameObject);
-                                                                                                    if (!correctRightLegHierarchy && rHip)
-                                                                                                        gos.Add(rHip.gameObject);
-                                                                                                    if (gos.Count > 0)
-                                                                                                        Selection.objects = gos.ToArray();
-                                                                                                    else
-                                                                                                        Selection.activeObject = anim.gameObject;
-                                                                                                }, null));
+                    delegate
+                    {
+                        List<Object> gos = new List<Object>();
+                        if (!correctLeftLegHierarchy && lHip)
+                            gos.Add(lHip.gameObject);
+                        if (!correctRightLegHierarchy && rHip)
+                            gos.Add(rHip.gameObject);
+                        if (gos.Count > 0)
+                            Selection.objects = gos.ToArray();
+                        else
+                            Selection.activeObject = anim.gameObject;
+                    }, null));
                 status = false;
             }
 
@@ -608,19 +592,19 @@ namespace EAUploader
                   IsAncestor(pelvis, rHand)))
             {
                 results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, "This avatar has a split hierarchy (Hips bone is not the ancestor of all humanoid bones). IK may not work correctly.",
-                                                                                                delegate
-                                                                                                {
-                                                                                                    List<Object> gos = new List<Object> { pelvis.gameObject };
-                                                                                                    if (!IsAncestor(pelvis, rFoot))
-                                                                                                        gos.Add(rFoot.gameObject);
-                                                                                                    if (!IsAncestor(pelvis, lFoot))
-                                                                                                        gos.Add(lFoot.gameObject);
-                                                                                                    if (!IsAncestor(pelvis, lHand))
-                                                                                                        gos.Add(lHand.gameObject);
-                                                                                                    if (!IsAncestor(pelvis, rHand))
-                                                                                                        gos.Add(rHand.gameObject);
-                                                                                                    Selection.objects = gos.ToArray();
-                                                                                                }, null));
+                    delegate
+                    {
+                        List<Object> gos = new List<Object> { pelvis.gameObject };
+                        if (!IsAncestor(pelvis, rFoot))
+                            gos.Add(rFoot.gameObject);
+                        if (!IsAncestor(pelvis, lFoot))
+                            gos.Add(lFoot.gameObject);
+                        if (!IsAncestor(pelvis, lHand))
+                            gos.Add(lHand.gameObject);
+                        if (!IsAncestor(pelvis, rHand))
+                            gos.Add(rHand.gameObject);
+                        Selection.objects = gos.ToArray();
+                    }, null));
                 status = false;
             }
 
@@ -632,18 +616,18 @@ namespace EAUploader
                 Vector3 legRDir = rHip.TransformVector(hipLocalUp);
                 float angL = Vector3.Angle(Vector3.up, legLDir);
                 float angR = Vector3.Angle(Vector3.up, legRDir);
-                if (!(angL < 175f) && !(angR < 175f)) return status;
+                if (angL >= 175f && angR >= 175f) return status;
                 string angle = $"{Mathf.Min(angL, angR):F1}";
                 results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Warning, $"The angle between pelvis and thigh bones should be close to 180 degrees (this avatar's angle is {angle}). Your avatar may not work well with full-body IK and Tracking.",
-                                       delegate
-                                       {
-                                           List<Object> gos = new List<Object>();
-                                           if (angL < 175f)
-                                               gos.Add(rFoot.gameObject);
-                                           if (angR < 175f)
-                                               gos.Add(lFoot.gameObject);
-                                           Selection.objects = gos.ToArray();
-                                       }, null));
+                    delegate
+                    {
+                        List<Object> gos = new List<Object>();
+                        if (angL < 175f)
+                            gos.Add(rFoot.gameObject);
+                        if (angR < 175f)
+                            gos.Add(lFoot.gameObject);
+                        Selection.objects = gos.ToArray();
+                    }, null));
                 status = false;
             }
 
@@ -674,31 +658,29 @@ namespace EAUploader
 
             foreach (VRCAvatarDescriptor.CustomAnimLayer animLayer in avatar.baseAnimationLayers)
             {
-                AnimatorController controller = animLayer.animatorController as AnimatorController;
-                if (controller != null)
+                if (animLayer.animatorController is not AnimatorController controller) continue;
+
+                foreach (AnimatorControllerLayer layer in controller.layers)
                 {
-                    foreach (AnimatorControllerLayer layer in controller.layers)
+                    ProcessStateMachine(layer.stateMachine, "");
+                    void ProcessStateMachine(AnimatorStateMachine stateMachine, string prefix)
                     {
-                        ProcessStateMachine(layer.stateMachine, "");
-                        void ProcessStateMachine(AnimatorStateMachine stateMachine, string prefix)
+                        //Update prefix
+                        prefix = prefix + stateMachine.name + ".";
+
+                        //States
+                        foreach (var state in stateMachine.states)
                         {
-                            //Update prefix
-                            prefix = prefix + stateMachine.name + ".";
-
-                            //States
-                            foreach (var state in stateMachine.states)
-                            {
-                                VRCAvatarDescriptor.DebugHash hash = new VRCAvatarDescriptor.DebugHash();
-                                string fullName = prefix + state.state.name;
-                                hash.hash = Animator.StringToHash(fullName);
-                                hash.name = fullName.Remove(0, layer.stateMachine.name.Length + 1);
-                                avatar.animationHashSet.Add(hash);
-                            }
-
-                            //Sub State Machines
-                            foreach (var subMachine in stateMachine.stateMachines)
-                                ProcessStateMachine(subMachine.stateMachine, prefix);
+                            VRCAvatarDescriptor.DebugHash hash = new VRCAvatarDescriptor.DebugHash();
+                            string fullName = prefix + state.state.name;
+                            hash.hash = Animator.StringToHash(fullName);
+                            hash.name = fullName.Remove(0, layer.stateMachine.name.Length + 1);
+                            avatar.animationHashSet.Add(hash);
                         }
+
+                        //Sub State Machines
+                        foreach (var subMachine in stateMachine.stateMachines)
+                            ProcessStateMachine(subMachine.stateMachine, prefix);
                     }
                 }
             }
@@ -724,9 +706,9 @@ namespace EAUploader
                     && !gestureLayer.isDefault)
                 {
                     AnimatorController controller = gestureLayer.animatorController as AnimatorController;
-                    if (controller != null && controller.layers[0].avatarMask == null)
+                    if (controller is AnimatorController animController && animController.layers[0].avatarMask == null)
                         results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "Gesture Layer needs valid mask on first animator layer",
-                                                       delegate { OpenAnimatorControllerWindow(controller); }, null));
+                                                       delegate { OpenAnimatorControllerWindow(animController); }, null));
                 }
             }
 
@@ -938,7 +920,7 @@ namespace EAUploader
                         bool ValidateNonBoolParam(string name)
                         {
                             VRCExpressionParameters.Parameter param = string.IsNullOrEmpty(name) ? null : avatarSDK3.expressionParameters.FindParameter(name);
-                            if (param != null && param.valueType == VRCExpressionParameters.ValueType.Bool)
+                            if (param?.valueType == VRCExpressionParameters.ValueType.Bool)
                                 return false;
                             return true;
                         }
@@ -949,7 +931,7 @@ namespace EAUploader
                 if (perfStats.dynamicBone != null && (perfStats.dynamicBone.Value.colliderCount > 0 || perfStats.dynamicBone.Value.componentCount > 0))
                 {
                     results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, "This avatar uses depreciated DynamicBone components. Upgrade to PhysBones to guarantee future compatibility.",
-                                                                       null, () => { AvatarDynamicsSetup.ConvertDynamicBonesToPhysBones(new GameObject[] { avatar.gameObject }); }));
+                        null, () => AvatarDynamicsSetup.ConvertDynamicBonesToPhysBones(new GameObject[] { avatar.gameObject })));
                 }
             }
 
@@ -972,10 +954,10 @@ namespace EAUploader
             }
 
             HashSet<string> componentsToRemoveNames = new HashSet<string>();
-            List<Component> toRemove = componentsToRemove ?? componentsToRemove;
+            List<Component> toRemove = componentsToRemove;
             foreach (Component c in toRemove)
             {
-                if (componentsToRemoveNames.Contains(c.GetType().Name) == false)
+                if (!componentsToRemoveNames.Contains(c.GetType().Name))
                     componentsToRemoveNames.Add(c.GetType().Name);
             }
 
@@ -1005,7 +987,7 @@ namespace EAUploader
             if (VRCSdkControlPanel.HasSubstances(avatar.gameObject))
             {
                 results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, "This avatar has one or more Substance materials, which is not supported and may break in-game. Please bake your Substances to regular materials.",
-                                                                () => { Selection.objects = VRCSdkControlPanel.GetSubstanceObjects(avatar.gameObject); }, null));
+                    () => Selection.objects = VRCSdkControlPanel.GetSubstanceObjects(avatar.gameObject), null));
             }
 
             CheckAvatarMeshesForLegacyBlendShapesSetting(avatar);
@@ -1015,8 +997,8 @@ namespace EAUploader
             IEnumerable<Shader> illegalShaders = VRC.SDK3.Validation.AvatarValidation.FindIllegalShaders(avatar.gameObject);
             foreach (Shader s in illegalShaders)
             {
-                _builder.OnGUIError(avatar, "Avatar uses unsupported shader '" + s.name + "'. You can only use the shaders provided in 'VRChat/Mobile' for Quest avatars.", delegate () { Selection.activeObject
-     = avatar.gameObject; }, null);
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "Avatar uses unsupported shader '" + s.name + "'. You can only use the shaders provided in 'VRChat/Mobile' for Quest avatars.",
+                                                                                      delegate () { Selection.activeObject = avatar.gameObject; }, null));
             }
 #endif
 
@@ -1024,7 +1006,7 @@ namespace EAUploader
             {
                 results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, "One or more of the animation states on this avatar have Write Defaults turned on. We recommend keeping Write Defaults off and explicitly animating any parameter that needs to be set by the animation instead.",
                                                                                       null, null));
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, $"Write Defaults Guidelines", null, null, VRCSdkControlPanelHelp.AVATAR_WRITE_DEFAULTS_ON_STATES_URL));
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, "Write Defaults Guidelines", null, null, VRCSdkControlPanelHelp.AVATAR_WRITE_DEFAULTS_ON_STATES_URL));
             }
 
             foreach (AvatarPerformanceCategory perfCategory in Enum.GetValues(typeof(AvatarPerformanceCategory)))
@@ -1112,6 +1094,9 @@ namespace EAUploader
                     case AvatarPerformanceCategory.ContactCount:
                         show = GetAvatarSubSelectAction(avatar, typeof(VRC.Dynamics.ContactBase));
                         break;
+                    default:
+                        // Unhandled performance category
+                        break;
                 }
 
                 // we can only show these buttons if DynamicBone is installed
@@ -1134,13 +1119,16 @@ namespace EAUploader
                         case AvatarPerformanceCategory.DynamicBoneSimulatedBoneCount:
                             show = GetAvatarSubSelectAction(avatar, dynamicBoneType);
                             break;
+                        default:
+                            // Unhandled performance category
+                            break;
                     }
                 }
 
                 CheckPerformanceInfo(avatar, perfStats, perfCategory, show, null);
             }
 
-            results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, $"Avatar Optimization Tips", null, null, VRCSdkControlPanelHelp.AVATAR_OPTIMIZATION_TIPS_URL));
+            results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, "Avatar Optimization Tips", null, null, VRCSdkControlPanelHelp.AVATAR_OPTIMIZATION_TIPS_URL));
         }
 
         private void OpenAnimatorControllerWindow(object animatorController)
@@ -1163,10 +1151,12 @@ namespace EAUploader
 
         private static void FixRestrictedComponents(IEnumerable<Component> componentsToRemove)
         {
-            if (!(componentsToRemove is List<Component> list)) return;
-            for (int v = list.Count - 1; v > -1; v--)
+            if (componentsToRemove is List<Component> list)
             {
-                Object.DestroyImmediate(list[v]);
+                for (int v = list.Count - 1; v > -1; v--)
+                {
+                    Object.DestroyImmediate(list[v]);
+                }
             }
         }
 
@@ -1204,10 +1194,8 @@ namespace EAUploader
                 ScanMeshesForIncorrectBlendShapeNormalsSetting(avatarMeshes);
             if (incorrectlyConfiguredMeshes.Count > 0)
             {
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error,
-                                       "This avatar contains skinned meshes that were imported with Blendshape Normals set to 'Calculate' but aren't using 'Legacy Blendshape Normals'. This will significantly increase the size of the uploaded avatar. This must be fixed in the mesh import settings before uploading.",
-                                                          null,
-                                                                             () => { EnableLegacyBlendShapeNormals(incorrectlyConfiguredMeshes); }));
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "This avatar contains skinned meshes that were imported with Blendshape Normals set to 'Calculate' but aren't using 'Legacy Blendshape Normals'. This will significantly increase the size of the uploaded avatar. This must be fixed in the mesh import settings before uploading.",
+                    null, () => EnableLegacyBlendShapeNormals(incorrectlyConfiguredMeshes)));
             }
         }
 
@@ -1377,10 +1365,8 @@ namespace EAUploader
                 ScanMeshesForDisabledMeshReadWriteSetting(avatarMeshes);
             if (incorrectlyConfiguredMeshes.Count > 0)
             {
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error,
-                                                          "This avatar contains meshes that were imported with Read/Write disabled. This must be fixed in the mesh import settings before uploading.",
-                                                                                                                   null,
-                                                                                                                                                                                               () => { EnableMeshReadWrite(incorrectlyConfiguredMeshes); }));
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "This avatar contains meshes that were imported with Read/Write disabled. This must be fixed in the mesh import settings before uploading.",
+                    null, () => EnableMeshReadWrite(incorrectlyConfiguredMeshes)));
             }
         }
 
@@ -1467,8 +1453,7 @@ namespace EAUploader
             {
                 foreach (VRCAvatarDescriptor.CustomAnimLayer customLayer in avatarSDK3.baseAnimationLayers)
                 {
-                    AnimatorController controller = customLayer.animatorController as AnimatorController;
-                    if (controller != null)
+                    if (customLayer.animatorController is AnimatorController controller)
                     {
                         foreach (AnimatorControllerLayer controllerLayer in controller.layers)
                         {
