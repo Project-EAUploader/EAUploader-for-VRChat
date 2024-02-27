@@ -24,7 +24,7 @@
                             <eau:TextFieldPro class="pb-2" label="Name" name="content-name" placeholder="Give your avatar a name" required="true" />
                             <eau:TextFieldPro class="pb-2" label="Description" name="content-description" placeholder="Describe your avatar so it is easier to remember!" required="false" />
                         </ui:VisualElement>
-                        <eau:ContentWarningsField label="Content WaDrnings" name="content-warnings" class="pb-2"/>
+                        <eau:ContentWarningsField label="Content Warnings" name="content-warnings" class="pb-2"/>
                         <ui:DropdownField name="release-status" label="Visibility" index="0" choices="Private,Public" />
                     </ui:VisualElement>
                 </ui:VisualElement>
