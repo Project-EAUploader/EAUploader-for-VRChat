@@ -67,7 +67,12 @@ namespace EAUploader.UI.Setup
 
         private static VisualElement CreatePrefabItem(PrefabInfo prefab)
         {
-            var item = new PrefabItemButton(prefab);
+            var item = new PrefabItemButton(prefab, () =>
+            {
+                EAUploaderCore.selectedPrefabPath = prefab.Path;
+                UpdatePrefabInto(prefab.Path);
+                preview.UpdatePreview(prefab.Path);
+            });
             return item;
         }
 
@@ -254,45 +259,6 @@ namespace EAUploader.UI.Setup
             {
                 foldoutButton.Add(expandMore);
             }
-        }
-    }
-
-    internal class PrefabItemButton : Button
-    {
-        public PrefabItemButton(PrefabInfo prefab)
-        {
-            var previewImage = new Image { image = prefab.Preview, scaleMode = ScaleMode.ScaleToFit, style = { width = 100, height = 100 } };
-            Add(previewImage);
-
-            var label = new Label(Path.GetFileNameWithoutExtension(prefab.Path));
-            Add(label);
-
-            if (EAUploaderCore.selectedPrefabPath == prefab.Path)
-            {
-                EnableInClassList("selected", true);
-            }
-
-            if (PrefabManager.IsPinned(prefab.Path))
-            {
-                EnableInClassList("pinned", true);
-            }
-
-            clicked += () =>
-            {
-                EAUploaderCore.selectedPrefabPath = prefab.Path;
-                Main.UpdatePrefabInto(prefab.Path);
-                Main.preview.UpdatePreview(prefab.Path);
-
-                EnableInClassList("selected", true);
-
-                foreach (var child in parent.Children())
-                {
-                    if (child != this)
-                    {
-                        child.EnableInClassList("selected", false);
-                    }
-                }
-            };
         }
     }
 }

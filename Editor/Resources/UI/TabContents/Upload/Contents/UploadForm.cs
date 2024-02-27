@@ -269,15 +269,18 @@ namespace EAUploader.UI.Upload
 
         private static void Validate()
         {
-            var avatarDescriptor = Utility.GetAvatarDescriptor(PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath));
-            var avatarValidation = new Validation();
-            var validations = avatarValidation.CheckAvatarForValidationIssues(avatarDescriptor);
-            var validationList = root.Q<ScrollView>("validation_list");
-            validationList.Clear();
-            foreach (var validation in validations)
+            if (Utility.CheckAvatarHasVRCAvatarDescriptor(PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath)))
             {
-                var validationItem = new ValidationItem(validation);
-                validationList.Add(validationItem);
+                var avatarDescriptor = Utility.GetAvatarDescriptor(PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath));
+                var avatarValidation = new Validation();
+                var validations = avatarValidation.CheckAvatarForValidationIssues(avatarDescriptor);
+                var validationList = root.Q<ScrollView>("validation_list");
+                validationList.Clear();
+                foreach (var validation in validations)
+                {
+                    var validationItem = new ValidationItem(validation);
+                    validationList.Add(validationItem);
+                }
             }
         }
 
