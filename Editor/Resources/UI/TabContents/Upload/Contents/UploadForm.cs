@@ -2,6 +2,7 @@ using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -65,8 +66,8 @@ namespace EAUploader.UI.Upload
 
         private static void BindButtons()
         {
-            root.Q<ShadowButton>("buildandtest").clicked += BuildAndTest;
-            root.Q<ShadowButton>("upload").clicked += Upload;
+            root.Q<ShadowButton>("buildandtest").clicked += async () => await BuildAndTestAsync();
+            root.Q<ShadowButton>("upload").clicked += async () => await UploadAsync();
             root.Q<ShadowButton>("add_thumbnail").clicked += AddThumbnail;
             root.Q<ShadowButton>("remove_thumbnail").clicked += RemoveThumbnail;
         }
@@ -166,6 +167,11 @@ namespace EAUploader.UI.Upload
 
                                     break;
                                 }
+                            default:
+                                {
+                                    // Unsupported platform
+                                    break;
+                                }
                         }
                     });
                     popup.AddToClassList("flex-1");
@@ -191,7 +197,7 @@ namespace EAUploader.UI.Upload
 
         private static string GetCurrentBuildTarget()
         {
-            string currentTarget;
+            string currentTarget = "Unsupported Target Platform";
             switch (EditorUserBuildSettings.activeBuildTarget)
             {
                 case BuildTarget.StandaloneWindows:
@@ -249,10 +255,7 @@ namespace EAUploader.UI.Upload
                     text = T7e.Get("Login")
                 };
 
-                loginButton.clicked += () =>
-                {
-                    VRCSdkControlPanel.GetWindow<VRCSdkControlPanel>().Show();
-                };
+                loginButton.clicked += () => VRCSdkControlPanel.GetWindow<VRCSdkControlPanel>().Show();
                 loginStatus.Add(loginButton);
 
                 uploadMain.style.display = DisplayStyle.None;
@@ -276,7 +279,7 @@ namespace EAUploader.UI.Upload
             }
         }
 
-        private static async void BuildAndTest()
+        private static async Task BuildAndTestAsync()
         {
             var selectedPrefabPath = EAUploaderCore.selectedPrefabPath;
 
@@ -286,7 +289,7 @@ namespace EAUploader.UI.Upload
             }
         }
 
-        private static async void Upload()
+        private static async Task UploadAsync()
         {
             var selectedPrefabPath = EAUploaderCore.selectedPrefabPath;
 
@@ -371,6 +374,9 @@ namespace EAUploader.UI.Upload
                 case AvatarUploader.ValidateResult.ValidateResultType.Link:
                     AddToClassList("link");
                     break;
+                default:
+                    // Unsupported type
+                    break;
             }
             var message = validateResult.ResultMessage;
             Add(new Label(message));
@@ -382,10 +388,7 @@ namespace EAUploader.UI.Upload
                     text = "Open Link"
                 };
 
-                button.clicked += () =>
-                {
-                    Application.OpenURL(validateResult.Link);
-                };
+                button.clicked += () => Application.OpenURL(validateResult.Link);
                 Add(button);
             }
         }
