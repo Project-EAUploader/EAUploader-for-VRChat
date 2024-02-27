@@ -43,7 +43,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement class="flex-row max-h-48">
+    <ui:VisualElement class="flex-row max-h-64">
         <ui:ScrollView name="validation_list" class="flex-1 border-r border-r-zinc-300"/>
         <ui:VisualElement class="flex-1 p-4">
             <ui:VisualElement name="platform-switcher" class="pb-2" />

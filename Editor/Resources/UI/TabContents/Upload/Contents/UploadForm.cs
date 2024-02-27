@@ -104,71 +104,73 @@ namespace EAUploader.UI.Upload
                 Validate();
 
                 var switcherBlock = root.Q("platform-switcher");
-                var options = GetBuildTargetOptions();
-                var currentTarget = GetCurrentBuildTarget();
-                var selectedIndex = options.IndexOf(currentTarget);
-                if (!BUILD_TARGET_ICONS.TryGetValue(currentTarget, out var iconClass))
+                if (switcherBlock.Q("platform-switcher-popup") == null)
                 {
-                    iconClass = "";
-                }
-                if (selectedIndex == -1)
-                {
-                    selectedIndex = 0;
-                }
-                var popup = new PopupField<string>("Selected Platform", options, selectedIndex)
-                {
-                    name = "platform-switcher-popup"
-                };
-                var icon = new VisualElement();
-                icon.AddToClassList("icon");
-                icon.AddToClassList(iconClass);
-
-                popup.hierarchy.Insert(0, icon);
-                popup.schedule.Execute(() =>
-                {
-                    currentTarget = GetCurrentBuildTarget();
-                    popup.SetValueWithoutNotify(currentTarget);
-                }).Every(500);
-                popup.RegisterValueChangedCallback(evt =>
-                {
-                    switch (evt.newValue)
+                    var options = GetBuildTargetOptions();
+                    var currentTarget = GetCurrentBuildTarget();
+                    var selectedIndex = options.IndexOf(currentTarget);
+                    if (!BUILD_TARGET_ICONS.TryGetValue(currentTarget, out var iconClass))
                     {
-                        case "Windows":
-                            {
-                                if (EditorUtility.DisplayDialog("Build Target Switcher", "Are you sure you want to switch your build target to Windows? This could take a while.", "Confirm", "Cancel"))
-                                {
-                                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Standalone;
-                                    EditorUserBuildSettings.SwitchActiveBuildTargetAsync(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64);
-                                }
-
-                                break;
-                            }
-                        case "Android":
-                            {
-                                if (EditorUtility.DisplayDialog("Build Target Switcher", "Are you sure you want to switch your build target to Android? This could take a while.", "Confirm", "Cancel"))
-                                {
-                                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Android;
-                                    EditorUserBuildSettings.SwitchActiveBuildTargetAsync(BuildTargetGroup.Android, BuildTarget.Android);
-                                }
-
-                                break;
-                            }
-                        case "iOS":
-                            {
-                                if (ApiUserPlatforms.CurrentUserPlatforms?.SupportsiOS != true) return;
-                                if (EditorUtility.DisplayDialog("Build Target Switcher", "Are you sure you want to switch your build target to iOS? This could take a while.", "Confirm", "Cancel"))
-                                {
-                                    EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.iOS;
-                                    EditorUserBuildSettings.SwitchActiveBuildTargetAsync(BuildTargetGroup.iOS, BuildTarget.iOS);
-                                }
-
-                                break;
-                            }
+                        iconClass = "";
                     }
-                });
-                popup.AddToClassList("flex-grow-1");
-                switcherBlock.Add(popup);
+                    if (selectedIndex == -1)
+                    {
+                        selectedIndex = 0;
+                    }
+                    var popup = new PopupField<string>("Selected Platform", options, selectedIndex)
+                    {
+                        name = "platform-switcher-popup"
+                    };
+                    var icon = new VisualElement();
+                    icon.AddToClassList("icon");
+                    icon.AddToClassList(iconClass);
 
+                    popup.hierarchy.Insert(0, icon);
+                    popup.schedule.Execute(() =>
+                    {
+                        currentTarget = GetCurrentBuildTarget();
+                        popup.SetValueWithoutNotify(currentTarget);
+                    }).Every(500);
+                    popup.RegisterValueChangedCallback(evt =>
+                    {
+                        switch (evt.newValue)
+                        {
+                            case "Windows":
+                                {
+                                    if (EditorUtility.DisplayDialog("Build Target Switcher", "Are you sure you want to switch your build target to Windows? This could take a while.", "Confirm", "Cancel"))
+                                    {
+                                        EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Standalone;
+                                        EditorUserBuildSettings.SwitchActiveBuildTargetAsync(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64);
+                                    }
+
+                                    break;
+                                }
+                            case "Android":
+                                {
+                                    if (EditorUtility.DisplayDialog("Build Target Switcher", "Are you sure you want to switch your build target to Android? This could take a while.", "Confirm", "Cancel"))
+                                    {
+                                        EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Android;
+                                        EditorUserBuildSettings.SwitchActiveBuildTargetAsync(BuildTargetGroup.Android, BuildTarget.Android);
+                                    }
+
+                                    break;
+                                }
+                            case "iOS":
+                                {
+                                    if (ApiUserPlatforms.CurrentUserPlatforms?.SupportsiOS != true) return;
+                                    if (EditorUtility.DisplayDialog("Build Target Switcher", "Are you sure you want to switch your build target to iOS? This could take a while.", "Confirm", "Cancel"))
+                                    {
+                                        EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.iOS;
+                                        EditorUserBuildSettings.SwitchActiveBuildTargetAsync(BuildTargetGroup.iOS, BuildTarget.iOS);
+                                    }
+
+                                    break;
+                                }
+                        }
+                    });
+                    popup.AddToClassList("flex-1");
+                    switcherBlock.Add(popup);
+                }
             }
         }
 
@@ -274,17 +276,17 @@ namespace EAUploader.UI.Upload
             }
         }
 
-        private static void BuildAndTest()
+        private static async void BuildAndTest()
         {
             var selectedPrefabPath = EAUploaderCore.selectedPrefabPath;
 
             if (selectedPrefabPath != null)
             {
-                AvatarUploader.BuildAndTest();
+                await AvatarUploader.BuildAndTestAsync();
             }
         }
 
-        private static void Upload()
+        private static async void Upload()
         {
             var selectedPrefabPath = EAUploaderCore.selectedPrefabPath;
 
@@ -321,7 +323,7 @@ namespace EAUploader.UI.Upload
                     thumbnailPath = thumbnailUrl;
                 }
 
-                AvatarUploader.UploadAvatar(avatar, thumbnailPath);
+                await AvatarUploader.UploadAvatarAsync(avatar, thumbnailPath);
 
                 /*
                 var uploadStatus = root.Q<VisualElement>("upload_status");
