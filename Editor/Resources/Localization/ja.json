@@ -202,6 +202,14 @@
       "value": "公開設定"
     },
     {
+      "key": "Add Thumbnail",
+      "value": "サムネイルを追加"
+    },
+    {
+      "key": "Delete Thumbnail",
+      "value": "サムネイルを削除"
+    },
+    {
       "key": "Build",
       "value": "ビルド"
     },
@@ -230,6 +238,30 @@
       "value": "過激なホラー"
     },
     {
+      "key": "Selected Platform",
+      "value": "PC用 / Quest用 切り替え"
+    },
+    {
+      "key": "Build Target Switcher",
+      "value": "ビルド対象の変更"
+    },
+    {
+      "key": "Are you sure you want to switch your build target to Windows? This could take a while.",
+      "value": "Windows用のビルドに変更しますか？（変更には少し時間がかかります）"
+    },
+    {
+      "key": "Are you sure you want to switch your build target to Android? This could take a while.",
+      "value": "Android（Quest, スマホ）用のビルドに変更しますか？（変更には少し時間がかかります）"
+    },
+    {
+      "key": "Are you sure you want to switch your build target to iOS? This could take a while.",
+      "value": "iOS用のビルドに変更しますか？（変更には少し時間がかかります）"
+    },
+    {
+      "key": "Confirm",
+      "value": "確認"
+    },
+    {
       "key": "Select a prefab to preview",
       "value": "アバターを選択してください。"
     },
@@ -240,6 +272,154 @@
     {
       "key": "Filter by Tag",
       "value": "タグで絞り込み"
+    },
+    {
+      "key": "Upload Succeed",
+      "value": "アップロード成功"
+    },
+    {
+      "key": "Upload Failed",
+      "value": "アップロード失敗"
+    },
+    {
+      "key": "This avatar uses Visemes but the Face Mesh is not specified.",
+      "value": "このアバターはVisemesを使用していますが、フェイスメッシュは指定されていません。"
+    },
+    {
+      "key": "This avatar does not contain an Animator, you need to add an Animator component for the avatar to work",
+      "value": "このアバターにはAnimatorが含まれていません。アバターを動作させるにはAnimatorコンポーネントを追加する必要があります。"
+    },
+    {
+      "key": "This avatar does not contain an Animator, and will not animate in VRChat.",
+      "value": "このアバターにはアニメーターが含まれていないため、VRChatではアニメーションしません。"
+    },
+    {
+      "key": "This avatar is not imported as a humanoid rig and will not play VRChat's provided animation set.",
+      "value": "このアバターはヒューマノイドリグとしてインポートされないため、VRChatが提供するアニメーションセットは再生されません。"
+    },
+    {
+      "key": "Your avatar is disabled in the scene hierarchy!",
+      "value": "シーンヒエラルキーでアバターが無効になっています。"
+    },
+    {
+      "key": "Your avatar is humanoid, but its feet aren't specified!",
+      "value": "Humanoidアバターの足が特定されていません。"
+    },
+    {
+      "key": "Avatar feet are beneath the avatar's origin (the floor). That's probably not what you want.",
+      "value": "アバターの足がアバターの原点（床）より下にあります。確認してください。"
+    },
+    {
+      "key": "Your avatar is humanoid, but its upper arms aren't specified!",
+      "value": "Humanoidアバターの上腕が特知恵されていません。"
+    },
+    {
+      "key": "This avatar is too short. The minimum is 20cm shoulder height.",
+      "value": "アバターが短すぎます。肩の高さ20cmが最低基準です。"
+    },
+    {
+      "key": "This avatar is shorter than average.",
+      "value": "このアバターは平均より背が短いです。"
+    },
+    {
+      "key": "This avatar is too tall. The maximum is 5m shoulder height.",
+      "value": "アバターが高すぎます。最大は肩の高さ5mです。"
+    },
+    {
+      "key": "This avatar is taller than average.",
+      "value": "このアバターは平均より背が高いです。"
+    },
+    {
+      "key": "This avatar does not have a humanoid rig, so it can not be used as a custom fallback.",
+      "value": "このアバターにはHumanoid rigがないため、カスタムフォールバックとして使用することはできません。"
+    },
+    {
+      "key": "This avatar does not have an overall rating of Good or better, so it can not be used as a custom fallback. See the link below for details on Avatar Optimization.",
+      "value": "このアバターは総合評価が「Good」以上ではないため、カスタムフォールバックとして使用することはできません。アバター最適化の詳細については、以下のリンクをご覧ください。"
+    },
+    {
+      "key": "This avatar can be used as a custom fallback.",
+      "value": "このアバターはカスタムフォールバックとして使用できます。"
+    },
+    {
+      "key": "This avatar uses additional animators, they will be disabled when used as a fallback.",
+      "value": "このアバターは追加のアニメーターを使用していますが、フォールバックアバターとして使用する場合は無効になります。"
+    },
+    {
+      "key": "This avatar will be blocked by default due to performance. Your fallback will be shown instead.",
+      "value": "このアバターはパフォーマンスの関係でデフォルトではブロックされます。代わりにあなたのフォールバックアバターが表示されます。"
+    },
+    {
+      "key": "Other users may choose to block this avatar due to performance. Your fallback will be shown instead.",
+      "value": "他のユーザーは、パフォーマンス上の理由でこのアバターをブロックすることができます。代わりにあなたの代替アバターが表示されます。"
+    },
+    {
+      "key": "Unknown performance display level.",
+      "value": "不明な評価レベルです。"
+    },
+    {
+      "key": "This avatar has mipmapped textures without 'Streaming Mip Maps' enabled.",
+      "value": "このアバターは「Streaming Mip Maps」を有効にしていない状態でミップマップされたテクスチャを持っています。"
+    },
+    {
+      "key": "This avatar has textures bigger than 2048. Please reduce them to save memory for users.",
+      "value": "このアバターには2048より大きなテクスチャがあります。ユーザーのメモリを節約するために、テクスチャを減らしてください。"
+    },
+    {
+      "key": "Humanoid avatar must have head, hands and feet bones mapped.",
+      "value": "Humanoidアバターには、頭、手、足のボーンがマッピングされている必要があります。"
+    },
+    {
+      "key": "Spine hierarchy missing elements, please map: ",
+      "value": "Spine階層に欠けている要素があります： "
+    },
+    {
+      "key": "Spine hierarchy incorrect. Make sure that the parent of both Shoulders and the Neck is the Chest (or UpperChest if set).",
+      "value": "Spine階層が間違っています。ShouldersとNeckの両方の親がChest（設定されている場合はUpperChest）であることを確認してください。"
+    },
+    {
+      "key": "LowerArm is not first child of UpperArm or Hand is not first child of LowerArm: you may have problems with Forearm rotations.",
+      "value": "LowerArmがUpperArmの最初の子でない、またはHandがLowerArmの最初の子ではありません。Forearmの回転に問題がある可能性があります。"
+    },
+    {
+      "key": "This avatar has a split hierarchy (Hips bone is not the ancestor of all humanoid bones). IK may not work correctly.",
+      "value": "このアバターは階層が分かれています（Hipsボーンがすべてのhumanoidボーンの祖先ではありません）。IKが正しく動作しない可能性があります。"
+    },
+    {
+      "key": "The angle between pelvis and thigh bones should be close to 180 degrees. (This avatar's angle is ",
+      "value": "PelvisボーンとThighボーンの角度は180度近くであるべきです。(このアバターの角度: "
+    },
+    {
+      "key": "Your avatar may not work well with full-body IK and Tracking.",
+      "value": "あなたのアバターは、フルボディのIKとトラッキングではうまく動作しないかもしれません。"
+    },
+    {
+      "key": "Gesture Layer needs valid mask on first animator layer",
+      "value": "Gesture Layerは、最初のAnimator Layerに有効なマスクが必要です。"
+    },
+    {
+      "key": "Images used for Actions & Moods are too large.",
+      "value": "Actions & Moodsに使用されている画像が大きすぎます。"
+    },
+    {
+      "key": "VRCExpressionsMenu object reference is missing.",
+      "value": "VRCExpressionsMenuオブジェクト参照がありません。"
+    },
+    {
+      "key": "VRCExpressionParameters object reference is missing.",
+      "value": "VRCExpressionParametersオブジェクト参照がありません。"
+    },
+    {
+      "key": "VRCExpressionParameters has too many parameters defined.",
+      "value": "VRCExpressionParametersのパラメータ定義数が多すぎます。"
+    },
+    {
+      "key": "VRCExpressionsMenu uses a parameter that is not defined.",
+      "value": "VRCExpressionsMenuが定義されていないパラメータを使用しています。"
+    },
+    {
+      "key": "VRCExpressionsMenu uses an invalid parameter for a control.\nControl: ",
+      "value": "VRCExpressionsMenuがコントロールに無効なパラメータを使用しています。\nControl: "
     }
   ]
 }

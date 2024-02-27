@@ -87,13 +87,13 @@ namespace EAUploader
 
         private static void NoticeUploadSuccess(object sender, string message)
         {
-            EditorUtility.DisplayDialog("Upload Succeed", message, "OK");
+            EditorUtility.DisplayDialog(T7e.Get("Upload Succeed"), message, "OK");
             Status = null;
             Percentage = 0;
         }
         private static void NoticeUploadError(object sender, string message)
         {
-            EditorUtility.DisplayDialog("Upload Failed", message, "OK");
+            EditorUtility.DisplayDialog(T7e.Get("Upload Failed"), message, "OK");
             Status = null;
             Percentage = 0;
         }
@@ -238,44 +238,60 @@ namespace EAUploader
 
             if (avatar.lipSync == VRC_AvatarDescriptor.LipSyncStyle.VisemeBlendShape &&
                 avatar.VisemeSkinnedMesh == null)
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "This avatar uses Visemes but the Face Mesh is not specified.", delegate { Selection.activeObject = avatar.gameObject; }, null));
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("This avatar uses Visemes but the Face Mesh is not specified."), delegate { Selection.activeObject = avatar.gameObject; }, null));
 
             VerifyAvatarMipMapStreaming(avatar);
             VerifyMaxTextureSize(avatar);
 
             if (!avatar.TryGetComponent<Animator>(out var anim))
             {
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "This avatar does not contain an Animator, you need to add an Animator component for the avatar to work", delegate { Selection.activeObject = avatar.gameObject; }, null));
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("This avatar does not contain an Animator, you need to add an Animator component for the avatar to work"), delegate { Selection.activeObject = avatar.gameObject; }, null));
                 return results;
             }
             if (anim == null)
             {
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, "This avatar does not contain an Animator, and will not animate in VRChat.", delegate { Selection.activeObject = avatar.gameObject; }, null));
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, T7e.Get("This avatar does not contain an Animator, and will not animate in VRChat."), delegate { Selection.activeObject = avatar.gameObject; }, null));
             }
             else if (anim.isHuman == false)
             {
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, "This avatar is not imported as a humanoid rig and will not play VRChat's provided animation set.", delegate { Selection.activeObject = avatar.gameObject; }, null));
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, T7e.Get("This avatar is not imported as a humanoid rig and will not play VRChat's provided animation set."), delegate { Selection.activeObject = avatar.gameObject; }, null));
             }
             else if (avatar.gameObject.activeInHierarchy == false)
             {
-                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "Your avatar is disabled in the scene hierarchy!", delegate { Selection.activeObject = avatar.gameObject; }, null));
+                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("Your avatar is disabled in the scene hierarchy!"), delegate { Selection.activeObject = avatar.gameObject; }, null));
             }
             else
             {
                 Transform lFoot = anim.GetBoneTransform(HumanBodyBones.LeftFoot);
                 Transform rFoot = anim.GetBoneTransform(HumanBodyBones.RightFoot);
                 if ((lFoot == null) || (rFoot == null))
-                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "Your avatar is humanoid, but its feet aren't specified!", delegate { Selection.activeObject = avatar.gameObject; }, null));
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("Your avatar is humanoid, but its feet aren't specified!"), delegate { Selection.activeObject = avatar.gameObject; }, null));
                 if (lFoot != null && rFoot != null)
                 {
                     Vector3 footPos = lFoot.position - avatar.transform.position;
                     if (footPos.y < 0)
-                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, "Avatar feet are beneath the avatar's origin (the floor). That's probably not what you want.", delegate { Selection.activeObject = avatar.gameObject; }, null));
+                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, T7e.Get("Avatar feet are beneath the avatar's origin (the floor). That's probably not what you want."), delegate { Selection.activeObject = avatar.gameObject; }, null));
                 }
 
                 Transform lShoulder = anim.GetBoneTransform(HumanBodyBones.LeftUpperArm);
                 Transform rShoulder = anim.GetBoneTransform(HumanBodyBones.RightUpperArm);
                 if (lShoulder == null || rShoulder == null)
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("Your avatar is humanoid, but its upper arms aren't specified!"), delegate { Selection.activeObject = avatar.gameObject; }, null));
+                if (lShoulder != null && rShoulder != null)
+                {
+                    Vector3 shoulderPosition = lShoulder.position - avatar.transform.position;
+                    if (shoulderPosition.y < 0.2f)
+                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("This avatar is too short. The minimum is 20cm shoulder height."), delegate { Selection.activeObject = avatar.gameObject; }, null));
+                    else if (shoulderPosition.y < 1.0f)
+                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, T7e.Get("This avatar is shorter than average."), delegate { Selection.activeObject = avatar.gameObject; }, null));
+                    else if (shoulderPosition.y > 5.0f)
+                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("This avatar is too tall. The maximum is 5m shoulder height."), delegate { Selection.activeObject = avatar.gameObject; }, null));
+                    else if (shoulderPosition.y > 2.5f)
+                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Warning, T7e.Get("This avatar is taller than average."), delegate { Selection.activeObject = avatar.gameObject; }, null));
+                }
+
+                if (AnalyzeIK(avatar, anim) == false)
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, $"See Avatar Rig Requirements for more information.", null, null, VRCSdkControlPanelHelp.AVATAR_RIG_REQUIREMENTS_URL));
                     results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "Your avatar is humanoid, but its upper arms aren't specified!", delegate { Selection.activeObject = avatar.gameObject; }, null));
                 if (!AnalyzeIK(avatar, anim))
                     results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Link, "See Avatar Rig Requirements for more information.", null, null, VRCSdkControlPanelHelp.AVATAR_RIG_REQUIREMENTS_URL));
@@ -291,30 +307,30 @@ namespace EAUploader
                 if (!anim.isHuman)
                 {
                     if (pm != null) pm.fallbackStatus = PipelineManager.FallbackStatus.InvalidRig;
-                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Info, "This avatar does not have a humanoid rig, so it can not be used as a custom fallback.", null, null));
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Info, T7e.Get("This avatar does not have a humanoid rig, so it can not be used as a custom fallback."), null, null));
                 }
                 else if (rating > PerformanceRating.Good)
                 {
                     if (pm != null) pm.fallbackStatus = PipelineManager.FallbackStatus.InvalidPerformance;
-                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Info, "This avatar does not have an overall rating of Good or better, so it can not be used as a custom fallback. See the link below for details on Avatar Optimization.", null, null));
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Info, T7e.Get("This avatar does not have an overall rating of Good or better, so it can not be used as a custom fallback. See the link below for details on Avatar Optimization."), null, null));
                 }
                 else
                 {
                     if (pm != null) pm.fallbackStatus = PipelineManager.FallbackStatus.Valid;
-                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Success, "This avatar can be used as a custom fallback.", null, null));
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Success, T7e.Get("This avatar can be used as a custom fallback."), null, null));
                     if (perfStats.animatorCount.HasValue && perfStats.animatorCount.Value > 1)
-                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Info, "This avatar uses additional animators, they will be disabled when used as a fallback.", null, null));
+                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Info, T7e.Get("This avatar uses additional animators, they will be disabled when used as a fallback."), null, null));
                 }
 
                 // additional messages for Poor and Very Poor Avatars
 #if UNITY_ANDROID || UNITY_IOS
                 if (rating > PerformanceRating.Poor)
-                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Info, "This avatar will be blocked by default due to performance. Your fallback will be shown instead.", null, null));
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Info, T7e.Get("This avatar will be blocked by default due to performance. Your fallback will be shown instead.", null, null)));
                 else if (rating > PerformanceRating.Medium)
-                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Info, "This avatar will be blocked by default due to performance. Your fallback will be shown instead.", null, null));
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Info, T7e.Get("This avatar will be blocked by default due to performance. Your fallback will be shown instead."), null, null));
 #else
                 if (rating > PerformanceRating.Medium)
-                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Info, "This avatar will be blocked by default due to performance. Your fallback will be shown instead.", null, null));
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Info, T7e.Get("This avatar will be blocked by default due to performance. Your fallback will be shown instead."), null, null));
 #endif
             }
             else
@@ -367,7 +383,7 @@ namespace EAUploader
                     }
                 default:
                     {
-                        validationResults.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "Unknown performance display level.", show, fix));
+                        validationResults.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("Unknown performance display level."), show, fix));
                         break;
                     }
             }
@@ -408,7 +424,7 @@ namespace EAUploader
             if (badTextureImporters.Count == 0)
                 return null;
 
-            return new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "This avatar has mipmapped textures without 'Streaming Mip Maps' enabled.", () => Selection.objects = badTextures.ToArray(), () =>
+            return new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("This avatar has mipmapped textures without 'Streaming Mip Maps' enabled."), () => Selection.objects = badTextures.ToArray(), () =>
             {
                 List<string> paths = new List<string>();
                 foreach (TextureImporter t in badTextureImporters)
@@ -433,7 +449,7 @@ namespace EAUploader
             if (badTextureImporters.Count == 0)
                 return null;
 
-            return new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "This avatar has textures bigger than 2048. Please reduce them to save memory for users.",
+            return new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("This avatar has textures bigger than 2048. Please reduce them to save memory for users."),
                 null,
                 () =>
                 {
@@ -479,7 +495,7 @@ namespace EAUploader
 
             if (!hasHead || !hasFeet || !hasHands)
             {
-                results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, "Humanoid avatar must have head, hands and feet bones mapped.",
+                results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, T7e.Get("Humanoid avatar must have head, hands and feet bones mapped."),
                                        delegate { Selection.activeObject = anim.gameObject; }, null));
                 return false;
             }
@@ -510,7 +526,7 @@ namespace EAUploader
                     ((torso == null) ? "Spine, " : "") +
                     ((chest == null) ? "Chest, " : "");
                 missingElements = missingElements.Remove(missingElements.LastIndexOf(',')) + ".";
-                results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, "Spine hierarchy missing elements, please map: " + missingElements,
+                results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, T7e.Get("Spine hierarchy missing elements, please map: ") + missingElements,
                                                           delegate { Selection.activeObject = anim.gameObject; }, null));
                 return false;
             }
@@ -519,7 +535,7 @@ namespace EAUploader
 
             if (!correctSpineHierarchy)
             {
-                results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, "Spine hierarchy incorrect. Make sure that the parent of both Shoulders and the Neck is the Chest (or UpperChest if set).",
+                results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, T7e.Get("Spine hierarchy incorrect. Make sure that the parent of both Shoulders and the Neck is the Chest (or UpperChest if set)."),
                     delegate
                     {
                         List<Object> gos = new List<Object>
@@ -546,7 +562,7 @@ namespace EAUploader
 
             if (!(correctLeftArmHierarchy && correctRightArmHierarchy))
             {
-                results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, "LowerArm is not first child of UpperArm or Hand is not first child of LowerArm: you may have problems with Forearm rotations.",
+                results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, T7e.Get("LowerArm is not first child of UpperArm or Hand is not first child of LowerArm: you may have problems with Forearm rotations."),
                     delegate
                     {
                         List<Object> gos = new List<Object>();
@@ -572,7 +588,7 @@ namespace EAUploader
 
             if (!(correctLeftLegHierarchy && correctRightLegHierarchy))
             {
-                results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, "LowerLeg is not first child of UpperLeg or Foot is not first child of LowerLeg: you may have problems with Shin rotations.",
+                results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, T7e.Get("LowerLeg is not first child of UpperLeg or Foot is not first child of LowerLeg: you may have problems with Shin rotations."),
                     delegate
                     {
                         List<Object> gos = new List<Object>();
@@ -591,7 +607,7 @@ namespace EAUploader
             if (!(IsAncestor(pelvis, rFoot) && IsAncestor(pelvis, lFoot) && IsAncestor(pelvis, lHand) &&
                   IsAncestor(pelvis, rHand)))
             {
-                results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, "This avatar has a split hierarchy (Hips bone is not the ancestor of all humanoid bones). IK may not work correctly.",
+                results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Error, T7e.Get("This avatar has a split hierarchy (Hips bone is not the ancestor of all humanoid bones). IK may not work correctly."),
                     delegate
                     {
                         List<Object> gos = new List<Object> { pelvis.gameObject };
@@ -618,7 +634,7 @@ namespace EAUploader
                 float angR = Vector3.Angle(Vector3.up, legRDir);
                 if (angL >= 175f && angR >= 175f) return status;
                 string angle = $"{Mathf.Min(angL, angR):F1}";
-                results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Warning, $"The angle between pelvis and thigh bones should be close to 180 degrees (this avatar's angle is {angle}). Your avatar may not work well with full-body IK and Tracking.",
+                results.Add(new ValidateResult(ad, ValidateResult.ValidateResultType.Warning, T7e.Get("The angle between pelvis and thigh bones should be close to 180 degrees. (This avatar's angle is ")+($"{angle})")+T7e.Get("Your avatar may not work well with full-body IK and Tracking."),
                     delegate
                     {
                         List<Object> gos = new List<Object>();
@@ -706,8 +722,8 @@ namespace EAUploader
                     && !gestureLayer.isDefault)
                 {
                     AnimatorController controller = gestureLayer.animatorController as AnimatorController;
-                    if (controller is AnimatorController animController && animController.layers[0].avatarMask == null)
-                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "Gesture Layer needs valid mask on first animator layer",
+                    if (controller != null && controller.layers[0].avatarMask == null)
+                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("Gesture Layer needs valid mask on first animator layer"),
                                                        delegate { OpenAnimatorControllerWindow(animController); }, null));
                 }
             }
@@ -798,7 +814,7 @@ namespace EAUploader
                 }
 
                 if (!isValid)
-                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "Images used for Actions & Moods are too large.",
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("Images used for Actions & Moods are too large."),
                                                                           delegate { Selection.activeObject = avatar.gameObject; }, FixTextures));
 
                 //Fix
@@ -817,19 +833,19 @@ namespace EAUploader
                 {
                     //Menu
                     if (avatarSDK3.expressionsMenu == null)
-                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "VRCExpressionsMenu object reference is missing.",
+                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("VRCExpressionsMenu object reference is missing."),
                                                        delegate { Selection.activeObject = avatarSDK3; }, null));
 
                     //Parameters
                     if (avatarSDK3.expressionParameters == null)
-                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "VRCExpressionParameters object reference is missing.",
+                        results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("VRCExpressionParameters object reference is missing."),
                                                                                   delegate { Selection.activeObject = avatarSDK3; }, null));
                 }
 
                 //Check if parameters is valid
                 if (avatarSDK3.expressionParameters != null && avatarSDK3.expressionParameters.CalcTotalCost() > VRCExpressionParameters.MAX_PARAMETER_COST)
                 {
-                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "VRCExpressionParameters has too many parameters defined.",
+                    results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("VRCExpressionParameters has too many parameters defined."),
                                                                          delegate { Selection.activeObject = avatarSDK3.expressionParameters; }, null));
                 }
 
@@ -883,7 +899,7 @@ namespace EAUploader
                         bool exists = string.IsNullOrEmpty(parameter) || avatarSDK3.expressionParameters.FindParameter(parameter) != null;
                         if (!exists)
                         {
-                            results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "VRCExpressionsMenu uses a parameter that is not defined.",
+                            results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("VRCExpressionsMenu uses a parameter that is not defined."),
                                                                                                 delegate { Selection.activeObject = select; }, null));
                         }
                     }
@@ -912,7 +928,7 @@ namespace EAUploader
                             }
                             if (!isValid)
                             {
-                                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, "VRCExpressionsMenu uses an invalid parameter for a control.\nControl: " + control.name,
+                                results.Add(new ValidateResult(avatar, ValidateResult.ValidateResultType.Error, T7e.Get("VRCExpressionsMenu uses an invalid parameter for a control.\nControl: ") + control.name,
                                                                        delegate { Selection.activeObject = menu; }, null));
                             }
                         }
