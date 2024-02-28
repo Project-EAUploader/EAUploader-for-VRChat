@@ -8,25 +8,28 @@
 <size=20><b>４つのタブ ―</b></size>
 <size=14>ツール上部に、４つのボタンがあります。
 これらは、このツールの基本的なタブを切り替えるボタンです。
-<color=green>インポートタブ</color>
+<color=blue>インポートタブ</color>
 アバターのインポートはここから行います。言語の変更、フィードバックもこのタブにあります。
-<color=green>セットアップタブ</color>
+<color=blue>セットアップタブ</color>
 アバターの調整、編集を行うツールはここから開くことができます。
 ツールは拡張機能（チュートリアル⑤参照）を導入して、追加できます。
-<color=green>アップロードタブ</color>
-アップロード可能なアバターを確認し、アップロードツールを開くタブです。
-<color=green>アバターをみつける タブ</color>
+<color=blue>アップロードタブ</color>
+VRChatへアバターをアップロードするタブです。
+<color=blue>マーケット タブ</color>
 アバターを探す旅に出ましょう。VRChatの世界（vrcw.net）と提携したマーケットでのアバター検索と、他マーケットサイトの紹介・アクセスリンクがあります。</size>
 </txt>
 <image>image1.png</image>
 <txt>
 
 <size=20><b>編集ツール ―</b></size>
-<size=14><color=green>セットアップタブ</color>の右側にあります。
+<size=14><color=blue>セットアップタブ</color>の右側にあります。
 シェーダーの変更などの基本調整や、その他編集は拡張機能を導入してここから開くことができます。</size>
 </txt>
 <image>image2.png</image>
-<button>EAUploader Web, Link, https://sabu006.com/eauploader</button>
+<txt>
+<size=16>拡張機能はこちらから探すことができます。</size>
+</txt>
+<button>拡張機能を探す, Link, https://www.uslog.tech/eauploader-plug-ins</button>
 <hr>black, 12</hr>
 <txt>
 <size=16>このツールについては以上です。

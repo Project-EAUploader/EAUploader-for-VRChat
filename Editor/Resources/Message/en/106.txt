@@ -1,6 +1,0 @@
-<t>About VRChat SDK</t>
-<txt>
-<size=14>Click the button below to open the VRChat SDK panel.
-Enter the required information and upload the file.
-Please <color=green>refer to the help article on the right to enter your information, as it is not supported in any language other than English due to the terms of the agreement</color>.</size>
-</txt>

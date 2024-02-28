@@ -202,12 +202,12 @@
       "value": "公開設定"
     },
     {
-      "key": "Add Thumbnail",
-      "value": "サムネイルを追加"
+      "key": "Change Thumbnail",
+      "value": "サムネイルを変更"
     },
     {
-      "key": "Delete Thumbnail",
-      "value": "サムネイルを削除"
+      "key": "Using preview image (Default)",
+      "value": "プレビュー画像を使用（デフォルト）"
     },
     {
       "key": "Build",
@@ -495,19 +495,19 @@
     },
     {
       "key": "Triangles: {0}",
-      "value": "三角形: {0}"
+      "value": "Triangles: {0}"
     },
     {
       "key": "Triangles: {0} (Recommended: {1})",
-      "value": "三角形: {0} (推奨: {1})"
+      "value": "Triangles: {0} (推奨: {1})"
     },
     {
       "key": "Triangles: {0} - Please try to reduce your avatar triangle count to less than {1} (Recommended: {2})",
-      "value": "三角形: {0} - アバターの三角形の数を {1} 未満に減らすようにしてください (推奨: {2})"
+      "value": "Triangles: {0} - アバターのTrianglesの数を {1} 未満に減らすようにしてください (推奨: {2})"
     },
     {
       "key": "Triangles: {0} - This avatar has too many triangles. It will be blocked by default on VRChat for Quest, and will not show unless a user chooses to show your avatar. It should have less than {1}. VRChat recommends having less than {2}.",
-      "value": "三角形: {0} - このアバターは三角形が多すぎます。QuestのVRChatではデフォルトでブロックされ、ユーザーがあなたのアバターを表示することを選択しない限り表示されません。 {1} 未満であるべきです。VRChatは {2} 未満を推奨します。"
+      "value": "Triangles: {0} - このアバターはTrianglesが多すぎます。QuestのVRChatではデフォルトでブロックされ、ユーザーがあなたのアバターを表示することを選択しない限り表示されません。 {1} 未満であるべきです。VRChatは {2} 未満を推奨します。"
     },
     {
       "key": "Bounding box (AABB) size: {0}",
@@ -623,11 +623,11 @@
     },
     {
       "key": "Mesh Particle Total Max Poly Count: {0} (Recommended: {1}) - Reduce number of triangles in particle meshes, and reduce 'Max Particles' for better performance.",
-      "value": "メッシュパーティクルの合計最大ポリゴン数：{0}（推奨：{1}） - パフォーマンスを向上させるためにパーティクルメッシュの三角形数を減らし、「最大パーティクル数」を減らしてください。"
+      "value": "メッシュパーティクルの合計最大ポリゴン数：{0}（推奨：{1}） - パフォーマンスを向上させるためにパーティクルメッシュのTriangles数を減らし、「最大パーティクル数」を減らしてください。"
     },
     {
       "key": "Mesh Particle Total Max Poly Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar uses too many mesh particle triangles. Reduce number of triangles in particle meshes, and reduce 'Max Particles' for better performance.",
-      "value": "メッシュパーティクルの合計最大ポリゴン数：{0}（最大：{1}、推奨：{2}） - このアバターはメッシュパーティクルの三角形が多すぎます。パーティクルメッシュの三角形数を減らし、「最大パーティクル数」を減らしてください。"
+      "value": "メッシュパーティクルの合計最大ポリゴン数：{0}（最大：{1}、推奨：{2}） - このアバターはメッシュパーティクルのTrianglesが多すぎます。パーティクルメッシュのTriangles数を減らし、「最大パーティクル数」を減らしてください。"
     },
     {
       "key": "Particle Trails Enabled: {0}",
@@ -852,6 +852,10 @@
     {
       "key": "The avatar cannot be uploaded because it does not have a VRCAvatarDescriptor.",
       "value": "アバターがVRCAvatarDescriptorを持たないため、アップロードできません。"
+    },
+    {
+      "key": "Select a prefab to upload",
+      "value": "アップロードするアバターを選択してください"
     },
     {
       "key": "Send Feedback",

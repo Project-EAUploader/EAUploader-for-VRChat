@@ -1,0 +1,16 @@
+<t>Upload Info</t>
+<txt>
+<size=20>Warning tag</size>
+<size=16>
+Please tag appropriately.
+Untagged use of avatars that fall under sexual expression, violent expression, extreme horror, etc. may be a violation.
+</size>
+<size=20>Visibility</size>
+<size=16>
+Private: Only for yourself
+Public: It will be made available for anyone to use.
+</size><size=12><color=red>
+Note: Avatars that are distributed or sold on the Internet are basically prohibited from being made public.
+If you did not create the avatar yourself, please do not upload it in Public.
+</color></size>
+</txt>

@@ -37,8 +37,8 @@
                             <ui:Image name="thumbnail-image"/>
                         </ui:VisualElement>
                         <ui:VisualElement class="flex-row">
-                            <eau:ShadowButton text="Add Thumbnail" name="add_thumbnail"/>
-                            <eau:ShadowButton text="Delete Thumbnail" name="remove_thumbnail"/>
+                            <eau:ShadowButton text="Change Thumbnail" name="add_thumbnail"/>
+                            <eau:ShadowButton text="Using preview image (Default)" name="remove_thumbnail"/>
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
