@@ -66,7 +66,7 @@ namespace EAUploader.UI.Upload
 
             if (!hasDescriptor)
             {
-                var label = new Label(T7e.Get("No VRCAvatarDescriptor"))
+                var label = new Label(T7e.Get("The avatar cannot be uploaded because it does not have a VRCAvatarDescriptor."))
                 {
                     style =
                     {

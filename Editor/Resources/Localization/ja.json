@@ -848,6 +848,10 @@
     {
       "key": "Texture Memory Usage: {0} MB (Maximum: {1} MB, Recommended: {2} MB) - This avatar's total texture resolution is too high. Lower the resolution of your largest textures in the texture import settings. Consider using shader features like decals or tiling. Check your shader's documentation for more information. You can also check your model's UV layouts to better utilize texture space. These techniques may help you reduce texture memory usage.",
       "value": "テクスチャメモリ使用量：{0} MB（最大：{1} MB、推奨：{2} MB）- このアバターの総テクスチャ解像度が高すぎます。テクスチャのインポート設定で最大のテクスチャの解像度を下げてください。デカールやタイリングなどのシェーダー機能の使用を検討してください。詳細についてはシェーダーのドキュメントを確認してください。また、モデルのUVレイアウトを確認して、テクスチャスペースを効果的に活用できるようにします。これらの技術はテクスチャメモリの使用量を削減するのに役立つ場合があります。"
+    },
+    {
+      "key": "The avatar cannot be uploaded because it does not have a VRCAvatarDescriptor.",
+      "value": "アバターがVRCAvatarDescriptorを持たないため、アップロードできません。"
     }
   ]
 }
