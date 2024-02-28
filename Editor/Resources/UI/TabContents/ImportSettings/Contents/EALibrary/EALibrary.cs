@@ -18,10 +18,12 @@ namespace EAUploader.UI.ImportSettings
         public string[] keywords { get; set; }
         public string contentFile { get; set; }
         public string thumbnail { get; set; }
+        public string id { get; set; }
     }
 
     public class ArticleIndex
     {
+        public string id { get; set; }
         public string Title { get; set; }
         public string[] Keywords { get; set; }
         public string[] Tags { get; set; }
@@ -97,7 +99,8 @@ namespace EAUploader.UI.ImportSettings
         private static void BindItem(VisualElement element, int index)
         {
             var article = GetFilteredArticleIndex()[index];
-            element.Q<Image>("image").image = AssetDatabase.LoadAssetAtPath<Texture2D>(GetArticleData(article.Title).thumbnail);
+            var thumbnail = GetArticleData(article.id).thumbnail;
+            element.Q<Image>("image").image = AssetDatabase.LoadAssetAtPath<Texture2D>(thumbnail); 
             element.Q<Label>("title").text = article.Title;
         }
 
@@ -113,7 +116,7 @@ namespace EAUploader.UI.ImportSettings
             {
                 if (article is ArticleIndex articleIndexItem)
                 {
-                    var articleData = GetArticleData(articleIndexItem.Title);
+                    var articleData = GetArticleData(articleIndexItem.id);
                     if (articleData == null) continue;
 
                     var articleRenderer = new ArticleRenderer(articleData.contentFile);
@@ -135,7 +138,7 @@ namespace EAUploader.UI.ImportSettings
 
         private static List<ArticleIndex> GetArticleIndex()
         {
-            if (articleIndexCache != null)
+            if (articleIndexCache != null && currentLanguage == LanguageUtility.GetCurrentLanguage())
             {
                 return articleIndexCache;
             }
@@ -147,8 +150,10 @@ namespace EAUploader.UI.ImportSettings
             foreach (var file in articleFiles)
             {
                 var articleData = JsonConvert.DeserializeObject<Article>(File.ReadAllText(file));
+                // Get folder path of the root
                 articleIndex.Add(new ArticleIndex
                 {
+                    id = Path.Combine(Path.GetDirectoryName(file)),
                     Title = articleData.title,
                     Keywords = articleData.keywords,
                     Tags = articleData.tags
@@ -176,7 +181,7 @@ namespace EAUploader.UI.ImportSettings
             return filteredIndex;
         }
 
-        private static Article GetArticleData(string title)
+        private static Article GetArticleData(string id)
         {
             currentLanguage = LanguageUtility.GetCurrentLanguage();
             string articlesFolderPath = ARTICLES_FOLDER_PATH + currentLanguage;
@@ -188,8 +193,9 @@ namespace EAUploader.UI.ImportSettings
 
                 articleData.contentFile = contentFile;
                 articleData.thumbnail = Path.Combine(Path.GetDirectoryName(file), articleData.thumbnail);
+                articleData.id = Path.Combine(Path.GetDirectoryName(file));
 
-                if (articleData.title == title)
+                if (articleData.id == id)
                 {
                     return articleData;
                 }
