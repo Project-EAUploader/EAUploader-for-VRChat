@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using EAUploader.UI.Components;
 
 namespace EAUploader.UI.Market
 {

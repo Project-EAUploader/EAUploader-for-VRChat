@@ -1,8 +1,8 @@
 {
-    "title": "Add a custom editor \n [plug-in]",
+    "title": "プラグインとは \n [拡張機能の導入]",
     "date": "2023-12-14",
-    "tags": ["Tutorial"],
-    "keywords": ["Tutorial", "Start", "Guide", "5", "Editor", "Tools", "Custom", "Add-on", "plugin"],
+    "tags": ["チュートリアル"],
+    "keywords": ["チュートリアル", "スタート", "ガイド", "5", "エディター", "ツール", "Custom", "Add-on", "plugin"],
     "contentFile": "Content.txt",
     "thumbnail": "thumbnail.png"
 }
