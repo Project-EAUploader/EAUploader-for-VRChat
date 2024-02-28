@@ -852,6 +852,42 @@
     {
       "key": "The avatar cannot be uploaded because it does not have a VRCAvatarDescriptor.",
       "value": "アバターがVRCAvatarDescriptorを持たないため、アップロードできません。"
+    },
+    {
+      "key": "Send Feedback",
+      "value": "フィードバックを送信"
+    },
+    {
+      "key": "Your name (option)",
+      "value": "名前（任意）"
+    },
+    {
+      "key": "Mail address (option)",
+      "value": "メールアドレス（任意）"
+    },
+    {
+      "key": "Subject (option)",
+      "value": "件名（任意）"
+    },
+    {
+      "key": "Message",
+      "value": "メッセージ"
+    },
+    {
+      "key": "Submissions are irrevocable. \nDo not include personal information.",
+      "value": "送信は取り消しできません。個人情報は入力しないでください。"
+    },
+    {
+      "key": "Transmission was successful. Thank you.",
+      "value": "送信に成功しました。ありがとうございます。"
+    },
+    {
+      "key": "Submit",
+      "value": "送信"
+    },
+    {
+      "key": "Close",
+      "value": "閉じる"
     }
   ]
 }

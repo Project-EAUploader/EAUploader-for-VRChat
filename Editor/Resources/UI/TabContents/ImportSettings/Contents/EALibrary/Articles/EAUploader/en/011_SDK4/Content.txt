@@ -1,5 +1,0 @@
-<t>― About the VRChatSDK Panel ―</t>
-<txt>
-<size=20>Setting tab</size>
-<size=14></size>
-</txt>
