@@ -1,11 +1,22 @@
 <t>― はじめる ―</t>
 <txt>
-<size=20>EALIBRARY</size>
-<size=14>　EALIBRARYには、このツールの使い方、アバターについて、VRChatが提供するアップローダーについての説明があります。分からないことがあれば、ここで調べてみてください。</size>
+<size=20>このツールでできること</size>
+
+<size=14><color=blue>〇 アバターのアップロード</color>
+<color=red>✕ アバターの改変</color>
+EAUploaderは既にVRChat用につくられて完成しているアバター、又はVRMのみをサポートします。
+VRChat用でない3Dモデルや、着せ替えやアクセサリーの追加、表情の変更などは行えません。
+（編集機能は拡張機能として開発中です）</size>
 </txt>
 <hr>black, 12</hr>
 <txt>
-<size=20><b>４つのタブ ―</b></size>
+<size=20>EALIBRARY</size>
+<size=14>
+　EALIBRARYには、このツールの使い方、アバターについて、VRChatが提供するアップローダーについての説明があります。分からないことがあれば、ここで調べてみてください。</size>
+</txt>
+<hr>black, 12</hr>
+<txt>
+<size=20><b>― ４つのタブ ―</b></size>
 <size=14>ツール上部に、４つのボタンがあります。
 これらは、このツールの基本的なタブを切り替えるボタンです。
 <color=blue>インポートタブ</color>
@@ -21,7 +32,7 @@ VRChatへアバターをアップロードするタブです。
 <image>image1.png</image>
 <txt>
 
-<size=20><b>編集ツール ―</b></size>
+<size=20><b>― 編集ツール ―</b></size>
 <size=14><color=blue>セットアップタブ</color>の右側にあります。
 シェーダーの変更などの基本調整や、その他編集は拡張機能を導入してここから開くことができます。</size>
 </txt>
