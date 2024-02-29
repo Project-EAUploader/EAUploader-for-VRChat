@@ -8,14 +8,13 @@
     noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
     editor-extension-mode="False"
 >
-    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss?fileID=7433441132597879392&amp;guid=33415aeb954406041803ecdae7dd5df1&amp;type=3#tailwind" />
     <ui:Label tabindex="-1" text="EAUploader Library" parse-escape-sequences="true" display-tooltip-when-elided="true" enable-rich-text="true" class="text-xl font-bold pb-2" />
     <ui:VisualElement class="border-b border-b-zinc-300 pb-4">
-        <ui:VisualElement name="VisualElement" class="flex-row pb-4">
+        <ui:VisualElement class="flex-row pb-4">
             <ui:TextField name="search_query" picking-mode="Ignore" class="flex-1" />
             <eau:ShadowButton name="search_button" text="Search" parse-escape-sequences="true" display-tooltip-when-elided="true" class="ml-2 search-button" />
         </ui:VisualElement>
-        <ui:DropdownField label="Filter tag" name="filter_tag" class="ml-2"/>
+        <ui:DropdownField label="Filter by Tag" name="filter_tag" class="ml-2"/>
     </ui:VisualElement>
     <ui:VisualElement name="article_container" class="flex-1">
         <ui:ListView name="article_list" class="flex-1" />

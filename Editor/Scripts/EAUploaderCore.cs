@@ -3,13 +3,11 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
-
 
 namespace EAUploader
 {
     [InitializeOnLoad]
-    internal class EAUploaderCore
+    public class EAUploaderCore
     {
         [Serializable]
         private class PackageJson
@@ -97,47 +95,6 @@ namespace EAUploader
             {
                 File.WriteAllText(prefabManagerPath, "{}");
             }
-
-            string tailwindUssPath = $"{EAUPLOADER_ASSET_PATH}/UI/tailwind.uss";
-            if (!File.Exists(tailwindUssPath))
-            {
-                UnityEngine.TextAsset tailwindUss = Resources.Load<UnityEngine.TextAsset>("UI/tailwind");
-                if (tailwindUss == null)
-                {
-                    Debug.LogError("Failed to load tailwind.uss from resources.");
-                    return;
-                }
-                string tailwindUssContent = tailwindUss.text;
-                File.WriteAllText(tailwindUssPath, tailwindUssContent);
-            }
-
-            string notoSansJPPath = $"{EAUPLOADER_ASSET_PATH}/UI/Noto_Sans_JP.ttf";
-            if (!File.Exists(notoSansJPPath))
-            {
-                byte[] notoSansJP = Resources.Load<UnityEngine.TextAsset>("UI/Noto_Sans_JP").bytes;
-                File.WriteAllBytes(notoSansJPPath, notoSansJP);
-            }
-
-            string notoSansJPAssetPath = $"{EAUPLOADER_ASSET_PATH}/UI/Noto_Sans_JP SDF.asset";
-            if (!File.Exists(notoSansJPAssetPath))
-            {
-                FontAsset notoSansJPAsset = Resources.Load<FontAsset>("UI/Noto_Sans_JP SDF");
-                File.Copy(AssetDatabase.GetAssetPath(notoSansJPAsset), notoSansJPAssetPath);
-            }
-
-            string materialIconsPath = $"{EAUPLOADER_ASSET_PATH}/UI/MaterialIcons-Regular.ttf";
-            if (!File.Exists(materialIconsPath))
-            {
-                byte[] materialIcons = Resources.Load<UnityEngine.TextAsset>("UI/MaterialIcons-Regular").bytes;
-                File.WriteAllBytes(materialIconsPath, materialIcons);
-            }
-
-            string materialIconsAssetPath = $"{EAUPLOADER_ASSET_PATH}/UI/MaterialIcons-Regular SDF.asset";
-            if (!File.Exists(materialIconsAssetPath))
-            {
-                FontAsset materialIconsAsset = Resources.Load<FontAsset>("UI/MaterialIcons-Regular SDF");
-                File.Copy(AssetDatabase.GetAssetPath(materialIconsAsset), materialIconsAssetPath);
-            }
         }
 
         private static void OpenEAUploaderWindow()
@@ -174,6 +131,16 @@ namespace EAUploader
             {
                 return T7e.Get("Version: ") + "Unknown";
             }
+        }
+
+        [MenuItem("EAUploader/Reload")]
+        public static void ReloadSDK()
+        {
+            selectedPrefabPath = null;
+            EAUploaderEditorManager.OnEditorManagerLoad();
+            ShaderChecker.CheckShadersInPrefabs();
+            CustomPrefabUtility.PrefabManager.Initialize();
+            CheckIsVRMAvailable();
         }
     }
 }

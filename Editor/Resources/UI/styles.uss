@@ -1,10 +1,37 @@
 :root {
-    -unity-font-definition: url("/Assets/EAUploader/UI/Noto_Sans_JP SDF.asset");
+    -unity-font-definition: resource("UI/Noto_Sans_JP");
 	background-color: white;
 	--primary: rgb(25, 118, 210);
 	--primary-hover: rgb(20, 100, 180);
 	--primary-active: rgb(30, 130, 230);
-	--secondary: rgb(1, 0, 88);
+	--primary-selected: rgb(22, 105, 200);
+	--secondary: rgb(255, 152, 0);
+	--secondary-hover: rgb(230, 130, 0);
+	--secondary-active: rgb(255, 160, 0);
+	--secondary-selected: rgb(240, 140, 0);
+	--default: rgb(200, 200, 200);
+	--default-hover: rgb(240, 240, 240);
+	--default-active: rgb(210, 210, 210);
+	--default-selected: rgb(190, 190, 190);
+	--warning: rgb(176, 0, 32);
+}
+
+VisualElement {
+	transition-duration: 150ms;
+	transition-timing-function: ease-out;
+	transition-property: translate, opacity;
+}
+
+Link {
+	color: var(--primary);
+	cursor: link;
+}
+
+Link:hover {
+	color: var(--primary-hover);
+	border-bottom-width: 1px;
+	border-bottom-color: var(--primary-hover);
+	margin-bottom: -1px;
 }
 
 Button {
@@ -27,6 +54,33 @@ Button:hover {
 
 Button:active {
 	background-color: var(--primary-active);
+}
+
+ImageButton {
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	border-width: 0px;
+	border-radius: 0px;
+	background-color: white;
+	color: white;
+	transition: 150ms;
+}
+
+ImageButton:hover {
+	background-color: var(--default-hover);
+}
+
+ShadowButton {
+	flex-shrink: 0;
+}
+
+ShadowButton:disabled {
+	opacity: 1;
+}
+
+ShadowButton:disabled Button {
+	background-color: var(--default);
 }
 
 Button > Label {
@@ -74,22 +128,31 @@ HelpButton {
 
 PrefabItemButton {
 	border-width: 1px;
-	border-color: rgb(200, 200, 200);
+	border-color: var(--default);
 	flex-direction: row;
 	margin-bottom: 4px;
 	background-color: white;
+	transition: 150ms;
 }
 
 PrefabItemButton:hover {
-	background-color: rgb(240, 240, 240);
+	background-color: var(--default-hover);
 }
 
-PrefabItemButton > Image {
-	margin-right: 16px;
+PrefabItemButton Image {
+	flex-shrink: 0;
 }
 
-PrefabItemButton > Label {
+PrefabItemButton > VisualElement {
+	padding: 16px;
+}
+
+PrefabItemButton * {
 	font-size: 12px;
+}
+
+.noDescriptor * {
+	color: var(--warning);
 }
 
 Label {
@@ -106,7 +169,7 @@ PrefabItem {
 	margin-top: 4px;
 	border-width: 1px;
 	border-radius: 4px;
-	border-color: rgb(200, 200, 200);
+	border-color: var(--default);
 	background-color: white;
 	color: black;
 	transition: 150ms;
@@ -126,7 +189,7 @@ TextInput {
 	padding: 4px 16px;
 	border-width: 1px;
 	border-radius: 4px;
-	border-color: rgb(200, 200, 200);
+	border-color: var(--default);
 	background-color: white;
 	color: black;
 	transition: 150ms
@@ -144,6 +207,10 @@ ContentWarningsField {
 	flex-direction: row;
 }
 
+ArticleRenderer {
+	padding: 16px;
+}
+
 .tag-button {
     flex-direction: row;
 	justify-content: center;
@@ -153,12 +220,12 @@ ContentWarningsField {
 	background-color: white;
 	border-width: 1px;
 	border-radius: 12px;
-	border-color: rgb(200, 200, 200);
+	border-color: var(--default);
 	transition: 150ms;
 }
 
 .tag-button:hover {
-	background-color: rgb(240, 240, 240);
+	background-color: var(--default-hover);
 }
 
 .tag-button > Label {
@@ -187,14 +254,14 @@ DropdownField > VisualElement {
 	padding: 4px 16px;
 	border-width: 1px;
 	border-radius: 4px;
-	border-color: rgb(200, 200, 200);
+	border-color: var(--default);
 	background-color: white;
 	color: black;
 	transition: 150ms;
 }
 
 DropdownField:hover > VisualElement {
-	background-color: rgb(240, 240, 240);
+	background-color: var(--default-hover);
 }
 
 DropdownField > Label {
@@ -205,10 +272,36 @@ DropdownField > VisualElement > PopupTextElement {
 	color: black;
 }
 
+PopupField {
+	align-items: center;
+}
+
+PopupField > VisualElement {
+	padding: 4px 16px;
+	border-width: 1px;
+	border-radius: 4px;
+	border-color: var(--default);
+	background-color: white;
+	color: black;
+	transition: 150ms;
+}
+
+PopupField:hover > VisualElement {
+	background-color: var(--default-hover);
+}
+
+PopupField > Label {
+	color: black;
+}
+
+PopupField	 > VisualElement > PopupTextElement {
+	color: black;
+}
+
 .material-icons {
     font-size: var(--material-symbol-size);
     -unity-font-style: normal;
-    -unity-font-definition: url('/Assets/EAUploader/UI/MaterialIcons-Regular SDF.asset');
+    -unity-font-definition: resource("UI/MaterialIcons-Regular");
 }
 
 .button-with-icons {
@@ -218,16 +311,21 @@ DropdownField > VisualElement > PopupTextElement {
 }
 
 .border-red {
-	border-color: #550000;
+	border-color: var(--warning);
 }
 
 .tab-button {
     flex: 1;
+	border-radius: 0px;
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
 	color: white;
     font-size: 16px;
+}
+
+.tab-button__selected {
+	background-color: var(--primary-selected);
 }
 
 #reset_preview {
@@ -266,19 +364,6 @@ DropdownField > VisualElement > PopupTextElement {
 	cursor: link;
 }
 
-.selected {
-	background-color: var(--primary);
-	border-color: var(--primary);
-}
-
-.selected > Label {
-	color: white;
-}
-
-.selected:hover {
-	background-color: var(--primary-hover);
-}
-
 .search-button Button {
 	padding: 8px 24px;
 }
@@ -290,7 +375,7 @@ DropdownField > VisualElement > PopupTextElement {
 .unity-progress-bar__background {
 	height: 36px;
 	border-radius: 4px;
-	border-color: rgb(200, 200, 200);
+	border-color: var(--default);
 }
 
 .unity-progress-bar__progress {
@@ -302,23 +387,6 @@ ProgressBar Label {
 	color: white;
 }
 
-.article-image {
-	background-color: rgb(180, 180, 180);
-}
-
-
-.unity-list-view__item {
-	border-bottom-width: 1px;
-	border-color: rgb(200, 200, 200);
-	background-color: white;
-	color: black;
-	transition: 150ms;
-}
-
-	.unity-list-view__item:hover {
-	background-color: rgb(240, 240, 240);
-}
-
 #product_row {
 	flex-direction: row;
 }
@@ -328,7 +396,7 @@ ProgressBar Label {
 	margin: 4px;
 	border-radius: 4px;
 	border-width: 1px;
-	border-color: rgb(200, 200, 200);
+	border-color: var(--default);
 	align-items: center;
 	width: 360px;
 	padding: 8px;
@@ -346,4 +414,139 @@ ProgressBar Label {
 
 #product_thumbnail {
 	margin-right: 8px;
+}
+
+#market_item {
+	height: 240px;
+	border-bottom-width: 1px;
+	border-bottom-color: var(--default);
+}
+
+#market_item {
+	flex-direction: row;
+}
+
+#market_item > ImageButton {
+	width: 480px;
+	cursor: link;
+	border-right-width: 1px;
+	border-right-color: var(--default);
+}
+
+#market_item > ImageButton > Image {
+	cursor: link;
+}
+
+#close_button {
+	margin: 8px;
+}
+
+.selected {
+	background-color: var(--primary);
+	border-color: var(--primary);
+}
+
+.selected Label {
+	color: white;
+}
+
+.selected:hover {
+	background-color: var(--primary-hover);
+}
+
+.pinned {
+	background-color: white;
+	border-color: var(--secondary);
+}
+
+.pinned:hover {
+	background-color: var(--default-hover);
+}
+
+.selected.pinned {
+	background-color: var(--secondary);
+}
+
+.unity-scroller--vertical {
+	width: 16px;
+	background-color: rgba(0, 0, 0, 0);
+	border-width: 0px;
+}
+
+.unity-scroller--vertical:hover .unity-base-slider__dragger {
+	width: 8px;
+	border-radius: 4px;
+}
+
+..unity-scroller--horizontal {
+	height: 16px;
+	background-color: rgba(0, 0, 0, 0);
+	border-width: 0px;
+}
+
+.unity-scroller--horizontal:hover .unity-base-slider__dragger {
+	height: 8px;
+	border-radius: 4px;
+}
+
+.unity-scroller--vertical .unity-slider {
+	margin-top: 16px;
+	margin-bottom: 16px;
+}
+
+.unity-scroller--horizontal .unity-slider {
+	margin-left: 16px;
+	margin-right: 16px;
+}
+
+.unity-repeat-button {
+	opacity: 0;
+	transition: 75ms;
+}
+
+.unity-scroller:hover .unity-repeat-button {
+	opacity: 1;
+}
+
+.unity-base-slider__dragger {
+	border-radius: 2px;
+	width: 4px;
+	background-color: var(--default);
+	border-width: 0px;
+	transition: 150ms;
+}
+
+.unity-base-slider__dragger:hover {
+	background-color: var(--default-active);
+}
+
+.unity-base-slider__drag-container {
+	align-items: center;
+}
+
+.active {
+	background-color: var(--primary-selected);
+}
+
+#market_element_container {
+	flex-grow: 1;
+}
+
+ValidationItem {
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 4px;
+	border-radius: 4px;
+	border-width: 1px;
+	border-color: var(--default);
+	padding: 4px;
+}
+
+ValidationItem Label {
+	flex-shrink: 1;
+	flex-grow: 1;
+}
+
+#validation_list {
+	padding: 4px;
 }

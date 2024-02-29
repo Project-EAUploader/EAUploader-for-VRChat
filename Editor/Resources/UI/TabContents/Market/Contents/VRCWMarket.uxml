@@ -1,11 +1,28 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss" />
-    <ui:VisualElement class="h-8 flex-row">
-        <ui:TextField picking-mode="Ignore" value="filler text" class="flex-1" />
-        <ui:Button text="検索" parse-escape-sequences="true" display-tooltip-when-elided="true" class="px-4" />
-        <ui:Button text="更新" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-        <ui:DropdownField index="0" choices="最新順,安い順,高い順" class="w-32" />
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements"
+    xmlns:eau="EAUploader.UI.Components"
+    xsi="http://www.w3.org/2001/XMLSchema-instance"
+    engine="UnityEngine.UIElements"
+    editor="UnityEditor.UIElements"
+    noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
+    editor-extension-mode="False"
+>
+    <ui:VisualElement class="flex-row">
+        <eau:TextFieldPro name="search_input" placeholder="Search" picking-mode="Ignore" class="flex-1" />
+        <ui:Button name="search_button" text="検索" parse-escape-sequences="true" display-tooltip-when-elided="true" class="px-4" />
+        <ui:Button name="refresh_button" text="更新" parse-escape-sequences="true" display-tooltip-when-elided="true" />
         <ui:Button name="my_list" text="マイリスト" parse-escape-sequences="true" display-tooltip-when-elided="true" class="px-4" />
     </ui:VisualElement>
-    <ui:ScrollView name="shop_items_container" class="flex-1 p-4" mode="VerticalAndHorizontal" />
+    <ui:VisualElement name="shop_container" class="flex-1 flex-row">
+        <ui:ListView name="shop_item_list" class="w-96 h-full border-r border-r-zinc-400"/>
+        <ui:VisualElement name="fetching_data_container" class="fetching_data__hidden" picking-mode="Ignore">
+            <eau:Shadow shadow-offset-y="2" shadow-corner-radius="32" shadow-distance="-8">
+                <ui:VisualElement class="fetching_data">
+                    <ui:Label text="Fetching data..." />
+                </ui:VisualElement>
+            </eau:Shadow>
+        </ui:VisualElement>
+        <ui:VisualElement name="product_detail_container" class="flex-1 p-4" />
+    </ui:VisualElement>
 </ui:UXML>

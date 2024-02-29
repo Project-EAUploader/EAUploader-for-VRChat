@@ -1,9 +1,8 @@
 using EAUploader.CustomPrefabUtility;
 using System;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
-using VRC.Core;
-using VRC.SDK3.Editor;
 using VRC.SDK3A.Editor;
 using VRC.SDKBase.Editor;
 using VRC.SDKBase.Editor.Api;
@@ -15,6 +14,7 @@ namespace EAUploader
         public static bool IsUploading { get; private set; }
         public static string Status { get; private set; }
         public static float Percentage { get; private set; }
+
 
         [InitializeOnLoadMethod]
         public static void RegisterSDKCallback()
@@ -41,19 +41,19 @@ namespace EAUploader
 
         private static void NoticeUploadSuccess(object sender, string message)
         {
-            EditorUtility.DisplayDialog("Upload Succeed", message, "OK");
+            EditorUtility.DisplayDialog(T7e.Get("Upload Succeed"), message, "OK");
             Status = null;
             Percentage = 0;
         }
         private static void NoticeUploadError(object sender, string message)
         {
-            EditorUtility.DisplayDialog("Upload Failed", message, "OK");
+            EditorUtility.DisplayDialog(T7e.Get("Upload Failed"), message, "OK");
             Status = null;
             Percentage = 0;
         }
 
 
-        public static async void BuildAvatar()
+        public static async Task BuildAvatarAsync()
         {
             // Open the SDK Control Panel
             VRCSdkControlPanel.GetWindow<VRCSdkControlPanel>().Show();
@@ -61,7 +61,7 @@ namespace EAUploader
             var selectedPrefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);
 
 
-            if (!VRCSdkControlPanel.TryGetBuilder<IVRCSdkAvatarBuilderApi>(out var builder)) return; 
+            if (!VRCSdkControlPanel.TryGetBuilder<IVRCSdkAvatarBuilderApi>(out var builder)) return;
 
             try
             {
@@ -73,7 +73,27 @@ namespace EAUploader
             }
         }
 
-        public static async void UploadAvatar(VRCAvatar avatar, string previewImagePath)
+        public static async Task BuildAndTestAsync()
+        {
+            // Open the SDK Control Panel
+            VRCSdkControlPanel.GetWindow<VRCSdkControlPanel>().Show();
+
+            var selectedPrefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);
+
+
+            if (!VRCSdkControlPanel.TryGetBuilder<IVRCSdkAvatarBuilderApi>(out var builder)) return;
+
+            try
+            {
+                await builder.BuildAndTest(selectedPrefab);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+            }
+        }
+
+        public static async Task UploadAvatarAsync(VRCAvatar avatar, string previewImagePath)
         {
             var selectedPrefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);
 

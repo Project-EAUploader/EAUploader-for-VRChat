@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace EAUploader.UI.Components
@@ -15,15 +14,15 @@ namespace EAUploader.UI.Components
             switch (tag)
             {
                 case "content_sex":
-                    return "Sexually Suggestive";
+                    return T7e.Get("Sexually Suggestive");
                 case "content_adult":
-                    return "Adult Language and Themes";
+                    return T7e.Get("Adult Language and Themes");
                 case "content_violence":
-                    return "Graphic Violence";
+                    return T7e.Get("Graphic Violence");
                 case "content_gore":
-                    return "Excessive Gore";
+                    return T7e.Get("Excessive Gore");
                 case "content_horror":
-                    return "Extreme Horror";
+                    return T7e.Get("Extreme Horror");
                 default:
                     return null;
             }
@@ -49,7 +48,7 @@ namespace EAUploader.UI.Components
             }
         }
 
-        public EventHandler<Tuple<string,bool>> OnToggleTag;
+        public EventHandler<Tuple<string, bool>> OnToggleTag;
 
         public bool value;
 
@@ -80,7 +79,7 @@ namespace EAUploader.UI.Components
                 }
             };
 
-            Add(label); 
+            Add(label);
 
             var group = new VisualElement()
             {

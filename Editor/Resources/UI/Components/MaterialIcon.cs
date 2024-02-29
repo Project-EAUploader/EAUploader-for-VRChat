@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace EAUploader.UI.Components
 {

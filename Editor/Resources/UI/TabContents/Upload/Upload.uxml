@@ -8,7 +8,6 @@
     noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
     editor-extension-mode="False"
 >
-    <Style src="project://database/Assets/EAUploader/UI/tailwind.uss" />
     <ui:VisualElement class="flex-row flex-1">
         <ui:VisualElement name="avatar_info_container" class="flex-row" style="width: 30%;">
             <ui:VisualElement name="avatar_list" class="flex-1 border-r border-zinc-300" style="width: 100%;">

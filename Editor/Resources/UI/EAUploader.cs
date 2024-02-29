@@ -1,3 +1,4 @@
+using EAUploader.UI.Components;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,7 +13,7 @@ namespace EAUploader.UI
             EAUploader wnd = GetWindow<EAUploader>();
             wnd.titleContent = new GUIContent("EAUploader");
             wnd.position = new Rect(100, 100, 1280, 640);
-            wnd.minSize = new Vector2(960, 640);
+            wnd.minSize = new Vector2(1080, 640);
         }
 
         private VisualElement contentRoot = null;
@@ -23,9 +24,12 @@ namespace EAUploader.UI
             currentTab = "settings";
 
             rootVisualElement.styleSheets.Add(Resources.Load<StyleSheet>("UI/styles"));
+            rootVisualElement.styleSheets.Add(Resources.Load<StyleSheet>("UI/tailwind"));
+
+            rootVisualElement.style.flexDirection = FlexDirection.ColumnReverse;
 
             // Import UXML
-            var visualTree = Resources.Load<VisualTreeAsset>("UI/MainWindow"); 
+            var visualTree = Resources.Load<VisualTreeAsset>("UI/MainWindow");
             visualTree.CloneTree(rootVisualElement);
 
             rootVisualElement.schedule.Execute(() =>
@@ -33,9 +37,11 @@ namespace EAUploader.UI
                 LanguageUtility.Localization(rootVisualElement);
             }).Every(100);
 
-            contentRoot = rootVisualElement.Q("contentRoot"); 
+            contentRoot = rootVisualElement.Q("contentRoot");
             ImportSettings.Main.ShowContent(contentRoot);
-            
+
+            rootVisualElement.Q<Button>("settings").EnableInClassList("tab-button__selected", true);
+
             SetupButtonHandler();
         }
 
@@ -64,6 +70,13 @@ namespace EAUploader.UI
             currentTab = buttonName;
 
             contentRoot.Clear();
+
+            rootVisualElement.Query<Button>().ForEach((b) =>
+            {
+                b.EnableInClassList("tab-button__selected", false);
+            });
+
+            button.EnableInClassList("tab-button__selected", true);
 
             switch (buttonName)
             {

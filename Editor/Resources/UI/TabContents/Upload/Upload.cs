@@ -1,10 +1,9 @@
 using EAUploader.CustomPrefabUtility;
+using EAUploader.UI.Components;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using VRC.SDK3A.Editor;
-using VRC.SDKBase.Editor;
 
 namespace EAUploader.UI.Upload
 {
@@ -35,36 +34,13 @@ namespace EAUploader.UI.Upload
 
             foreach (var prefab in prefabList)
             {
-                var prefabButton = new PrefabItemButton(prefab);
+                var prefabButton = new PrefabItemButton(prefab, () =>
+                {
+                    EAUploaderCore.selectedPrefabPath = prefab.Path;
+                    preview.UpdatePreview(prefab.Path);
+                }, true);
                 prefabListContainer.Add(prefabButton);
             }
-        }
-    }
-
-    internal class PrefabItemButton : Button
-    {
-        public PrefabItemButton(PrefabInfo prefab)
-        {
-            var previewImage = new Image { image = prefab.Preview, scaleMode = ScaleMode.ScaleToFit, style = { width = 100, height = 100 } };
-            Add(previewImage);
-
-            var label = new Label(Path.GetFileNameWithoutExtension(prefab.Path));
-            Add(label);
-
-            clicked += () =>
-            {
-                EAUploaderCore.selectedPrefabPath = prefab.Path;
-                Main.preview.UpdatePreview(prefab.Path);
-                EnableInClassList("selected", true);
-
-                foreach (var child in parent.Children())
-                {
-                    if (child != this)
-                    {
-                        child.EnableInClassList("selected", false);
-                    }
-                }
-            };
         }
     }
 }

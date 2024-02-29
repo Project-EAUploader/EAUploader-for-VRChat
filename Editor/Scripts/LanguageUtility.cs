@@ -1,9 +1,8 @@
-using UnityEngine;
-using System.IO;
-using UnityEngine.UIElements;
-using UnityEditor;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace EAUploader
 {

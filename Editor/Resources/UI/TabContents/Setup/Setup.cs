@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
 using System.Collections.Generic;
@@ -6,7 +5,6 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.Progress;
 
 namespace EAUploader.UI.Setup
 {
@@ -31,7 +29,7 @@ namespace EAUploader.UI.Setup
 
             GetModelList();
 
-            preview = new Components.Preview(root.Q("avatar_preview"), EAUploaderCore.selectedPrefabPath);
+            preview = new Preview(root.Q("avatar_preview"), EAUploaderCore.selectedPrefabPath);
 
             preview.ShowContent();
 
@@ -48,12 +46,12 @@ namespace EAUploader.UI.Setup
             root.Q<ShadowButton>("find_extentions").clicked += () =>
             {
                 Application.OpenURL("https://www.uslog.tech/eauploader-plug-ins");
-            }; 
+            };
         }
 
         private static void GetModelList()
         {
-            prefabsWithPreview = CustomPrefabUtility.PrefabManager.GetAllPrefabsWithPreview();
+            prefabsWithPreview = PrefabManager.GetAllPrefabsWithPreview();
             modelList.Clear();
             AddPrefabsToModelList();
         }
@@ -69,7 +67,12 @@ namespace EAUploader.UI.Setup
 
         private static VisualElement CreatePrefabItem(PrefabInfo prefab)
         {
-            var item = new PrefabItemButton(prefab);
+            var item = new PrefabItemButton(prefab, () =>
+            {
+                EAUploaderCore.selectedPrefabPath = prefab.Path;
+                UpdatePrefabInto(prefab.Path);
+                preview.UpdatePreview(prefab.Path);
+            });
             return item;
         }
 
@@ -127,7 +130,7 @@ namespace EAUploader.UI.Setup
 
         private static void DeleteButtonClicked()
         {
-            if (CustomPrefabUtility.PrefabManager.ShowDeletePrefabDialog(EAUploaderCore.selectedPrefabPath))
+            if (PrefabManager.ShowDeletePrefabDialog(EAUploaderCore.selectedPrefabPath))
             {
                 GetModelList();
             }
@@ -167,7 +170,8 @@ namespace EAUploader.UI.Setup
     {
         public EditorItem(EditorRegistration editor)
         {
-            var buttonGroup = new VisualElement() { 
+            var buttonGroup = new VisualElement()
+            {
                 style =
                 {
                     flexDirection = FlexDirection.Row,
@@ -182,11 +186,11 @@ namespace EAUploader.UI.Setup
                 text = editor.EditorName,
                 style =
                 {
-                    flexGrow = 1, 
+                    flexGrow = 1,
                     borderBottomRightRadius = 0,
                     borderTopRightRadius = 0,
                     borderRightColor = new StyleColor(new Color(0.0784313725f , 0.3921568627f, 0.7058823529f,1)),
-                    borderRightWidth = 1, 
+                    borderRightWidth = 1,
                 }
             };
 
@@ -250,39 +254,11 @@ namespace EAUploader.UI.Setup
                 }
 
                 Add(editorContent);
-            } else
+            }
+            else
             {
                 foldoutButton.Add(expandMore);
             }
-        }
-    }
-
-    internal class PrefabItemButton : Button
-    {
-        public PrefabItemButton(PrefabInfo prefab)
-        {
-            var previewImage = new Image { image = prefab.Preview, scaleMode = ScaleMode.ScaleToFit, style = { width = 100, height = 100 } };
-            Add(previewImage);
-
-            var label = new Label(Path.GetFileNameWithoutExtension(prefab.Path));
-            Add(label);
-
-            clicked += () =>
-            {
-                EAUploaderCore.selectedPrefabPath = prefab.Path;
-                Main.UpdatePrefabInto(prefab.Path);
-                Main.preview.UpdatePreview(prefab.Path);
-
-                EnableInClassList("selected", true);
-
-                foreach (var child in parent.Children())
-                {
-                    if (child != this)
-                    {
-                        child.EnableInClassList("selected", false);
-                    }
-                }
-            };
         }
     }
 }

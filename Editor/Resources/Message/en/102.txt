@@ -1,7 +1,0 @@
-<t>Converting VRM</t>
-<txt>
-<size=14>    VRChat does not support VRM. You need to use a conversion tool to support VRChat.
-EAUploader automatically adds VRM Converter for VRChat (created by Pokemori) to your project.
-Use the convert button to convert for VRChat.</size>
-</txt>
-<button>Source Page, Link, https://booth.pm/ja/items/1025226</button>

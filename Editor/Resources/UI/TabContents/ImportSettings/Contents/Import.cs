@@ -17,13 +17,13 @@ namespace EAUploader.UI.ImportSettings
             var visualTree = Resources.Load<VisualTreeAsset>("UI/TabContents/ImportSettings/Contents/Import");
             visualTree.CloneTree(root);
 
-            root.schedule.Execute(() => 
+            root.schedule.Execute(() =>
             {
                 if (EAUploaderCore.HasVRM)
                 {
                     root.Q<ShadowButton>("import_vrm").SetEnabled(true);
                 }
-                else 
+                else
                 {
                     root.Q<ShadowButton>("import_vrm").SetEnabled(false);
                 }
@@ -71,7 +71,6 @@ namespace EAUploader.UI.ImportSettings
             if (string.IsNullOrEmpty(filePath)) return;
 
             var fileExtension = Path.GetExtension(filePath)?.ToLower();
-            var fileName = Path.GetFileNameWithoutExtension(filePath);
 
             switch (fileExtension)
             {
@@ -91,7 +90,7 @@ namespace EAUploader.UI.ImportSettings
 
             var allFiles = Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories)
                 .Where(s => s.EndsWith(".prefab") || s.EndsWith(".unitypackage")).ToList();
-             
+
             if (allFiles.Count == 0)
             {
                 EditorUtility.DisplayDialog(T7e.Get("Asset not found"), T7e.Get("There are no prefab or unitypackage files in the selected folder."), "OK");

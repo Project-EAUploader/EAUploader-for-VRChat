@@ -1,7 +1,5 @@
-﻿    using Cysharp.Threading.Tasks;
-using EAUploader.CustomPrefabUtility;
+﻿using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -60,7 +58,7 @@ namespace EAUploader.UI.ImportSettings
 
         private static VisualElement CreatePrefabItem(PrefabInfo prefab)
         {
-            var item = new PrefabItem(prefab.Preview, prefab.Name);
+            var item = new PrefabItem(prefab);
 
             return item;
         }
@@ -69,25 +67,28 @@ namespace EAUploader.UI.ImportSettings
 
     internal class PrefabItem : VisualElement
     {
-        public PrefabItem(Texture2D preview, string name)
+        public PrefabItem(PrefabInfo prefab)
         {
-            var previewImage = new Image { 
-                image = preview, 
+            var previewImage = new Image
+            {
+                image = prefab.Preview,
                 style = {
                     width = 128,
-                    height = 128, 
-                } 
+                    height = 128,
+                }
             };
-            previewImage.RegisterCallback<MouseUpEvent>(evt => ShowLargeImage(preview));
+            previewImage.RegisterCallback<MouseUpEvent>(evt => ShowLargeImage(prefab.Preview));
             Add(previewImage);
 
-            var label = new Label { text = name, style = { flexGrow = 1 } };
+            var label = new Label { text = prefab.Name, style = { flexGrow = 1, flexShrink = 1 } };
             Add(label);
 
             var controls = new VisualElement()
             {
                 style =
                 {
+                    position = Position.Absolute,
+                    right = 0,
                     flexDirection = FlexDirection.Column,
                     height = new StyleLength(new Length(100, LengthUnit.Percent)),
                 }
@@ -105,7 +106,7 @@ namespace EAUploader.UI.ImportSettings
             };
             var changeNameIcon = new MaterialIcon() { icon = "edit", style = { fontSize = 20 } };
             changeNameButton.Add(changeNameIcon);
-            changeNameButton.clicked += () => ChangePrefabName(name);
+            changeNameButton.clicked += () => ChangePrefabName(prefab.Path);
 
             var copyAsNewNameButton = new Button()
             {
@@ -125,7 +126,7 @@ namespace EAUploader.UI.ImportSettings
             };
             var copyAsNewNameIcon = new MaterialIcon() { icon = "content_copy", style = { fontSize = 20 } };
             copyAsNewNameButton.Add(copyAsNewNameIcon);
-            copyAsNewNameButton.clicked += () => CopyPrefabAsNewName(name);
+            copyAsNewNameButton.clicked += () => CopyPrefabAsNewName(prefab.Path);
 
             var deleteButton = new Button()
             {
@@ -139,7 +140,7 @@ namespace EAUploader.UI.ImportSettings
             };
             var deleteIcon = new MaterialIcon() { icon = "delete", style = { fontSize = 20 } };
             deleteButton.Add(deleteIcon);
-            deleteButton.clicked += () => DeletePrefab(name);
+            deleteButton.clicked += () => DeletePrefab(prefab.Path);
 
             controls.Add(changeNameButton);
             controls.Add(copyAsNewNameButton);
@@ -180,7 +181,7 @@ namespace EAUploader.UI.ImportSettings
                 PrefabUtility.SaveAsPrefabAsset((GameObject)prefabCopy, newPrefabPath);
                 UnityEngine.Object.DestroyImmediate(prefabCopy);
 
-                var renameWindow = new RenamePrefabWindow();
+                var renameWindow = ScriptableObject.CreateInstance<RenamePrefabWindow>();
                 renameWindow.ShowWindow(newPrefabPath);
 
                 ManageModels.UpdateModelList();

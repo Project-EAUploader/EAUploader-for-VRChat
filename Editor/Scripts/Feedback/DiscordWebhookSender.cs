@@ -1,16 +1,12 @@
-using UnityEngine;
-using UnityEditor;
-using System.Collections;
-using System.Net;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
-using static styles;
-using static labels;
-using UnityEngine.UIElements;
 using EAUploader.UI.Components;
+using System.IO;
+using System.Net;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UIElements;
 
-namespace EAUploader {
+namespace EAUploader
+{
 
     public class DiscordWebhookSender : EditorWindow
     {
@@ -21,7 +17,7 @@ namespace EAUploader {
         public static void OpenDiscordWebhookSenderWindow()
         {
             var window = GetWindow<DiscordWebhookSender>("Feedback");
-            window.minSize = new Vector2(400, 200);
+            window.minSize = new Vector2(420, 200);
             sentFeedback = false;
         }
 
@@ -91,11 +87,10 @@ namespace EAUploader {
                 sendButton.text = T7e.Get("Submit");
                 root.Add(sendButton);
             }
-            else
-            {
-                var sentLabel = new Label(T7e.Get("Transmission was successful. Thank you."));
-                root.Add(sentLabel);
-            }
+
+            var closeButton = new Button(CloseWindow) { text = T7e.Get("Close") };
+            closeButton.style.marginTop = 8;
+            root.Add(closeButton);
         }
 
         private void SendMessageToDiscord(string url, string title, string author, string email, string content)
@@ -111,7 +106,12 @@ namespace EAUploader {
                 try
                 {
                     client.UploadString(url, json);
+                    
+                    // 送信成功フラグを更新
                     sentFeedback = true;
+                    
+                    // UIを更新するためのメソッド呼び出し
+                    UpdateUIAfterSend();
                 }
                 catch (WebException e)
                 {
@@ -128,6 +128,33 @@ namespace EAUploader {
                 }
             }
             Repaint();
+        }
+
+        private void UpdateUIAfterSend()
+        {
+            // 送信成功のメッセージを表示
+            var root = rootVisualElement;
+            root.Clear(); // 既存のUI要素をクリア
+
+            if (sentFeedback)
+            {
+                // 送信成功のメッセージを表示
+                var sentLabel = new Label(T7e.Get("Transmission was successful. Thank you."));
+                root.Add(sentLabel);
+            }
+            else
+            {
+                // 送信に失敗した場合の処理
+            }
+
+            var closeButton = new Button(CloseWindow) { text = T7e.Get("Close") };
+            closeButton.style.marginTop = 8;
+            root.Add(closeButton);
+        }
+
+        private void CloseWindow()
+        {
+            Close();
         }
 
         private string BuildJson(string title, string author, string email, string content)

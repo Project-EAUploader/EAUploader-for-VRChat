@@ -1,27 +1,26 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EAUploader.UI.Components 
+namespace EAUploader.UI.Components
 {
-    public class TextFieldPro: TextField
+    public class TextFieldPro : TextField
     {
-        public new class UxmlFactory : UxmlFactory<TextFieldPro, UxmlTraits> {}
+        public new class UxmlFactory : UxmlFactory<TextFieldPro, UxmlTraits> { }
 
         public new class UxmlTraits : TextField.UxmlTraits
         {
             private readonly UxmlStringAttributeDescription placeholder = new UxmlStringAttributeDescription { name = "placeholder" };
             private readonly UxmlBoolAttributeDescription required = new UxmlBoolAttributeDescription { name = "required" };
-            
+
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
                 get { yield break; }
             }
-            
+
             public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
             {
                 base.Init(ve, bag, cc);
-                var textField = (TextFieldPro) ve;
+                var textField = (TextFieldPro)ve;
                 textField.placeholder = placeholder.GetValueFromBag(bag, cc);
                 textField.required = required.GetValueFromBag(bag, cc);
             }
@@ -76,7 +75,7 @@ namespace EAUploader.UI.Components
             }
         }
 
-        public TextFieldPro(): base()
+        public TextFieldPro()
         {
             RegisterCallback<FocusOutEvent>(evt => FocusOut());
             RegisterCallback<FocusInEvent>(evt => FocusIn());
@@ -105,6 +104,9 @@ namespace EAUploader.UI.Components
             {
                 this.Q<TextInputBase>().EnableInClassList("border-red", true);
                 return null;
+            } else if (IsPlaceholder())
+            {
+                return null;
             }
             return text;
         }
@@ -124,7 +126,7 @@ namespace EAUploader.UI.Components
             this.value = string.Empty;
             this.RemoveFromClassList(ussClassName + "__placeholder");
         }
-        
+
         public bool IsPlaceholder()
         {
             var placeholderClass = TextField.ussClassName + "__placeholder";
