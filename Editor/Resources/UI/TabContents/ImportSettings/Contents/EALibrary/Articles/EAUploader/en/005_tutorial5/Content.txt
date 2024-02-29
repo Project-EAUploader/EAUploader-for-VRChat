@@ -1,7 +1,7 @@
 <t>― プラグイン【拡張機能】の導入 ―</t>
 <txt>
 <size=16>EAUploaderでサポートしていないアバターの設定や編集を、別のツールを追加することで編集できるようにすることができます。
-追加したツールは、<color=green>「セットアップ」</color>タブの右側のツール一覧に追加されます。
+追加したツールは、<color=blue>「セットアップ」</color>タブの右側のツール一覧に追加されます。
 拡張機能は以下EAUploaderのサイトやネット等で検索してください。</size>
 </txt>
 <button>拡張機能を探す, Link, https://www.uslog.tech/eauploader-plug-ins</button>

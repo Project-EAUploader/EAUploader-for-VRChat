@@ -1,37 +1,51 @@
-<t>― はじめる ―</t>
+<t>― Let's started ―</t>
 <txt>
-<size=20>EALIBRARY</size>
-<size=14>　EALIBRARYには、このツールの使い方、アバターについて、VRChatが提供するアップローダーについての説明があります。分からないことがあれば、ここで調べてみてください。</size>
+<size=20>What this tool can do?</size>
+
+<size=14><color=blue>〇 Upload Avatar</color>
+<color=red>✕ Modification of avatars</color>
+EAUploader only supports avatars or VRMs that have already been created and completed for VRChat.
+It does not support 3D models that are not designed for VRChat, nor does it support changing clothes, adding accessories, or changing facial expressions.
+(Editing functionality is under development as an extension.)</size>
 </txt>
 <hr>black, 12</hr>
 <txt>
-<size=20><b>４つのタブ ―</b></size>
-<size=14>ツール上部に、４つのボタンがあります。
-これらは、このツールの基本的なタブを切り替えるボタンです。
-<color=green>インポートタブ</color>
-アバターのインポートはここから行います。言語の変更、フィードバックもこのタブにあります。
-<color=green>セットアップタブ</color>
-アバターの調整、編集を行うツールはここから開くことができます。
-ツールは拡張機能（チュートリアル⑤参照）を導入して、追加できます。
-<color=green>アップロードタブ</color>
-アップロード可能なアバターを確認し、アップロードツールを開くタブです。
-<color=green>アバターをみつける タブ</color>
-アバターを探す旅に出ましょう。VRChatの世界（vrcw.net）と提携したマーケットでのアバター検索と、他マーケットサイトの紹介・アクセスリンクがあります。</size>
+<size=20>EALIBRARY</size>
+<size=14>
+　EALIBRARY has instructions on how to use this tool, about avatars, and about the uploader provided by VRChat. If you have any questions, you can find them here.</size>
+</txt>
+<hr>black, 12</hr>
+<txt>
+<size=20><b>― 4 tabs ―</b></size>
+<size=14>At the top of the tool, there are four buttons.
+These are the buttons that switch the basic tabs of this tool.
+<color=blue>Import</color>
+Import of avatars is done here. Language changes and feedback are also located on this tab.
+<color=blue>Set up</color>
+Tools for adjusting and editing avatars can be opened here.
+Tools can be added by installing extensions (see "What is plug-ins").
+<color=blue>Upload</color>
+This tab is for uploading avatars to VRChat.
+<color=blue>Market</color>
+Embark on a journey to find an avatar, search for avatars in markets affiliated with VRChat world (vrcw.net), and find referrals and access links to other market sites.</size>
 </txt>
 <image>image1.png</image>
 <txt>
 
-<size=20><b>編集ツール ―</b></size>
-<size=14><color=green>セットアップタブ</color>の右側にあります。
-シェーダーの変更などの基本調整や、その他編集は拡張機能を導入してここから開くことができます。</size>
+<size=20><b>― Editing tools ―</b></size>
+<size=14>It is located on the right side of the Setup tab.
+Basic adjustments such as shader changes and other edits can be opened here with the introduction of extensions.</size>
 </txt>
 <image>image2.png</image>
-<button>EAUploader Web, Link, https://sabu006.com/eauploader</button>
+<txt>
+<size=16>Extension tools can be found here.</size>
+</txt>
+<button>Find Extensions, Link, https://www.uslog.tech/eauploader-plug-ins</button>
 <hr>black, 12</hr>
 <txt>
-<size=16>このツールについては以上です。
-次は、アバターのインポートについての説明です。</size>
+<size=16>That's all about EAUploader.
+The next article describes importing avatars.</size>
 </txt>
-<button>Discordへ参加する, Main, https://discord.gg/mkDJ7xm94Z</button>
-<button>開発者 X / Twitter をフォロー, Sub, https://twitter.com/intent/follow?screen_name=fu_virtual</button>
+<button>Join Discord, Main, https://discord.gg/mkDJ7xm94Z</button>
+<button>Follow us on Developer X(Twitter), Sub, https://twitter.com/intent/follow?screen_name=fu_virtual</button>
 <button>Webへ行く, Sub, https://uslog.tech/eauploader</button>
