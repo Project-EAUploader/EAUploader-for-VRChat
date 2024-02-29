@@ -2,7 +2,7 @@
     "name": "Easy Avatar Uploader for VRChat",
     "id": "tech.uslog.eauploader.vpm",
     "author": "USLOG",
-    "url": "https://github.com/Project-EAUploader/EAUploader-for-VRChat/vpm.jspn",
+    "url": "https://project-eauploader.github.io/EAUploader-for-VRChat/vpm.json",
     "packages": {
         "tech.uslog.eauploader": {
             "versions": {
@@ -21,7 +21,7 @@
                         "Uploader"
                     ],
                     "url": "https://github.com/Project-EAUploader/EAUploader-for-VRChat/releases/download/v0.9.9/tech.uslog.eauploader.zip",
-                    "repo": "https://github.com/Project-EAUploader/EAUploader-for-VRChat/vpm.jspn"
+                    "repo": "https://project-eauploader.github.io/EAUploader-for-VRChat/vpm.json"
                 }
             }
         }
