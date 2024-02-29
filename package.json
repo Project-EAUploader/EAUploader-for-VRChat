@@ -13,5 +13,6 @@
     "email": "fu-suke.tm@outlook.jp",
     "url": "https://uslog.tech/eauploader"
   },
-  "keywords": ["Editor", "Uploader"]
+  "keywords": ["Editor", "Uploader"],
+  "url" : "https://github.com/Project-EAUploader/EAUploader-for-VRChat/releases/download/0.9.9/uslog.tech.eaploader.zip?"
 }
