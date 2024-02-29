@@ -63,7 +63,7 @@ namespace EAUploader.UI.ImportSettings
 
         private static void ImportVRMButtonClicked()
         {
-            EditorApplication.ExecuteMenuItem("VRM0/Import from VRM 0.x");
+            EditorApplication.ExecuteMenuItem("VRM0/Import VRM 0.x...");
         }
 
         private static void ImportAsset(string filePath)
