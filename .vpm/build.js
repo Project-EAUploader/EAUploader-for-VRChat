@@ -131,7 +131,7 @@ for (const { name, version, internal } of dependencies) {
 				.filter(([ name ]) => !name.startsWith(IGNORE_PACKSGE_NAME_FROM_VPM_DEPENDENCIES_PREFIX))
 				.map(([ name, version ]) => [
 					name,
-					(manifest.name.startsWith('com.vrmc.') && name.startsWith('com.vrmc.') ? '' : '^') + version,
+					(manifest.name.startsWith('com.vrchat') && name.startsWith('com.vrchat') ? '' : '^') + version,
 				]));
 		}
 		Object.assign(manifest, namePartialManifestPairs[name]);
