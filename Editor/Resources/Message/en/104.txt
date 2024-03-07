@@ -1,6 +1,0 @@
-<t>Install extensions</t>
-<txt>
-<size=16>An editor compatible with EAUploader can be installed for a variety of editing.
-Currently, extensions are not abundant. Are you a tool developer? We invite you to join the EAUploader Project!</size>
-</txt>
-<button>For Developers, Link, https://www.uslog.tech/fordev</button> 

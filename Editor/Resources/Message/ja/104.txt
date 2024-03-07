@@ -1,6 +1,0 @@
-<t>拡張機能を導入する</t>
-<txt>
-<size=16>EAUploaderに対応したエディタを導入することで、作業を連携して多種多様な編集をサポートします。
-現在、拡張機能は豊富ではありません。ツール開発者の方は是非、Project EAUploaderにご参加ください！</size>
-</txt>
-<button>開発者の方へ, Link, https://www.uslog.tech/fordev</button> 

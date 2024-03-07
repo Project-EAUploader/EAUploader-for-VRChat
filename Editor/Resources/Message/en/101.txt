@@ -1,8 +1,0 @@
-<txt>
-<size=20>VRM</size>
-<size=16>VRM is a kind of file format for 3D models specialized for avatars, which can be easily created in VRoid Studio or other software.
-You cannot upload to VRChat in VRM as it is, so it must be converted.
-
-To use VRM, download the VRM Converter and import to Unity or add its repository to VCC.</size>
-</txt>
-<button>Download VRM Converter, Main, https://booth.pm/ja/items/1025226</button>

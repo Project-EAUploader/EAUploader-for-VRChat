@@ -1,0 +1,9 @@
+<txt>
+<size=30>EDEN | The newest avatar marketplace to be in service in 2024</size>
+
+<size=20>   The open marketplace for creators and players, <b>EDEN</b>, <color=red>makes it easy and fast to find the style of design you are looking for</color>. Buy and sell your unique 3D content.</size>
+</txt>
+<button>Go to EDEN, Link, https://eden-world.net/market</button>
+<txt>
+<size=12>Provided by: FROM SEOUL</size>
+</txt>

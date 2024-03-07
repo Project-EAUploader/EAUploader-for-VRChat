@@ -1,0 +1,26 @@
+<UXML
+    xmlns="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements"
+    xmlns:eau="EAUploader.UI.Components"
+    xsi="http://www.w3.org/2001/XMLSchema-instance"
+    engine="UnityEngine.UIElements"
+    editor="UnityEditor.UIElements"
+    noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
+    editor-extension-mode="False"
+>
+    <VisualElement class="product-item flex-row">
+        <VisualElement class="product-item__image_container">
+            <eau:Shadow shadow-offset-y="2" shadow-corner-radius="8" shadow-distance="0">
+                <VisualElement class="product-item__image">
+                    <Image name="Image" />
+                </VisualElement>
+            </eau:Shadow>
+        </VisualElement>
+        <VisualElement class="product-item__info p-4">
+            <Label name="Name" class="text-sm font-bold flex-1 overflow-hidden" />
+            <Label name="Price" class="text-sm font-bold" />
+            <Label name="Creator" />
+        </VisualElement>
+        <eau:MaterialIcon name="star" icon="star" class="absolute right-0 text-2xl p-4 text-yellow-400 hidden" />
+    </VisualElement>
+</UXML>

@@ -1,9 +1,0 @@
-<t>If the avatar you want to upload is not displayed / cannot be selected </t>
-<txt>
-<size=16>   If the avatar you wish to upload is VRM, you will need to convert it. Please do the conversion from the list on the Import tab or the Setup tab.
-　If the avatar is not selectable / not visible, it means that the avatar cannot be uploaded to VRChat.
-Try deleting it and re-importing it again. If this does not solve the problem, ask a question in the community or elsewhere.</size>
-
-<size=12>説明
-No VRCAvatarDescriptor: VRCAvatarDescriptor component is missing.</size>
-</txt>

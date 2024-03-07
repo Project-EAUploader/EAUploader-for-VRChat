@@ -1,0 +1,40 @@
+<ui:UXML 
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements"
+    xmlns:eau="EAUploader.UI.Components"
+    xsi="http://www.w3.org/2001/XMLSchema-instance"
+    engine="UnityEngine.UIElements"
+    editor="UnityEditor.UIElements"
+    noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
+    editor-extension-mode="False"
+>
+    <ui:VisualElement name="import" class="flex-1 flex-col space-y-4">
+        <ui:Label tabindex="-1" text="Import" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="text-xl font-bold pb-2 mb-2" />
+        <eau:HelpButton msg-id="100" />
+        <ui:Label tabindex="-1" text="Import a .prefab file or .unitypackage file." parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-lg"/>
+        <eau:ShadowButton class="button-with-icons mb-4" name="import_prefab" parse-escape-sequences="true" display-tooltip-when-elided="true">    
+            <eau:MaterialIcon icon="download" />
+            <ui:Label text="Import"/>
+        </eau:ShadowButton>   
+        <eau:ShadowButton name="import_folder" parse-escape-sequences="true" display-tooltip-when-elided="true" class="button-with-icons mb-4">
+            <eau:MaterialIcon icon="folder" />
+            <ui:Label text="Import from folder" />
+        </eau:ShadowButton>
+        <ui:Label tabindex="-1" text="Import VRM" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-lg"/>
+        <eau:HelpButton msg-id="101" />
+        <ui:Label tabindex="-1" text="Import the .vrm(ver. 0.x) file." parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <eau:ShadowButton name="import_vrm" text="Import VRM" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+    </ui:VisualElement>
+    <ui:VisualElement name="settings" class="flex-col space-y-4">
+        <ui:Label tabindex="-1" text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-xl font-bold pb-2 mb-2" />
+        <ui:VisualElement class="flex-row items-center">
+            <ui:VisualElement class="flex-row items-center">
+                <eau:MaterialIcon icon="language" />
+                <ui:Label text="Language: " />
+            </ui:VisualElement>
+            <ui:DropdownField  name="language" index="0" class="flex-1"/>
+        </ui:VisualElement>
+        <ui:Label name="version" tabindex="-1" text="Version: " parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <eau:ShadowButton name="send_feedback" text="Send feedback" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+    </ui:VisualElement>
+</ui:UXML>

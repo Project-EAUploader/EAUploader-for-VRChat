@@ -1,0 +1,16 @@
+.article-image {
+	background-color: rgb(180, 180, 180);
+}
+
+.unity-list-view__item {
+	border-bottom-width: 1px;
+	border-color: var(--default);
+	background-color: white;
+	color: black;
+	overflow: hidden;
+	transition: 150ms;
+}
+
+.unity-list-view__item:hover {
+	background-color: var(--default-hover);
+}

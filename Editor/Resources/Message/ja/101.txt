@@ -1,8 +1,0 @@
-<txt>
-<size=20>VRMとは</size>
-<size=16>VRMとは、アバターに特化した3Dモデルのファイル形式の一種です。VRoid Studio等で簡単に作成できます。
-VRMのままではVRChatにアップロードすることができないので、変換する必要があります。
-
-VRMを使用するためには、VRM Converterをダウンロードし、インポートするかVCCに追加してください。</size>
-</txt>
-<button>VRM Converterをダウンロード, Main, https://booth.pm/ja/items/1025226</button>

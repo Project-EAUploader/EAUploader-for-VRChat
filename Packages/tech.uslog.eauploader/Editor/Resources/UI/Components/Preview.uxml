@@ -1,0 +1,13 @@
+<ui:UXML 
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements"
+    xmlns:eau="EAUploader.UI.Components"
+    xsi="http://www.w3.org/2001/XMLSchema-instance"
+    engine="UnityEngine.UIElements"
+    editor="UnityEditor.UIElements"
+    noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
+    editor-extension-mode="False"
+>
+    <ui:VisualElement name="preview_area" class="flex-1" />
+    <eau:HelpButton msg-id="108" class="absolute m-2"/>
+</ui:UXML>

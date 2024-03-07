@@ -1,0 +1,8 @@
+<t>操作説明</t>
+<image>Controll.png</image>
+<txt>
+<size=18><color=green>左クリック移動</color>：回転
+<color=green>右クリック移動</color>：移動
+<color=green>ホイール上下</color>：拡大縮小
+<color=green>左下マーク</color>：位置リセット</size>
+</txt>

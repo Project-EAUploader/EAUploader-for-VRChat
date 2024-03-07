@@ -1,0 +1,6 @@
+<UXML xmlns="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <VisualElement class="article-item flex-row">
+        <Image name="image" class="article-image w-one-third shrink-0" />
+        <Label name="title" class="title-label flex-1 self-center pl-2 text-lg font-bold" />
+    </VisualElement>
+</UXML>

@@ -1,0 +1,18 @@
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements"
+    xmlns:eau="EAUploader.UI.Components"
+    xsi="http://www.w3.org/2001/XMLSchema-instance"
+    engine="UnityEngine.UIElements"
+    editor="UnityEditor.UIElements"
+    noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
+    editor-extension-mode="False"
+>
+    <ui:VisualElement name="market_container" class="flex-1" />
+    <eau:Shadow>
+        <ui:VisualElement class="flex-row h-8">
+            <ui:Button name="Show_VRCWMarket" text="マーケット(VRChatの世界)" parse-escape-sequences="true" display-tooltip-when-elided="true" class="flex-1 tab-button" />
+            <ui:Button name="Show_OtherMarkets" text="他のマーケット情報" parse-escape-sequences="true" display-tooltip-when-elided="true" class="tab-button" />
+        </ui:VisualElement>
+    </eau:Shadow>
+</ui:UXML>

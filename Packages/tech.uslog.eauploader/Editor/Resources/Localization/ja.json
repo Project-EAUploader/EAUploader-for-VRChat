@@ -1,0 +1,897 @@
+{
+  "name": "日本語",
+  "items": [
+    {
+      "key": "Import/Settings",
+      "value": "インポート/設定"
+    },
+    {
+      "key": "Setup",
+      "value": "セットアップ"
+    },
+    {
+      "key": "Upload",
+      "value": "アップロード"
+    },
+    {
+      "key": "Market",
+      "value": "マーケット"
+    },
+    {
+      "key": "Import",
+      "value": "インポート"
+    },
+    {
+      "key": "Import from folder",
+      "value": "フォルダからインポート"
+    },
+    {
+      "key": "Import VRM",
+      "value": "VRMをインポート"
+    },
+    {
+      "key": "Import the .vrm(ver. 0.x) file.",
+      "value": ".vrm(ver. 0.x)ファイルをインポートします。"
+    },
+    {
+      "key": "Settings",
+      "value": "設定"
+    },
+    {
+      "key": "Send feedback",
+      "value": "フィードバックを送信"
+    },
+    {
+      "key": "Manage Model",
+      "value": "モデルの管理"
+    },
+    {
+      "key": "Search",
+      "value": "検索"
+    },
+    {
+      "key": "Change Name",
+      "value": "名前を変更"
+    },
+    {
+      "key": "Copy as New Name",
+      "value": "新しい名前としてコピー"
+    },
+    {
+      "key": "Delete",
+      "value": "削除"
+    },
+    {
+      "key": "Preview",
+      "value": "プレビュー"
+    },
+    {
+      "key": "Reset View",
+      "value": "ビューをリセット"
+    },
+    {
+      "key": "Pin prefab",
+      "value": "プレハブをピン留め"
+    },
+    {
+      "key": "Select a model",
+      "value": "編集するアバターを選択"
+    },
+    {
+      "key": "Import Asset",
+      "value": "Assetのインポート"
+    },
+    {
+      "key": "Import a .prefab file or .unitypackage file.",
+      "value": "PrefabかUnitypackageを選択"
+    },
+    {
+      "key": "Asset not found",
+      "value": "Assetが見つかりません"
+    },
+    {
+      "key": "There are no prefab or unitypackage files in the selected folder.",
+      "value": "選択されたフォルダにprefab や unityパッケージファイル がありません。"
+    },
+    {
+      "key": "Confirm Import",
+      "value": "インポートの確認"
+    },
+    {
+      "key": "The following files will be imported",
+      "value": "以下のファイルがインポートされます"
+    },
+    {
+      "key": "Cancel",
+      "value": "キャンセル"
+    },
+    {
+      "key": "Language: ",
+      "value": "言語: "
+    },
+    {
+      "key": "Version: ",
+      "value": "バージョン: "
+    },
+    {
+      "key": "Help",
+      "value": "ヘルプ"
+    },
+    {
+      "key": "Now selecting: ",
+      "value": "選択中のプレハブ："
+    },
+    {
+      "key": "Height: ",
+      "value": "アバターの高さ: "
+    },
+    {
+      "key": "Avatar Editor",
+      "value": "編集ツール"
+    },
+    {
+      "key": "Find extentions",
+      "value": "他の拡張機能を探す"
+    },
+    {
+      "key": "Select an Avatar to Upload",
+      "value": "アップロードするアバターを選択"
+    },
+    {
+      "key": "Logged in as ",
+      "value": "ログインしているユーザー名："
+    },
+    {
+      "key": "You need to login to upload avatar",
+      "value": "アップロードするためにはVRChatへログインしてください。"
+    },
+    {
+      "key": "Login",
+      "value": "ログイン"
+    },
+    {
+      "key": "You have permission to upload avatar",
+      "value": "アバターのアップロードが許可されています。"
+    },
+    {
+      "key": "You cannot upload an avatar with your current trust rank. You can immediately increase your rank by spending time on VRChat and adding friends. Or you can join VRChat+ (for a fee) to raise your rank immediately.",
+      "value": "現在のトラストランクではアバターをアップロードできません。アバターをアップロードするには、NewUser以上になる必要があります。\nVRChatで過ごし、フレンドを増やすことですぐにランクを上げることができます。又は、VRChat+に加入（有料）することで即時ランクを上げることができます。"
+    },
+    {
+      "key": "Uploading avatar...",
+      "value": "アバターをアップロード中..."
+    },
+    {
+      "key": "Login to VRChat",
+      "value": "VRChatへログイン"
+    },
+    {
+      "key": "Check you are allowed to upload avatar",
+      "value": "アバターのアップロード権限"
+    },
+    {
+      "key": "Model Info",
+      "value": "アバター情報"
+    },
+    {
+      "key": "Set thumbnail",
+      "value": "サムネイル"
+    },
+    {
+      "key": "Name",
+      "value": "アバターの名前"
+    },
+    {
+      "key": "Give your avatar a name",
+      "value": "アバターの名前を入力してください"
+    },
+    {
+      "key": "Description",
+      "value": "アバターの説明"
+    },
+    {
+      "key": "Describe your avatar so it is easier to remember!",
+      "value": "メモとしての説明を入力"
+    },
+    {
+      "key": "Content Warnings",
+      "value": "警告の設定"
+    },
+    {
+      "key": "Visibility",
+      "value": "公開設定"
+    },
+    {
+      "key": "Change Thumbnail",
+      "value": "サムネイルを変更"
+    },
+    {
+      "key": "Using preview image (Default)",
+      "value": "プレビュー画像を使用（デフォルト）"
+    },
+    {
+      "key": "Build",
+      "value": "ビルド"
+    },
+    {
+      "key": "Build as Test",
+      "value": "テストとしてビルド"
+    },
+    {
+      "key": "Sexually Suggestive",
+      "value": "性的な示唆"
+    },
+    {
+      "key": "Adult Language and Themes",
+      "value": "成人向けの言葉・表現"
+    },
+    {
+      "key": "Graphic Violence",
+      "value": "暴力的な表現"
+    },
+    {
+      "key": "Excessive Gore",
+      "value": "過剰な流血・血糊"
+    },
+    {
+      "key": "Extreme Horror",
+      "value": "過激なホラー"
+    },
+    {
+      "key": "Selected Platform",
+      "value": "PC用 / Quest用 切り替え"
+    },
+    {
+      "key": "Build Target Switcher",
+      "value": "ビルド対象の変更"
+    },
+    {
+      "key": "Are you sure you want to switch your build target to Windows? This could take a while.",
+      "value": "Windows用のビルドに変更しますか？（変更には少し時間がかかります）"
+    },
+    {
+      "key": "Are you sure you want to switch your build target to Android? This could take a while.",
+      "value": "Android（Quest, スマホ）用のビルドに変更しますか？（変更には少し時間がかかります）"
+    },
+    {
+      "key": "Are you sure you want to switch your build target to iOS? This could take a while.",
+      "value": "iOS用のビルドに変更しますか？（変更には少し時間がかかります）"
+    },
+    {
+      "key": "Confirm",
+      "value": "確認"
+    },
+    {
+      "key": "Select a prefab to preview",
+      "value": "アバターを選択してください。"
+    },
+    {
+      "key": "Select the avatar you wish to set up from the list on the left.",
+      "value": "左のリストから設定したいアバターを選択してください。"
+    },
+    {
+      "key": "Filter by Tag",
+      "value": "タグで絞り込み"
+    },
+    {
+      "key": "Upload Succeed",
+      "value": "アップロード成功"
+    },
+    {
+      "key": "Upload Failed",
+      "value": "アップロード失敗"
+    },
+    {
+      "key": "This avatar uses Visemes but the Face Mesh is not specified.",
+      "value": "このアバターはVisemesを使用していますが、フェイスメッシュは指定されていません。"
+    },
+    {
+      "key": "This avatar does not contain an Animator, you need to add an Animator component for the avatar to work",
+      "value": "このアバターにはAnimatorが含まれていません。アバターを動作させるにはAnimatorコンポーネントを追加する必要があります。"
+    },
+    {
+      "key": "This avatar does not contain an Animator, and will not animate in VRChat.",
+      "value": "このアバターにはアニメーターが含まれていないため、VRChatではアニメーションしません。"
+    },
+    {
+      "key": "This avatar is not imported as a humanoid rig and will not play VRChat's provided animation set.",
+      "value": "このアバターはヒューマノイドリグとしてインポートされないため、VRChatが提供するアニメーションセットは再生されません。"
+    },
+    {
+      "key": "Your avatar is disabled in the scene hierarchy!",
+      "value": "シーンヒエラルキーでアバターが無効になっています。"
+    },
+    {
+      "key": "Your avatar is humanoid, but its feet aren't specified!",
+      "value": "Humanoidアバターの足が特定されていません。"
+    },
+    {
+      "key": "Avatar feet are beneath the avatar's origin (the floor). That's probably not what you want.",
+      "value": "アバターの足がアバターの原点（床）より下にあります。確認してください。"
+    },
+    {
+      "key": "Your avatar is humanoid, but its upper arms aren't specified!",
+      "value": "Humanoidアバターの上腕が特知恵されていません。"
+    },
+    {
+      "key": "This avatar is too short. The minimum is 20cm shoulder height.",
+      "value": "アバターが短すぎます。肩の高さ20cmが最低基準です。"
+    },
+    {
+      "key": "This avatar is shorter than average.",
+      "value": "このアバターは平均より背が短いです。"
+    },
+    {
+      "key": "This avatar is too tall. The maximum is 5m shoulder height.",
+      "value": "アバターが高すぎます。最大は肩の高さ5mです。"
+    },
+    {
+      "key": "This avatar is taller than average.",
+      "value": "このアバターは平均より背が高いです。"
+    },
+    {
+      "key": "This avatar does not have a humanoid rig, so it can not be used as a custom fallback.",
+      "value": "このアバターにはHumanoid rigがないため、カスタムフォールバックとして使用することはできません。"
+    },
+    {
+      "key": "This avatar does not have an overall rating of Good or better, so it can not be used as a custom fallback. See the link below for details on Avatar Optimization.",
+      "value": "このアバターは総合評価が「Good」以上ではないため、カスタムフォールバックとして使用することはできません。アバター最適化の詳細については、以下のリンクをご覧ください。"
+    },
+    {
+      "key": "This avatar can be used as a custom fallback.",
+      "value": "このアバターはカスタムフォールバックとして使用できます。"
+    },
+    {
+      "key": "This avatar uses additional animators, they will be disabled when used as a fallback.",
+      "value": "このアバターは追加のアニメーターを使用していますが、フォールバックアバターとして使用する場合は無効になります。"
+    },
+    {
+      "key": "This avatar will be blocked by default due to performance. Your fallback will be shown instead.",
+      "value": "このアバターはパフォーマンスの関係でデフォルトではブロックされます。代わりにあなたのフォールバックアバターが表示されます。"
+    },
+    {
+      "key": "Other users may choose to block this avatar due to performance. Your fallback will be shown instead.",
+      "value": "他のユーザーは、パフォーマンス上の理由でこのアバターをブロックすることができます。代わりにあなたの代替アバターが表示されます。"
+    },
+    {
+      "key": "Unknown performance display level.",
+      "value": "不明な評価レベルです。"
+    },
+    {
+      "key": "This avatar has mipmapped textures without 'Streaming Mip Maps' enabled.",
+      "value": "このアバターは「Streaming Mip Maps」を有効にしていない状態でミップマップされたテクスチャを持っています。"
+    },
+    {
+      "key": "This avatar has textures bigger than 2048. Please reduce them to save memory for users.",
+      "value": "このアバターには2048より大きなテクスチャがあります。ユーザーのメモリを節約するために、テクスチャを減らしてください。"
+    },
+    {
+      "key": "Humanoid avatar must have head, hands and feet bones mapped.",
+      "value": "Humanoidアバターには、頭、手、足のボーンがマッピングされている必要があります。"
+    },
+    {
+      "key": "Spine hierarchy missing elements, please map: ",
+      "value": "Spine階層に欠けている要素があります： "
+    },
+    {
+      "key": "Spine hierarchy incorrect. Make sure that the parent of both Shoulders and the Neck is the Chest (or UpperChest if set).",
+      "value": "Spine階層が間違っています。ShouldersとNeckの両方の親がChest（設定されている場合はUpperChest）であることを確認してください。"
+    },
+    {
+      "key": "LowerArm is not first child of UpperArm or Hand is not first child of LowerArm: you may have problems with Forearm rotations.",
+      "value": "LowerArmがUpperArmの最初の子でない、またはHandがLowerArmの最初の子ではありません。Forearmの回転に問題がある可能性があります。"
+    },
+    {
+      "key": "This avatar has a split hierarchy (Hips bone is not the ancestor of all humanoid bones). IK may not work correctly.",
+      "value": "このアバターは階層が分かれています（Hipsボーンがすべてのhumanoidボーンの祖先ではありません）。IKが正しく動作しない可能性があります。"
+    },
+    {
+      "key": "The angle between pelvis and thigh bones should be close to 180 degrees. (This avatar's angle is ",
+      "value": "PelvisボーンとThighボーンの角度は180度近くであるべきです。(このアバターの角度: "
+    },
+    {
+      "key": "Your avatar may not work well with full-body IK and Tracking.",
+      "value": "あなたのアバターは、フルボディのIKとトラッキングではうまく動作しないかもしれません。"
+    },
+    {
+      "key": "Gesture Layer needs valid mask on first animator layer",
+      "value": "Gesture Layerは、最初のAnimator Layerに有効なマスクが必要です。"
+    },
+    {
+      "key": "Images used for Actions & Moods are too large.",
+      "value": "Actions & Moodsに使用されている画像が大きすぎます。"
+    },
+    {
+      "key": "VRCExpressionsMenu object reference is missing.",
+      "value": "VRCExpressionsMenuオブジェクト参照がありません。"
+    },
+    {
+      "key": "VRCExpressionParameters object reference is missing.",
+      "value": "VRCExpressionParametersオブジェクト参照がありません。"
+    },
+    {
+      "key": "VRCExpressionParameters has too many parameters defined.",
+      "value": "VRCExpressionParametersのパラメータ定義数が多すぎます。"
+    },
+    {
+      "key": "VRCExpressionsMenu uses a parameter that is not defined.",
+      "value": "VRCExpressionsMenuが定義されていないパラメータを使用しています。"
+    },
+    {
+      "key": "VRCExpressionsMenu uses an invalid parameter for a control.\nControl: ",
+      "value": "VRCExpressionsMenuがコントロールに無効なパラメータを使用しています。\nControl: "
+    },
+    {
+      "key": "This avatar uses depreciated DynamicBone components. Upgrade to PhysBones to guarantee future compatibility.",
+      "value": "このアバターは非推奨の DynamicBone コンポーネントを使用しています。将来の互換性を保証するには、PhysBonesにアップグレードしてください。"
+    },
+    {
+      "key": "The following component types are found on the Avatar and will be removed by the client: ",
+      "value": "次のコンポーネント・タイプはアバターにあり、クライアントによって削除されます: "
+    },
+    {
+      "key": "Audio sources found on Avatar, they will be adjusted to safe limits, if necessary.",
+      "value": "アバターに含まれるオーディオソースは、必要に応じて安全な範囲に調整されます。"
+    },
+    {
+      "key": "Found an audio clip with load type `Decompress On Load` which doesn't have `Load In Background` enabled.\nPlease enable `Load In Background` on the audio clip.",
+      "value": "ロードタイプが`Decompress On Load`で、`Load In Background`が有効になっていないオーディオクリップが見つかりました。"
+    },
+    {
+      "key": "Stations found on Avatar, they will be adjusted to safe limits, if necessary.",
+      "value": "アバターに含まれるStationsは、必要に応じて安全な範囲に調整されます。"
+    },
+    {
+      "key": "This avatar has one or more Substance materials, which is not supported and may break in-game. Please bake your Substances to regular materials.",
+      "value": "このアバターには1つ以上のサブスタンスマテリアルがありますが、これはサポートされておらず、ゲーム内で壊れる可能性があります。サブスタンスを通常のマテリアルにベイクしてください。"
+    },
+    {
+      "key": "Avatar uses unsupported shader '",
+      "value": "アバターはサポートされていないシェーダー「"
+    },
+    {
+      "key": "'. You can only use the shaders provided in 'VRChat/Mobile' for Quest avatars.",
+      "value": "」を使用しています。クエストアバターには、VRChat/Mobileで提供されているシェーダーしか使用できません。"
+    },
+    {
+      "key": "One or more of the animation states on this avatar have Write Defaults turned on. We recommend keeping Write Defaults off and explicitly animating any parameter that needs to be set by the animation instead.",
+      "value": "このアバターの1つ以上のアニメーションステートで、デフォルト書き込みがオンになっています。Write Defaults をオフにしておき、アニメーションで設定する必要があるパラメータは明示的にアニメーション化することをお勧めします。"
+    },
+    {
+      "key": "Write Defaults Guidelines",
+      "value": "デフォルトの書き込みガイドライン"
+    },
+    {
+      "key": "Avatar Optimization Tips",
+      "value": "アバター最適化のヒント"
+    },
+    {
+      "key": "Could not check for legacy blend shape normals because 'legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes' was not found.",
+      "value": "'legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes'が見つからなかったため、レガシーブレンド形状の法線をチェックできませんでした。"
+    },
+    {
+      "key": "This avatar contains skinned meshes that were imported with Blendshape Normals set to 'Calculate' but aren't using 'Legacy Blendshape Normals'. This will significantly increase the size of the uploaded avatar. This must be fixed in the mesh import settings before uploading.",
+      "value": "このアバターには、ブレンドシェイプ法線を「計算」に設定してインポートされたスキンメッシュが含まれていますが、「レガシーブレンドシェイプ法線」は使用されていません。これにより、アップロードされるアバターのサイズが大幅に増加します。これは、アップロードする前にメッシュインポート設定で修正する必要があります。"
+    },
+    {
+      "key": "This avatar contains meshes that were imported with Read/Write disabled. This must be fixed in the mesh import settings before uploading.",
+      "value": "このアバターには、Read/Writeが無効な状態でインポートされたメッシュが含まれています。これは、アップロードする前にメッシュインポート設定で修正する必要があります。"
+    },
+    {
+      "key": "Overall Performance: {0}",
+      "value": "全体的なパフォーマンス: {0}"
+    },
+    {
+      "key": "Overall Performance: {0} - This avatar may not perform well on many systems. See additional warnings for suggestions on how to improve performance. Click 'Avatar Optimization Tips' below for more information.",
+      "value": "全体的なパフォーマンス: {0} - このアバターは多くのシステムでうまく動作しない可能性があります。パフォーマンスを向上させるための提案については、追加の警告を参照してください。詳細は下の 'アバター最適化のヒント' をクリックしてください。"
+    },
+    {
+      "key": "Overall Performance: {0} - This avatar does not meet minimum performance requirements for VRChat. It will be blocked by default on VRChat for Quest, and will not show unless a user chooses to show your avatar. See additional warnings for suggestions on how to improve performance. Click 'Avatar Optimization Tips' below for more information.",
+      "value": "全体的なパフォーマンス: {0} - このアバターはVRChatの最小パフォーマンス要件を満たしていません。QuestのVRChatではデフォルトでブロックされ、ユーザーがあなたのアバターを表示することを選択しない限り表示されません。パフォーマンスを向上させるための提案については、追加の警告を参照してください。詳細は下の 'アバター最適化のヒント' をクリックしてください。"
+    },
+    {
+      "key": "Overall Performance: {0} - This avatar does not meet minimum performance requirements for VRChat. It may be blocked by users depending on their Performance settings. See additional warnings for suggestions on how to improve performance. Click 'Avatar Optimization Tips' below for more information.",
+      "value": "全体的なパフォーマンス: {0} - このアバターはVRChatの最小パフォーマンス要件を満たしていません。ユーザーのパフォーマンス設定により、ユーザーによってブロックされる可能性があります。パフォーマンスを向上させるための提案については、追加の警告を参照してください。詳細は下の 'アバター最適化のヒント' をクリックしてください。"
+    },
+    {
+      "key": "Triangles: {0}",
+      "value": "Triangles: {0}"
+    },
+    {
+      "key": "Triangles: {0} (Recommended: {1})",
+      "value": "Triangles: {0} (推奨: {1})"
+    },
+    {
+      "key": "Triangles: {0} - Please try to reduce your avatar triangle count to less than {1} (Recommended: {2})",
+      "value": "Triangles: {0} - アバターのTrianglesの数を {1} 未満に減らすようにしてください (推奨: {2})"
+    },
+    {
+      "key": "Triangles: {0} - This avatar has too many triangles. It will be blocked by default on VRChat for Quest, and will not show unless a user chooses to show your avatar. It should have less than {1}. VRChat recommends having less than {2}.",
+      "value": "Triangles: {0} - このアバターはTrianglesが多すぎます。QuestのVRChatではデフォルトでブロックされ、ユーザーがあなたのアバターを表示することを選択しない限り表示されません。 {1} 未満であるべきです。VRChatは {2} 未満を推奨します。"
+    },
+    {
+      "key": "Bounding box (AABB) size: {0}",
+      "value": "バウンディングボックス (AABB) のサイズ: {0}"
+    },
+    {
+      "key": "Bounding box (AABB) size: {0} (Recommended: {1})",
+      "value": "バウンディングボックス (AABB) のサイズ: {0} (推奨: {1})"
+    },
+    {
+      "key": "This avatar's bounding box (AABB) is too large on at least one axis. Current size: {0}, Maximum size: {1}",
+      "value": "このアバターのバウンディングボックス (AABB) は少なくとも1つの軸で大きすぎます。現在のサイズ: {0}、最大サイズ: {1}"
+    },
+    {
+      "key": "Skinned Mesh Renderers: {0}",
+      "value": "スキンメッシュレンダラー: {0}"
+    },
+    {
+      "key": "Skinned Mesh Renderers: {0} (Recommended: {1}) - Combine multiple skinned meshes for optimal performance.",
+      "value": "スキンメッシュレンダラー: {0} (推奨: {1}) - 最適なパフォーマンスのために複数のスキンメッシュを組み合わせてください。"
+    },
+    {
+      "key": "Skinned Mesh Renderers: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many skinned meshes. Combine multiple skinned meshes for optimal performance.",
+      "value": "スキンメッシュレンダラー: {0} (最大: {1}, 推奨: {2}) - このアバターはスキンメッシュが多すぎます。最適なパフォーマンスのために複数のスキンメッシュを組み合わせてください。"
+    },
+    {
+      "key": "Mesh Renderers: {0}",
+      "value": "メッシュレンダラー: {0}"
+    },
+    {
+      "key": "Mesh Renderers: {0} (Recommended: {1}) - Combine multiple meshes for optimal performance.",
+      "value": "メッシュレンダラー: {0} (推奨: {1}) - 最適なパフォーマンスのために複数のメッシュを組み合わせてください。"
+    },
+    {
+      "key": "Mesh Renderers: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many meshes. Combine multiple meshes for optimal performance.",
+      "value": "メッシュレンダラー: {0} (最大: {1}, 推奨: {2}) - このアバターはメッシュが多すぎます。最適なパフォーマンスのために複数のメッシュを組み合わせてください。"
+    },
+    {
+      "key": "Material Slots: {0}",
+      "value": "マテリアルスロット: {0}"
+    },
+    {
+      "key": "Material Slots: {0} (Recommended: {1}) - Combine materials and atlas textures for optimal performance.",
+      "value": "マテリアルスロット: {0} (推奨: {1}) - 最適なパフォーマンスのためにマテリアルとアトラステクスチャを組み合わせてください。"
+    },
+    {
+      "key": "Material Slots: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many materials. Combine materials and atlas textures for optimal performance.",
+      "value": "マテリアルスロット: {0} (最大: {1}, 推奨: {2}) - このアバターはマテリアルが多すぎます。最適なパフォーマンスのためにマテリアルとアトラステクスチャを組み合わせてください。"
+    },
+    {
+      "key": "Animator Count: {0}",
+      "value": "アニメーター数: {0}"
+    },
+    {
+      "key": "Animator Count: {0} (Recommended: {1}) - Avoid using extra Animators for optimal performance.",
+      "value": "アニメーター数: {0} (推奨: {1}) - 最適なパフォーマンスのために余分なアニメーターの使用を避けてください。"
+    },
+    {
+      "key": "Animator Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many Animators. Avoid using extra Animators for optimal performance.",
+      "value": "アニメーター数: {0} (最大: {1}, 推奨: {2}) - このアバターはアニメーターが多すぎます。最適なパフォーマンスのために余分なアニメーターの使用を避けてください。"
+    },
+    {
+      "key": "Bones: {0}",
+      "value": "ボーン: {0}"
+    },
+    {
+      "key": "Bones: {0} (Recommended: {1}) - Reduce number of bones for optimal performance.",
+      "value": "ボーン: {0} (推奨: {1}) - 最適なパフォーマンスのためにボーンの数を減らしてください。"
+    },
+    {
+      "key": "Bones: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many bones. Reduce number of bones for optimal performance.",
+      "value": "ボーン: {0} (最大: {1}, 推奨: {2}) - このアバターはボーンが多すぎます。最適なパフォーマンスのためにボーンの数を減らしてください。"
+    },
+    {
+      "key": "Lights: {0}",
+      "value": "ライト: {0}"
+    },
+    {
+      "key": "Lights: {0} (Recommended: {1}) - Avoid use of dynamic lights for optimal performance.",
+      "value": "ライト: {0} (推奨: {1}) - 最適なパフォーマンスのために動的なライトの使用を避けてください。"
+    },
+    {
+      "key": "Lights: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many dynamic lights. Avoid use of dynamic lights for optimal performance.",
+      "value": "ライト: {0} (最大: {1}, 推奨: {2}) - このアバターは動的なライトが多すぎます。最適なパフォーマンスのために動的なライトの使用を避けてください。"
+    },
+    {
+      "key": "Particle Systems: {0}",
+      "value": ""
+    },
+    {
+      "key": "Particle Systems: {0} (Recommended: {1}) - Reduce number of particle systems for better performance.",
+      "value": "パーティクルシステム：{0}（推奨：{1}） - パフォーマンスを向上させるためにパーティクルシステムの数を減らしてください。"
+    },
+    {
+      "key": "Particle Systems: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many particle systems. Reduce number of particle systems for better performance.",
+      "value": "パーティクルシステム：{0}（最大：{1}、推奨：{2}） - このアバターはパーティクルシステムが多すぎます。パフォーマンスを向上させるためにパーティクルシステムの数を減らしてください。"
+    },
+    {
+      "key": "Total Combined Max Particle Count: {0}",
+      "value": "合計の最大パーティクル数：{0}"
+    },
+    {
+      "key": "Total Combined Max Particle Count: {0} (Recommended: {1}) - Reduce 'Max Particles' across all particle systems for better performance.",
+      "value": "合計の最大パーティクル数：{0}（推奨：{1}） - パフォーマンスを向上させるためにすべてのパーティクルシステムの「最大パーティクル数」を減らしてください。"
+    },
+    {
+      "key": "Total Combined Max Particle Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar uses too many particles. Reduce 'Max Particles' across all particle systems for better performance.",
+      "value": "合計の最大パーティクル数：{0}（最大：{1}、推奨：{2}） - このアバターはパーティクルが多すぎます。パフォーマンスを向上させるためにすべてのパーティクルシステムの「最大パーティクル数」を減らしてください。"
+    },
+    {
+      "key": "Mesh Particle Total Max Poly Count: {0}",
+      "value": "メッシュパーティクルの合計最大ポリゴン数：{0}"
+    },
+    {
+      "key": "Mesh Particle Total Max Poly Count: {0} (Recommended: {1}) - Reduce number of triangles in particle meshes, and reduce 'Max Particles' for better performance.",
+      "value": "メッシュパーティクルの合計最大ポリゴン数：{0}（推奨：{1}） - パフォーマンスを向上させるためにパーティクルメッシュのTriangles数を減らし、「最大パーティクル数」を減らしてください。"
+    },
+    {
+      "key": "Mesh Particle Total Max Poly Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar uses too many mesh particle triangles. Reduce number of triangles in particle meshes, and reduce 'Max Particles' for better performance.",
+      "value": "メッシュパーティクルの合計最大ポリゴン数：{0}（最大：{1}、推奨：{2}） - このアバターはメッシュパーティクルのTrianglesが多すぎます。パーティクルメッシュのTriangles数を減らし、「最大パーティクル数」を減らしてください。"
+    },
+    {
+      "key": "Particle Trails Enabled: {0}",
+      "value": "パーティクルトレイルが有効：{0}"
+    },
+    {
+      "key": "Particle Trails Enabled: {0} (Recommended: {1}) - Avoid particle trails for better performance.",
+      "value": "パーティクルトレイルが有効：{0}（推奨：{1}） - パフォーマンスを向上させるためにパーティクルトレイルを避けてください。"
+    },
+    {
+      "key": "Particle Collision Enabled: {0}",
+      "value": "パーティクル衝突が有効：{0}"
+    },
+    {
+      "key": "Particle Collision Enabled: {0} (Recommended: {1}) - Avoid particle collision for better performance.",
+      "value": "パーティクル衝突が有効：{0}（推奨：{1}） - パフォーマンスを向上させるためにパーティクル衝突を避けてください。"
+    },
+    {
+      "key": "Trail Renderers: {0}",
+      "value": "トレイルレンダラー：{0}"
+    },
+    {
+      "key": "Trail Renderers: {0} (Recommended: {1}) - Reduce number of TrailRenderers for better performance.",
+      "value": "トレイルレンダラー：{0}（推奨：{1}） - パフォーマンスを向上させるために TrailRenderer の数を減らしてください。"
+    },
+    {
+      "key": "Trail Renderers: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many TrailRenderers. Reduce number of TrailRenderers for better performance.",
+      "value": "トレイルレンダラー：{0}（最大：{1}、推奨：{2}） - このアバターは TrailRenderer が多すぎます。パフォーマンスを向上させるために TrailRenderer の数を減らしてください。"
+    },
+    {
+      "key": "Line Renderers: {0}",
+      "value": "ラインレンダラー：{0}"
+    },
+    {
+      "key": "Line Renderers: {0} (Recommended: {1}) - Reduce number of LineRenderers for better performance.",
+      "value": "ラインレンダラー：{0}（推奨：{1}） - パフォーマンスを向上させるために LineRenderer の数を減らしてください。"
+    },
+    {
+      "key": "Line Renderers: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many LineRenderers. Reduce number of LineRenderers for better performance.",
+      "value": "ラインレンダラー：{0}（最大：{1}、推奨：{2}） - このアバターは LineRenderer が多すぎます。パフォーマンスを向上させるために LineRenderer の数を減らしてください。"
+    },
+    {
+      "key": "Dynamic Bone Components: {0}",
+      "value": "ダイナミックボーンコンポーネント：{0}"
+    },
+    {
+      "key": "Dynamic Bone Components: {0} (Recommended: {1}) - Reduce number of DynamicBone components for better performance.",
+      "value": "ダイナミックボーンコンポーネント：{0}（推奨：{1}） - パフォーマンスを向上させるために DynamicBone コンポーネントの数を減らしてください。"
+    },
+    {
+      "key": "Dynamic Bone Components: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many DynamicBone components. Reduce number of DynamicBone components for better performance.",
+      "value": "ダイナミックボーンコンポーネント：{0}（最大：{1}、推奨：{2}） - このアバターは DynamicBone コンポーネントが多すぎます。パフォーマンスを向上させるために DynamicBone コンポーネントの数を減らしてください。"
+    },
+    {
+      "key": "Dynamic Bone Simulated Bone Count: {0}",
+      "value": "ダイナミックボーンのシミュレートされるボーン数：{0}"
+    },
+    {
+      "key": "Dynamic Bone Simulated Bone Count: {0} (Recommended: {1}) - Reduce number of transforms in hierarchy under DynamicBone components, or set EndLength or EndOffset to zero to reduce the number of simulated bones.",
+      "value": "ダイナミックボーンのシミュレートされるボーン数：{0}（推奨：{1}） - DynamicBone コンポーネントの階層内の変換の数を減らすか、EndLength または EndOffset をゼロに設定してシミュレートされるボーンの数を減らしてください。"
+    },
+    {
+      "key": "Dynamic Bone Simulated Bone Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many bones simulated by DynamicBone. Reduce number of transforms in hierarchy under DynamicBone components, or set EndLength or EndOffset to zero to reduce the number of simulated bones.",
+      "value": "ダイナミックボーンのシミュレートされるボーン数：{0}（最大：{1}、推奨：{2}） - このアバターは DynamicBone によってシミュレートされるボーンが多すぎます。DynamicBone コンポーネントの階層内の変換の数を減らすか、EndLength または EndOffset をゼロに設定してシミュレートされるボーンの数を減らしてください。"
+    },
+    {
+      "key": "Dynamic Bone Collider Count: {0}",
+      "value": "ダイナミックボーンコライダーの数：{0}"
+    },
+    {
+      "key": "Dynamic Bone Collider Count: {0} (Recommended: {1}) - Avoid use of DynamicBoneColliders for better performance.",
+      "value": "ダイナミックボーンコライダーの数：{0}（推奨：{1}） - パフォーマンスを向上させるために DynamicBoneColliders の使用を避けてください。"
+    },
+    {
+      "key": "Dynamic Bone Collider Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many DynamicBoneColliders. Avoid use of DynamicBoneColliders for better performance.",
+      "value": "ダイナミックボーンコライダーの数：{0}（最大：{1}、推奨：{2}） - このアバターは DynamicBoneColliders が多すぎます。パフォーマンスを向上させるために DynamicBoneColliders の使用を避けてください。"
+    },
+    {
+      "key": "Dynamic Bone Collision Check Count: {0}",
+      "value": "ダイナミックボーン衝突チェック数：{0}"
+    },
+    {
+      "key": "Dynamic Bone Collision Check Count: {0} (Recommended: {1}) - Avoid use of DynamicBoneColliders for better performance.",
+      "value": "ダイナミックボーン衝突チェック数：{0}（推奨：{1}） - パフォーマンスを向上させるために DynamicBoneColliders の使用を避けてください。"
+    },
+    {
+      "key": "Dynamic Bone Collision Check Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many DynamicBoneColliders. Avoid use of DynamicBoneColliders for better performance.",
+      "value": "ダイナミックボーン衝突チェック数：{0}（最大：{1}、推奨：{2}） - このアバターは DynamicBoneColliders が多すぎます。パフォーマンスを向上させるために DynamicBoneColliders の使用を避けてください。"
+    },
+    {
+      "key": "Phys Bone Components: {0}",
+      "value": "物理ボーンコンポーネント：{0}"
+    },
+    {
+      "key": "Phys Bone Components: {0} (Recommended: {1}) - Reduce number of VRCPhysBone components for better performance.",
+      "value": "物理ボーンコンポーネント：{0}（推奨：{1}）- パフォーマンスを向上させるためにVRCPhysBoneコンポーネントの数を減らしてください。"
+    },
+    {
+      "key": "Phys Bone Components: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many VRCPhysBone components. All PhysBone components will be removed at runtime.",
+      "value": "物理ボーンコンポーネント：{0}（最大：{1}、推奨：{2}）- このアバターには多すぎるVRCPhysBoneコンポーネントがあります。すべての物理ボーンコンポーネントはランタイムで削除されます。"
+    },
+    {
+      "key": "Phys Bone Transform Count: {0}",
+      "value": "物理ボーントランスフォーム数：{0}"
+    },
+    {
+      "key": "Phys Bone Transform Count: {0} (Recommended: {1}) - This avatar has many VRCPhysBone transforms and may perform poorly. Reduce number of transforms in hierarchy under VRCPhysBone components.",
+      "value": "物理ボーントランスフォーム数：{0}（推奨：{1}）- このアバターには多数のVRCPhysBoneトランスフォームがあり、パフォーマンスが低下する可能性があります。VRCPhysBoneコンポーネントの下の階層のトランスフォームの数を減らしてください。"
+    },
+    {
+      "key": "Phys Bone Transform Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many VRCPhysBone transforms and will perform poorly. All PhysBone components will be removed at runtime.",
+      "value": "物理ボーントランスフォーム数：{0}（最大：{1}、推奨：{2}）- このアバターには多すぎるVRCPhysBoneトランスフォームがあり、パフォーマンスが低下します。すべての物理ボーンコンポーネントはランタイムで削除されます。"
+    },
+    {
+      "key": "Phys Bone Collider Count: {0}",
+      "value": "物理ボーンコライダー数：{0}"
+    },
+    {
+      "key": "Phys Bone Collider Count: {0} (Recommended: {1}) - Reduce the usage of VRCPhysBoneColliders for better performance.",
+      "value": "物理ボーンコライダー数：{0}（推奨：{1}）- パフォーマンスを向上させるためにVRCPhysBoneCollidersの使用を減らしてください。"
+    },
+    {
+      "key": "Phys Bone Collider Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many VRCPhysBoneColliders. All PhysBone colliders will be removed at runtime.",
+      "value": "物理ボーンコライダー数：{0}（最大：{1}、推奨：{2}）- このアバターには多すぎるVRCPhysBoneCollidersがあります。すべての物理ボーンコライダーはランタイムで削除されます。"
+    },
+    {
+      "key": "Phys Bone Collision Check Count: {0}",
+      "value": "物理ボーン衝突チェック数：{0}"
+    },
+    {
+      "key": "Phys Bone Collision Check Count: {0} (Recommended: {1}) - Reduce the usage of VRCPhysBoneColliders for better performance.",
+      "value": "物理ボーン衝突チェック数：{0}（推奨：{1}）- パフォーマンスを向上させるためにVRCPhysBoneCollidersの使用を減らしてください。"
+    },
+    {
+      "key": "Phys Bone Collision Check Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many VRCPhysBoneColliders. All PhysBone colliders will be removed at runtime.",
+      "value": "物理ボーン衝突チェック数：{0}（最大：{1}、推奨：{2}）- このアバターには多すぎるVRCPhysBoneCollidersがあります。すべての物理ボーンコライダーはランタイムで削除されます。"
+    },
+    {
+      "key": "Contact Component Count: {0}",
+      "value": "接触コンポーネント数：{0}"
+    },
+    {
+      "key": "Contact Component Count: {0} (Recommended: {1}) - Reduce the usage of VRCContact components for optimal performance.",
+      "value": "接触コンポーネント数：{0}（推奨：{1}）- 最適なパフォーマンスのためにVRCContactコンポーネントの使用を減らしてください。"
+    },
+    {
+      "key": "Contact Component Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many VRCContact components. All VRCContact components will be removed at runtime.",
+      "value": "接触コンポーネント数：{0}（最大：{1}、推奨：{2}）- このアバターには多すぎるVRCContactコンポーネントがあります。すべてのVRCContactコンポーネントはランタイムで削除されます。"
+    },
+    {
+      "key": "Cloth Component Count: {0}",
+      "value": "クロスコンポーネント数：{0}"
+    },
+    {
+      "key": "Cloth Component Count: {0} (Recommended: {1}) - Avoid use of cloth for optimal performance.",
+      "value": "クロスコンポーネント数：{0}（推奨：{1}）- 最適なパフォーマンスのためにクロスの使用を避けてください。"
+    },
+    {
+      "key": "Cloth Component Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many Cloth components. Avoid use of cloth for optimal performance.",
+      "value": "クロスコンポーネント数：{0}（最大：{1}、推奨：{2}）- このアバターには多すぎるクロスコンポーネントがあります。最適なパフォーマンスのためにクロスの使用を避けてください。"
+    },
+    {
+      "key": "Cloth Total Vertex Count: {0}",
+      "value": "クロス総頂点数：{0}"
+    },
+    {
+      "key": "Cloth Total Vertex Count: {0} (Recommended: {1}) - Reduce number of vertices in cloth meshes for improved performance.",
+      "value": "クロス総頂点数：{0}（推奨：{1}）- パフォーマンスの向上のためにクロスメッシュの頂点数を減らしてください。"
+    },
+    {
+      "key": "Cloth Total Vertex Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many vertices in cloth meshes. Reduce number of vertices in cloth meshes for improved performance.",
+      "value": "クロス総頂点数：{0}（最大：{1}、推奨：{2}）- このアバターにはクロスメッシュの頂点数が多すぎます。パフォーマンスの向上のためにクロスメッシュの頂点数を減らしてください。"
+    },
+    {
+      "key": "Physics Collider Count: {0}",
+      "value": "物理コライダー数：{0}"
+    },
+    {
+      "key": "Physics Collider Count: {0} (Recommended: {1}) - Avoid use of colliders for optimal performance.",
+      "value": "物理コライダー数：{0}（推奨：{1}）- 最適なパフォーマンスのためにコライダーの使用を避けてください。"
+    },
+    {
+      "key": "Physics Collider Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many colliders. Avoid use of colliders for optimal performance.",
+      "value": "物理コライダー数：{0}（最大：{1}、推奨：{2}）- このアバターには多すぎるコライダーがあります。最適なパフォーマンスのためにコライダーの使用を避けてください。"
+    },
+    {
+      "key": "Physics Rigidbody Count: {0}",
+      "value": "物理剛体数：{0}"
+    },
+    {
+      "key": "Physics Rigidbody Count: {0} (Recommended: {1}) - Avoid use of rigidbodies for optimal performance.",
+      "value": "物理剛体数：{0}（推奨：{1}）- 最適なパフォーマンスのために剛体の使用を避けてください。"
+    },
+    {
+      "key": "Physics Rigidbody Count: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many rigidbodies. Avoid use of rigidbodies for optimal performance.",
+      "value": "物理剛体数：{0}（最大：{1}、推奨：{2}）- このアバターには多すぎる剛体があります。最適なパフォーマンスのために剛体の使用を避けてください。"
+    },
+    {
+      "key": "Audio Sources: {0}",
+      "value": "オーディオソース数：{0}"
+    },
+    {
+      "key": "Audio Sources: {0} (Recommended: {1}) - Reduce number of audio sources for better performance.",
+      "value": "オーディオソース数：{0}（推奨：{1}）- パフォーマンスを向上させるためにオーディオソースの数を減らしてください。"
+    },
+    {
+      "key": "Audio Sources: {0} (Maximum: {1}, Recommended: {2}) - This avatar has too many audio sources. Reduce number of audio sources for better performance.",
+      "value": "オーディオソース数：{0}（最大：{1}、推奨：{2}）- このアバターには多すぎるオーディオソースがあります。パフォーマンスを向上させるためにオーディオソースの数を減らしてください。"
+    },
+    {
+      "key": "Texture Memory Usage: {0} MB",
+      "value": "テクスチャメモリ使用量：{0} MB"
+    },
+    {
+      "key": "Texture Memory Usage: {0} MB (Recommended: {1} MB) - Lower the resolution of your textures in the texture import settings.",
+      "value": "テクスチャメモリ使用量：{0} MB（推奨：{1} MB）- テクスチャのインポート設定で解像度を下げてください。"
+    },
+    {
+      "key": "Texture Memory Usage: {0} MB (Maximum: {1} MB, Recommended: {2} MB) - This avatar's total texture resolution is too high. Lower the resolution of your largest textures in the texture import settings. Consider using shader features like decals or tiling. Check your shader's documentation for more information. You can also check your model's UV layouts to better utilize texture space. These techniques may help you reduce texture memory usage.",
+      "value": "テクスチャメモリ使用量：{0} MB（最大：{1} MB、推奨：{2} MB）- このアバターの総テクスチャ解像度が高すぎます。テクスチャのインポート設定で最大のテクスチャの解像度を下げてください。デカールやタイリングなどのシェーダー機能の使用を検討してください。詳細についてはシェーダーのドキュメントを確認してください。また、モデルのUVレイアウトを確認して、テクスチャスペースを効果的に活用できるようにします。これらの技術はテクスチャメモリの使用量を削減するのに役立つ場合があります。"
+    },
+    {
+      "key": "The avatar cannot be uploaded because it does not have a VRCAvatarDescriptor.",
+      "value": "アバターがVRCAvatarDescriptorを持たないため、アップロードできません。"
+    },
+    {
+      "key": "Select a prefab to upload",
+      "value": "アップロードするアバターを選択してください"
+    },
+    {
+      "key": "Send Feedback",
+      "value": "フィードバックを送信"
+    },
+    {
+      "key": "Your name (option)",
+      "value": "名前（任意）"
+    },
+    {
+      "key": "Mail address (option)",
+      "value": "メールアドレス（任意）"
+    },
+    {
+      "key": "Subject (option)",
+      "value": "件名（任意）"
+    },
+    {
+      "key": "Message",
+      "value": "メッセージ"
+    },
+    {
+      "key": "Submissions are irrevocable. \nDo not include personal information.",
+      "value": "送信は取り消しできません。個人情報は入力しないでください。"
+    },
+    {
+      "key": "Transmission was successful. Thank you.",
+      "value": "送信に成功しました。ありがとうございます。"
+    },
+    {
+      "key": "Submit",
+      "value": "送信"
+    },
+    {
+      "key": "Close",
+      "value": "閉じる"
+    }
+  ]
+}

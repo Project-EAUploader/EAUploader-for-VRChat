@@ -1,8 +1,0 @@
-<t>Build as test</t>
-<txt><size=16>
-Build avatars locally (on your own PC) and make them available on VRChat.
-You can test the operation of your avatar.
-Avatars built as a test will not be uploaded to VRChat. Therefore, the avatar will not be visible to other players.
-
-The avatar built as a test can be selected from "Other" among the avatars in the VRChat application.
-</size></txt>
