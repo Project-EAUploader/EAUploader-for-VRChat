@@ -16,7 +16,9 @@
                     <eau:HelpButton msg-id="105" />
                 </ui:VisualElement>
                 <ui:VisualElement name="avatar_preview" class="flex-1 border-b border-b-zinc-300"/>
-                <ui:VisualElement name="prefab_list_container" class="p-2" style="height: 60%;" />
+                <ui:ScrollView name="avatar_scroll_view" class="flex-1" style="width: 100%;">
+                    <ui:VisualElement name="prefab_list_container" class="p-2" style="height: 60%;" />
+                </ui:ScrollView>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="upload_form" style="width: 70%;" />

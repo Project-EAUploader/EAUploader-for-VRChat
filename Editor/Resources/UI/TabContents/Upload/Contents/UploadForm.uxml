@@ -47,9 +47,6 @@
     </ui:VisualElement>
     <ui:VisualElement name="upload_action">
         <ui:VisualElement class="flex-colum">
-            <ui:ScrollView name="validation_list" class="flex-1"/>
-        </ui:VisualElement>
-        <ui:VisualElement class="flex-colum">
             <ui:VisualElement name="platform-switcher" class="pb-2" />
             <ui:VisualElement class="flex-row mb-2">
                 <ui:Label text = "Build as Test" class="text-xl font-bold" name="buildandtestLabel" />
@@ -65,6 +62,9 @@
                 <ui:Label text="The information provided above is accurate and I have the rights to upload this content to VRChat" name="uploadLabel" />
             </ui:VisualElement>
             <eau:ShadowButton text="Upload" name="upload"/>
+        </ui:VisualElement>
+        <ui:VisualElement class="flex-colum">
+            <ui:ScrollView name="validation_list" class="flex-1"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
