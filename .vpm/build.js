@@ -128,11 +128,7 @@ for (const { name, version, internal } of dependencies) {
 		manifest = JSON.parse(await fs.readFile(manifestPath));
 		if (manifest.dependencies) {
 			manifest.vpmDependencies = Object.fromEntries(Object.entries(manifest.dependencies)
-				.filter(([ name ]) => !name.startsWith(IGNORE_PACKSGE_NAME_FROM_VPM_DEPENDENCIES_PREFIX))
-				.map(([ name, version ]) => [
-					name,
-					(manifest.name.startsWith('com.vrchat') && name.startsWith('com.vrchat') ? '' : '^') + version,
-				]));
+				.filter(([ name ]) => !name.startsWith(IGNORE_PACKSGE_NAME_FROM_VPM_DEPENDENCIES_PREFIX)));
 		}
 		Object.assign(manifest, namePartialManifestPairs[name]);
 		manifest.url = packageURLPrefix + packageFileName;
