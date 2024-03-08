@@ -1,0 +1,73 @@
+on:
+    release:
+        types:
+            - published
+    workflow_dispatch:
+        inputs:
+            releasedTagName:
+                description: 再実行を行うリリースタグ (「v」を前置したバージョン番号)
+                type: string
+                required: true
+
+jobs:
+    build:
+        timeout-minutes: 60
+        permissions:
+            contents: write
+        runs-on: ubuntu-22.04
+        steps:
+            - name: メインブランチをチェックアウト
+              uses: actions/checkout@v4
+
+            - name: レジストリのキャッシュを展開
+              uses: dawidd6/action-download-artifact@72aaadce3bc708349fc665eee3785cbb1b6e51d0 #v3.1.1
+              with:
+                name: github-pages
+                path: ./registry/
+                if_no_artifact_found: warn
+
+            - uses: actions/setup-node@v4
+              with:
+                node-version: '20'
+
+            # https://docs.github.com/ja/actions/using-workflows/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action
+            - name: Cache node modules
+              id: cache-npm
+              uses: actions/cache@v4
+              env:
+                cache-name: cache-node-modules
+              with:
+                # npm cache files are stored in `~/.npm` on Linux/macOS
+                path: ~/.npm
+                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                restore-keys: |
+                    ${{ runner.os }}-build-${{ env.cache-name }}-
+                    ${{ runner.os }}-build-
+                    ${{ runner.os }}-
+
+            - if: ${{ steps.cache-npm.outputs.cache-hit == 'false' }}
+              name: List the state of node modules
+              continue-on-error: true
+              run: npm list
+
+            - run: npm --prefix ./.vpm/ ci
+            - run: npm --prefix ./.vpm/ run build
+              env:
+                TAG_NAME: ${{ inputs.releasedTagName || github.event.release.tag_name }}
+
+            - name: GitHub Pages用のデータをアップロード
+              uses: actions/upload-pages-artifact@v3
+              with:
+                path: ./.vpm/registry/
+
+    deploy:
+        needs: build
+
+        timeout-minutes: 1
+        permissions:
+            pages: write
+            id-token: write
+        runs-on: ubuntu-22.04
+        steps:
+            - name: Deploy to GitHub Pages
+              uses: actions/deploy-pages@v4

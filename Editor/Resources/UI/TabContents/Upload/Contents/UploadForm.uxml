@@ -1,3 +1,4 @@
+<<<<<<< HEAD:Packages/tech.uslog.eauploader/Editor/Resources/UI/TabContents/Upload/Contents/UploadForm.uxml
 <ui:UXML
     xmlns:ui="UnityEngine.UIElements"
     xmlns:uie="UnityEditor.UIElements"
@@ -68,3 +69,75 @@
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
+=======
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements"
+    xmlns:eau="EAUploader.UI.Components"
+    xsi="http://www.w3.org/2001/XMLSchema-instance"
+    engine="UnityEngine.UIElements"
+    editor="UnityEditor.UIElements"
+    noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
+    editor-extension-mode="False">
+    <ui:VisualElement class="p-4 flex-1 border-b border-b-zinc-300">
+        <ui:Label text = "Login to VRChat" class="text-xl font-bold pb-2" name="loginSDKLabel" />
+        <ui:VisualElement name="login_status" class="pb-2" />
+        <ui:VisualElement name="permission_status_container">
+            <ui:Label text="Check you are allowed to upload avatar" class="text-xl font-bold pb-2" name="checkPermissionLabel" />
+            <ui:VisualElement name="permission_status" class="pb-2" />
+        </ui:VisualElement>
+        <ui:VisualElement name="upload_main">
+            <ui:VisualElement class="flex-row ">
+                <ui:VisualElement class="w-one-half">
+                    <ui:VisualElement class="flex-row pb-2">
+                        <ui:Label text="Model Info" class="text-xl font-bold" name="modelInfoLabel" />
+                        <eau:HelpButton msg-id="109" class="pl-4 self-center"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement value="true" class="pb-2 pr-4" name="avatarInfo">
+                        <ui:VisualElement>
+                            <eau:TextFieldPro class="pb-2" label="Name" name="content-name" placeholder="Give your avatar a name" required="true" />
+                            <eau:TextFieldPro class="pb-2" label="Description" name="content-description" placeholder="Describe your avatar so it is easier to remember!" required="false" />
+                        </ui:VisualElement>
+                        <eau:ContentWarningsField label="Content Warnings" name="content-warnings" class="pb-2"/>
+                        <ui:DropdownField name="release-status" label="Visibility" index="0" choices="Private,Public" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="w-one-half">
+                    <ui:Label text = "Set thumbnail" class="text-xl font-bold pb-2" name="addThumbnailLabel" />
+                    <ui:VisualElement name="avatar_thumbnail" class="pb-2">
+                        <ui:VisualElement name="thumbnail" class="flex-row h-64">
+                            <ui:Image name="thumbnail-image"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="flex-row">
+                            <eau:ShadowButton text="Change Thumbnail" name="add_thumbnail"/>
+                            <eau:ShadowButton text="Using preview image (Default)" name="remove_thumbnail"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="upload_action">
+        <ui:VisualElement class="flex-colum">
+            <ui:VisualElement name="platform-switcher" class="pb-2" />
+            <ui:VisualElement class="flex-row mb-2">
+                <ui:Label text = "Build as Test" class="text-xl font-bold" name="buildandtestLabel" />
+                <eau:HelpButton msg-id="111" class="ml-4 self-center"/>
+            </ui:VisualElement>
+            <eau:ShadowButton text="Build as Test" name="buildandtest" class="mb-2"/>
+            <ui:VisualElement class="flex-row mb-2">
+                <ui:Label text = "Upload" class="text-xl font-bold" name="uploadLabel" />
+                <eau:HelpButton msg-id="112" class="ml-4 self-center"/>
+            </ui:VisualElement>
+            <ui:VisualElement class="flex-row mb-2">
+                <ui:Toggle name="confirm_term" class="mb-2"/>
+                <ui:Label text="The information provided above is accurate and I have the rights to upload this content to VRChat" name="uploadLabel" />
+            </ui:VisualElement>
+            <eau:ShadowButton text="Upload" name="upload"/>
+        </ui:VisualElement>
+        <ui:VisualElement class="flex-colum">
+            <ui:ScrollView name="validation_list" class="flex-1"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
+>>>>>>> 5ff8166266c43d12a3f0818cd3653f0501496bc8:Editor/Resources/UI/TabContents/Upload/Contents/UploadForm.uxml
