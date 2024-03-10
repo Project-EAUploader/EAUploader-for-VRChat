@@ -5,15 +5,8 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using VRC.SDK3.Avatars.Components;
 using VRC.SDKBase;
-using UnityEditor.Animations;
-#if VRC_SDK_VRCSDK3
-using VRCAvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
-using VRCExpressionParameters = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionParameters;
-#else
-using VRCAvatarDescriptor = VRCAvatars3Validator.Mocks.VRCAvatarDescriptorMock;
-using VRCExpressionParameters = VRCAvatars3Validator.Mocks.VRCExpressionParametersMock;
-#endif
 
 namespace EAUploader.CustomPrefabUtility
 {
