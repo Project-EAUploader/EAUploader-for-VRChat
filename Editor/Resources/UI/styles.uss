@@ -1,3 +1,4 @@
+/* Root Styles */
 :root {
     -unity-font-definition: resource("UI/Noto_Sans_JP");
 	background-color: white;
@@ -16,12 +17,14 @@
 	--warning: rgb(176, 0, 32);
 }
 
+/* Transition Styles */
 VisualElement {
 	transition-duration: 150ms;
 	transition-timing-function: ease-out;
 	transition-property: translate, opacity;
 }
 
+/* Link Styles */
 Link {
 	color: var(--primary);
 	cursor: link;
@@ -34,6 +37,7 @@ Link:hover {
 	margin-bottom: -1px;
 }
 
+/* Button Styles */
 Button {
     font-size: 16px;
 	padding: 6px 16px;
@@ -56,6 +60,7 @@ Button:active {
 	background-color: var(--primary-active);
 }
 
+/* Image Button Styles */
 ImageButton {
 	flex-direction: row;
 	align-items: center;
@@ -71,6 +76,7 @@ ImageButton:hover {
 	background-color: var(--default-hover);
 }
 
+/* Shadow Button Styles */
 ShadowButton {
 	flex-shrink: 0;
 }
@@ -83,6 +89,7 @@ ShadowButton:disabled Button {
 	background-color: var(--default);
 }
 
+/* Button Child Element Styles */
 Button > Label {
     font-size: 12px;
 	color: white;
@@ -92,6 +99,7 @@ Button > MaterialIcon {
 	color: white;
 }
 
+/* Miscellaneous Styles */
 .none {
 	height: 100%;
 	width: 100%;
@@ -125,7 +133,7 @@ HelpButton {
 	background-color: rgb(30, 130, 230);
 }
 
-
+/* Prefab Item Button Styles */
 PrefabItemButton {
 	border-width: 1px;
 	border-color: var(--default);
@@ -155,6 +163,7 @@ PrefabItemButton * {
 	color: var(--warning);
 }
 
+/* Label and Icon Styles */
 Label {
     color: black;
 }
@@ -163,6 +172,7 @@ MaterialIcon {
     color: black;
 }
 
+/* Prefab Item Styles */
 PrefabItem {
     flex-direction: row;
 	align-items: center;
@@ -181,9 +191,9 @@ PrefabItem > Image {
 
 PrefabItem > Label {
 	font-size: 16px;
-
 }
 
+/* Text Input Styles */
 TextInput {
 	font-size: 12px;
 	padding: 4px 16px;
@@ -211,6 +221,7 @@ ArticleRenderer {
 	padding: 16px;
 }
 
+/* Tag Button Styles */
 .tag-button {
     flex-direction: row;
 	justify-content: center;
@@ -246,6 +257,7 @@ ArticleRenderer {
 	color: white;
 }
 
+/* Dropdown Field Styles */
 DropdownField {
 	align-items: center;
 }
@@ -272,6 +284,7 @@ DropdownField > VisualElement > PopupTextElement {
 	color: black;
 }
 
+/* Popup Field Styles */
 PopupField {
 	align-items: center;
 }
@@ -298,6 +311,7 @@ PopupField	 > VisualElement > PopupTextElement {
 	color: black;
 }
 
+/* Material Icons Styles */
 .material-icons {
     font-size: var(--material-symbol-size);
     -unity-font-style: normal;
@@ -310,6 +324,7 @@ PopupField	 > VisualElement > PopupTextElement {
     align-items: center;
 }
 
+/* Border and Tab Button Styles */
 .border-red {
 	border-color: var(--warning);
 }
@@ -328,6 +343,7 @@ PopupField	 > VisualElement > PopupTextElement {
 	background-color: var(--primary-selected);
 }
 
+/* Reset Preview Button Styles */
 #reset_preview {
 	position: absolute;
 	margin: 8px;
@@ -352,6 +368,7 @@ PopupField	 > VisualElement > PopupTextElement {
 	background-color: var(--primary-active)
 }
 
+/* Link Button Styles */
 .link {
 	padding: 0px;
 	background-color: transparent;
@@ -364,6 +381,7 @@ PopupField	 > VisualElement > PopupTextElement {
 	cursor: link;
 }
 
+/* Search and Editor Icon Button Styles */
 .search-button Button {
 	padding: 8px 24px;
 }
@@ -372,6 +390,7 @@ PopupField	 > VisualElement > PopupTextElement {
 	font-size: 24px;
 }
 
+/* Progress Bar Styles */
 .unity-progress-bar__background {
 	height: 36px;
 	border-radius: 4px;
@@ -387,6 +406,7 @@ ProgressBar Label {
 	color: white;
 }
 
+/* Product Row Styles */
 #product_row {
 	flex-direction: row;
 }
@@ -416,6 +436,7 @@ ProgressBar Label {
 	margin-right: 8px;
 }
 
+/* Market Item Styles */
 #market_item {
 	height: 240px;
 	border-bottom-width: 1px;
@@ -441,6 +462,7 @@ ProgressBar Label {
 	margin: 8px;
 }
 
+/* Selection and Pinning Styles */
 .selected {
 	background-color: var(--primary);
 	border-color: var(--primary);
@@ -467,6 +489,7 @@ ProgressBar Label {
 	background-color: var(--secondary);
 }
 
+/* Scroller Styles */
 .unity-scroller--vertical {
 	width: 16px;
 	background-color: rgba(0, 0, 0, 0);
@@ -524,14 +547,17 @@ ProgressBar Label {
 	align-items: center;
 }
 
+/* Active State Styles */
 .active {
 	background-color: var(--primary-selected);
 }
 
+/* Market Element Container Styles */
 #market_element_container {
 	flex-grow: 1;
 }
 
+/* Validation Item Styles */
 ValidationItem {
 	flex-direction: row;
 	align-items: center;
