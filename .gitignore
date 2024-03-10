@@ -62,3 +62,7 @@ crashlytics-build.properties
 Assets/PackageMakerWindowData.asset*
 .idea
 .vscode
+
+node_modules/
+package-lock.json
+registory/

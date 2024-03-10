@@ -20,137 +20,146 @@ const IGNORE_PACKSGE_NAME_FROM_VPM_DEPENDENCIES_PREFIX = 'com.unity.';
 
 const vpmDirectoryPath = path.dirname(url.fileURLToPath(import.meta.url));
 const { name } = JSON.parse(await fs.readFile(path.join(vpmDirectoryPath, '..', 'package.json')));
-const env = await openupmEnv.parseEnv({ _global: { } });
+const env = await openupmEnv.parseEnv({ _global: {} });
 const npmClient = openupmRegistryClient.getNpmClient();
 if (!process.env.GITHUB_ACTIONS) {
-	// ローカルデバッグ
-	process.env.TAG_NAME
-		= 'v' + (await openupmRegistryClient.fetchPackument(env.registry, name, npmClient))['dist-tags'].latest;
-	process.env.GITHUB_REPOSITORY = 'Project-EAUploader/EAUploader-for-VRChat';
+  // ローカルデバッグ
+  process.env.TAG_NAME
+    = 'v' + (await openupmRegistryClient.fetchPackument(env.registry, name, npmClient))['dist-tags'].latest;
+  process.env.GITHUB_REPOSITORY = 'Project-EAUploader/EAUploader-for-VRChat';
 }
 const latestVersion = process.env.TAG_NAME.replace('v', '');
 
 // レジストリを保存するフォルダを作成
 const registryDirectoryPath = path.join(vpmDirectoryPath, 'registry');
 try {
-	await fs.mkdir(registryDirectoryPath);
+  await fs.mkdir(registryDirectoryPath);
 } catch (exception) {
-	// フォルダが存在する場合
+  // フォルダが存在する場合
 }
 
 // レジストリのキャッシュの読み込み
 const registryPath = path.join(registryDirectoryPath, 'registry.json');
 let registry;
 try {
-	registry = JSON.parse(await fs.readFile(registryPath));
+  registry = JSON.parse(await fs.readFile(registryPath));
 } catch (exception) {
-	// キャッシュが存在しない場合
-	registry = yaml.load(await fs.readFile(path.join(vpmDirectoryPath, 'registry-template.yaml')));
+  // キャッシュが存在しない場合
+  registry = yaml.load(await fs.readFile(path.join(vpmDirectoryPath, 'registry-template.yaml')));
 }
 const { packages } = registry;
 
-const dependencies = [ ];
-const registeredVersions = Object.keys(packages[name]?.versions ?? { });
+const dependencies = [];
+const registeredVersions = Object.keys(packages[name]?.versions ?? {});
 for (const version of new Set(
-	Object.keys((await openupmRegistryClient.fetchPackument(env.registry, name, npmClient)).versions)
-		.concat([ latestVersion ]),
+  Object.keys((await openupmRegistryClient.fetchPackument(env.registry, name, npmClient)).versions)
+    .concat([latestVersion]),
 )) {
-	if (semver.lt(version, MIN_VERSION) || registeredVersions.includes(version)) {
-		// VPMパッケージ化する最初のバージョンより小さいバージョン (VPMパッケージ化しないバージョン)
-		// またはすでにレジストリへ追加済みのバージョンなら
-		continue;
-	}
+  let semverCompatibleVersion = version;
+  if (semverCompatibleVersion.split('.').length === 3) {
+    const versionParts = semverCompatibleVersion.split('.');
+    versionParts[2] = versionParts[2].substring(0, 1);
+    semverCompatibleVersion = versionParts.join('.');
+  }
 
-	while (true) {
-		let [ validDependencies, invalidDependencies ] = await openupmRegistryClient
-			.fetchPackageDependencies(env.registry, env.upstreamRegistry, name, version, true, npmClient);
-		invalidDependencies = invalidDependencies.filter(({ name }) => !name.startsWith(IGNORE_PACKAGE_NAME_PREFIX));
+  if (semver.lt(semverCompatibleVersion, MIN_VERSION) || registeredVersions.includes(version)) {
+    // VPMパッケージ化する最初のバージョンより小さいバージョン (VPMパッケージ化しないバージョン)
+    // またはすでにレジストリへ追加済みのバージョンならレジストリから消去
+    delete packages[name]?.versions[version];
+    continue;
+  }
 
-		const package404Dependencies = invalidDependencies.filter(({ reason }) => reason === 'package404');
-		if (package404Dependencies.length > 0) {
-			throw new DOMException('次のパッケージはOpenUPMレジストリに存在しません:\n'
-				+ package404Dependencies.map(({ name }) => name).join('\n'), 'NotFoundError');
-		}
+  while (true) {
+    let [validDependencies, invalidDependencies] = await openupmRegistryClient
+      .fetchPackageDependencies(env.registry, env.upstreamRegistry, name, version, true, npmClient);
 
-		if (invalidDependencies.length > 0) {
-			core.debug(`次のパッケージのバージョンはOpenUPMレジストリに存在しないため、${INTERVAL_MILISECONDS} ミリ秒待機:\n`
-				+ invalidDependencies.map(({ name, version }) => name + '@' + version).join('\n'));
-			await timers.setTimeout(INTERVAL_MILISECONDS);
-			continue;
-		}
+    invalidDependencies = invalidDependencies.filter(({ name }) => !name.startsWith(IGNORE_PACKAGE_NAME_PREFIX));
 
-		dependencies.push(...validDependencies);
-		break;
-	}
+    const package404Dependencies = invalidDependencies.filter(({ reason }) => reason === 'package404');
+    if (package404Dependencies.length > 0) {
+      throw new DOMException('次のパッケージはOpenUPMレジストリに存在しません:\n'
+        + package404Dependencies.map(({ name }) => name).join('\n'), 'NotFoundError');
+    }
+
+    if (invalidDependencies.length > 0) {
+      core.debug(`次のパッケージのバージョンはOpenUPMレジストリに存在しないため、${INTERVAL_MILISECONDS} ミリ秒待機:\n`
+        + invalidDependencies.map(({ name, version }) => name + '@' + version).join('\n'));
+      await timers.setTimeout(INTERVAL_MILISECONDS);
+      continue;
+    }
+
+    dependencies.push(...validDependencies);
+    break;
+  }
 }
 
 // パッケージを保存するフォルダを作成
 const packagesDirectoryPath = path.join(registryDirectoryPath, 'packages');
 try {
-	await fs.mkdir(packagesDirectoryPath);
+  await fs.mkdir(packagesDirectoryPath);
 } catch (exception) {
-	// フォルダが存在する場合
+  // フォルダが存在する場合
 }
 
-const [ owner, repositoryName ] = process.env.GITHUB_REPOSITORY.split('/');
+const [owner, repositoryName] = process.env.GITHUB_REPOSITORY.split('/');
 const packageURLPrefix = `https://${owner}.github.io/${repositoryName}/packages/`;
 
 const namePartialManifestPairs = yaml.load(await fs.readFile(path.join(vpmDirectoryPath, 'partial-manifests.yaml')));
 for (const { name, version, internal } of dependencies) {
   if (internal) {
-      continue;
+    continue;
   }
 
   if (!packages[name]) {
-      packages[name] = { versions: {} };
+    packages[name] = { versions: {} };
   }
 
   // MIN_VERSIONより低いバージョンのパッケージを削除
   const versionsToDelete = Object.keys(packages[name].versions).filter(v => semver.lt(v, MIN_VERSION));
   for (const versionToDelete of versionsToDelete) {
-      delete packages[name].versions[versionToDelete];
+    delete packages[name].versions[versionToDelete];
   }
 
   if (packages[name].versions[version]) {
-      continue;
+    continue;
   }
 
-	core.notice(`${name}@${version} をレジストリへ追加します。`);
-	const packageFileName = `${name}-${version}.zip`;
-	let manifest, zip;
-	const tarDirectoryPath = await fs.mkdtemp(os.tmpdir() + '/');
-	const extractedDirectoryPath = await fs.mkdtemp(os.tmpdir() + '/');
-	try {
-		const tarFilePath = path.join(tarDirectoryPath, 'package.tar.gz');
-		await fs.writeFile(tarFilePath, Buffer.from(
-			await (await fetch(
-				(await openupmRegistryClient.fetchPackument(env.registry, name, npmClient))
-					.versions[version].dist.tarball,
-			)).arrayBuffer(),
-		));
-		await tar.extract({ file: tarFilePath, cwd: extractedDirectoryPath, strip: 1 });
+  core.notice(`${name}@${version} をレジストリへ追加します。`);
+  const packageFileName = `${name}-${version}.zip`;
+  let manifest, zip;
+  const tarDirectoryPath = await fs.mkdtemp(os.tmpdir() + '/');
+  const extractedDirectoryPath = await fs.mkdtemp(os.tmpdir() + '/');
+  try {
+    const tarFilePath = path.join(tarDirectoryPath, 'package.tar.gz');
+    await fs.writeFile(tarFilePath, Buffer.from(
+      await (await fetch(
+        (await openupmRegistryClient.fetchPackument(env.registry, name, npmClient))
+          .versions[version].dist.tarball,
+      )).arrayBuffer(),
+    ));
+    await tar.extract({ file: tarFilePath, cwd: extractedDirectoryPath, strip: 1 });
 
-		const manifestPath = path.join(extractedDirectoryPath, 'package.json');
-		manifest = JSON.parse(await fs.readFile(manifestPath));
-		if (manifest.dependencies) {
-			manifest.vpmDependencies = Object.fromEntries(Object.entries(manifest.dependencies)
-				.filter(([ name ]) => !name.startsWith(IGNORE_PACKSGE_NAME_FROM_VPM_DEPENDENCIES_PREFIX)));
-		}
-		Object.assign(manifest, namePartialManifestPairs[name]);
-		manifest.url = packageURLPrefix + packageFileName;
-		await fs.writeFile(manifestPath, JSON.stringify(manifest, null, '\t'));
+    const manifestPath = path.join(extractedDirectoryPath, 'package.json');
+    manifest = JSON.parse(await fs.readFile(manifestPath));
+    if (manifest.dependencies) {
+      manifest.vpmDependencies = Object.fromEntries(Object.entries(manifest.dependencies)
+        .filter(([name]) => !name.startsWith(IGNORE_PACKSGE_NAME_FROM_VPM_DEPENDENCIES_PREFIX)));
+    }
+    Object.assign(manifest, namePartialManifestPairs[name]);
+    manifest.url = packageURLPrefix + packageFileName;
+    await fs.writeFile(manifestPath, JSON.stringify(manifest, null, '\t'));
 
-		zip = new AdmZip();
-		await zip.addLocalFolderPromise(extractedDirectoryPath);
-	} finally {
-		await fs.rm(tarDirectoryPath, { recursive: true });
-		await fs.rm(extractedDirectoryPath, { recursive: true });
-	}
-	const packageFileBuffer = await zip.toBufferPromise();
-	manifest.zipSHA256 = crypto.createHash('sha256').update(packageFileBuffer).digest('hex');
-	await fs.writeFile(path.join(packagesDirectoryPath, packageFileName), packageFileBuffer);
+    zip = new AdmZip();
+    await zip.addLocalFolderPromise(extractedDirectoryPath);
+  } finally {
+    await fs.rm(tarDirectoryPath, { recursive: true });
+    await fs.rm(extractedDirectoryPath, { recursive: true });
+  }
+  const packageFileBuffer = await zip.toBufferPromise();
+  manifest.zipSHA256 = crypto.createHash('sha256').update(packageFileBuffer).digest('hex');
+  await fs.writeFile(path.join(packagesDirectoryPath, packageFileName), packageFileBuffer);
 
-	packages[name].versions[version] = manifest;
+  packages[name].versions[version] = manifest;
 }
 
 // レジストリの保存
