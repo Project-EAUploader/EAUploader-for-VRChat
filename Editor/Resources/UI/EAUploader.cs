@@ -89,9 +89,6 @@ namespace EAUploader.UI
                 case "upload":
                     Upload.Main.ShowContent(contentRoot);
                     break;
-                case "market":
-                    Market.Main.ShowContent(contentRoot);
-                    break;
                 default:
                     break;
             }

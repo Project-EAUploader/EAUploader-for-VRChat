@@ -22,10 +22,6 @@
                 <eau:MaterialIcon icon="upload" />
                 <ui:Label text="Upload" />
             </ui:Button>
-            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="market" class="tab-button">
-                <eau:MaterialIcon icon="travel_explore" />
-                <ui:Label text="Market" />
-            </ui:Button>
         </ui:VisualElement>
     </eau:Shadow>
 </ui:UXML>
