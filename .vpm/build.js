@@ -97,17 +97,23 @@ const packageURLPrefix = `https://${owner}.github.io/${repositoryName}/packages/
 
 const namePartialManifestPairs = yaml.load(await fs.readFile(path.join(vpmDirectoryPath, 'partial-manifests.yaml')));
 for (const { name, version, internal } of dependencies) {
-	if (internal) {
-		continue;
-	}
+  if (internal) {
+      continue;
+  }
 
-	if (!packages[name]) {
-		packages[name] = { versions: { } };
-	}
+  if (!packages[name]) {
+      packages[name] = { versions: {} };
+  }
 
-	if (packages[name].versions[version]) {
-		continue;
-	}
+  // MIN_VERSIONより低いバージョンのパッケージを削除
+  const versionsToDelete = Object.keys(packages[name].versions).filter(v => semver.lt(v, MIN_VERSION));
+  for (const versionToDelete of versionsToDelete) {
+      delete packages[name].versions[versionToDelete];
+  }
+
+  if (packages[name].versions[version]) {
+      continue;
+  }
 
 	core.notice(`${name}@${version} をレジストリへ追加します。`);
 	const packageFileName = `${name}-${version}.zip`;
