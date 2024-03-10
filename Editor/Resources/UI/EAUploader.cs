@@ -98,6 +98,11 @@ namespace EAUploader.UI
 
             LanguageUtility.Localization(rootVisualElement);
         }
+
+        private void OnGUI()
+        {
+            rootVisualElement.MarkDirtyRepaint();
+        }
     }
 
 }
