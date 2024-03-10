@@ -65,7 +65,6 @@ for (const version of new Set(
   if (semver.lt(semverCompatibleVersion, MIN_VERSION) || registeredVersions.includes(version)) {
     // VPMパッケージ化する最初のバージョンより小さいバージョン (VPMパッケージ化しないバージョン)
     // またはすでにレジストリへ追加済みのバージョンならレジストリから消去
-    delete packages[name]?.versions[version];
     continue;
   }
 
@@ -112,12 +111,6 @@ for (const { name, version, internal } of dependencies) {
 
   if (!packages[name]) {
     packages[name] = { versions: {} };
-  }
-
-  // MIN_VERSIONより低いバージョンのパッケージを削除
-  const versionsToDelete = Object.keys(packages[name].versions).filter(v => semver.lt(v, MIN_VERSION));
-  for (const versionToDelete of versionsToDelete) {
-    delete packages[name].versions[versionToDelete];
   }
 
   if (packages[name].versions[version]) {
