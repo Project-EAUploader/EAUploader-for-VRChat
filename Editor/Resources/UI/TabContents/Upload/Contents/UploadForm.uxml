@@ -63,8 +63,8 @@
             </ui:VisualElement>
             <eau:ShadowButton text="Upload" name="upload"/>
         </ui:VisualElement>
-        <ui:VisualElement class="flex-colum">
-            <ui:ScrollView name="validation_list" class="flex-1"/>
+        <ui:VisualElement class="flex-colum max-h-48">
+            <ui:ScrollView name="performance_info_list" class="flex-1"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

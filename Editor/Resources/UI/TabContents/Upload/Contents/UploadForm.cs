@@ -1,6 +1,5 @@
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
-using EAUploader.VRCSDK;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -277,18 +276,36 @@ namespace EAUploader.UI.Upload
 
         private static void Validate()
         {
-            if (Utility.CheckAvatarHasVRCAvatarDescriptor(PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath)))
+            var prefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);
+            var performanceInfos = PerformanceInfoComputer.ComputePerformanceInfos(prefab, false);
+
+            var performanceInfoList = root.Q<VisualElement>($"performance_info_list");
+            performanceInfoList.Clear();
+
+            foreach (var info in performanceInfos)
             {
-                var avatarDescriptor = Utility.GetAvatarDescriptor(PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath));
-                var avatarValidation = new Validation();
-                var validations = avatarValidation.CheckAvatarForValidationIssues(avatarDescriptor);
-                var validationList = root.Q<ScrollView>("validation_list");
-                validationList.Clear();
-                foreach (var validation in validations)
+                Debug.Log($"{info.categoryName}: {info.rating} ({info.data})");
+                
+
+                var item = new VisualElement()
                 {
-                    var validationItem = new ValidationItem(validation);
-                    validationList.Add(validationItem);
-                }
+                    name = "performance_info_item"
+                };
+                item.AddToClassList("flex-row");
+                item.AddToClassList("flex-1");
+                item.AddToClassList("align-items-center");
+
+                var icon_texture = PerformanceIcons.GetIconForPerformance(info.rating);
+                var icon = new Image()
+                {
+                    image = icon_texture
+                };
+                item.Add(icon);
+
+                var label = new Label($"{info.categoryName}: {info.rating} ({info.data})");
+                item.Add(label);
+
+                performanceInfoList.Add(item);
             }
         }
 
@@ -408,47 +425,6 @@ namespace EAUploader.UI.Upload
                     }
                 }).Every(1000);
                 */
-            }
-        }
-    }
-
-    public class ValidationItem : VisualElement
-    {
-        public ValidationItem(ValidateResult validateResult)
-        {
-            switch (validateResult.ResultType)
-            {
-                case ValidateResult.ValidateResultType.Error:
-                    AddToClassList("error");
-                    break;
-                case ValidateResult.ValidateResultType.Warning:
-                    AddToClassList("warning");
-                    break;
-                case ValidateResult.ValidateResultType.Info:
-                    AddToClassList("info");
-                    break;
-                case ValidateResult.ValidateResultType.Success:
-                    AddToClassList("success");
-                    break;
-                case ValidateResult.ValidateResultType.Link:
-                    AddToClassList("link");
-                    break;
-                default:
-                    // Unsupported type
-                    break;
-            }
-            var message = validateResult.ResultMessage;
-            Add(new Label(message));
-
-            if (validateResult.ResultType == ValidateResult.ValidateResultType.Link)
-            {
-                var button = new ShadowButton()
-                {
-                    text = "Open Link"
-                };
-
-                button.clicked += () => Application.OpenURL(validateResult.Link);
-                Add(button);
             }
         }
     }
