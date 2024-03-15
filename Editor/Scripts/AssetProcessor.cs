@@ -24,6 +24,7 @@ namespace EAUploader
                 if (asset.EndsWith(".prefab"))
                 {
                     var path = AssetDatabase.GetAssetPath(AssetDatabase.LoadAssetAtPath<GameObject>(asset));
+                    ShaderChecker.CheckShadersInPrefabs(path);
                     CustomPrefabUtility.PrefabManager.ImportPrefab(path);
                 }
             }

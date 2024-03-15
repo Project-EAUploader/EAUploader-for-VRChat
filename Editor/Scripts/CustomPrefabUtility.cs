@@ -324,7 +324,7 @@ namespace EAUploader.CustomPrefabUtility
             previewRenderUtility.camera.orthographicSize = bounds.size.y / 2;
 
             float size = bounds.size.magnitude;
-            float distance = size / (2 * Mathf.Tan(previewRenderUtility.camera.fieldOfView * 0.5f * Mathf.Deg2Rad));
+            float distance = size / (4 * Mathf.Tan(previewRenderUtility.camera.fieldOfView * 0.5f * Mathf.Deg2Rad));
             previewRenderUtility.camera.transform.position = bounds.center + previewRenderUtility.camera.transform.forward * distance;
             previewRenderUtility.camera.transform.LookAt(bounds.center);
 

@@ -348,6 +348,22 @@
     {
       "key": "Close",
       "value": "閉じる"
+    },
+    {
+      "key": "Prefabs with missing or problematic shaders:",
+      "value": "シェーダーが欠落しているか問題のあるプレハブ："
+    },
+    {
+      "key": "Please confirm the required shaders from the avatar distributor.",
+      "value": "アバター配布元から必要なシェーダーを確認してください。"
+    },
+    {
+      "key": "Why am I seeing this?",
+      "value": "なぜこれを見ているのですか？"
+    },
+    {
+      "key": "Shader Issues Found",
+      "value": "シェーダーの問題が見つかりました"
     }
   ]
 }

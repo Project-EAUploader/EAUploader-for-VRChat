@@ -55,7 +55,7 @@ namespace EAUploader
         {
             InitializeEAUploader();
             EAUploaderEditorManager.OnEditorManagerLoad();
-            ShaderChecker.CheckShadersInPrefabs();
+            ShaderChecker.CheckShaders();
             CustomPrefabUtility.PrefabManager.Initialize();
             CheckIsVRMAvailable();
             OpenEAUploaderWindow();
