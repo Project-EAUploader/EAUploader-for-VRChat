@@ -1,3 +1,4 @@
+using EAUploader.CustomPrefabUtility;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -25,7 +26,7 @@ namespace EAUploader
                 {
                     var path = AssetDatabase.GetAssetPath(AssetDatabase.LoadAssetAtPath<GameObject>(asset));
                     ShaderChecker.CheckShadersInPrefabs(path);
-                    CustomPrefabUtility.PrefabManager.ImportPrefab(path);
+                    PrefabManager.ImportPrefab(path);
                 }
             }
         }

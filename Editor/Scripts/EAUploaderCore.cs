@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EAUploader.CustomPrefabUtility;
+using System;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -56,7 +57,7 @@ namespace EAUploader
             InitializeEAUploader();
             EAUploaderEditorManager.OnEditorManagerLoad();
             ShaderChecker.CheckShaders();
-            CustomPrefabUtility.PrefabManager.Initialize();
+            PrefabManager.Initialize();
             CheckIsVRMAvailable();
             OpenEAUploaderWindow();
         }
