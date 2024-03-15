@@ -284,9 +284,6 @@ namespace EAUploader.UI.Upload
 
             foreach (var info in performanceInfos)
             {
-                Debug.Log($"{info.categoryName}: {info.rating} ({info.data})");
-                
-
                 var item = new VisualElement()
                 {
                     name = "performance_info_item"
