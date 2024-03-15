@@ -292,14 +292,18 @@ namespace EAUploader.UI.Upload
                 item.AddToClassList("flex-1");
                 item.AddToClassList("align-items-center");
 
-                var icon_texture = PerformanceIcons.GetIconForPerformance(info.rating);
+                var icon_texture = PerformanceIcons.GetIconForPerformance(info.rating);  
                 var icon = new Image()
                 {
                     image = icon_texture
-                };
+                }; 
                 item.Add(icon);
 
-                var label = new Label($"{info.categoryName}: {info.rating} ({info.data})");
+                string categoryName = T7e.Get(info.categoryName);
+                string rating = T7e.Get(info.rating.ToString());
+                string data = info.data;
+
+                var label = new Label($"{categoryName}: {rating} ({data})"); 
                 item.Add(label);
 
                 performanceInfoList.Add(item);

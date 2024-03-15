@@ -14,6 +14,7 @@ namespace EAUploader.UI.Components
         public PrefabItemButton(PrefabInfo prefab, Action clicked_action, bool disabled = false)
         {
             var hasDescriptor = Utility.CheckAvatarHasVRCAvatarDescriptor(PrefabManager.GetPrefab(prefab.Path));
+            var hasShader = ShaderChecker.CheckAvatarHasShader(PrefabManager.GetPrefab(prefab.Path));
             var previewImage = new Image { image = prefab.Preview, scaleMode = ScaleMode.ScaleToFit, style = { width = 100, height = 100 } };
             Add(previewImage);
 
@@ -41,6 +42,28 @@ namespace EAUploader.UI.Components
                 warning.AddToClassList("noDescriptor");
                 var warningIcon = new MaterialIcon { icon = "warning" };
                 var warningLabel = new Label(T7e.Get("No VRCAvatarDescriptor"));
+                warning.Add(warningIcon);
+                warning.Add(warningLabel);
+                labelContainer.Add(warning);
+
+                if (disabled)
+                {
+                    SetEnabled(false);
+                }
+            }
+
+            if (!hasShader) 
+            {
+                var warning = new VisualElement()
+                {
+                    style =
+                    {
+                        flexDirection = FlexDirection.Row,
+                    }
+                };
+                warning.AddToClassList("noShader");
+                var warningIcon = new MaterialIcon { icon = "warning" };
+                var warningLabel = new Label(T7e.Get("No Shader"));
                 warning.Add(warningIcon);
                 warning.Add(warningLabel);
                 labelContainer.Add(warning);

@@ -163,6 +163,10 @@ PrefabItemButton * {
 	color: var(--warning);
 }
 
+.noShader * {
+	color: var(--warning);
+}
+
 /* Label and Icon Styles */
 Label {
     color: black;

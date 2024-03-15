@@ -282,34 +282,6 @@
       "value": "アップロード失敗"
     },
     {
-      "key": "Unknown performance display level.",
-      "value": "不明な評価レベルです。"
-    },
-    {
-      "key": "Avatar Optimization Tips",
-      "value": "アバター最適化のヒント"
-    },
-    {
-      "key": "Overall Performance: ",
-      "value": "全体的なパフォーマンス: "
-    },
-    {
-      "key": "This avatar may not perform well on many systems. See additional warnings for suggestions on how to improve performance. Click 'Avatar Optimization Tips' below for more information.",
-      "value": "このアバターは多くのシステムでうまく動作しない可能性があります。パフォーマンスを向上させるための提案については、追加の警告を参照してください。詳細は下の 'アバター最適化のヒント' をクリックしてください。"
-    },
-    {
-      "key": "This avatar does not meet minimum performance requirements for VRChat. It will be blocked by default on VRChat for Quest, and will not show unless a user chooses to show your avatar. See additional warnings for suggestions on how to improve performance. Click 'Avatar Optimization Tips' below for more information.",
-      "value": "このアバターはVRChatの最小パフォーマンス要件を満たしていません。QuestのVRChatではデフォルトでブロックされ、ユーザーがあなたのアバターを表示することを選択しない限り表示されません。パフォーマンスを向上させるための提案については、追加の警告を参照してください。詳細は下の 'アバター最適化のヒント' をクリックしてください。"
-    },
-    {
-      "key": "This avatar does not meet minimum performance requirements for VRChat. It may be blocked by users depending on their Performance settings. See additional warnings for suggestions on how to improve performance. Click 'Avatar Optimization Tips' below for more information.",
-      "value": "このアバターはVRChatの最小パフォーマンス要件を満たしていません。ユーザーのパフォーマンス設定により、ユーザーによってブロックされる可能性があります。パフォーマンスを向上させるための提案については、追加の警告を参照してください。詳細は下の 'アバター最適化のヒント' をクリックしてください。"
-    },
-    {
-      "key": "The avatar cannot be uploaded because it does not have a VRCAvatarDescriptor.",
-      "value": "アバターがVRCAvatarDescriptorを持たないため、アップロードできません。"
-    },
-    {
       "key": "Select a prefab to upload",
       "value": "アップロードするアバターを選択してください"
     },
@@ -364,6 +336,170 @@
     {
       "key": "Shader Issues Found",
       "value": "シェーダーの問題が見つかりました"
+    },
+    {
+      "key": "Polygons",
+      "value": "ポリゴン数"
+    },
+    {
+      "key": "Bounds",
+      "value": "バウンディングボックス"
+    },
+    {
+      "key": "Skinned Meshes",
+      "value": "スキンメッシュ"
+    },
+    {
+      "key": "Meshes",
+      "value": "メッシュ"
+    },
+    {
+      "key": "Material Slots",
+      "value": "マテリアルスロット"
+    },
+    {
+      "key": "Animators",
+      "value": "アニメーター"
+    },
+    {
+      "key": "Bones",
+      "value": "ボーン"
+    },
+    {
+      "key": "Lights",
+      "value": "ライト"
+    },
+    {
+      "key": "Particle Systems",
+      "value": "パーティクルシステム"
+    },
+    {
+      "key": "Total Max Particles",
+      "value": "最大パーティクル数"
+    },
+    {
+      "key": "Mesh Particle Max Polygons",
+      "value": "メッシュパーティクルの最大ポリゴン数"
+    },
+    {
+      "key": "Particle Trails Enabled",
+      "value": "パーティクルトレイルが有効"
+    },
+    {
+      "key": "Particle Collision Enabled",
+      "value": "パーティクル衝突が有効"
+    },
+    {
+      "key": "Trail Renderers",
+      "value": "トレイルレンダラー"
+    },
+    {
+      "key": "Line Renderers",
+      "value": "ラインレンダラー"
+    },
+    {
+      "key": "Dynamic Bone Components",
+      "value": "ダイナミックボーンコンポーネント"
+    },
+    {
+      "key": "Dynamic Bone Transforms",
+      "value": "ダイナミックボーントランスフォーム"
+    },
+    {
+      "key": "Dynamic Bone Colliders",
+      "value": "ダイナミックボーンコライダー"
+    },
+    {
+      "key": "Dynamic Bone Collision Check Count",
+      "value": "ダイナミックボーン衝突チェック数"
+    },
+    {
+      "key": "Cloths",
+      "value": "クロス"
+    },
+    {
+      "key": "Total Cloth Vertices",
+      "value": "クロスの頂点数"
+    },
+    {
+      "key": "Physics Colliders",
+      "value": "物理コライダー"
+    },
+    {
+      "key": "Physics Rigidbodies",
+      "value": "物理剛体"
+    },
+    {
+      "key": "Audio Sources",
+      "value": "オーディオソース"
+    },
+    {
+      "key": "Download Size",
+      "value": "ダウンロードサイズ"
+    },
+    {
+      "key": "Uncompressed Size",
+      "value": "非圧縮サイズ"
+    },
+    {
+      "key": "Contact Count",
+      "value": "接触数"
+    },
+    {
+      "key": "PhysBone Components",
+      "value": "PhysBoneコンポーネント"
+    },
+    {
+      "key": "PhysBone Transforms",
+      "value": "PhysBoneトランスフォーム"
+    },
+    {
+      "key": "PhysBone Colliders",
+      "value": "PhysBoneコライダー"
+    },
+    {
+      "key": "PhysBone Collision Check Count",
+      "value": "PhysBone衝突チェック数"
+    },
+    {
+      "key": "Texture Memory",
+      "value": "テクスチャメモリ"
+    },
+    {
+      "key": "Constraints",
+      "value": "制約"
+    },
+    {
+      "key": "None",
+      "value": "なし"
+    },
+    {
+      "key": "Excellent",
+      "value": "最適"
+    },
+    {
+      "key": "Good",
+      "value": "良好"
+    },
+    {
+      "key": "Medium",
+      "value": "中程度"
+    },
+    {
+      "key": "Poor",
+      "value": "悪い"
+    },
+    {
+      "key": "Very Poor",
+      "value": "非常に悪い"
+    },
+    {
+      "key": "No VRCAvatarDescriptor",
+      "value": "VRCAvatarDescriptorがありません"
+    },
+    {
+      "key": "No Shader",
+      "value": "シェーダーがありません"
     }
   ]
 }
