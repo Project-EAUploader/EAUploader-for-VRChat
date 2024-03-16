@@ -403,7 +403,6 @@ namespace EAUploader.UI.Upload
             if (selectedPrefabPath != null)
             {
                 var tags = root.Q<UI.Components.ContentWarningsField>("content-warnings").Tags;
-
                 VRCAvatar avatar = new VRCAvatar()
                 {
                     Name = contentName,
@@ -413,18 +412,13 @@ namespace EAUploader.UI.Upload
                 };
 
                 string thumbnailPath = PrefabPreview.GetPreviewImagePath(selectedPrefabPath);
-
                 if (thumbnailUrl != null)
                 {
                     thumbnailPath = thumbnailUrl;
                 }
 
-                await AvatarUploader.UploadAvatarAsync(avatar, thumbnailPath);
-
-                /*
                 var uploadStatus = root.Q<VisualElement>("upload_status");
                 uploadStatus.Clear();
-
                 uploadStatus.Add(new Label(T7e.Get("Uploading avatar...")));
                 var progress = new ProgressBar()
                 {
@@ -433,15 +427,20 @@ namespace EAUploader.UI.Upload
                 };
                 uploadStatus.Add(progress);
 
-                uploadStatus.schedule.Execute(() =>
+                var cancelUploadSchedule = uploadStatus.schedule.Execute(() =>
                 {
-                    if (AvatarUploader.Status != null)
+                    if (AvatarUploader.IsUploading)
                     {
                         progress.value = AvatarUploader.Percentage;
                         progress.title = AvatarUploader.Status;
                     }
+                    else
+                    {
+                        uploadStatus.Clear();
+                    }
                 }).Every(1000);
-                */
+
+                await AvatarUploader.UploadAvatarAsync(avatar, thumbnailPath);
             }
         }
     }

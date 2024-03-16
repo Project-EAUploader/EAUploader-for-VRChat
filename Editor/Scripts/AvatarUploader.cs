@@ -11,7 +11,7 @@ namespace EAUploader
 {
     public class AvatarUploader
     {
-        public static bool IsUploading { get; private set; }
+        public static bool IsUploading { get; private set; } = false;
         public static string Status { get; private set; }
         public static float Percentage { get; private set; }
 
@@ -44,12 +44,14 @@ namespace EAUploader
             EditorUtility.DisplayDialog(T7e.Get("Upload Succeed"), message, "OK");
             Status = null;
             Percentage = 0;
+            IsUploading = false;
         }
         private static void NoticeUploadError(object sender, string message)
         {
             EditorUtility.DisplayDialog(T7e.Get("Upload Failed"), message, "OK");
             Status = null;
             Percentage = 0;
+            IsUploading = false;
         }
 
 
@@ -101,6 +103,7 @@ namespace EAUploader
 
             try
             {
+                IsUploading = true;
                 await builder.BuildAndUpload(selectedPrefab, avatar, previewImagePath);
             }
             catch (Exception e)
