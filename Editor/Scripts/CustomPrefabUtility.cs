@@ -474,7 +474,7 @@ namespace EAUploader.CustomPrefabUtility
             string msg3 = T7e.Get("Why am I seeing this?");
             string message = $"{msg1}\n{prefabName}\n\n{msg2}";
 
-            if (EditorUtility.DisplayDialogComplex("Shader Issues Found", message, "OK", msg3, "") == 1)
+            if (EditorUtility.DisplayDialogComplex(T7e.Get("Shader Issues Found"), message, "OK", msg3, "") == 1)
             {
                 Application.OpenURL("https://www.uslog.tech/eauploader-forum/__q-a/siedagajian-tukaranaiera");
             }
