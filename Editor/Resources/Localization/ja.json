@@ -474,26 +474,6 @@
       "value": "なし"
     },
     {
-      "key": "Excellent",
-      "value": "最適"
-    },
-    {
-      "key": "Good",
-      "value": "良好"
-    },
-    {
-      "key": "Medium",
-      "value": "中程度"
-    },
-    {
-      "key": "Poor",
-      "value": "悪い"
-    },
-    {
-      "key": "Very Poor",
-      "value": "非常に悪い"
-    },
-    {
       "key": "No VRCAvatarDescriptor",
       "value": "VRCAvatarDescriptorがありません"
     },
@@ -508,6 +488,18 @@
     {
       "key": "Avatar testing is only supported on Windows.",
       "value": "アバターテストはWindowsのみサポートされています。"
+    },
+    {
+      "key": "Model Performance",
+      "value": "アバターパフォーマンス"
+    },
+    {
+      "key": "Platform",
+      "value": "プラットフォーム"
+    },
+    {
+      "key": "The information provided above is accurate and I have the rights to upload this content to VRChat",
+      "value": "上記の設定は正しく、私はVRChatにアバターをアップロードすることを確認しました。"
     }
   ]
 }

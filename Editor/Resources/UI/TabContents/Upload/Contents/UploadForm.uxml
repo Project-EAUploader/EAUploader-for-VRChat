@@ -28,6 +28,13 @@
                         </ui:VisualElement>
                         <eau:ContentWarningsField label="Content Warnings" name="content-warnings" class="pb-2"/>
                         <ui:DropdownField name="release-status" label="Visibility" index="0" choices="Private,Public" />
+                        <ui:VisualElement class="flex-row pb-2">
+                            <ui:Label text="Model Performance" class="text-xl font-bold" name="modelPerfomLabel" />
+                            <eau:HelpButton msg-id="113" class="pl-4 self-center"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="flex-colum max-h-48">
+                            <ui:ScrollView name="performance_info_list" class="flex-1"/>
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement class="w-one-half">
@@ -44,28 +51,29 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-    </ui:VisualElement>
-    <ui:VisualElement name="upload_action">
-        <ui:VisualElement class="flex-colum">
-            <ui:VisualElement name="platform-switcher" class="pb-2" />
-            <ui:VisualElement class="flex-row mb-2">
-                <ui:Label text = "Build as Test" class="text-xl font-bold" name="buildandtestLabel" />
-                <eau:HelpButton msg-id="111" class="ml-4 self-center"/>
+        <ui:VisualElement name="upload_action">
+            <ui:VisualElement class="flex-colum">
+                <ui:VisualElement class="flex-row mb-2">
+                    <ui:Label text = "Platform" class="text-xl font-bold" name="platformLabel" />
+                    <eau:HelpButton msg-id="114" class="ml-4 self-center"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="platform-switcher" class="pb-2" />
+                <ui:VisualElement class="flex-row mb-2">
+                    <ui:Label text = "Build as Test" class="text-xl font-bold" name="buildandtestLabel" />
+                    <eau:HelpButton msg-id="111" class="ml-4 self-center"/>
+                </ui:VisualElement>
+                <eau:ShadowButton text="Build as Test" name="buildandtest" class="mb-2"/>
+                <ui:VisualElement class="flex-row mb-2">
+                    <ui:Label text = "Upload" class="text-xl font-bold" name="uploadLabel" />
+                    <eau:HelpButton msg-id="112" class="ml-4 self-center"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="flex-row mb-2">
+                    <ui:Toggle name="confirm_term" class="mb-2"/>
+                    <ui:Label text="The information provided above is accurate and I have the rights to upload this content to VRChat" name="uploadLabel" class="p-2"/>
+                </ui:VisualElement>
+                <eau:ShadowButton text="Upload" name="upload"/>
             </ui:VisualElement>
-            <eau:ShadowButton text="Build as Test" name="buildandtest" class="mb-2"/>
-            <ui:VisualElement class="flex-row mb-2">
-                <ui:Label text = "Upload" class="text-xl font-bold" name="uploadLabel" />
-                <eau:HelpButton msg-id="112" class="ml-4 self-center"/>
-            </ui:VisualElement>
-            <ui:VisualElement class="flex-row mb-2">
-                <ui:Toggle name="confirm_term" class="mb-2"/>
-                <ui:Label text="The information provided above is accurate and I have the rights to upload this content to VRChat" name="uploadLabel" />
-            </ui:VisualElement>
-            <eau:ShadowButton text="Upload" name="upload"/>
-        </ui:VisualElement>
-        <ui:VisualElement name="upload_status" />
-        <ui:VisualElement class="flex-colum max-h-48">
-            <ui:ScrollView name="performance_info_list" class="flex-1"/>
+            <ui:VisualElement name="upload_status" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
