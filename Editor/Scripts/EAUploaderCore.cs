@@ -140,7 +140,7 @@ namespace EAUploader
             selectedPrefabPath = null;
             EAUploaderEditorManager.OnEditorManagerLoad();
             ShaderChecker.CheckShadersInPrefabs();
-            CustomPrefabUtility.PrefabManager.Initialize();
+            PrefabManager.Initialize();
             CheckIsVRMAvailable();
         }
     }
