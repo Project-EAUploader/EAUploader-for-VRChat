@@ -500,6 +500,14 @@
     {
       "key": "No Shader",
       "value": "シェーダーがありません"
+    },
+    {
+      "key": "Unsupported Platform",
+      "value": "サポートされていないプラットフォーム"
+    },
+    {
+      "key": "Avatar testing is only supported on Windows.",
+      "value": "アバターテストはWindowsのみサポートされています。"
     }
   ]
 }

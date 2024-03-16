@@ -292,18 +292,18 @@ namespace EAUploader.UI.Upload
                 item.AddToClassList("flex-1");
                 item.AddToClassList("align-items-center");
 
-                var icon_texture = PerformanceIcons.GetIconForPerformance(info.rating);  
+                var icon_texture = PerformanceIcons.GetIconForPerformance(info.rating);
                 var icon = new Image()
                 {
                     image = icon_texture
-                }; 
+                };
                 item.Add(icon);
 
                 string categoryName = T7e.Get(info.categoryName);
                 string rating = T7e.Get(info.rating.ToString());
                 string data = info.data;
 
-                var label = new Label($"{categoryName}: {rating} ({data})"); 
+                var label = new Label($"{categoryName}: {rating} ({data})");
                 item.Add(label);
 
                 performanceInfoList.Add(item);
@@ -360,6 +360,17 @@ namespace EAUploader.UI.Upload
         {
             var selectedPrefabPath = EAUploaderCore.selectedPrefabPath;
 
+            // If platform is not supported, return
+            if (GetCurrentBuildTarget() == "Windows")
+            {
+                await AvatarUploader.BuildAndTestAsync();
+            }
+            else // If platform is not "Windows"
+            {
+                EditorUtility.DisplayDialog(T7e.Get("Unsupported Platform"), T7e.Get("Avatar testing is only supported on Windows."), "OK");
+                return;
+            }
+
             if (selectedPrefabPath != null)
             {
                 await AvatarUploader.BuildAndTestAsync();
@@ -379,9 +390,14 @@ namespace EAUploader.UI.Upload
                 return;
             }
 
-            if (string.IsNullOrEmpty(contentName) || string.IsNullOrEmpty(contentDescription))
+            if (string.IsNullOrEmpty(contentName))
             {
                 return;
+            }
+
+            if (string.IsNullOrEmpty(contentDescription))
+            {
+                contentDescription = string.Empty;
             }
 
             if (selectedPrefabPath != null)
@@ -430,4 +446,3 @@ namespace EAUploader.UI.Upload
         }
     }
 }
- 
