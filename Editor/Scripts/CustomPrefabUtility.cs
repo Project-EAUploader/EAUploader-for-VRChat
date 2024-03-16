@@ -439,6 +439,7 @@ namespace EAUploader.CustomPrefabUtility
 
         public static void CheckShadersInPrefabs(string path = null)
         {
+            if (path == null) return;
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
             Renderer[] renderers = prefab.GetComponentsInChildren<Renderer>(true);
 
