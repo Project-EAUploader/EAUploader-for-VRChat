@@ -85,11 +85,18 @@ namespace EAUploader.UI.Components
             if (image != null)
             {
                 var newImageElement = new VisualElement();
+                newImageElement.style.backgroundColor = Color.clear; // 透明
                 newImageElement.AddToClassList(k_imageUssClass);
+
                 var imageEl = new Image()
                 {
                     image = image
                 };
+                if (widthOverride > 0)
+                {
+                    imageEl.style.width = widthOverride;
+                }
+
                 newImageElement.Add(imageEl);
                 articleElements.Add(newImageElement);
                 Add(newImageElement);
@@ -166,12 +173,12 @@ namespace EAUploader.UI.Components
 
             var sectionParts = sectionElement.Content.Split(',');
             string imagePath = sectionParts[0].Trim();
-            string textContent = sectionParts[2].Trim();
-
-            var imageElement = new Image()
+            string textContent = sectionParts.Length > 2 ? sectionParts[2].Trim() : "";
+            var imageElement = new VisualElement()
             {
-                name = "section-image"
+                name = "section-image-container"
             };
+            imageElement.style.backgroundColor = Color.clear;
             var paragraphElement = new VisualElement()
             {
                 name = "section-paragraph"
@@ -189,8 +196,13 @@ namespace EAUploader.UI.Components
 
                 if (texture != null)
                 {
-                    imageElement.image = texture;
-                    imageElement.style.height = 200;
+                    var img = new Image()
+                    {
+                        image = texture,
+                        scaleMode = ScaleMode.ScaleToFit
+                    };
+                    img.style.height = 200;
+                    imageElement.Add(img);
                 }
                 else
                 {
