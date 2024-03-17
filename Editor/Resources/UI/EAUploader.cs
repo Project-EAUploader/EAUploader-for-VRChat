@@ -18,11 +18,13 @@ namespace EAUploader.UI
 
         private VisualElement contentRoot = null;
         private string currentTab = "settings";
-        public static StyleSheet styles = Resources.Load<StyleSheet>("UI/styles");
-        public static StyleSheet tailwind = Resources.Load<StyleSheet>("UI/tailwind");
+        public static StyleSheet styles;
+        public static StyleSheet tailwind;
 
         public void CreateGUI()
         {
+            styles = Resources.Load<StyleSheet>("UI/styles");
+            tailwind = Resources.Load<StyleSheet>("UI/tailwind");
             currentTab = "settings";
 
             rootVisualElement.styleSheets.Add(styles);
