@@ -90,6 +90,7 @@ namespace EAUploader.UI.Components
                 return;
             };
             RemoveFromClassList(PlaceholderClass);
+            EnableInClassList("border-red", false);
         }
 
         private void ValueChanged(ChangeEvent<string> evt)
@@ -131,6 +132,12 @@ namespace EAUploader.UI.Components
         {
             var placeholderClass = TextField.ussClassName + "__placeholder";
             return ClassListContains(placeholderClass);
+        }
+
+        public void ClearValue()
+        {
+            SetValueWithoutNotify("");
+            FocusOut();
         }
     }
 }
