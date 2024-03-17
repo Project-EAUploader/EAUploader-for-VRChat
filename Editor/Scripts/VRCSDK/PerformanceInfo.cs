@@ -48,7 +48,7 @@ public class PerformanceInfoComputer
         {
             case AvatarPerformanceCategory.None: return "(none)";
             case AvatarPerformanceCategory.Overall: return "(none)";
-            case AvatarPerformanceCategory.DownloadSize: return $"{stats.downloadSize}";
+            case AvatarPerformanceCategory.DownloadSize: return $"{stats.downloadSizeBytes}";
             case AvatarPerformanceCategory.PolyCount: return $"{stats.polyCount}";
             case AvatarPerformanceCategory.AABB: return $"{stats.aabb}";
             case AvatarPerformanceCategory.SkinnedMeshCount: return $"{stats.skinnedMeshCount}";
