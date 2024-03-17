@@ -48,7 +48,7 @@
                 <ui:VisualElement class="w-one-half ml-2">
                     <ui:Label text = "Set thumbnail" class="text-xl font-bold pb-2" name="addThumbnailLabel" />
                     <ui:VisualElement name="avatar_thumbnail" class="pb-2">
-                        <ui:VisualElement name="thumbnail" class="flex-row h-64 pb-4">
+                        <ui:VisualElement name="thumbnail" class="flex-row h-64 pb-4 self-center">
                             <ui:Image name="thumbnail-image"/>
                         </ui:VisualElement>
                         <ui:VisualElement class="flex-row justify-center">
