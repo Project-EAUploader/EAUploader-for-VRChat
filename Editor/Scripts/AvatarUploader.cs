@@ -108,7 +108,7 @@ namespace EAUploader
             }
             catch (Exception e)
             {
-                Debug.Log(e.Message);
+                Debug.LogException(e);
             }
         }
     }

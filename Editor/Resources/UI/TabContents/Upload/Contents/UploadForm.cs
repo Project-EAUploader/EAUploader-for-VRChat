@@ -1,5 +1,6 @@
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -380,67 +381,106 @@ namespace EAUploader.UI.Upload
         private static async Task UploadAsync()
         {
             var selectedPrefabPath = EAUploaderCore.selectedPrefabPath;
+            if (string.IsNullOrEmpty(selectedPrefabPath) || !root.Q<Toggle>("confirm_term").value)
+            {
+                Debug.LogError("Required fields are missing or terms not confirmed.");
+                return;
+            }
 
             var contentName = root.Q<TextFieldPro>("content-name").GetValue();
             var contentDescription = root.Q<TextFieldPro>("content-description").GetValue();
-            var releaseStatus = root.Q<DropdownField>("release-status").value;
+            var releaseStatus = root.Q<DropdownField>("release-status").value.ToLower();
+            var tags = root.Q<UI.Components.ContentWarningsField>("content-warnings").Tags;
 
-            if (root.Q<Toggle>("confirm_term").value == false)
-            {
-                return;
-            }
+            string thumbnailPath = thumbnailUrl ?? PrefabPreview.GetPreviewImagePath(selectedPrefabPath);
+
+            VRCAvatar avatar = default;
+            bool isNewAvatar = false;
 
             if (string.IsNullOrEmpty(contentName))
             {
                 return;
             }
-
+            
             if (string.IsNullOrEmpty(contentDescription))
             {
                 contentDescription = string.Empty;
             }
 
-            if (selectedPrefabPath != null)
+            var pipelineManager = PrefabManager.GetPrefab(selectedPrefabPath).GetComponent<PipelineManager>();
+            if (!string.IsNullOrEmpty(pipelineManager.blueprintId))
             {
-                var tags = root.Q<UI.Components.ContentWarningsField>("content-warnings").Tags;
-                VRCAvatar avatar = new VRCAvatar()
+                try
                 {
-                    Name = contentName,
-                    Description = contentDescription,
-                    ReleaseStatus = releaseStatus.ToLower(),
-                    Tags = tags,
-                };
-
-                string thumbnailPath = PrefabPreview.GetPreviewImagePath(selectedPrefabPath);
-                if (thumbnailUrl != null)
-                {
-                    thumbnailPath = thumbnailUrl;
+                    avatar = await VRCApi.GetAvatar(pipelineManager.blueprintId, true);
                 }
+                catch (Exception)
+                {
+                    isNewAvatar = true;
+                    avatar = new VRCAvatar { Name = contentName, Description = contentDescription, ReleaseStatus = releaseStatus, Tags = tags};
+                }
+            }
+            else
+            {
+                isNewAvatar = true;
+                avatar = new VRCAvatar { Name = contentName, Description = contentDescription, ReleaseStatus = releaseStatus, Tags = tags };
+            }
 
-                var uploadStatus = root.Q<VisualElement>("upload_status");
+            var uploadStatus = root.Q<VisualElement>("upload_status");
+            uploadStatus.Clear();
+            uploadStatus.Add(new Label(T7e.Get("Uploading avatar...")));
+            var progress = new ProgressBar()
+            {
+                lowValue = 0,
+                highValue = 1,
+            };
+            uploadStatus.Add(progress);
+
+            IVisualElementScheduledItem cancelUploadSchedule = null;
+
+            cancelUploadSchedule = uploadStatus.schedule.Execute(() =>
+            {
+                if (AvatarUploader.IsUploading)
+                {
+                    progress.value = AvatarUploader.Percentage;
+                    progress.title = AvatarUploader.Status;
+                }
+                else
+                {
+                    uploadStatus.Clear();
+                    if (cancelUploadSchedule != null) // nullチェック
+                    {
+                        cancelUploadSchedule.Pause(); // ここでスケジュールを一時停止
+                    }
+                }
+            }).Every(1000);
+
+            try
+            {
+                if (isNewAvatar)
+                {
+                    await AvatarUploader.UploadAvatarAsync(avatar, thumbnailPath);
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(thumbnailPath))
+                    {
+                        await VRCApi.UpdateAvatarImage(avatar.ID, avatar, thumbnailPath);
+                    }
+                    await VRCApi.UpdateAvatarInfo(avatar.ID, avatar);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"An error occurred during avatar upload: {ex.Message}");
+            }
+            finally
+            {
                 uploadStatus.Clear();
-                uploadStatus.Add(new Label(T7e.Get("Uploading avatar...")));
-                var progress = new ProgressBar()
+                if (cancelUploadSchedule != null)
                 {
-                    lowValue = 0,
-                    highValue = 1,
-                };
-                uploadStatus.Add(progress);
-
-                var cancelUploadSchedule = uploadStatus.schedule.Execute(() =>
-                {
-                    if (AvatarUploader.IsUploading)
-                    {
-                        progress.value = AvatarUploader.Percentage;
-                        progress.title = AvatarUploader.Status;
-                    }
-                    else
-                    {
-                        uploadStatus.Clear();
-                    }
-                }).Every(1000);
-
-                await AvatarUploader.UploadAvatarAsync(avatar, thumbnailPath);
+                    cancelUploadSchedule.Pause();
+                }
             }
         }
     }
