@@ -515,24 +515,21 @@ ProgressBar Label {
 
 /* Scroller Styles */
 .unity-scroller--vertical {
-	width: 16px;
+	width: 12px;
 	background-color: rgba(0, 0, 0, 0);
 	border-width: 0px;
+}
+
+.unity-scroller--vertical .unity-base-slider__dragger {
+	border-radius: 2px;
+	width: 4px;
+	background-color: var(--default);
+	border-width: 0px;
+	transition: 150ms;
 }
 
 .unity-scroller--vertical:hover .unity-base-slider__dragger {
 	width: 8px;
-	border-radius: 4px;
-}
-
-..unity-scroller--horizontal {
-	height: 16px;
-	background-color: rgba(0, 0, 0, 0);
-	border-width: 0px;
-}
-
-.unity-scroller--horizontal:hover .unity-base-slider__dragger {
-	height: 8px;
 	border-radius: 4px;
 }
 
@@ -541,9 +538,36 @@ ProgressBar Label {
 	margin-bottom: 16px;
 }
 
+.unity-scroller--vertical .unity-base-slider__drag-container {
+	align-items: center;
+}
+
+.unity-scroller--horizontal {
+	height: 12px;
+	background-color: rgba(0, 0, 0, 0);
+	border-width: 0px;
+}
+
+.unity-scroller--horizontal .unity-base-slider__dragger {
+	border-radius: 2px;
+	height: 4px;
+	background-color: var(--default);
+	border-width: 0px;
+	transition: 150ms;
+}
+
+.unity-scroller--horizontal:hover .unity-base-slider__dragger {
+	height: 8px;
+	border-radius: 4px;
+}
+
 .unity-scroller--horizontal .unity-slider {
 	margin-left: 16px;
 	margin-right: 16px;
+}
+
+.unity-scroller--horizontal .unity-base-slider__drag-container {
+	justify-content: center;
 }
 
 .unity-repeat-button {
@@ -555,20 +579,8 @@ ProgressBar Label {
 	opacity: 1;
 }
 
-.unity-base-slider__dragger {
-	border-radius: 2px;
-	width: 4px;
-	background-color: var(--default);
-	border-width: 0px;
-	transition: 150ms;
-}
-
 .unity-base-slider__dragger:hover {
 	background-color: var(--default-active);
-}
-
-.unity-base-slider__drag-container {
-	align-items: center;
 }
 
 /* Active State Styles */
