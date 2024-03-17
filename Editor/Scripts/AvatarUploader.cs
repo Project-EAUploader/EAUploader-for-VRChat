@@ -15,9 +15,33 @@ namespace EAUploader
 {
     public class AvatarUploader
     {
-        public static bool IsUploading { get; set; } = false;
-        public static string Status { get; private set; }
-        public static float Percentage { get; private set; }
+        public static event EventHandler<DialogEventArgs> DialogRequired;
+
+        public class DialogEventArgs : EventArgs
+        {
+            public string DialogType { get; }
+            public string Message { get; }
+
+            public DialogEventArgs(string dialogType, string message)
+            {
+                DialogType = dialogType;
+                Message = message;
+            }
+        }
+
+        public static event EventHandler<ProgressEventArgs> ProgressChanged;
+
+        public class ProgressEventArgs : EventArgs
+        {
+            public string Status { get; }
+            public float Percentage { get; }
+
+            public ProgressEventArgs(string status, float percentage)
+            {
+                Status = status;
+                Percentage = percentage;
+            }
+        }
 
         public static async Task BuildAndTestAsync()
         {
@@ -32,7 +56,7 @@ namespace EAUploader
             {
                 await builder.BuildAndTest(selectedPrefab);
 
-                EditorUtility.DisplayDialog(T7e.Get("Build Succeed"), T7e.Get("Avatar built and tested successfully"), "OK");
+                OnDialogRequired("Build Succeed", T7e.Get("Avatar built and tested successfully"));
             }
             catch (Exception e)
             {
@@ -114,8 +138,14 @@ namespace EAUploader
             {
                 Action<string, float> action = (status, percentage) =>
                 {
-                    Status = status;
-                    Percentage = percentage;
+                    try
+                    {
+                        ProgressChanged?.Invoke(null, new ProgressEventArgs(status, percentage));
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError(e.Message);
+                    }
                     Debug.Log("Uploading Avatar.." + status + ":" + percentage * 100 + "%");
                 };
                 if (isNewAvatar)
@@ -124,7 +154,7 @@ namespace EAUploader
 
                     if (string.IsNullOrWhiteSpace(bundlePath) || !File.Exists(bundlePath))
                     {
-                        EditorUtility.DisplayDialog(T7e.Get("Upload Failed"), T7e.Get("Failed to build avatar"), "OK");
+                        OnDialogRequired("Upload Failed", T7e.Get("Failed to build avatar"));
                         return;
                     }
 
@@ -134,14 +164,14 @@ namespace EAUploader
                         var limit = ValidationHelpers.GetAssetBundleSizeLimit(ContentType.Avatar,
                             VRC.Tools.Platform != "standalonewindows");
 
-                        EditorUtility.DisplayDialog(T7e.Get("Upload Failed"),
-                                                       T7e.Get("Avatar bundle size is too large. The maximum size is {0} MB, but the current size is {1} MB",
-                                                                                      limit, fileSize), "OK");
+                        OnDialogRequired("Upload Failed",
+                            T7e.Get("Avatar bundle size is too large. The maximum size is {0} MB, but the current size is {1} MB",
+                                     limit, fileSize));
                     }
 
                     if (!selectedPrefab.TryGetComponent<PipelineManager>(out var pM))
                     {
-                        EditorUtility.DisplayDialog(T7e.Get("Upload Failed"), T7e.Get("Prefab does not contain a PipelineManager component"), "OK");
+                        OnDialogRequired("Upload Failed", T7e.Get("Prefab does not contain a PipelineManager component"));
                         return;
                     }
 
@@ -172,13 +202,18 @@ namespace EAUploader
                         await VRCApi.UpdateAvatarInfo(avatar.ID, avatar);
                     }
 
-                    EditorUtility.DisplayDialog(T7e.Get("Upload Succeed"), T7e.Get("Avatar updated successfully"), "OK");
+                    OnDialogRequired("Upload Succeed", T7e.Get("Avatar updated successfully"));
                 }
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                Debug.LogError(e.Message);
             }
+        }
+
+        private static void OnDialogRequired(string dialogType, string message)
+        {
+            DialogRequired?.Invoke(null, new DialogEventArgs(dialogType, message));
         }
     }
 }

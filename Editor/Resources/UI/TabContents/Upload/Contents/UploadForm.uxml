@@ -87,7 +87,7 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="upload_status" />
+            <ui:VisualElement name="upload_status" class="mt-2"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

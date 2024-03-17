@@ -465,7 +465,6 @@ namespace EAUploader.UI.Upload
 
             var uploadStatus = root.Q<VisualElement>("upload_status");
             uploadStatus.Clear();
-            uploadStatus.Add(new Label(T7e.Get("Uploading avatar...")));
             var progress = new ProgressBar()
             {
                 lowValue = 0,
@@ -473,20 +472,20 @@ namespace EAUploader.UI.Upload
             };
             uploadStatus.Add(progress);
 
-            AvatarUploader.IsUploading = true;
-
-            var cancelUploadSchedule = uploadStatus.schedule.Execute(() =>
+            AvatarUploader.ProgressChanged += (sender, e) =>
             {
-                if (AvatarUploader.IsUploading)
+                EditorApplication.delayCall += () =>
                 {
-                    progress.value = AvatarUploader.Percentage;
-                    progress.title = AvatarUploader.Status;
-                }
-                else
-                {
-                    uploadStatus.Clear();
-                }
-            }).Every(1000);
+                    progress.value = e.Percentage;
+                    progress.title = e.Status;
+                };
+            };
+
+            AvatarUploader.DialogRequired += (sender, e) =>
+            {
+                EditorUtility.DisplayDialog(e.DialogType, e.Message, "OK");
+                uploadStatus.Clear();
+            };
 
             await AvatarUploader.UploadAvatarAsync(selectedPrefabPath, contentName, contentDescription, releaseStatus, tags, thumbnailPath);
         }
