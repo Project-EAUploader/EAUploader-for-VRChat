@@ -5,6 +5,9 @@ using System.IO;
 using UnityEngine.UIElements;
 using UnityEngine;
 using System;
+using VRC.SDKBase.Editor.Api;
+using BestHTTP.SecureProtocol.Org.BouncyCastle.Asn1.Ocsp;
+using System.Threading.Tasks;
 
 namespace EAUploader.UI.Components
 {
@@ -21,11 +24,11 @@ namespace EAUploader.UI.Components
             var labelContainer = new VisualElement()
             {
                 style =
-                {
-                    flexDirection = FlexDirection.Column,
-                    alignItems = Align.Center,
-                    justifyContent = Justify.Center,
-                }
+                    {
+                        flexDirection = FlexDirection.Column,
+                        alignItems = Align.FlexStart,
+                        justifyContent = Justify.Center,
+                    }
             };
 
             var label = new Label(Path.GetFileNameWithoutExtension(prefab.Path));
@@ -36,8 +39,8 @@ namespace EAUploader.UI.Components
                 var warning = new VisualElement()
                 {
                     style = {
-                        flexDirection = FlexDirection.Row,
-                    }
+                            flexDirection = FlexDirection.Row,
+                        }
                 };
                 warning.AddToClassList("noDescriptor");
                 var warningIcon = new MaterialIcon { icon = "warning" };
@@ -52,14 +55,26 @@ namespace EAUploader.UI.Components
                 }
             }
 
-            if (!hasShader) 
+
+            UnityEditor.EditorApplication.delayCall += async () => { 
+                var avatar = await AvatarUploader.GetVRCAvatar(prefab.Path);
+
+                if (avatar.HasValue)
+                {
+                    var vrcName = avatar.Value.Name;
+                    var name = new Label(vrcName);
+                    labelContainer.Add(name);
+                }
+            };
+
+            if (!hasShader)
             {
                 var warning = new VisualElement()
                 {
                     style =
-                    {
-                        flexDirection = FlexDirection.Row,
-                    }
+                        {
+                            flexDirection = FlexDirection.Row,
+                        }
                 };
                 warning.AddToClassList("noShader");
                 var warningIcon = new MaterialIcon { icon = "warning" };

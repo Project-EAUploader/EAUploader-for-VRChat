@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UIElements;
 using VRC.Core;
 using VRC.SDKBase.Editor.Api;
@@ -33,6 +34,8 @@ namespace EAUploader.UI.Upload
             isCloned = false;
             isLoggedin = APIUser.IsLoggedIn;
             root = rootContainer;
+
+            root.styleSheets.Add(Resources.Load<StyleSheet>("UI/TabContents/Upload/Contents/UploadForm"));
 
             EAUploaderCore.SelectedPrefabPathChanged += OnSelectedPrefabPathChanged;
 
@@ -81,8 +84,9 @@ namespace EAUploader.UI.Upload
             }
 
             CloneVisualTree();
-            checkCanUpload();
+            CheckCanUpload();
 
+            CheckIsUploaded();
             Validate();
             UpdateStatus();
 
@@ -118,16 +122,16 @@ namespace EAUploader.UI.Upload
                 {
                     isFormNull = false;
                 }
-                checkCanUpload();
+                CheckCanUpload();
             });
             root.Q<Toggle>("confirm_term").RegisterValueChangedCallback(evt =>
             {
                 isConfirmTerm = evt.newValue;
-                checkCanUpload();
+                CheckCanUpload();
             });
         }
 
-        private static void checkCanUpload()
+        private static void CheckCanUpload()
         {
             var uploadButton = root.Q<ShadowButton>("upload");
             if (isFormNull || !isConfirmTerm)
@@ -138,6 +142,56 @@ namespace EAUploader.UI.Upload
             {
                 uploadButton.SetEnabled(true);
             }
+        }
+
+        private static async void CheckIsUploaded()
+        {
+            var contentName = root.Q<TextFieldPro>("content-name");
+            var contentDescription = root.Q<TextFieldPro>("content-description");
+            var releaseStatus = root.Q<DropdownField>("release-status");
+            var tags = root.Q<ContentWarningsField>("content-warnings");
+            var thumbnail = root.Q<Image>("thumbnail-image");
+
+            var avatar = await AvatarUploader.GetVRCAvatar(EAUploaderCore.selectedPrefabPath);
+            if (avatar == null)
+            {
+                contentName.ClearValue();
+                contentDescription.ClearValue();
+                releaseStatus.value = "Private";
+                tags.Tags = new List<string>();
+                thumbnail.image = PrefabPreview.GetPrefabPreview(EAUploaderCore.selectedPrefabPath);
+                thumbnailUrl = null;
+                return;
+            }
+
+            contentName.SetValueWithoutNotify(avatar.Value.Name);
+            contentName.Reset();
+            contentDescription.SetValueWithoutNotify(avatar.Value.Description);
+            contentDescription.Reset();
+            isFormNull = false;
+            releaseStatus.value = avatar.Value.ReleaseStatus;
+            tags.Tags = avatar.Value.Tags;
+            thumbnail.image = await DownloadTexture(avatar.Value.ThumbnailImageUrl);
+            thumbnailUrl = avatar.Value.ThumbnailImageUrl;
+        }
+
+        private static Task<Texture2D> DownloadTexture(string url)
+        {
+            var tcs = new TaskCompletionSource<Texture2D>();
+            var request = UnityWebRequestTexture.GetTexture(url);
+            var asyncOp = request.SendWebRequest();
+            asyncOp.completed += (op) =>
+            {
+                if (request.result == UnityWebRequest.Result.Success)
+                {
+                    tcs.SetResult(((DownloadHandlerTexture)request.downloadHandler).texture);
+                }
+                else
+                {
+                    tcs.SetException(new Exception(request.error));
+                }
+            };
+            return tcs.Task;
         }
 
         private static void AddThumbnail()
@@ -170,6 +224,7 @@ namespace EAUploader.UI.Upload
                 var previewImage = PrefabPreview.GetPrefabPreview(path);
                 avatarThumbnail.image = previewImage;
 
+                CheckIsUploaded();
                 Validate();
                 UpdateStatus();
 
@@ -291,7 +346,7 @@ namespace EAUploader.UI.Upload
                 };
                 item.AddToClassList("flex-row");
                 item.AddToClassList("flex-1");
-                item.AddToClassList("align-items-center");
+                item.AddToClassList("items-center");
 
                 var icon_texture = PerformanceIcons.GetIconForPerformance(info.rating);
                 var icon = new Image()
@@ -324,12 +379,15 @@ namespace EAUploader.UI.Upload
 
             if (VRC.Core.APIUser.IsLoggedIn)
             {
-                loginStatus.Add(new Label(T7e.Get("Logged in as ") + VRC.Core.APIUser.CurrentUser.displayName));
+                var label = new Label(T7e.Get("Logged in as ") + VRC.Core.APIUser.CurrentUser.displayName);
+                loginStatus.Add(label);
                 permissionStatusContainer.style.display = DisplayStyle.Flex;
             }
             else
             {
-                loginStatus.Add(new Label(T7e.Get("You need to login to upload avatar")));
+                var label = new Label(T7e.Get("You need to login to upload avatar"));
+                label.AddToClassList("pb-2");
+                loginStatus.Add(label);
 
                 var loginButton = new ShadowButton()
                 {
@@ -390,40 +448,19 @@ namespace EAUploader.UI.Upload
             var contentName = root.Q<TextFieldPro>("content-name").GetValue();
             var contentDescription = root.Q<TextFieldPro>("content-description").GetValue();
             var releaseStatus = root.Q<DropdownField>("release-status").value.ToLower();
-            var tags = root.Q<UI.Components.ContentWarningsField>("content-warnings").Tags;
+            var tags = root.Q<ContentWarningsField>("content-warnings").Tags;
 
             string thumbnailPath = thumbnailUrl ?? PrefabPreview.GetPreviewImagePath(selectedPrefabPath);
 
-            VRCAvatar avatar = default;
-            bool isNewAvatar = false;
 
             if (string.IsNullOrEmpty(contentName))
             {
                 return;
             }
-            
+
             if (string.IsNullOrEmpty(contentDescription))
             {
                 contentDescription = string.Empty;
-            }
-
-            var pipelineManager = PrefabManager.GetPrefab(selectedPrefabPath).GetComponent<PipelineManager>();
-            if (!string.IsNullOrEmpty(pipelineManager.blueprintId))
-            {
-                try
-                {
-                    avatar = await VRCApi.GetAvatar(pipelineManager.blueprintId, true);
-                }
-                catch (Exception)
-                {
-                    isNewAvatar = true;
-                    avatar = new VRCAvatar { Name = contentName, Description = contentDescription, ReleaseStatus = releaseStatus, Tags = tags};
-                }
-            }
-            else
-            {
-                isNewAvatar = true;
-                avatar = new VRCAvatar { Name = contentName, Description = contentDescription, ReleaseStatus = releaseStatus, Tags = tags };
             }
 
             var uploadStatus = root.Q<VisualElement>("upload_status");
@@ -436,9 +473,9 @@ namespace EAUploader.UI.Upload
             };
             uploadStatus.Add(progress);
 
-            IVisualElementScheduledItem cancelUploadSchedule = null;
+            AvatarUploader.IsUploading = true;
 
-            cancelUploadSchedule = uploadStatus.schedule.Execute(() =>
+            var cancelUploadSchedule = uploadStatus.schedule.Execute(() =>
             {
                 if (AvatarUploader.IsUploading)
                 {
@@ -448,40 +485,10 @@ namespace EAUploader.UI.Upload
                 else
                 {
                     uploadStatus.Clear();
-                    if (cancelUploadSchedule != null) // nullチェック
-                    {
-                        cancelUploadSchedule.Pause(); // ここでスケジュールを一時停止
-                    }
                 }
             }).Every(1000);
 
-            try
-            {
-                if (isNewAvatar)
-                {
-                    await AvatarUploader.UploadAvatarAsync(avatar, thumbnailPath);
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(thumbnailPath))
-                    {
-                        await VRCApi.UpdateAvatarImage(avatar.ID, avatar, thumbnailPath);
-                    }
-                    await VRCApi.UpdateAvatarInfo(avatar.ID, avatar);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"An error occurred during avatar upload: {ex.Message}");
-            }
-            finally
-            {
-                uploadStatus.Clear();
-                if (cancelUploadSchedule != null)
-                {
-                    cancelUploadSchedule.Pause();
-                }
-            }
+            await AvatarUploader.UploadAvatarAsync(selectedPrefabPath, contentName, contentDescription, releaseStatus, tags, thumbnailPath);
         }
     }
 }
