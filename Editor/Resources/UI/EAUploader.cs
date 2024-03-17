@@ -18,13 +18,15 @@ namespace EAUploader.UI
 
         private VisualElement contentRoot = null;
         private string currentTab = "settings";
+        public static StyleSheet styles = Resources.Load<StyleSheet>("UI/styles");
+        public static StyleSheet tailwind = Resources.Load<StyleSheet>("UI/tailwind");
 
         public void CreateGUI()
         {
             currentTab = "settings";
 
-            rootVisualElement.styleSheets.Add(Resources.Load<StyleSheet>("UI/styles"));
-            rootVisualElement.styleSheets.Add(Resources.Load<StyleSheet>("UI/tailwind"));
+            rootVisualElement.styleSheets.Add(styles);
+            rootVisualElement.styleSheets.Add(tailwind);
 
             rootVisualElement.style.flexDirection = FlexDirection.ColumnReverse;
 
