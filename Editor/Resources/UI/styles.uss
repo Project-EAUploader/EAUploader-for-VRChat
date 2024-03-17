@@ -60,6 +60,26 @@ Button:active {
 	background-color: var(--primary-active);
 }
 
+/* Group Button Styles */
+.group-button {
+	flex-grow: 1;
+	justify-content: center;
+}
+
+.group-button MaterialIcon {
+	font-size: 20px;
+}
+
+.group-button__center {
+	border-radius: 0px;
+	border-bottom-color: var(--primary-active);
+	border-top-color: var(--primary-active);
+	border-bottom-width: 1px;
+	border-top-width: 1px;
+	flex-grow: 1;
+	justify-content: center;
+}
+
 /* Image Button Styles */
 ImageButton {
 	flex-direction: row;
