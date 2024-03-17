@@ -229,6 +229,21 @@ TextInput {
 	transition: 150ms
 }
 
+TextInput:hover {
+	background-color: var(--default-hover);
+}
+
+Slider TextInput {
+	font-size: 12px;
+	padding: 4px 4px;
+	border-width: 1px;
+	border-radius: 4px;
+	border-color: var(--default);
+	background-color: white;
+	color: black;
+	transition: 150ms
+}
+
 TextElement {
 	cursor: text;
 }
