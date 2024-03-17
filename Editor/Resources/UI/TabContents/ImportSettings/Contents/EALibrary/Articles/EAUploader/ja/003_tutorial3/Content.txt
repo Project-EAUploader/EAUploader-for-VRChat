@@ -35,7 +35,7 @@
 
 <hr>black, 12</hr>
 
-<section>iliToon_thumbnail.png, 50, <size=18>iliToon</size>
+<section>lilToon_thumbnail.png, 50, <size=18>lilToon</size>
 
 <size=14>アバターを用いたサービス（VRChat等）向けに開発されたシェーダーで、簡単に調整でき、美麗かつ軽量なためVRChat用アバターで広く使われています。</size></section>
 <button>iliToon 配布ページ, Link, https://booth.pm/ja/items/3087170</button>

@@ -100,7 +100,19 @@ namespace EAUploader.UI.ImportSettings
         {
             var article = GetFilteredArticleIndex()[index];
             var thumbnail = GetArticleData(article.id).thumbnail;
-            element.Q<Image>("image").image = AssetDatabase.LoadAssetAtPath<Texture2D>(thumbnail); 
+            var imageElement = element.Q<Image>("image");
+
+            Texture2D image = AssetDatabase.LoadAssetAtPath<Texture2D>(thumbnail);
+            if (image != null)
+            {
+                imageElement.image = image;
+                imageElement.style.backgroundColor = Color.clear;
+            }
+            else
+            {
+                Debug.LogError($"Image not found: {thumbnail}");
+            }
+
             element.Q<Label>("title").text = article.Title;
         }
 
