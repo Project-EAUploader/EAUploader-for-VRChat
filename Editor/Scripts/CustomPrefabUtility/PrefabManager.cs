@@ -49,17 +49,17 @@ namespace EAUploader.CustomPrefabUtility
         {
             string directory = Path.GetDirectoryName(PREFABS_INFO_PATH);
 
-            // ƒfƒBƒŒƒNƒgƒŠ‚ª‘¶İ‚µ‚È‚¢ê‡‚Íì¬
+            // ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ä½œæˆ
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
 
-            // JSONƒf[ƒ^‚ğ¶¬
+            // JSONãƒ‡ãƒ¼ã‚¿ã‚’ç”Ÿæˆ
             PrefabInfoList prefabList = new PrefabInfoList { Prefabs = prefabs };
             string json = JsonUtility.ToJson(prefabList, true);
 
-            // ƒtƒ@ƒCƒ‹‚É‘‚«‚Ş
+            // ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãè¾¼ã‚€
             File.WriteAllText(PREFABS_INFO_PATH, json);
         }
 
@@ -128,7 +128,7 @@ namespace EAUploader.CustomPrefabUtility
 
         private static PrefabStatus GetPrefabStatus(string path)
         {
-            // JSONƒtƒ@ƒCƒ‹‚©‚çƒvƒŒƒnƒu‚ÌƒXƒe[ƒ^ƒX‚ğ“Ç‚İ‚Ş
+            // JSONãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ—ãƒ¬ãƒãƒ–ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’èª­ã¿è¾¼ã‚€
             var allPrefabsInfo = LoadPrefabsInfo();
             var prefabInfo = allPrefabsInfo.FirstOrDefault(info => info.Path == path);
 
@@ -143,7 +143,7 @@ namespace EAUploader.CustomPrefabUtility
 
         public static bool ShowDeletePrefabDialog(string prefabPath)
         {
-            if (EditorUtility.DisplayDialog("Prefab‚ÌÁ‹", "–{“–‚ÉPrefab‚ğÁ‹‚µ‚Ü‚·‚©H", "Á‹", "ƒLƒƒƒ“ƒZƒ‹"))
+            if (EditorUtility.DisplayDialog("Prefabã®æ¶ˆå»", "æœ¬å½“ã«Prefabã‚’æ¶ˆå»ã—ã¾ã™ã‹ï¼Ÿ", "æ¶ˆå»", "ã‚­ãƒ£ãƒ³ã‚»ãƒ«"))
             {
                 DeletePrefabPreview(prefabPath);
                 AssetDatabase.DeleteAsset(prefabPath);

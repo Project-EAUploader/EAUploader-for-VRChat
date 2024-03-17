@@ -1,4 +1,5 @@
-﻿using EAUploader.UI.Components;
+﻿using EAUploader.CustomPrefabUtility;
+using EAUploader.UI.Components;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -63,7 +64,7 @@ namespace EAUploader.UI.ImportSettings
 
         private static void ImportVRMButtonClicked()
         {
-            EditorApplication.ExecuteMenuItem("VRM0/Import VRM 0.x...");
+            //PrefabManager.ImportVRM();
         }
 
         private static void ImportAsset(string filePath)
