@@ -27,10 +27,11 @@ namespace EAUploader.UI.Upload
             CreatePrefabList();
         }
 
-        private static void CreatePrefabList()
+        internal static void CreatePrefabList()
         {
             var prefabList = PrefabManager.GetAllPrefabsWithPreview();
             var prefabListContainer = root.Q("prefab_list_container");
+            prefabListContainer.Clear();
 
             foreach (var prefab in prefabList)
             {

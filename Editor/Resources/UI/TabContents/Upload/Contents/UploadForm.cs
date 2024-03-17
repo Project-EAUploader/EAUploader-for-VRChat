@@ -169,7 +169,7 @@ namespace EAUploader.UI.Upload
             contentDescription.SetValueWithoutNotify(avatar.Value.Description);
             contentDescription.Reset();
             isFormNull = false;
-            releaseStatus.value = avatar.Value.ReleaseStatus;
+            releaseStatus.value = char.ToUpper(avatar.Value.ReleaseStatus[0]) + avatar.Value.ReleaseStatus.Substring(1);
             tags.Tags = avatar.Value.Tags;
             thumbnail.image = await DownloadTexture(avatar.Value.ThumbnailImageUrl);
             thumbnailUrl = avatar.Value.ThumbnailImageUrl;
@@ -374,7 +374,10 @@ namespace EAUploader.UI.Upload
             var uploadMain = root.Q<VisualElement>("upload_main");
             var uploadAction = root.Q<VisualElement>("upload_action");
 
-            loginStatus.Clear();
+            if (loginStatus != null)
+            {
+                loginStatus.Clear();
+            }
             permissionStatus.Clear();
 
             if (VRC.Core.APIUser.IsLoggedIn)
@@ -485,6 +488,7 @@ namespace EAUploader.UI.Upload
             {
                 EditorUtility.DisplayDialog(e.DialogType, e.Message, "OK");
                 uploadStatus.Clear();
+                Main.CreatePrefabList();
             };
 
             await AvatarUploader.UploadAvatarAsync(selectedPrefabPath, contentName, contentDescription, releaseStatus, tags, thumbnailPath);
