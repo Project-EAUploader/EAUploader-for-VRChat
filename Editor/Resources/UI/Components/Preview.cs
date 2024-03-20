@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace EAUploader.UI.Components
 {
-    internal class Preview
+    public class Preview
     {
         // Configuration 
         private const string PREVIEW_VISUAL_TREE_ASSET_PATH = "UI/Components/Preview";
