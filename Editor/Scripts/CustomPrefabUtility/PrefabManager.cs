@@ -56,7 +56,7 @@ namespace EAUploader.CustomPrefabUtility
             }
 
             // JSONデータを生成
-            PrefabInfoList prefabList = new PrefabInfoList { Prefabs = prefabs };
+            var prefabList = new PrefabInfoList { Prefabs = prefabs };
             string json = JsonUtility.ToJson(prefabList, true);
 
             // ファイルに書き込む
@@ -169,19 +169,12 @@ namespace EAUploader.CustomPrefabUtility
             var prefab = allPrefabs.FirstOrDefault(p => p.Path == prefabPath);
             if (prefab != null)
             {
-                if (prefab.Status == PrefabStatus.Pinned)
-                {
-                    prefab.Status = PrefabStatus.Show;
-                }
-                else
-                {
-                    prefab.Status = PrefabStatus.Pinned;
-                }
+                prefab.Status = (prefab.Status == PrefabStatus.Pinned) ? PrefabStatus.Show : PrefabStatus.Pinned;
                 SavePrefabsInfo(allPrefabs);
             }
         }
 
-        public static VRCAvatarDescriptor GetAvatarDescriptor(string prefabPath)
+        public static VRCAvatarDescriptor? GetAvatarDescriptor(string prefabPath)
         {
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             if (prefab != null)

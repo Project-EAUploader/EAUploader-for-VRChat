@@ -106,10 +106,10 @@ namespace EAUploader
                 try
                 {
                     client.UploadString(url, json);
-                    
+
                     // 送信成功フラグを更新
                     sentFeedback = true;
-                    
+
                     // UIを更新するためのメソッド呼び出し
                     UpdateUIAfterSend();
                 }
@@ -119,11 +119,9 @@ namespace EAUploader
                     sentFeedback = false;
                     if (e.Response != null)
                     {
-                        using (var stream = e.Response.GetResponseStream())
-                        using (var reader = new StreamReader(stream))
-                        {
-                            Debug.LogError("Response: " + reader.ReadToEnd());
-                        }
+                        using var stream = e.Response.GetResponseStream();
+                        var reader = new StreamReader(stream);
+                        Debug.LogError("Response: " + reader.ReadToEnd());
                     }
                 }
             }

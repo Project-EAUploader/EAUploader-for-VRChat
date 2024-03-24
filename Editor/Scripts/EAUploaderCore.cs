@@ -21,7 +21,7 @@ namespace EAUploader
         private static string _selectedPrefabPath = null;
         public static string selectedPrefabPath
         {
-            get { return _selectedPrefabPath; }
+            get => _selectedPrefabPath;
             set
             {
                 if (_selectedPrefabPath != value)
@@ -128,10 +128,8 @@ namespace EAUploader
                 string packageJson = File.ReadAllText(packageJsonPath);
                 return T7e.Get("Version: ") + JsonUtility.FromJson<PackageJson>(packageJson).version;
             }
-            else
-            {
-                return T7e.Get("Version: ") + "Unknown";
-            }
+
+            return T7e.Get("Version: ") + "Unknown";
         }
 
         [MenuItem("EAUploader/Reload")]

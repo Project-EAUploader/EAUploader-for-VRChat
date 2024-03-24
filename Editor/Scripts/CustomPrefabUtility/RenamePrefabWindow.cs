@@ -15,7 +15,7 @@ namespace EAUploader.CustomPrefabUtility
         {
             RenamePrefabWindow wnd = GetWindow<RenamePrefabWindow>();
             wnd.FilePath = prefabPath;
-            wnd.titleContent = new GUIContent("Prefab�̖��O��ύX");
+            wnd.titleContent = new GUIContent("Prefabの名前を変更");
             wnd.position = new Rect(100, 100, 400, 200);
             wnd.minSize = new Vector2(400, 200);
             wnd.maxSize = wnd.minSize;
@@ -23,13 +23,13 @@ namespace EAUploader.CustomPrefabUtility
             wnd.rootVisualElement.style.unityFont = AssetDatabase.LoadAssetAtPath<UnityEngine.Font>("Assets/EAUploader/UI/Noto_Sans_JP SDF.ttf");
 
             var visualTree = new VisualElement();
-            var newPrefabName = new TextField("�V����Prefab�̖��O")
+            var newPrefabName = new TextField("新しいPrefabの名前")
             {
                 value = Path.GetFileNameWithoutExtension(prefabPath)
             };
             visualTree.Add(newPrefabName);
 
-            var renameButton = new Button(() => wnd.Rename(newPrefabName.value)) { text = "���O��ύX" };
+            var renameButton = new Button(() => wnd.Rename(newPrefabName.value)) { text = "名前を変更" };
             visualTree.Add(renameButton);
 
             wnd.rootVisualElement.Add(visualTree);
@@ -42,7 +42,7 @@ namespace EAUploader.CustomPrefabUtility
         {
             if (string.IsNullOrEmpty(newPrefabName))
             {
-                EditorUtility.DisplayDialog("�G���[", "�V����Prefab�̖��O�����͂���Ă��܂���", "OK");
+                EditorUtility.DisplayDialog("エラー", "新しいPrefabの名前が入力されていません", "OK");
                 return;
             }
 
@@ -79,7 +79,7 @@ namespace EAUploader.CustomPrefabUtility
             }
             else
             {
-                EditorUtility.DisplayDialog("�G���[", "���̖��O�̃t�@�C���͊��ɂ���܂��B", "OK");
+                EditorUtility.DisplayDialog("エラー", "この名前のファイルは既にあります。", "OK");
             }
         }
     }

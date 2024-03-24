@@ -43,7 +43,7 @@ namespace EAUploader.CustomPrefabUtility
         private static Bounds CalculateBounds(GameObject obj)
         {
             var renderers = obj.GetComponentsInChildren<Renderer>();
-            Bounds bounds = new Bounds(obj.transform.position, Vector3.zero);
+            var bounds = new Bounds(obj.transform.position, Vector3.zero);
             foreach (Renderer renderer in renderers)
             {
                 bounds.Encapsulate(renderer.bounds);
@@ -92,7 +92,7 @@ namespace EAUploader.CustomPrefabUtility
         internal static Texture2D LoadTextureFromFile(string filePath)
         {
             byte[] fileData = File.ReadAllBytes(filePath);
-            Texture2D texture = new Texture2D(2, 2);
+            var texture = new Texture2D(2, 2);
             texture.LoadImage(fileData);
             return texture;
         }
@@ -110,7 +110,7 @@ namespace EAUploader.CustomPrefabUtility
         }
 
 
-        public static Texture2D GetPrefabPreview(string prefabPath)
+        public static Texture2D? GetPrefabPreview(string prefabPath)
         {
             string previewImagePath = PrefabPreview.GetPreviewImagePath(prefabPath);
             if (File.Exists(previewImagePath))

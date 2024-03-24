@@ -40,12 +40,9 @@ namespace EAUploader.CustomPrefabUtility
             {
                 foreach (Material material in renderer.sharedMaterials)
                 {
-                    if (material != null && material.shader != null)
+                    if (material?.shader?.name == "Hidden/InternalErrorShader" || !ShaderExists(material?.shader?.name))
                     {
-                        if (material.shader.name == "Hidden/InternalErrorShader" || !ShaderExists(material.shader.name))
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
             }

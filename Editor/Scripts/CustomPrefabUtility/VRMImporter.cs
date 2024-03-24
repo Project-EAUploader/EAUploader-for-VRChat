@@ -26,27 +26,21 @@ namespace EAUploader.CustomPrefabUtility
             {
                 return;
             }
-            else
+            if (path.StartsWithUnityAssetPath())
             {
-                if (path.StartsWithUnityAssetPath())
-                {
-                    Debug.LogWarningFormat("disallow import from folder under the Assets");
-                    return;
-                }
-                string vrmFolder = "Assets/VRM";
-                if (!AssetDatabase.IsValidFolder(vrmFolder))
-                {
-                    AssetDatabase.CreateFolder("Assets", "VRM");
-                }
-
-                var prefabPath = Path.Combine(vrmFolder, Path.GetFileNameWithoutExtension(path) + ".prefab");
-                vrmAssetPostprocessor.ImportVrmAndCreatePrefab(path, UnityPath.FromUnityPath(prefabPath));
-
-                WaitForPrefabGeneration(prefabPath, () =>
-                {
-                    VRMImporterWindow.ShowWindow(prefabPath);
-                });
+                Debug.LogWarningFormat("disallow import from folder under the Assets");
+                return;
             }
+            string vrmFolder = "Assets/VRM";
+            if (!AssetDatabase.IsValidFolder(vrmFolder))
+            {
+                AssetDatabase.CreateFolder("Assets", "VRM");
+            }
+
+            var prefabPath = Path.Combine(vrmFolder, Path.GetFileNameWithoutExtension(path) + ".prefab");
+            vrmAssetPostprocessor.ImportVrmAndCreatePrefab(path, UnityPath.FromUnityPath(prefabPath));
+
+            WaitForPrefabGeneration(prefabPath, () => VRMImporterWindow.ShowWindow(prefabPath));
         }
 
         private static void WaitForPrefabGeneration(string prefabPath, Action callback)
@@ -80,30 +74,13 @@ namespace EAUploader.CustomPrefabUtility
             VRMImporterWindow wnd = GetWindow<VRMImporterWindow>();
             wnd.titleContent = new GUIContent("VRM Importer");
             wnd.minSize = new Vector2(480, 640);
-            wnd.prefabPath = prefabPath; 
+            wnd.prefabPath = prefabPath;
             wnd.ShowUtility();
         }
 
         public void CreateGUI()
         {
-            rootVisualElement.styleSheets.Add(UI.EAUploader.styles);
-            rootVisualElement.styleSheets.Add(UI.EAUploader.tailwind);
-
-            rootVisualElement.schedule.Execute(() =>
-            {
-                LanguageUtility.Localization(rootVisualElement);
-            }).Every(100);
-
-            var visualTree = Resources.Load<VisualTreeAsset>("UI/Windows/VRMImporterWindow");
-            visualTree.CloneTree(rootVisualElement);
-
-            rootVisualElement.Q<EnumField>("springBone").Init(SwayingObjectsConverterSetting.ConvertVrmSpringBonesAndVrmSpringBoneColliderGroups);
-            rootVisualElement.Q<EnumField>("springBone").RegisterCallback<ChangeEvent<Enum>>((evt) =>
-            {
-                swayingObjectsConverterSetting = (SwayingObjectsConverterSetting)evt.newValue;
-            });
-
-            rootVisualElement.Q<ShadowButton>("importButton").clicked += ImportVRMButtonClicked;
+            rootVisualElement.schedule.Execute(() => LanguageUtility.Localization(rootVisualElement)).Every(100);
         }
 
         private void ImportVRMButtonClicked()
@@ -142,9 +119,9 @@ namespace EAUploader.CustomPrefabUtility
             float addedArmaturePositionY = rootVisualElement.Q<Slider>("addedArmaturePositionY").value;
             bool useShapeKeyNormalsAndTangents = rootVisualElement.Q<Toggle>("useShapeKeyNormalsAndTangents").value;
             Convert(
-                prefabInstance: prefabInstance, 
-                clips: clips, 
-                forQuest: forQuest, 
+                prefabInstance: prefabInstance,
+                clips: clips,
+                forQuest: forQuest,
                 swayingObjectsConverterSetting: swayingObjectsConverterSetting,
                 takingOverSwayingParameters: takingOverSwayingParameters,
                 addedShouldersPositionY: addedShouldersPositionY,
