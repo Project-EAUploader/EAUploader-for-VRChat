@@ -105,5 +105,4 @@ namespace EAUploader.UI
             rootVisualElement.MarkDirtyRepaint();
         }
     }
-
 }
