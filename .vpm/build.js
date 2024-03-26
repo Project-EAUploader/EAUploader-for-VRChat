@@ -59,12 +59,13 @@ for (const version of process.env.TAG_NAME.replace('v', '').split('.'))
     versionParts[2] = versionParts[2].substring(0, 1);
     semverCompatibleVersion = versionParts.join('.');
   }
-
+  /*
   if (semver.lt(semverCompatibleVersion, MIN_VERSION) || registeredVersions.includes(version)) {
     // VPMパッケージ化する最初のバージョンより小さいバージョン (VPMパッケージ化しないバージョン)
     // またはすでにレジストリへ追加済みのバージョンならレジストリから消去
     continue;
   }
+  */
 
   while (true) {
     let [validDependencies, invalidDependencies] = await openupmRegistryClient
