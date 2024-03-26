@@ -13,7 +13,7 @@ import * as openupmEnv from 'openupm-cli/lib/utils/env.js';
 import * as openupmRegistryClient from 'openupm-cli/lib/registry-client.js';
 
 /** VPMパッケージ化する最初のバージョン。 */
-const MIN_VERSION = '0.9.95';
+const MIN_VERSION = '0.9.9';
 const INTERVAL_MILISECONDS = 1 * 60 * 1000;
 const IGNORE_PACKAGE_NAME_PREFIX = 'com.vrchat.';
 const IGNORE_PACKSGE_NAME_FROM_VPM_DEPENDENCIES_PREFIX = 'com.unity.';
@@ -51,10 +51,8 @@ const { packages } = registry;
 
 const dependencies = [];
 const registeredVersions = Object.keys(packages[name]?.versions ?? {});
-for (const version of new Set(
-  Object.keys((await openupmRegistryClient.fetchPackument(env.registry, name, npmClient)).versions)
-    .concat([latestVersion]),
-)) {
+for (const version of process.env.TAG_NAME.replace('v', '').split('.'))
+{
   let semverCompatibleVersion = version;
   if (semverCompatibleVersion.split('.').length === 3) {
     const versionParts = semverCompatibleVersion.split('.');
