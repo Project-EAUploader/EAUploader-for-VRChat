@@ -13,7 +13,7 @@ import * as openupmEnv from 'openupm-cli/lib/utils/env.js';
 import * as openupmRegistryClient from 'openupm-cli/lib/registry-client.js';
 
 /** VPMパッケージ化する最初のバージョン。 */
-const MIN_VERSION = '0.9.9';
+const MIN_VERSION = '0.9.95';
 const INTERVAL_MILISECONDS = 1 * 60 * 1000;
 const IGNORE_PACKAGE_NAME_PREFIX = 'com.vrchat.';
 const IGNORE_PACKSGE_NAME_FROM_VPM_DEPENDENCIES_PREFIX = 'com.unity.';
