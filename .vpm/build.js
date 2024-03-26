@@ -51,21 +51,22 @@ const { packages } = registry;
 
 const dependencies = [];
 const registeredVersions = Object.keys(packages[name]?.versions ?? {});
-for (const version of process.env.TAG_NAME.replace('v', '').split('.'))
-{
+for (const version of new Set(
+  Object.keys((await openupmRegistryClient.fetchPackument(env.registry, name, npmClient)).versions)
+    .concat([latestVersion]),
+)) {
   let semverCompatibleVersion = version;
   if (semverCompatibleVersion.split('.').length === 3) {
     const versionParts = semverCompatibleVersion.split('.');
     versionParts[2] = versionParts[2].substring(0, 1);
     semverCompatibleVersion = versionParts.join('.');
   }
-  /*
+
   if (semver.lt(semverCompatibleVersion, MIN_VERSION) || registeredVersions.includes(version)) {
     // VPMパッケージ化する最初のバージョンより小さいバージョン (VPMパッケージ化しないバージョン)
     // またはすでにレジストリへ追加済みのバージョンならレジストリから消去
     continue;
   }
-  */
 
   while (true) {
     let [validDependencies, invalidDependencies] = await openupmRegistryClient
