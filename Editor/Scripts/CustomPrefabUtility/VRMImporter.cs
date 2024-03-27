@@ -1,3 +1,4 @@
+#if HAS_VRM
 using EAUploader.UI.Components;
 using Esperecyan.Unity.VRMConverterForVRChat;
 using System;
@@ -229,3 +230,4 @@ namespace EAUploader.CustomPrefabUtility
         }
     }
 }
+#endif

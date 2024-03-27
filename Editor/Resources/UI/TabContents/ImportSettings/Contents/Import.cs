@@ -64,7 +64,9 @@ namespace EAUploader.UI.ImportSettings
 
         private static void ImportVRMButtonClicked()
         {
+#if HAS_VRM
             VRMImporter.ImportVRM();
+#endif
         }
 
         private static void ImportAsset(string filePath)
