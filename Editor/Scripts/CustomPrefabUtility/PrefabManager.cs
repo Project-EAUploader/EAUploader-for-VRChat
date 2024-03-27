@@ -174,7 +174,7 @@ namespace EAUploader.CustomPrefabUtility
             }
         }
 
-        public static VRCAvatarDescriptor? GetAvatarDescriptor(string prefabPath)
+        public static VRCAvatarDescriptor GetAvatarDescriptor(string prefabPath)
         {
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             if (prefab != null)

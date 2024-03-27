@@ -25,6 +25,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "jp.pokemori.vrm-converter-for-vrchat",
+            "expression": "41.1.0",
+            "define": "HAS_VRM"
+        }
+    ],
     "noEngineReferences": false
 }
