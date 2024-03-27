@@ -110,7 +110,7 @@ namespace EAUploader.CustomPrefabUtility
         }
 
 
-        public static Texture2D? GetPrefabPreview(string prefabPath)
+        public static Texture2D GetPrefabPreview(string prefabPath)
         {
             string previewImagePath = PrefabPreview.GetPreviewImagePath(prefabPath);
             if (File.Exists(previewImagePath))
