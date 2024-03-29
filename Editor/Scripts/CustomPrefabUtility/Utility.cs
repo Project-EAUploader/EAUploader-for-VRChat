@@ -11,11 +11,9 @@ namespace EAUploader.CustomPrefabUtility
             var avatarDescriptor = avatar.GetComponent<VRC_AvatarDescriptor>();
             if (avatarDescriptor != null)
             {
-                // ViewPosition.y ���A�o�^�[�̖ڐ��̍���
                 return avatarDescriptor.ViewPosition.y;
             }
 
-            // �f�t�H���g
             return 0f;
         }
 
