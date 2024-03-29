@@ -35,7 +35,6 @@ namespace EAUploader.UI.ImportSettings
             var searchButton = root.Q<ShadowButton>("searchButton");
             searchButton.clicked += UpdateModelList;
 
-            // ドロップダウンの追加
             var sortDropdown = new DropdownField("", new List<string>
             {
                 T7e.Get("Last Modified Descending"),

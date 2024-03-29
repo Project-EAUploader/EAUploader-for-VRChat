@@ -113,24 +113,36 @@ namespace EAUploader.UI.Setup
                 prefabsWithPreview = prefabsWithPreview.Where(prefab => prefab.Name.Contains(searchValue)).ToList();
             }
 
+            var pinnedPrefabs = prefabsWithPreview.Where(p => p.Status == PrefabStatus.Pinned).ToList();
+            var unpinnedPrefabs = prefabsWithPreview.Where(p => p.Status != PrefabStatus.Pinned).ToList();
+
             switch (sortOrder)
             {
                 case SortOrder.LastModifiedDescending:
-                    prefabsWithPreview = prefabsWithPreview.OrderByDescending(p => p.LastModified).ToList();
+                    pinnedPrefabs = pinnedPrefabs.OrderByDescending(p => p.LastModified).ToList();
+                    unpinnedPrefabs = unpinnedPrefabs.OrderByDescending(p => p.LastModified).ToList();
                     break;
                 case SortOrder.LastModifiedAscending:
-                    prefabsWithPreview = prefabsWithPreview.OrderBy(p => p.LastModified).ToList();
+                    pinnedPrefabs = pinnedPrefabs.OrderBy(p => p.LastModified).ToList();
+                    unpinnedPrefabs = unpinnedPrefabs.OrderBy(p => p.LastModified).ToList();
                     break;
                 case SortOrder.NameDescending:
-                    prefabsWithPreview = prefabsWithPreview.OrderByDescending(p => p.Name).ToList();
+                    pinnedPrefabs = pinnedPrefabs.OrderByDescending(p => p.Name).ToList();
+                    unpinnedPrefabs = unpinnedPrefabs.OrderByDescending(p => p.Name).ToList();
                     break;
                 case SortOrder.NameAscending:
-                    prefabsWithPreview = prefabsWithPreview.OrderBy(p => p.Name).ToList();
+                    pinnedPrefabs = pinnedPrefabs.OrderBy(p => p.Name).ToList();
+                    unpinnedPrefabs = unpinnedPrefabs.OrderBy(p => p.Name).ToList();
                     break;
             }
 
-            modelList.Clear();
-            AddPrefabsToModelList();
+            prefabsWithPreview = pinnedPrefabs.Concat(unpinnedPrefabs).ToList();
+
+            if (modelList != null)
+            {
+                modelList.Clear();
+                AddPrefabsToModelList();
+            }
         }
 
         internal static void UpdatePrefabInto(string prefabPath)
