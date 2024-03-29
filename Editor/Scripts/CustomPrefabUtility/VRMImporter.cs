@@ -74,13 +74,15 @@ namespace EAUploader.CustomPrefabUtility
             public string name;
         }
 
-        public static void ShowWindow(string prefabPath)
+        public static bool ShowWindow(string prefabPath)
         {
             VRMImporterWindow wnd = GetWindow<VRMImporterWindow>();
             wnd.titleContent = new GUIContent("VRM Importer");
             wnd.minSize = new Vector2(480, 640);
             wnd.prefabPath = prefabPath;
-            wnd.ShowUtility();
+            wnd.ShowModal();
+
+            return true;
         }
 
         public void CreateGUI()

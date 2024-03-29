@@ -30,9 +30,12 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="avatar_editor" class="w-one-quarter p-4"> 
-            <ui:VisualElement class="pb-4 mb-4 border-b border-b-zinc-300">
+            <ui:VisualElement class="pb-4">
                 <ui:Label tabindex="-1" text="Avatar Editor" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-xl font-bold pb-2"/>
                 <eau:HelpButton msg-id="103" />
+            </ui:VisualElement>
+            <ui:VisualElement name="avatar_status" class="pb-4 mb-4 border-b border-b-zinc-300">
+                <ui:Label text="Select the avatar you wish to set up from the list on the left." />
             </ui:VisualElement>
             <ui:ScrollView name="avatar_editor_list" class="flex-1" />
             <ui:VisualElement>

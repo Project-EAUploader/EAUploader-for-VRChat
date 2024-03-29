@@ -39,7 +39,6 @@ namespace EAUploader.UI.Setup
                 preview.UpdatePreview(EAUploaderCore.selectedPrefabPath);
             }
 
-            BuildEditor();
 
             ButtonClickHandler();
 
@@ -53,6 +52,7 @@ namespace EAUploader.UI.Setup
         {
             prefabsWithPreview = PrefabManager.GetAllPrefabsWithPreview();
             modelList.Clear();
+            BuildEditor();
             AddPrefabsToModelList();
         }
 
@@ -101,6 +101,8 @@ namespace EAUploader.UI.Setup
                 }
             };
             prefabInfo.Add(prefabHeight);
+
+            BuildEditor();
         }
 
         private static void ButtonClickHandler()
@@ -138,6 +140,111 @@ namespace EAUploader.UI.Setup
 
         internal static void BuildEditor()
         {
+            var avatarStatus = root.Q<VisualElement>("avatar_status");
+
+            if (EAUploaderCore.selectedPrefabPath != null)
+            {
+                avatarStatus.Clear();
+
+                var prefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);
+                var isVRM = Utility.CheckAvatarIsVRM(prefab);
+
+                if (isVRM)
+                {
+                    var warning = new VisualElement()
+                    {
+                        style =
+                        {
+                            flexDirection = FlexDirection.Row,
+                            alignItems = Align.Center,
+                            marginBottom = 4,
+                        }
+                    };
+                    warning.AddToClassList("warning");
+                    var warningIcon = new MaterialIcon { icon = "warning" };
+                    var warningLabel = new Label(T7e.Get("VRM Avatar needs to convert to VRChat Avatar"));
+                    warning.Add(warningIcon);
+                    warning.Add(warningLabel);
+                    avatarStatus.Add(warning);
+
+                    var button = new Button(() =>
+                    {
+                        if (VRMImporterWindow.ShowWindow(EAUploaderCore.selectedPrefabPath))
+                        {
+                            GetModelList();
+                        }
+                    })
+                    {
+                        text = T7e.Get("Convert to VRChat Avatar")
+                    };
+                    avatarStatus.Add(button);
+
+                    return;
+                }
+                else
+                {
+
+                    var hasDescriptor = Utility.CheckAvatarHasVRCAvatarDescriptor(prefab);
+                    var hasShader = ShaderChecker.CheckAvatarHasShader(prefab);
+
+                    if (!hasDescriptor)
+                    {
+                        var warning = new VisualElement()
+                        {
+                            style = {
+                            flexDirection = FlexDirection.Row,
+                            alignItems = Align.Center,
+                            marginBottom = 4,
+                        }
+                        };
+                        warning.AddToClassList("warning");
+                        var warningIcon = new MaterialIcon { icon = "warning" };
+                        var warningLabel = new Label(T7e.Get("No VRCAvatarDescriptor"));
+                        warning.Add(warningIcon);
+                        warning.Add(warningLabel);
+                        avatarStatus.Add(warning);
+                    }
+
+                    if (!hasShader)
+                    {
+                        var warning = new VisualElement()
+                        {
+                            style =
+                        {
+                            flexDirection = FlexDirection.Row,
+                            alignItems = Align.Center,
+                            marginBottom = 4,
+                        }
+                        };
+                        warning.AddToClassList("warning");
+                        var warningIcon = new MaterialIcon { icon = "warning" };
+                        var warningLabel = new Label(T7e.Get("No Shader"));
+                        warning.Add(warningIcon);
+                        warning.Add(warningLabel);
+                        avatarStatus.Add(warning);
+                    }
+
+                    if (hasDescriptor && hasShader)
+                    {
+                        var success = new VisualElement()
+                        {
+                            style =
+                            {
+                            flexDirection = FlexDirection.Row,
+                            alignItems = Align.Center,
+                            marginBottom = 4,
+                        }
+                        };
+                        success.AddToClassList("success");
+                        var successIcon = new MaterialIcon { icon = "check_circle" };
+                        var successLabel = new Label(T7e.Get("Ready to upload"));
+                        success.Add(successIcon);
+                        success.Add(successLabel);
+                        avatarStatus.Add(success);
+                    }
+                }
+            }
+
             if (!isEditorInfoLoaded)
             {
                 editorRegistrations = new List<EditorRegistration>(EAUploaderEditorManager.GetRegisteredEditors());

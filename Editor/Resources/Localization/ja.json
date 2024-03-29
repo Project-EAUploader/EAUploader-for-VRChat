@@ -500,6 +500,30 @@
     {
       "key": "The information provided above is accurate and I have the rights to upload this content to VRChat",
       "value": "上記の設定は正しく、私はVRChatにアバターをアップロードすることを確認しました。"
+    },
+    {
+      "key": "VRM Avatar needs to convert to VRChat Avatar",
+      "value": "VRMアバターをVRChatアバターに変換する必要があります"
+    },
+    {
+      "key": "Convert to VRChat Avatar",
+      "value": "VRChatアバターに変換"
+    },
+    {
+      "key": "Ready to upload",
+      "value": "アップロードできます"
+    },
+    {
+      "key": "Can't be uploaded",
+      "value": "アップロードできません"
+    },
+    {
+      "key": "This avatar can't be uploaded for the following reasons:",
+      "value": "このアバターは以下の理由でアップロードできません："
+    },
+    {
+      "key": "Avatar is a VRM model",
+      "value": "アバターがVRMモデルです"
     }
   ]
 }
