@@ -1,0 +1,26 @@
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements"
+    xmlns:eau="EAUploader.UI.Components"
+    xsi="http://www.w3.org/2001/XMLSchema-instance"
+    engine="UnityEngine.UIElements"
+    editor="UnityEditor.UIElements"
+    noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
+    editor-extension-mode="False">
+    <ui:VisualElement class="flex-col flex-1">
+        <ui:VisualElement name="view_controls" class="flex-row justify-center p-4">
+			<ui:Button name="invert_view" class="mr-2">
+                <eau:MaterialIcon icon="refresh" />
+            </ui:Button>
+        </ui:VisualElement>
+        <ui:Slider name="horizontal_slider" class="p-4" page-size="1"/>
+        <ui:VisualElement class="flex-1 flex-row">
+            <ui:Slider name="vertical_slider" direction="Vertical" class="p-4" page-size="1"/>
+            <ui:VisualElement name="preview_area" class="flex-1" />
+        </ui:VisualElement>
+        <ui:VisualElement name="view_controls" class="flex-row justify-center p-4">
+            <ui:Button name="check_button" text="Check" class="mr-2"/>
+			<ui:Button name="apply_button" text="Apply" class="ml-2"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -336,7 +336,13 @@ namespace EAUploader.UI.Setup
 
         private static VisualElement CreateEditorItem(EditorRegistration editor)
         {
-            var item = new EditorItem(editor);
+            var item = new EditorItem(editor)
+            {
+                style =
+                {
+                    marginBottom = 8,
+                }
+            };
 
             return item;
         }

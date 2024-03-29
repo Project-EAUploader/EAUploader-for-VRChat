@@ -700,13 +700,14 @@ ValidationItem Label {
 }
 
 /* Slider Styles */
-Slider .unity-base-slider__tracker {
+/* Slider Styles - Horizontal */
+Slider.unity-base-slider--horizontal .unity-base-slider__tracker {
 	height: 12px;
 	border-radius: 6px;
 	background-color: var(--default);
 }
 
-Slider .unity-base-slider__dragger {
+Slider.unity-base-slider--horizontal .unity-base-slider__dragger {
 	width: 20px;
 	height: 20px;
 	top: -10px;
@@ -717,15 +718,15 @@ Slider .unity-base-slider__dragger {
 	transition-property: scale, background-color;
 }
 
-Slider .unity-base-slider__drag-container:active .unity-base-slider__dragger {
+Slider.unity-base-slider--horizontal .unity-base-slider__drag-container:active .unity-base-slider__dragger {
 	scale: 0.75;
 }
 
-Slider .unity-base-slider__dragger:hover {
+Slider.unity-base-slider--horizontal .unity-base-slider__dragger:hover {
 	background-color: var(--default-hover);
 }
 
-Slider .unity-base-slider__dragger-border {
+Slider.unity-base-slider--horizontal .unity-base-slider__dragger-border {
 	background-color: var(--primary);
 	width: 24px;
 	height: 24px;
@@ -734,11 +735,55 @@ Slider .unity-base-slider__dragger-border {
 	transition-property: none;
 }
 
-Slider .unity-slider__filler {
+Slider.unity-base-slider--horizontal .unity-slider__filler {
 	position: absolute;
 	top: 6px;
 	left: 0px;
 	height: 12px;
+	background-color: var(--primary);
+	border-radius: 6px;
+}
+
+/* Slider Styles - Vertical */
+Slider.unity-base-slider--vertical .unity-base-slider__tracker {
+	width: 12px;
+	border-radius: 6px;
+	background-color: var(--default);
+}
+
+Slider.unity-base-slider--vertical .unity-base-slider__dragger {
+	height: 20px;
+	width: 20px;
+	border-radius: 10px;
+	background-color: white;
+	border-width: 0px;
+	transition: 150ms;
+	transition-property: scale, background-color;
+}
+
+Slider.unity-base-slider--vertical .unity-base-slider__drag-container:active .unity-base-slider__dragger {
+	scale: 0.75;
+}
+
+Slider.unity-base-slider--vertical .unity-base-slider__dragger:hover {
+	background-color: var(--default-hover);
+}
+
+Slider.unity-base-slider--vertical .unity-base-slider__dragger-border {
+	background-color: var(--primary);
+	height: 24px;
+	width: 24px;
+	border-radius: 12px;
+	left: -2px;
+	top: -2px;
+	transition-property: none;
+}
+
+Slider.unity-base-slider--vertical .unity-slider__filler {
+	position: absolute;
+	top: 0px;
+	left: 6px;
+	width: 12px;
 	background-color: var(--primary);
 	border-radius: 6px;
 }

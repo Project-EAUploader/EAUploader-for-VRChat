@@ -191,5 +191,11 @@ namespace EAUploader.CustomPrefabUtility
             var prefab = allPrefabs.FirstOrDefault(p => p.Path == prefabPath);
             return prefab?.Status == PrefabStatus.Pinned;
         }
+
+        public static void SavePrefab(GameObject prefab, string path)
+        {
+            PrefabUtility.SaveAsPrefabAsset(prefab, path);
+            ImportPrefab(path);
+        }
     }
 }
