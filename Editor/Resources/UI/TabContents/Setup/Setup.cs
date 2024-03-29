@@ -2,6 +2,7 @@ using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -16,6 +17,7 @@ namespace EAUploader.UI.Setup
         internal static Components.Preview preview;
         private static bool isEditorInfoLoaded = false;
         private static List<EditorRegistration> editorRegistrations;
+        private static SortOrder sortOrder = SortOrder.LastModifiedDescending;
         internal static Dictionary<string, bool> editorFoldouts = new Dictionary<string, bool>();
 
         public static void ShowContent(VisualElement rootElement)
@@ -28,6 +30,27 @@ namespace EAUploader.UI.Setup
             modelList = root.Q<ScrollView>("model_list");
 
             GetModelList();
+
+            var searchButton = root.Q<ShadowButton>("searchButton");
+            searchButton.clicked += UpdateModelList;
+
+            var sortDropdown = new DropdownField("", new List<string>
+            {
+                T7e.Get("Last Modified Descending"),
+                T7e.Get("Last Modified Ascending"),
+                T7e.Get("Name Descending"),
+                T7e.Get("Name Ascending")
+            }, 0);
+            sortDropdown.RegisterValueChangedCallback(evt =>
+            {
+                sortOrder = (SortOrder)sortDropdown.index;
+                UpdateModelList();
+            });
+
+            var sortbar = root.Q<VisualElement>("sortbar");
+            sortbar.Add(sortDropdown);
+
+            UpdateModelList();
 
             preview = new Preview(root.Q("avatar_preview"), EAUploaderCore.selectedPrefabPath);
 
@@ -74,6 +97,40 @@ namespace EAUploader.UI.Setup
                 preview.UpdatePreview(prefab.Path);
             });
             return item;
+        }
+
+        private static void UpdateModelList()
+        {
+            var searchQuery = root.Q<TextField>("searchQuery").value;
+            GetModelList(searchQuery);
+        }
+
+        private static void GetModelList(string searchValue = "")
+        {
+            prefabsWithPreview = PrefabManager.GetAllPrefabsWithPreview();
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                prefabsWithPreview = prefabsWithPreview.Where(prefab => prefab.Name.Contains(searchValue)).ToList();
+            }
+
+            switch (sortOrder)
+            {
+                case SortOrder.LastModifiedDescending:
+                    prefabsWithPreview = prefabsWithPreview.OrderByDescending(p => p.LastModified).ToList();
+                    break;
+                case SortOrder.LastModifiedAscending:
+                    prefabsWithPreview = prefabsWithPreview.OrderBy(p => p.LastModified).ToList();
+                    break;
+                case SortOrder.NameDescending:
+                    prefabsWithPreview = prefabsWithPreview.OrderByDescending(p => p.Name).ToList();
+                    break;
+                case SortOrder.NameAscending:
+                    prefabsWithPreview = prefabsWithPreview.OrderBy(p => p.Name).ToList();
+                    break;
+            }
+
+            modelList.Clear();
+            AddPrefabsToModelList();
         }
 
         internal static void UpdatePrefabInto(string prefabPath)
@@ -163,6 +220,14 @@ namespace EAUploader.UI.Setup
             var item = new EditorItem(editor);
 
             return item;
+        }
+
+        public enum SortOrder
+        {
+            LastModifiedDescending,
+            LastModifiedAscending,
+            NameDescending,
+            NameAscending
         }
     }
 

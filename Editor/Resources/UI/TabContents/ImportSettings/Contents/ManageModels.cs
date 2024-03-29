@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 
 namespace EAUploader.UI.ImportSettings
 {
@@ -14,6 +15,14 @@ namespace EAUploader.UI.ImportSettings
         private static List<PrefabInfo> prefabsWithPreview = new List<PrefabInfo>();
         private static VisualElement root;
         private static ScrollView modelList;
+        private static SortOrder sortOrder = SortOrder.LastModifiedDescending;
+        public enum SortOrder
+        {
+            LastModifiedDescending,
+            LastModifiedAscending,
+            NameDescending,
+            NameAscending
+        }
 
         public static void ShowContent(VisualElement rootElement)
         {
@@ -25,6 +34,23 @@ namespace EAUploader.UI.ImportSettings
 
             var searchButton = root.Q<ShadowButton>("searchButton");
             searchButton.clicked += UpdateModelList;
+
+            // ドロップダウンの追加
+            var sortDropdown = new DropdownField("", new List<string>
+            {
+                T7e.Get("Last Modified Descending"),
+                T7e.Get("Last Modified Ascending"),
+                T7e.Get("Name Descending"),
+                T7e.Get("Name Ascending")
+            }, 0);
+            sortDropdown.RegisterValueChangedCallback(evt =>
+            {
+                sortOrder = (SortOrder)sortDropdown.index;
+                UpdateModelList();
+            });
+
+            var sortbar = root.Q<VisualElement>("sortbar");
+            sortbar.Add(sortDropdown);
 
             UpdateModelList();
         }
@@ -44,6 +70,22 @@ namespace EAUploader.UI.ImportSettings
             if (!string.IsNullOrEmpty(searchValue))
             {
                 prefabsWithPreview = prefabsWithPreview.Where(prefab => prefab.Name.Contains(searchValue)).ToList();
+            }
+
+            switch (sortOrder)
+            {
+                case SortOrder.LastModifiedDescending:
+                    prefabsWithPreview = prefabsWithPreview.OrderByDescending(p => p.LastModified).ToList();
+                    break;
+                case SortOrder.LastModifiedAscending:
+                    prefabsWithPreview = prefabsWithPreview.OrderBy(p => p.LastModified).ToList();
+                    break;
+                case SortOrder.NameDescending:
+                    prefabsWithPreview = prefabsWithPreview.OrderByDescending(p => p.Name).ToList();
+                    break;
+                case SortOrder.NameAscending:
+                    prefabsWithPreview = prefabsWithPreview.OrderBy(p => p.Name).ToList();
+                    break;
             }
         }
 
