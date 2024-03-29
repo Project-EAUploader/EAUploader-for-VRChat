@@ -18,6 +18,10 @@
 	--warning-hover: #f7b750;
 	--warning-active: #f9c97c;
 	--warning-selected: #c4841d;
+	--success: #17C964;
+	--success-hover: #43d589;
+	--success-active: #6ee1ae;
+	--success-selected: #0faa4d;
 	font-size: 14px;
 }
 
@@ -183,12 +187,12 @@ PrefabItemButton * {
 	font-size: 12px;
 }
 
-.noDescriptor * {
+.warning * {
 	color: var(--warning);
 }
 
-.noShader * {
-	color: var(--warning);
+.success * {
+	color: var(--success);
 }
 
 /* Label and Icon Styles */

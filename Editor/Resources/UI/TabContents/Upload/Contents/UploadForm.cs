@@ -66,20 +66,48 @@ namespace EAUploader.UI.Upload
             }
 
             var hasDescriptor = Utility.CheckAvatarHasVRCAvatarDescriptor(PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath));
+            var hasShader = ShaderChecker.CheckAvatarHasShader(PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath));
+            var isVRM = Utility.CheckAvatarIsVRM(PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath));
 
-            if (!hasDescriptor)
+            if (!hasDescriptor || !hasShader || isVRM)
             {
-                var label = new Label(T7e.Get("The avatar cannot be uploaded because it does not have a VRCAvatarDescriptor."))
+                var cantUpload = new VisualElement()
                 {
                     style =
                     {
                         flexGrow = 1,
+                        justifyContent = Justify.Center,
+                        alignSelf = Align.Center
+                    }
+                };
+                var label = new Label(T7e.Get("This avatar can't be uploaded for the following reasons:"))
+                {
+                    style =
+                    {
                         unityTextAlign = TextAnchor.MiddleCenter,
                         fontSize = 24,
                         unityFontStyleAndWeight = FontStyle.Bold
                     }
                 };
-                root.Q("upload_form").Add(label);
+                cantUpload.Add(label); 
+                if (!hasDescriptor)
+                {
+                    var descriptorLabel = new Label(T7e.Get("No VRCAvatarDescriptor"));
+                    cantUpload.Add(descriptorLabel);
+                }
+                if (!hasShader)
+                {
+                    var shaderLabel = new Label(T7e.Get("No Shader"));
+                    cantUpload.Add(shaderLabel);
+                }
+                if (isVRM)
+                {
+                    var vrmLabel = new Label(T7e.Get("Avatar is a VRM model"));
+                    cantUpload.Add(vrmLabel);
+                }
+
+                root.Q("upload_form").Add(cantUpload);
+
                 return;
             }
 
