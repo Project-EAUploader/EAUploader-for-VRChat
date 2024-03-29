@@ -158,17 +158,6 @@ namespace EAUploader
                         return;
                     }
 
-                    if (ValidationHelpers.CheckIfAssetBundleFileTooLarge(ContentType.Avatar, bundlePath, out int fileSize,
-                            VRC.Tools.Platform != "standalonewindows"))
-                    {
-                        var limit = ValidationHelpers.GetAssetBundleSizeLimit(ContentType.Avatar,
-                            VRC.Tools.Platform != "standalonewindows");
-
-                        OnDialogRequired("Upload Failed",
-                            T7e.Get("Avatar bundle size is too large. The maximum size is {0} MB, but the current size is {1} MB",
-                                     limit, fileSize));
-                    }
-
                     if (!selectedPrefab.TryGetComponent<PipelineManager>(out var pM))
                     {
                         OnDialogRequired("Upload Failed", T7e.Get("Prefab does not contain a PipelineManager component"));
