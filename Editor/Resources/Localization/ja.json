@@ -524,6 +524,21 @@
     {
       "key": "Avatar is a VRM model",
       "value": "アバターがVRMモデルです"
+    },
+      "key": "Last Modified Descending",
+      "value": "最終更新日 新しい順"
+    },
+    {
+      "key": "Last Modified Ascending",
+      "value": "最終更新日 古い順"
+    },
+    {
+      "key": "Name Ascending",
+      "value": "名前順 A-Z"
+    },
+    {
+      "key": "Name Descending",
+      "value": "名前順 Z-A"
     }
   ]
 }
