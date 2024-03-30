@@ -1,5 +1,5 @@
-﻿using EAUploader.CustomPrefabUtility;
-using EAUploader.Components;
+﻿using EAUploader.Components;
+using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,6 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 
 namespace EAUploader.UI.ImportSettings
 {
@@ -131,71 +130,6 @@ namespace EAUploader.UI.ImportSettings
             {
                 var item = CreatePrefabItem(prefab);
 
-                var prefabObject = AssetDatabase.LoadAssetAtPath<GameObject>(prefab.Path);
-
-                var hasDescriptor = Utility.CheckAvatarHasVRCAvatarDescriptor(prefabObject);
-                var isVRM = Utility.CheckAvatarIsVRM(prefabObject);
-                var hasShader = ShaderChecker.CheckAvatarHasShader(prefabObject);
-
-                if (!hasDescriptor)
-                {
-                    if (isVRM)
-                    {
-                        var warning = new VisualElement()
-                        {
-                            style =
-                            {
-                                flexDirection = FlexDirection.Row,
-                                alignItems = Align.Center,
-                                marginBottom = 4,
-                            }
-                        };
-                        warning.AddToClassList("warning");
-                        var warningIcon = new MaterialIcon { icon = "warning" };
-                        var warningLabel = new Label(T7e.Get("VRM Avatar needs to convert to VRChat Avatar"));
-                        warning.Add(warningIcon);
-                        warning.Add(warningLabel);
-                        item.Add(warning);
-                    }
-                    else
-                    {
-                        var warning = new VisualElement()
-                        {
-                            style =
-                            {
-                                flexDirection = FlexDirection.Row,
-                                alignItems = Align.Center,
-                                marginBottom = 4,
-                            }
-                        };
-                        warning.AddToClassList("warning");
-                        var warningIcon = new MaterialIcon { icon = "warning" };
-                        var warningLabel = new Label(T7e.Get("Can't be uploaded"));
-                        warning.Add(warningIcon);
-                        warning.Add(warningLabel);
-                        item.Add(warning);
-                    }
-                }
-
-                if (!hasShader)
-                {
-                    var warning = new VisualElement()
-                    {
-                        style =
-                        {
-                            flexDirection = FlexDirection.Row,
-                            alignItems = Align.Center,
-                            marginBottom = 4,
-                        }
-                    };
-                    warning.AddToClassList("warning");
-                    var warningIcon = new MaterialIcon { icon = "warning" };
-                    var warningLabel = new Label(T7e.Get("Cannot find the configured shader."));
-                    warning.Add(warningIcon);
-                    warning.Add(warningLabel);
-                    item.Add(warning);
-                }
-
                 modelList.Add(item);
             }
         }
@@ -203,45 +137,10 @@ namespace EAUploader.UI.ImportSettings
         private static VisualElement CreatePrefabItem(PrefabInfo prefab)
         {
             var item = new PrefabItem(prefab);
-
-            var prefabObject = AssetDatabase.LoadAssetAtPath<GameObject>(prefab.Path);
-            var hasDescriptor = Utility.CheckAvatarHasVRCAvatarDescriptor(prefabObject);
-            var hasShader = ShaderChecker.CheckAvatarHasShader(prefabObject);
-
-            if (!hasDescriptor || !hasShader)
-            {
-                if (prefab.Status == EAUploaderMeta.PrefabStatus.Hidden)
-                {
-                    var unhideButton = new Button(() => ShowPrefab(prefab.Path))
-                    {
-                        text = T7e.Get("Show"),
-                        style =
-                        {
-                            marginLeft = 4,
-                            marginBottom = 4,
-                        }
-                    };
-                    item.Add(unhideButton);
-                }
-                else
-                {
-                    var hideButton = new Button(() => HidePrefab(prefab.Path))
-                    {
-                        text = T7e.Get("Hide"),
-                        style =
-                        {
-                            marginLeft = 4,
-                            marginBottom = 4,
-                        }
-                    };
-                    item.Add(hideButton);
-                }
-            }
-
             return item;
         }
 
-        private static void HidePrefab(string prefabPath)
+        internal static void HidePrefab(string prefabPath)
         {
             var allPrefabs = PrefabManager.LoadPrefabsInfo();
             var prefab = allPrefabs.FirstOrDefault(p => p.Path == prefabPath);
@@ -253,7 +152,7 @@ namespace EAUploader.UI.ImportSettings
             }
         }
 
-        private static void ShowPrefab(string prefabPath)
+        internal static void ShowPrefab(string prefabPath)
         {
             var allPrefabs = PrefabManager.LoadPrefabsInfo();
             var prefab = allPrefabs.FirstOrDefault(p => p.Path == prefabPath);
@@ -275,7 +174,11 @@ namespace EAUploader.UI.ImportSettings
             visualTree.CloneTree(this);
 
             var previewImage = this.Q<Image>("previewImage");
-            previewImage.image = prefab.Preview;
+            if (prefab.Preview != null)
+            {
+                previewImage.image = prefab.Preview;
+            }
+
             previewImage.RegisterCallback<MouseUpEvent>(evt => ShowLargeImage(prefab.Preview));
 
             var name = this.Q<Label>("nameLabel");
@@ -283,6 +186,102 @@ namespace EAUploader.UI.ImportSettings
 
             var lastModified = this.Q<Label>("lastModifiedLabel");
             lastModified.text = prefab.LastModified.ToString("yyyy/MM/dd HH:mm:ss");
+
+            var miscellaneous = this.Q<VisualElement>("miscellaneous");
+
+            var prefabObject = PrefabManager.GetPrefab(prefab.Path);
+            var hasDescriptor = Utility.CheckAvatarHasVRCAvatarDescriptor(prefabObject);
+            var hasShader = ShaderChecker.CheckAvatarHasShader(prefabObject);
+            var isVRM = Utility.CheckAvatarIsVRM(prefabObject);
+
+            if (!hasDescriptor)
+            {
+                if (isVRM)
+                {
+                    var warning = new VisualElement()
+                    {
+                        style =
+                            {
+                                flexDirection = FlexDirection.Row,
+                                alignItems = Align.Center,
+                                marginBottom = 4,
+                            }
+                    };
+                    warning.AddToClassList("warning");
+                    var warningIcon = new MaterialIcon { icon = "warning" };
+                    var warningLabel = new Label(T7e.Get("VRM Avatar needs to convert to VRChat Avatar"));
+                    warning.Add(warningIcon);
+                    warning.Add(warningLabel);
+                    miscellaneous.Add(warning);
+                }
+                else
+                {
+                    var warning = new VisualElement()
+                    {
+                        style =
+                            {
+                                flexDirection = FlexDirection.Row,
+                                alignItems = Align.Center,
+                                marginBottom = 4,
+                            }
+                    };
+                    warning.AddToClassList("warning");
+                    var warningIcon = new MaterialIcon { icon = "warning" };
+                    var warningLabel = new Label(T7e.Get("Can't be uploaded"));
+                    warning.Add(warningIcon);
+                    warning.Add(warningLabel);
+                    miscellaneous.Add(warning);
+                }
+            }
+
+            if (!hasShader)
+            {
+                var warning = new VisualElement()
+                {
+                    style =
+                        {
+                            flexDirection = FlexDirection.Row,
+                            alignItems = Align.Center,
+                            marginBottom = 4,
+                        }
+                };
+                warning.AddToClassList("warning");
+                var warningIcon = new MaterialIcon { icon = "warning" };
+                var warningLabel = new Label(T7e.Get("Cannot find the configured shader."));
+                warning.Add(warningIcon);
+                warning.Add(warningLabel);
+                miscellaneous.Add(warning);
+            }
+
+            if (!hasDescriptor || !hasShader)
+            {
+                if (prefab.Status == EAUploaderMeta.PrefabStatus.Hidden)
+                {
+                    var unhideButton = new Button(() => ManageModels.ShowPrefab(prefab.Path))
+                    {
+                        text = T7e.Get("Show"),
+                        style =
+                        {
+                            marginBottom = 4,
+                            fontSize = 10,
+                        }
+                    };
+                    miscellaneous.Add(unhideButton);
+                }
+                else
+                {
+                    var hideButton = new Button(() => ManageModels.HidePrefab(prefab.Path))
+                    {
+                        text = T7e.Get("Hide"),
+                        style =
+                        {
+                            marginBottom = 4,
+                            fontSize = 10,
+                        }
+                    };
+                    miscellaneous.Add(hideButton);
+                }
+            }
 
             var controls = this.Q<VisualElement>("controls");
             var changeNameButton = this.Q<Button>("changeNameButton");
