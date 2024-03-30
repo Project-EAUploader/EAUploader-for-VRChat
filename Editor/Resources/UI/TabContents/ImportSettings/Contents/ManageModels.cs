@@ -1,4 +1,5 @@
 ﻿using EAUploader.CustomPrefabUtility;
+using EAUploader.Components;
 using EAUploader.UI.Components;
 using System.Collections.Generic;
 using System.IO;
@@ -16,12 +17,19 @@ namespace EAUploader.UI.ImportSettings
         private static VisualElement root;
         private static ScrollView modelList;
         private static SortOrder sortOrder = SortOrder.LastModifiedDescending;
+        private static FilterOrder filterOrder = FilterOrder.NotShowHiddenModels;
         public enum SortOrder
         {
             LastModifiedDescending,
             LastModifiedAscending,
             NameDescending,
             NameAscending
+        }
+        public enum FilterOrder
+        {
+            NotShowHiddenModels,
+            ShowHiddenModels,
+            ShowOnlyHiddenModels
         }
 
         public static void ShowContent(VisualElement rootElement)
@@ -51,6 +59,21 @@ namespace EAUploader.UI.ImportSettings
             var sortbar = root.Q<VisualElement>("sortbar");
             sortbar.Add(sortDropdown);
 
+            var filterDropdown = new DropdownField("", new List<string>
+            {
+                T7e.Get("Do not show hidden models"),
+                T7e.Get("Show hidden models"),
+                T7e.Get("Show only hidden models")
+            }, 0);
+            filterDropdown.RegisterValueChangedCallback(evt =>
+            {
+                filterOrder = (FilterOrder)filterDropdown.index;
+                UpdateModelList();
+            });
+
+            var filterbar = root.Q<VisualElement>("filterbar");
+            filterbar.Add(filterDropdown);
+
             UpdateModelList();
         }
 
@@ -65,7 +88,8 @@ namespace EAUploader.UI.ImportSettings
 
         private static void UpdatePrefabsWithPreview(string searchValue = "")
         {
-            prefabsWithPreview = PrefabManager.GetAllPrefabsWithPreview();
+            prefabsWithPreview = PrefabManager.GetAllPrefabsIncludingHidden();
+
             if (!string.IsNullOrEmpty(searchValue))
             {
                 prefabsWithPreview = prefabsWithPreview.Where(prefab => prefab.Name.Contains(searchValue)).ToList();
@@ -86,6 +110,19 @@ namespace EAUploader.UI.ImportSettings
                     prefabsWithPreview = prefabsWithPreview.OrderBy(p => p.Name).ToList();
                     break;
             }
+
+            switch (filterOrder)
+            {
+                case FilterOrder.NotShowHiddenModels:
+                    prefabsWithPreview = prefabsWithPreview.Where(p => p.Status != EAUploaderMeta.PrefabStatus.Hidden).ToList();
+                    break;
+                case FilterOrder.ShowHiddenModels:
+                    // フィルタリングは不要
+                    break;
+                case FilterOrder.ShowOnlyHiddenModels:
+                    prefabsWithPreview = prefabsWithPreview.Where(p => p.Status == EAUploaderMeta.PrefabStatus.Hidden).ToList();
+                    break;
+            }
         }
 
         private static void AddPrefabsToModelList()
@@ -93,6 +130,72 @@ namespace EAUploader.UI.ImportSettings
             foreach (var prefab in prefabsWithPreview)
             {
                 var item = CreatePrefabItem(prefab);
+
+                var prefabObject = AssetDatabase.LoadAssetAtPath<GameObject>(prefab.Path);
+
+                var hasDescriptor = Utility.CheckAvatarHasVRCAvatarDescriptor(prefabObject);
+                var isVRM = Utility.CheckAvatarIsVRM(prefabObject);
+                var hasShader = ShaderChecker.CheckAvatarHasShader(prefabObject);
+
+                if (!hasDescriptor)
+                {
+                    if (isVRM)
+                    {
+                        var warning = new VisualElement()
+                        {
+                            style =
+                            {
+                                flexDirection = FlexDirection.Row,
+                                alignItems = Align.Center,
+                                marginBottom = 4,
+                            }
+                        };
+                        warning.AddToClassList("warning");
+                        var warningIcon = new MaterialIcon { icon = "warning" };
+                        var warningLabel = new Label(T7e.Get("VRM Avatar needs to convert to VRChat Avatar"));
+                        warning.Add(warningIcon);
+                        warning.Add(warningLabel);
+                        item.Add(warning);
+                    }
+                    else
+                    {
+                        var warning = new VisualElement()
+                        {
+                            style =
+                            {
+                                flexDirection = FlexDirection.Row,
+                                alignItems = Align.Center,
+                                marginBottom = 4,
+                            }
+                        };
+                        warning.AddToClassList("warning");
+                        var warningIcon = new MaterialIcon { icon = "warning" };
+                        var warningLabel = new Label(T7e.Get("Can't be uploaded"));
+                        warning.Add(warningIcon);
+                        warning.Add(warningLabel);
+                        item.Add(warning);
+                    }
+                }
+
+                if (!hasShader)
+                {
+                    var warning = new VisualElement()
+                    {
+                        style =
+                        {
+                            flexDirection = FlexDirection.Row,
+                            alignItems = Align.Center,
+                            marginBottom = 4,
+                        }
+                    };
+                    warning.AddToClassList("warning");
+                    var warningIcon = new MaterialIcon { icon = "warning" };
+                    var warningLabel = new Label(T7e.Get("Cannot find the configured shader."));
+                    warning.Add(warningIcon);
+                    warning.Add(warningLabel);
+                    item.Add(warning);
+                }
+
                 modelList.Add(item);
             }
         }
@@ -101,7 +204,65 @@ namespace EAUploader.UI.ImportSettings
         {
             var item = new PrefabItem(prefab);
 
+            var prefabObject = AssetDatabase.LoadAssetAtPath<GameObject>(prefab.Path);
+            var hasDescriptor = Utility.CheckAvatarHasVRCAvatarDescriptor(prefabObject);
+            var hasShader = ShaderChecker.CheckAvatarHasShader(prefabObject);
+
+            if (!hasDescriptor || !hasShader)
+            {
+                if (prefab.Status == EAUploaderMeta.PrefabStatus.Hidden)
+                {
+                    var unhideButton = new Button(() => ShowPrefab(prefab.Path))
+                    {
+                        text = T7e.Get("Show"),
+                        style =
+                        {
+                            marginLeft = 4,
+                            marginBottom = 4,
+                        }
+                    };
+                    item.Add(unhideButton);
+                }
+                else
+                {
+                    var hideButton = new Button(() => HidePrefab(prefab.Path))
+                    {
+                        text = T7e.Get("Hide"),
+                        style =
+                        {
+                            marginLeft = 4,
+                            marginBottom = 4,
+                        }
+                    };
+                    item.Add(hideButton);
+                }
+            }
+
             return item;
+        }
+
+        private static void HidePrefab(string prefabPath)
+        {
+            var allPrefabs = PrefabManager.LoadPrefabsInfo();
+            var prefab = allPrefabs.FirstOrDefault(p => p.Path == prefabPath);
+            if (prefab != null)
+            {
+                prefab.Status = EAUploaderMeta.PrefabStatus.Hidden;
+                PrefabManager.SavePrefabsInfo(allPrefabs);
+                ManageModels.UpdateModelList();
+            }
+        }
+
+        private static void ShowPrefab(string prefabPath)
+        {
+            var allPrefabs = PrefabManager.LoadPrefabsInfo();
+            var prefab = allPrefabs.FirstOrDefault(p => p.Path == prefabPath);
+            if (prefab != null)
+            {
+                prefab.Status = EAUploaderMeta.PrefabStatus.Show;
+                PrefabManager.SavePrefabsInfo(allPrefabs);
+                ManageModels.UpdateModelList();
+            }
         }
 
     }

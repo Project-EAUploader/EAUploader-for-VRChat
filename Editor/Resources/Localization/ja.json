@@ -522,6 +522,10 @@
       "value": "このアバターは以下の理由でアップロードできません："
     },
     {
+      "key": "Cannot find the configured shader.",
+      "value": "設定されたシェーダーが見つかりません"
+    },
+    {
       "key": "Avatar is a VRM model",
       "value": "アバターがVRMモデルです"
     },
@@ -542,8 +546,24 @@
       "value": "名前順 Z-A"
     },
     {
-      "key": "This avatar is a converted VRM, Viewpoint Position may need to be adjusted.",
-      "value": "このアバターはVRMを変換したものです、Viewpoint Positionを調整する必要がある可能性があります。"
+      "key": "Do not show hidden models",
+      "value": "非表示のモデルを表示しない"
+    },
+    {
+      "key": "Show hidden models",
+      "value": "非表示のモデルも表示する"
+    },
+    {
+      "key": "Show only hidden models",
+      "value": "非表示にしたモデルのみ表示する"
+    },
+    {
+      "key": "Show",
+      "value": "リストに表示"
+    },
+    {
+      "key": "Hide",
+      "value": "非表示にする"
     }
   ]
 }

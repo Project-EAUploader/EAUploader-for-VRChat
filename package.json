@@ -6,8 +6,8 @@
   "unity": "2022.3",
   "changelogUrl": "https://github.com/Project-EAUploader/EAUploader-for-VRChat/releases",
   "dependencies": {
-    "com.vrchat.base": "3.5.1",
-    "com.vrchat.avatars": "3.5.1"
+    "com.vrchat.base": "3.5.2",
+    "com.vrchat.avatars": "3.5.2"
   },
   "author": {
     "name": "USLOG",
