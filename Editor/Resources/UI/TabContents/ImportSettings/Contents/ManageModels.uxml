@@ -7,8 +7,9 @@
                 <eau:ShadowButton name="searchButton" text="Search" parse-escape-sequences="true" display-tooltip-when-elided="true" class="search-button" />
             </ui:VisualElement>
             <ui:VisualElement name="SortContainer" class="flex flex-row items-center flex-1 pl-2">
-            <ui:VisualElement name="sortbar" class="flex-1" />
+            <ui:VisualElement name="sortbar" class="flex-1"/>
         </ui:VisualElement>
+        <ui:VisualElement name="filterbar" class="flex-1"/>
     </ui:VisualElement>
     <ui:ScrollView name="model_list" class="flex-1" />
 </ui:UXML>

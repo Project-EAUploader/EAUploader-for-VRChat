@@ -53,7 +53,7 @@ namespace EAUploader.CustomPrefabUtility
             UI.ImportSettings.ManageModels.UpdateModelList();
         }
 
-        private static void SavePrefabsInfo(List<PrefabInfo> prefabs)
+        internal static void SavePrefabsInfo(List<PrefabInfo> prefabs)
         {
             string directory = Path.GetDirectoryName(PREFABS_INFO_PATH);
 
@@ -71,7 +71,7 @@ namespace EAUploader.CustomPrefabUtility
             File.WriteAllText(PREFABS_INFO_PATH, json);
         }
 
-        private static List<PrefabInfo> LoadPrefabsInfo()
+        internal static List<PrefabInfo> LoadPrefabsInfo()
         {
             if (!File.Exists(PREFABS_INFO_PATH)) return new List<PrefabInfo>();
 
@@ -91,6 +91,26 @@ namespace EAUploader.CustomPrefabUtility
         }
 
         public static List<PrefabInfo> GetAllPrefabsWithPreview()
+        {
+            var allPrefabs = GetAllPrefabs();
+            allPrefabs = allPrefabs
+                .Where(p => p.Status != EAUploaderMeta.PrefabStatus.Hidden)
+                .OrderByDescending(p => p.Status == EAUploaderMeta.PrefabStatus.Pinned)
+                .ThenByDescending(p => p.LastModified)
+                .ToList();
+
+            foreach (var prefab in allPrefabs)
+            {
+                string previewImagePath = PrefabPreview.GetPreviewImagePath(prefab.Path);
+                if (File.Exists(previewImagePath))
+                {
+                    prefab.Preview = PrefabPreview.LoadTextureFromFile(previewImagePath);
+                }
+            }
+            return allPrefabs;
+        }
+
+        public static List<PrefabInfo> GetAllPrefabsIncludingHidden()
         {
             var allPrefabs = GetAllPrefabs();
             allPrefabs = allPrefabs
