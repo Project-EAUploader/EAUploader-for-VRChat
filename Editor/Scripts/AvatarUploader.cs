@@ -1,13 +1,16 @@
 using EAUploader.CustomPrefabUtility;
+using EAUploader.UI.Windows;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using VRC;
 using VRC.Core;
+using VRC.SDK3.Validation;
 using VRC.SDK3A.Editor;
 using VRC.SDKBase.Editor.Api;
 
@@ -15,19 +18,7 @@ namespace EAUploader
 {
     public class AvatarUploader
     {
-        public static event EventHandler<DialogEventArgs> DialogRequired;
-
-        public class DialogEventArgs : EventArgs
-        {
-            public string DialogType { get; }
-            public string Message { get; }
-
-            public DialogEventArgs(string dialogType, string message)
-            {
-                DialogType = dialogType;
-                Message = message;
-            }
-        }
+        public static event EventHandler OnComplete;
 
         public static event EventHandler<ProgressEventArgs> ProgressChanged;
 
@@ -43,24 +34,40 @@ namespace EAUploader
             }
         }
 
-        public static async Task BuildAndTestAsync()
+        public static async Task BuildAndTestAsync(string prefabPath)
         {
             VRCSdkControlPanel.GetWindow<VRCSdkControlPanel>().Show();
 
-            var selectedPrefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);
+            GameObject instantiatedPrefab = GameObject.Instantiate(PrefabManager.GetPrefab(prefabPath));
+
+            if (instantiatedPrefab == null)
+            {
+                Debug.LogError($"Failed to load prefab: {EAUploaderCore.selectedPrefabPath}");
+                return;
+            }
+
+            List<Component> componentsToRemove = AvatarValidation.FindIllegalComponents(instantiatedPrefab).ToList();
+
+            if (!(componentsToRemove is List<Component> list)) return;
+            for (int v = list.Count - 1; v > -1; v--)
+            {
+                UnityEngine.Object.DestroyImmediate(list[v]);
+            }
 
 
             if (!VRCSdkControlPanel.TryGetBuilder<IVRCSdkAvatarBuilderApi>(out var builder)) return;
 
             try
             {
-                await builder.BuildAndTest(selectedPrefab);
+                await builder.BuildAndTest(instantiatedPrefab);
 
-                OnDialogRequired("Build Succeed", T7e.Get("Avatar built and tested successfully"));
+                DialogPro.Show(DialogPro.DialogType.Success, "Build Succeed", T7e.Get("Avatar built and tested successfully"));
             }
             catch (Exception e)
             {
+                DialogPro.Show(DialogPro.DialogType.Error, "Build Failed", T7e.Get("Failed to build avatar"));
                 Debug.Log(e.Message);
+                return;
             }
         }
 
@@ -101,18 +108,28 @@ namespace EAUploader
             }
         }
 
-        public static async Task UploadAvatarAsync(string selectedPrefabPath, string contentName, string contentDescription, string releaseStatus, List<string> tags, string thumbnailPath)
+        public static async Task UploadAvatarAsync(string prefabPath, string contentName, string contentDescription, string releaseStatus, List<string> tags, string thumbnailPath)
         {
-            var selectedPrefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);
-            if (selectedPrefab == null)
+            GameObject instantiatedPrefab = GameObject.Instantiate(PrefabManager.GetPrefab(prefabPath));
+
+            if (instantiatedPrefab == null)
             {
-                Debug.LogError($"Failed to load prefab: {selectedPrefabPath}");
+                Debug.LogError($"Failed to load prefab: {prefabPath}");
                 return;
             }
 
+            List<Component> componentsToRemove = AvatarValidation.FindIllegalComponents(instantiatedPrefab).ToList();
+
+            if (!(componentsToRemove is List<Component> list)) return;
+            for (int v = list.Count - 1; v > -1; v--)
+            {
+                UnityEngine.Object.DestroyImmediate(list[v]);
+            }
+
+
             VRCAvatar avatar;
             bool isNewAvatar = false;
-            var avatarData = await GetVRCAvatar(selectedPrefabPath);
+            var avatarData = await GetVRCAvatar(prefabPath);
 
             if (avatarData == null)
             {
@@ -132,6 +149,7 @@ namespace EAUploader
             }
 
             VRCSdkControlPanel.GetWindow<VRCSdkControlPanel>().Show();
+
             if (!VRCSdkControlPanel.TryGetBuilder<IVRCSdkAvatarBuilderApi>(out var builder)) return;
 
             try
@@ -150,17 +168,31 @@ namespace EAUploader
                 };
                 if (isNewAvatar)
                 {
-                    var bundlePath = await builder.Build(selectedPrefab);
+                    var bundlePath = await builder.Build(instantiatedPrefab);
 
                     if (string.IsNullOrWhiteSpace(bundlePath) || !File.Exists(bundlePath))
                     {
-                        OnDialogRequired("Upload Failed", T7e.Get("Failed to build avatar"));
+                        DialogPro.Show(DialogPro.DialogType.Error, "Upload Failed", T7e.Get("Failed to build avatar"));
+                        OnComplete?.Invoke(null, EventArgs.Empty);
                         return;
                     }
 
-                    if (!selectedPrefab.TryGetComponent<PipelineManager>(out var pM))
+                    if (VRC.SDKBase.Editor.Validation.ValidationEditorHelpers.CheckIfAssetBundleFileTooLarge(ContentType.Avatar, bundlePath, out int fileSize,
+                            VRC.Tools.Platform != "standalonewindows"))
                     {
-                        OnDialogRequired("Upload Failed", T7e.Get("Prefab does not contain a PipelineManager component"));
+                        var limit = ValidationHelpers.GetAssetBundleSizeLimit(ContentType.Avatar,
+                            VRC.Tools.Platform != "standalonewindows");
+
+                        DialogPro.Show(DialogPro.DialogType.Error, "Upload Failed",
+                            T7e.Get("Avatar bundle size is too large. The maximum size is {0} MB, but the current size is {1} MB",
+                                     limit, fileSize));
+                        OnComplete?.Invoke(null, EventArgs.Empty);
+                    }
+
+                    if (!instantiatedPrefab.TryGetComponent<PipelineManager>(out var pM))
+                    {
+                        DialogPro.Show(DialogPro.DialogType.Error, "Upload Failed", T7e.Get("Prefab does not contain a PipelineManager component"));
+                        OnComplete?.Invoke(null, EventArgs.Empty);
                         return;
                     }
 
@@ -174,7 +206,7 @@ namespace EAUploader
                 }
                 else
                 {
-                    var bundlePath = await builder.Build(selectedPrefab);
+                    var bundlePath = await builder.Build(instantiatedPrefab);
                     await VRCApi.UpdateAvatarBundle(avatar.ID, avatar, bundlePath, action);
 
                     if (!string.IsNullOrEmpty(thumbnailPath))
@@ -191,18 +223,14 @@ namespace EAUploader
                         await VRCApi.UpdateAvatarInfo(avatar.ID, avatar);
                     }
 
-                    OnDialogRequired("Upload Succeed", T7e.Get("Avatar updated successfully"));
+                    DialogPro.Show(DialogPro.DialogType.Success, "Upload Succeed", T7e.Get("Avatar updated successfully"));
+                    OnComplete?.Invoke(null, EventArgs.Empty);
                 }
             }
             catch (Exception e)
             {
                 Debug.LogError(e.Message);
             }
-        }
-
-        private static void OnDialogRequired(string dialogType, string message)
-        {
-            DialogRequired?.Invoke(null, new DialogEventArgs(dialogType, message));
         }
     }
 }

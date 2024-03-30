@@ -1,4 +1,5 @@
 #if HAS_VRM
+using EAUploader.Components;
 using EAUploader.UI.Components;
 using Esperecyan.Unity.VRMConverterForVRChat;
 using System;
@@ -187,6 +188,7 @@ namespace EAUploader.CustomPrefabUtility
                         elementSelector: indexAndBlueprintId => indexAndBlueprintId.blueprintId
                     );
             }
+
             GameObject prefabInstance = Duplicator.Duplicate(previousPrefab, prefabPath, new List<string> { "" }, true);
 
             var clips = VRMUtility.GetAllVRMBlendShapeClips(prefabInstance);
@@ -210,6 +212,14 @@ namespace EAUploader.CustomPrefabUtility
             {
                 prefabInstance.GetComponent<PipelineManager>().blueprintId = prefabBlueprintId;
             }
+
+            var eauploaderMeta = prefabInstance.GetComponent<EAUploaderMeta>();
+            if (eauploaderMeta == null)
+            {
+                eauploaderMeta = prefabInstance.AddComponent<EAUploaderMeta>();
+            }
+
+            eauploaderMeta.type = EAUploaderMeta.PrefabType.VRM;
 
             PrefabUtility.ApplyPrefabInstance(prefabInstance, InteractionMode.AutomatedAction);
 
