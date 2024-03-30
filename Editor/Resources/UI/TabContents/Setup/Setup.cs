@@ -459,8 +459,8 @@ namespace EAUploader.UI.Setup
                         paddingTop = 8,
                     }
                 };
-                editorContent.Add(new Label(T7e.Get("Description: ") + editor.EditorName));
-                editorContent.Add(new Label(T7e.Get("Version: ") + editor.MenuName));
+                editorContent.Add(new Label(T7e.Get("Description: ") + editor.Description));
+                editorContent.Add(new Label(T7e.Get("Version: ") + editor.Version));
                 editorContent.Add(new Label(T7e.Get("Author: ") + editor.Author));
 
                 if (!string.IsNullOrEmpty(editor.Url))
