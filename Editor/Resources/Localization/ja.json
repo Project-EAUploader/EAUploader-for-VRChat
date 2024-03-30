@@ -540,6 +540,10 @@
     {
       "key": "Name Descending",
       "value": "名前順 Z-A"
+    },
+    {
+      "key": "This avatar is a converted VRM, Viewpoint Position may need to be adjusted.",
+      "value": "このアバターはVRMを変換したものです、Viewpoint Positionを調整する必要がある可能性があります。"
     }
   ]
 }

@@ -1,20 +1,18 @@
-﻿using System;
+﻿using EAUploader.Components;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace EAUploader.CustomPrefabUtility
 {
-    public enum PrefabStatus { Pinned, Show, Hidden, Other }
-    public enum PrefabType { VRChat, VRM, Other }
-
     [Serializable]
     public class PrefabInfo
     {
         public string Path;
         public string Name;
         public DateTime LastModified;
-        public PrefabType Type;
-        public PrefabStatus Status;
+        public EAUploaderMeta.PrefabType Type;
+        public EAUploaderMeta.PrefabStatus Status;
         public Texture2D Preview { get; internal set; }
     }
 
