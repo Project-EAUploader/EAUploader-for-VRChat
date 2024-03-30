@@ -787,3 +787,24 @@ Slider.unity-base-slider--vertical .unity-slider__filler {
 	background-color: var(--primary);
 	border-radius: 6px;
 }
+
+/* Radio Button Styles */
+RadioButton * {
+  cursor: link;
+}
+
+.unity-radio-button__checkmark-background {
+  height: 14px;
+  width: 14px;
+  border-radius: 7px;
+  background-color: white;
+  border-color: black;
+  justify-content: center;
+}
+
+.unity-radio-button__checkmark {
+  height: 8px;
+  width: 8px;
+  border-radius: 4px;
+  background-color: black;
+}
