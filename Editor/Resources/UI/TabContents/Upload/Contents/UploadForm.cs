@@ -453,17 +453,15 @@ namespace EAUploader.UI.Upload
             // If platform is not supported, return
             if (GetCurrentBuildTarget() == "Windows")
             {
-                await AvatarUploader.BuildAndTestAsync();
+                if (selectedPrefabPath != null)
+                {
+                    await AvatarUploader.BuildAndTestAsync(selectedPrefabPath);
+                }
             }
             else // If platform is not "Windows"
             {
                 EditorUtility.DisplayDialog(T7e.Get("Unsupported Platform"), T7e.Get("Avatar testing is only supported on Windows."), "OK");
                 return;
-            }
-
-            if (selectedPrefabPath != null)
-            {
-                await AvatarUploader.BuildAndTestAsync();
             }
         }
 
@@ -512,9 +510,8 @@ namespace EAUploader.UI.Upload
                 };
             };
 
-            AvatarUploader.DialogRequired += (sender, e) =>
+            AvatarUploader.OnComplete += (sender, e) =>
             {
-                EditorUtility.DisplayDialog(e.DialogType, e.Message, "OK");
                 uploadStatus.Clear();
                 Main.CreatePrefabList();
             };
