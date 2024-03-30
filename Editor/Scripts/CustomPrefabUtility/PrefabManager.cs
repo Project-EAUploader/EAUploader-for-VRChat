@@ -40,8 +40,12 @@ namespace EAUploader.CustomPrefabUtility
         public static void ImportPrefab(string prefabPath)
         {
             GameObject prefab = GetPrefab(prefabPath);
-            var meta = prefab.AddComponent<EAUploaderMeta>();
-            meta.type = GetPrefabType(prefabPath);
+            var existingMeta = prefab.GetComponent<EAUploaderMeta>();
+            if (existingMeta == null)
+            {
+                var meta = prefab.AddComponent<EAUploaderMeta>();
+                meta.type = GetPrefabType(prefabPath); 
+            }
 
             Texture2D preview = PrefabPreview.GeneratePreview(prefab);
             PrefabPreview.SavePrefabPreview(prefabPath, preview);
