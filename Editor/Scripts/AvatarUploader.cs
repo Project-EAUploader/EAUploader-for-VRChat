@@ -2,12 +2,14 @@ using EAUploader.CustomPrefabUtility;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using VRC;
 using VRC.Core;
+using VRC.SDK3.Validation;
 using VRC.SDK3A.Editor;
 using VRC.SDKBase.Editor.Api;
 
@@ -101,18 +103,28 @@ namespace EAUploader
             }
         }
 
-        public static async Task UploadAvatarAsync(string selectedPrefabPath, string contentName, string contentDescription, string releaseStatus, List<string> tags, string thumbnailPath)
+        public static async Task UploadAvatarAsync(string prefabPath, string contentName, string contentDescription, string releaseStatus, List<string> tags, string thumbnailPath)
         {
-            var selectedPrefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);
-            if (selectedPrefab == null)
+            GameObject instantiatedPrefab = GameObject.Instantiate(PrefabManager.GetPrefab(prefabPath));
+
+            if (instantiatedPrefab == null)
             {
-                Debug.LogError($"Failed to load prefab: {selectedPrefabPath}");
+                Debug.LogError($"Failed to load prefab: {prefabPath}");
                 return;
             }
 
+            List<Component> componentsToRemove = AvatarValidation.FindIllegalComponents(instantiatedPrefab).ToList();
+
+            if (!(componentsToRemove is List<Component> list)) return;
+            for (int v = list.Count - 1; v > -1; v--)
+            {
+                UnityEngine.Object.DestroyImmediate(list[v]);
+            }
+
+
             VRCAvatar avatar;
             bool isNewAvatar = false;
-            var avatarData = await GetVRCAvatar(selectedPrefabPath);
+            var avatarData = await GetVRCAvatar(prefabPath);
 
             if (avatarData == null)
             {
@@ -150,7 +162,7 @@ namespace EAUploader
                 };
                 if (isNewAvatar)
                 {
-                    var bundlePath = await builder.Build(selectedPrefab);
+                    var bundlePath = await builder.Build(instantiatedPrefab);
 
                     if (string.IsNullOrWhiteSpace(bundlePath) || !File.Exists(bundlePath))
                     {
@@ -169,7 +181,7 @@ namespace EAUploader
                                      limit, fileSize));
                     }
 
-                    if (!selectedPrefab.TryGetComponent<PipelineManager>(out var pM))
+                    if (!instantiatedPrefab.TryGetComponent<PipelineManager>(out var pM))
                     {
                         OnDialogRequired("Upload Failed", T7e.Get("Prefab does not contain a PipelineManager component"));
                         return;
@@ -185,7 +197,7 @@ namespace EAUploader
                 }
                 else
                 {
-                    var bundlePath = await builder.Build(selectedPrefab);
+                    var bundlePath = await builder.Build(instantiatedPrefab);
                     await VRCApi.UpdateAvatarBundle(avatar.ID, avatar, bundlePath, action);
 
                     if (!string.IsNullOrEmpty(thumbnailPath))
