@@ -7,20 +7,31 @@
     editor="UnityEditor.UIElements"
     noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
     editor-extension-mode="False">
-    <ui:VisualElement class="flex-col flex-1">
-        <ui:VisualElement name="view_controls" class="flex-row justify-center p-4">
-			<ui:Button name="invert_view" class="mr-2">
-                <eau:MaterialIcon icon="refresh" />
-            </ui:Button>
+    <ui:VisualElement class="flex-row flex-1">
+        <ui:VisualElement class="flex-col flex-1">
+            <ui:VisualElement name="view_controls" class="flex-row justify-center p-4">
+                <ui:Button name="invert_view" class="mr-2">
+                    <eau:MaterialIcon icon="refresh" />
+                </ui:Button>
+            </ui:VisualElement>
+            <ui:Slider name="horizontal_slider" class="p-4" page-size="1" />
+            <ui:VisualElement class="flex-1 flex-row">
+                <ui:Slider name="vertical_slider" direction="Vertical" class="p-4" page-size="1" />
+                <ui:VisualElement name="preview_area" class="flex-1" />
+            </ui:VisualElement>
         </ui:VisualElement>
-        <ui:Slider name="horizontal_slider" class="p-4" page-size="1"/>
-        <ui:VisualElement class="flex-1 flex-row">
-            <ui:Slider name="vertical_slider" direction="Vertical" class="p-4" page-size="1"/>
-            <ui:VisualElement name="preview_area" class="flex-1" />
+        <ui:VisualElement class="flex-col flex-1">
+            <ui:VisualElement class="p-4">
+                <ui:Label text="Actual View" class="self-center text-lg font-bold" />
+                <ui:GroupBox name="aspect_rate" class="flex-row justify-around">
+                    <ui:RadioButton name="radio_square" label="1:1 (VR)" value="true" />
+                    <ui:RadioButton name="radio_pc" label="16:9 (PC)" />
+                </ui:GroupBox>
+            </ui:VisualElement>
+            <ui:VisualElement name="actual_view" class="flex-row justify-center px-4" />
         </ui:VisualElement>
-        <ui:VisualElement name="view_controls" class="flex-row justify-center p-4">
-            <ui:Button name="check_button" text="Check" class="mr-2"/>
-			<ui:Button name="apply_button" text="Apply" class="ml-2"/>
-        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="view_controls" class="flex-row justify-center p-4">
+        <ui:Button name="apply_button" text="Apply" class="ml-2" />
     </ui:VisualElement>
 </ui:UXML>
