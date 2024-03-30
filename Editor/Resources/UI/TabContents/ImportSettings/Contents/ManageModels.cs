@@ -100,7 +100,6 @@ namespace EAUploader.UI.ImportSettings
         private static VisualElement CreatePrefabItem(PrefabInfo prefab)
         {
             var item = new PrefabItem(prefab);
-
             return item;
         }
 
@@ -132,6 +131,73 @@ namespace EAUploader.UI.ImportSettings
 
             var deleteButton = this.Q<Button>("deleteButton");
             deleteButton.clicked += () => DeletePrefab(prefab.Path);
+
+            var prefabObject = AssetDatabase.LoadAssetAtPath<GameObject>(prefab.Path);
+
+            var hasDescriptor = Utility.CheckAvatarHasVRCAvatarDescriptor(prefabObject);
+            var isVRM = Utility.CheckAvatarIsVRM(prefabObject);
+            var hasShader = ShaderChecker.CheckAvatarHasShader(prefabObject);
+
+            var warnings = this.Q<VisualElement>("warnings");
+
+            if (!hasDescriptor)
+            {
+                if (isVRM)
+                {
+                    var warning = new VisualElement()
+                    {
+                        style =
+                        {
+                            flexDirection = FlexDirection.Row,
+                            alignItems = Align.Center,
+                            marginBottom = 4,
+                        }
+                    };
+                    warning.AddToClassList("warning");
+                    var warningIcon = new MaterialIcon { icon = "warning" };
+                    var warningLabel = new Label(T7e.Get("VRM Avatar needs to convert to VRChat Avatar"));
+                    warning.Add(warningIcon);
+                    warning.Add(warningLabel);
+                    warnings.Add(warning);
+                }
+                else
+                {
+                    var warning = new VisualElement()
+                    {
+                        style =
+                        {
+                            flexDirection = FlexDirection.Row,
+                            alignItems = Align.Center,
+                            marginBottom = 4,
+                        }
+                    };
+                    warning.AddToClassList("warning");
+                    var warningIcon = new MaterialIcon { icon = "warning" };
+                    var warningLabel = new Label(T7e.Get("Can't be uploaded"));
+                    warning.Add(warningIcon);
+                    warning.Add(warningLabel);
+                    warnings.Add(warning);
+                }
+            }
+
+            if (!hasShader)
+            {
+                var warning = new VisualElement()
+                {
+                    style =
+                    {
+                        flexDirection = FlexDirection.Row,
+                        alignItems = Align.Center,
+                        marginBottom = 4,
+                    }
+                };
+                warning.AddToClassList("warning");
+                var warningIcon = new MaterialIcon { icon = "warning" };
+                var warningLabel = new Label(T7e.Get("Cannot find the configured shader."));
+                warning.Add(warningIcon);
+                warning.Add(warningLabel);
+                warnings.Add(warning);
+            }
         }
 
         private static void ShowLargeImage(Texture2D image)
