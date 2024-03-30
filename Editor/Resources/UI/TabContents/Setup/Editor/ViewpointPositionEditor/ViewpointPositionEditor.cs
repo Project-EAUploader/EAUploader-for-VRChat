@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using EAUploader.CustomPrefabUtility;
+using System;
 
 namespace EAUploader.UI.Setup
 {
@@ -17,7 +18,13 @@ namespace EAUploader.UI.Setup
                 Description = "A powerful viewpoint position editor for Unity.",
                 Version = "0.0.1",
                 Author = "USLOG",
-                Url = "https://uslog.tech/eauploader"
+                Url = "https://uslog.tech/eauploader",
+                Requirement = (string prefabPath) =>
+                {
+                    GameObject gameObject = PrefabManager.GetPrefab(prefabPath);
+                    return Utility.CheckAvatarHasVRCAvatarDescriptor(gameObject);
+                },
+                RequirementDescription = "The selected model must have a VRCAvatarDescriptor component.",
             };
 
             EAUploaderEditorManager.RegisterEditor(editorRegistration);
