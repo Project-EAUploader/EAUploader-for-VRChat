@@ -1,3 +1,4 @@
+using EAUploader.Components;
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
 using System.Collections.Generic;
@@ -113,8 +114,8 @@ namespace EAUploader.UI.Setup
                 prefabsWithPreview = prefabsWithPreview.Where(prefab => prefab.Name.Contains(searchValue)).ToList();
             }
 
-            var pinnedPrefabs = prefabsWithPreview.Where(p => p.Status == PrefabStatus.Pinned).ToList();
-            var unpinnedPrefabs = prefabsWithPreview.Where(p => p.Status != PrefabStatus.Pinned).ToList();
+            var pinnedPrefabs = prefabsWithPreview.Where(p => p.Status == EAUploaderMeta.PrefabStatus.Pinned).ToList();
+            var unpinnedPrefabs = prefabsWithPreview.Where(p => p.Status != EAUploaderMeta.PrefabStatus.Pinned).ToList();
 
             switch (sortOrder)
             {
@@ -230,7 +231,7 @@ namespace EAUploader.UI.Setup
                         }
                     };
                     warning.AddToClassList("warning");
-                    var warningIcon = new MaterialIcon { icon = "warning" };
+                    var warningIcon = new MaterialIcon { icon = "warning", style = { paddingRight = 4 } };
                     var warningLabel = new Label(T7e.Get("VRM Avatar needs to convert to VRChat Avatar"));
                     warning.Add(warningIcon);
                     warning.Add(warningLabel);
@@ -267,7 +268,7 @@ namespace EAUploader.UI.Setup
                         }
                         };
                         warning.AddToClassList("warning");
-                        var warningIcon = new MaterialIcon { icon = "warning" };
+                        var warningIcon = new MaterialIcon { icon = "warning", style = { paddingRight = 4 } };
                         var warningLabel = new Label(T7e.Get("No VRCAvatarDescriptor"));
                         warning.Add(warningIcon);
                         warning.Add(warningLabel);
@@ -286,7 +287,7 @@ namespace EAUploader.UI.Setup
                         }
                         };
                         warning.AddToClassList("warning");
-                        var warningIcon = new MaterialIcon { icon = "warning" };
+                        var warningIcon = new MaterialIcon { icon = "warning", style = { paddingRight = 4 } };
                         var warningLabel = new Label(T7e.Get("No Shader"));
                         warning.Add(warningIcon);
                         warning.Add(warningLabel);
@@ -305,13 +306,46 @@ namespace EAUploader.UI.Setup
                         }
                         };
                         success.AddToClassList("success");
-                        var successIcon = new MaterialIcon { icon = "check_circle" };
+                        var successIcon = new MaterialIcon
+                        {
+                            icon = "check_circle",
+                            style =
+                            {
+                                paddingRight = 4,
+                            }
+                        };
                         var successLabel = new Label(T7e.Get("Ready to upload"));
                         success.Add(successIcon);
                         success.Add(successLabel);
                         avatarStatus.Add(success);
+
+                        var meta = prefab.GetComponent<EAUploaderMeta>();
+                        if (meta.type == EAUploaderMeta.PrefabType.VRM)
+                        {
+                            var info = new VisualElement()
+                            {
+                                style =
+                                {
+                                    flexDirection = FlexDirection.Row,
+                                    alignItems = Align.Center,
+                                    marginBottom = 4,
+                                }
+                            };
+                            var icon = new MaterialIcon
+                            {
+                                icon = "info",
+                                style = {
+                                    paddingRight = 4, 
+                                }
+                            };
+                            var label = new Label(T7e.Get("This avatar is a converted VRM, Viewpoint Position may need to be adjusted."));
+                            info.Add(icon);
+                            info.Add(label);
+                            avatarStatus.Add(info);
+                        }
                     }
                 }
+
             }
 
             if (!isEditorInfoLoaded)
