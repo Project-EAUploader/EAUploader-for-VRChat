@@ -1,0 +1,7 @@
+<t>― VRMアバターを使う ―</t>
+<txt>
+<size=16> EAUploaderでは、VRM Converter for VRChat を追加で導入することでVRMアバターをアップロードすることができます。</size>
+</txt>
+
+<button>Discordへ参加する, Main, https://discord.gg/mkDJ7xm94Z</button>
+<button>Webへ行く, Sub, https://uslog.tech/eauploader</button>

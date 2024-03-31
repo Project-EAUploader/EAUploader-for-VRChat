@@ -22,8 +22,7 @@ VRChat用として販売・配布されているアバターをご用意くだ�
 
 パッケージは、Unity用のアセット（制作物）を配布する時によく使用されます。アバターの場合は、アバター本体やシェーダー、着せ替え用の服等がまとめられて配布されています。
 
-なお、ツールのボタンを使用しなくても、Unityを起動している状態でファイルを使用することでインポートできます。
+なお、ツールのボタンを使用しなくても、Unityを起動している状態でファイルを使用することでもインポートできます。
 </txt>
 <button>Discordへ参加する, Main, https://discord.gg/mkDJ7xm94Z</button>
-<button>開発者 X / Twitter をフォロー, Sub, https://twitter.com/intent/follow?screen_name=fu_virtual</button>
 <button>Webへ行く, Sub, https://uslog.tech/eauploader</button>
