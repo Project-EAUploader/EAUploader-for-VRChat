@@ -233,10 +233,7 @@ namespace EAUploader.CustomPrefabUtility
                 rootGameObjects[avatarIndex].GetComponent<PipelineManager>().blueprintId = blueprintId;
             }
 
-            if (blueprintIds.Count > 0)
-            {
-                DestroyImmediate(prefabInstance);
-            }
+            DestroyImmediate(prefabInstance);
 
             Close();
         }
