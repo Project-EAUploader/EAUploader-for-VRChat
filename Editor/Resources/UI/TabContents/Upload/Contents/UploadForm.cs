@@ -89,7 +89,7 @@ namespace EAUploader.UI.Upload
                         unityFontStyleAndWeight = FontStyle.Bold
                     }
                 };
-                cantUpload.Add(label); 
+                cantUpload.Add(label);
                 if (!hasDescriptor)
                 {
                     var descriptorLabel = new Label(T7e.Get("No VRCAvatarDescriptor"));
@@ -288,6 +288,15 @@ namespace EAUploader.UI.Upload
                                 }
                             case "Android":
                                 {
+                                    if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Android, BuildTarget.Android))
+                                    {
+                                        if (EditorUtility.DisplayDialog(T7e.Get("Android Build Support Required"), T7e.Get("Android Build Support is required to switch to Android build target. Would you like to download it now?"), T7e.Get("Download"), T7e.Get("Cancel")))
+                                        {
+                                            Application.OpenURL(BuildPlayerWindow.GetPlaybackEngineDownloadURL("Android"));
+                                        }
+                                        return;
+                                    }
+
                                     if (EditorUtility.DisplayDialog(T7e.Get("Build Target Switcher"), T7e.Get("Are you sure you want to switch your build target to Android? This could take a while."), T7e.Get("Confirm"), T7e.Get("Cancel")))
                                     {
                                         EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Android;
