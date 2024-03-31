@@ -31,6 +31,8 @@ namespace EAUploader.UI.ImportSettings
             }).Every(1000);
 
             root.Q<ShadowButton>("import_prefab").clicked += ImportPrefabButtonClicked;
+            root.Q<ShadowButton>("import_shaders").clicked += ImportShadowButtonClicked;
+            root.Q<ShadowButton>("show_existing_shaders").clicked += ShowExistingShaders;
             root.Q<ShadowButton>("import_folder").clicked += ImportFolderButtonClicked;
             root.Q<ShadowButton>("import_vrm").clicked += ImportVRMButtonClicked;
 
@@ -54,7 +56,19 @@ namespace EAUploader.UI.ImportSettings
 
         private static void ImportPrefabButtonClicked()
         {
-            ImportAsset(EditorUtility.OpenFilePanelWithFilters(T7e.Get("Import Asset"), "", new[] { T7e.Get("Import a .prefab file or .unitypackage file."), "prefab,unitypackage", "All files", "*" }));
+            ImportAsset(EditorUtility.OpenFilePanelWithFilters(T7e.Get("Import Avatar"), "", new[] { T7e.Get("Import a .prefab file or .unitypackage file."), "prefab,unitypackage", "All files", "*" }));
+        }
+
+        private static void ImportShadowButtonClicked()
+        {
+            ImportAsset(EditorUtility.OpenFilePanelWithFilters(T7e.Get("Import Shaders"), "", new[] { T7e.Get("Import a .unitypackage file."), "unitypackage", "All files", "*" }));
+        }
+
+        private static void ShowExistingShaders()
+        {
+            var shaderList = ShaderChecker.GetExistingShaders();
+            var shaderListString = string.Join("\n", shaderList);
+            EditorUtility.DisplayDialog(T7e.Get("Existing Shaders"), shaderListString, "OK");
         }
 
         private static void ImportFolderButtonClicked()
@@ -81,7 +95,7 @@ namespace EAUploader.UI.ImportSettings
                     AssetDatabase.ImportAsset(filePath, ImportAssetOptions.Default);
                     break;
                 case ".unitypackage":
-                    AssetDatabase.ImportPackage(filePath, true);
+                    AssetDatabase.ImportPackage(filePath, false);
                     break;
             }
             AssetDatabase.Refresh();
