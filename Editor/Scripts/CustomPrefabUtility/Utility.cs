@@ -1,6 +1,8 @@
 using UnityEngine;
 using VRC.SDKBase;
+#if HAS_VRM
 using VRM;
+#endif
 
 namespace EAUploader.CustomPrefabUtility
 {
@@ -25,8 +27,13 @@ namespace EAUploader.CustomPrefabUtility
 
         public static bool CheckAvatarIsVRM(GameObject avatar)
         {
+#if HAS_VRM
             return avatar.GetComponent<VRMMeta>() != null;
+#else
+            return false;
+#endif
         }
+
 
         public static VRC_AvatarDescriptor GetAvatarDescriptor(GameObject avatar)
         {

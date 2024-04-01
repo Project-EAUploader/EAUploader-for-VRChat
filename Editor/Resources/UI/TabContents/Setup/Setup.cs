@@ -238,10 +238,12 @@ namespace EAUploader.UI.Setup
 
                     var button = new Button(() =>
                     {
+#if HAS_VRM
                         if (VRMImporterWindow.ShowWindow(EAUploaderCore.selectedPrefabPath))
                         {
                             GetModelList();
                         }
+#endif
                     })
                     {
                         text = T7e.Get("Convert to VRChat Avatar")
