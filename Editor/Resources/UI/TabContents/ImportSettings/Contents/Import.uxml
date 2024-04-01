@@ -62,6 +62,17 @@
             </ui:VisualElement>
             <ui:DropdownField name="language" index="0" class="flex-1" />
         </ui:VisualElement>
+        <ui:VisualElement class="flex-row items-center">
+            <eau:MaterialIcon icon="bug_report" class="text-red-600"/>
+            <ui:Label text="Experimental" class="text-red-600"/>
+        </ui:VisualElement>
+        <ui:VisualElement class="flex-row items-center">
+            <ui:VisualElement class="flex-row items-center">
+                <eau:MaterialIcon icon="draw" />
+                <ui:Label text="Theme: " />
+            </ui:VisualElement>
+            <ui:DropdownField name="thema" index="0" class="flex-1" />
+        </ui:VisualElement>
         <ui:Label name="version" tabindex="-1" text="Version: " parse-escape-sequences="true"
             display-tooltip-when-elided="true" />
         <eau:ShadowButton name="send_feedback" text="Send feedback" parse-escape-sequences="true"

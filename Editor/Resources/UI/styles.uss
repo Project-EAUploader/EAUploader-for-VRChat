@@ -524,7 +524,7 @@ ProgressBar Label {
 }
 
 .pinned {
-	background-color: white;
+	background-color: var(--secondary);
 	border-color: var(--secondary);
 }
 
@@ -808,3 +808,192 @@ RadioButton * {
   border-radius: 4px;
   background-color: black;
 }
+
+/* Themes */
+
+/* White Theme */
+.white {
+    --primary: #006FEE;
+    --primary-hover: #338ef7;
+    --primary-active: #66aaf9;
+    --primary-selected: #005bc4;
+    --secondary: #7828c8;
+    --secondary-hover: #9353d3;
+    --secondary-active: #ae7ede;
+    --secondary-selected: #6020a0;
+    --default: #d4d4d8;
+    --default-hover: #dddde0;
+    --default-active: #e4e4e7;
+    --warning: #f5a524;
+    --warning-hover: #f7b750;
+    --warning-active: #f9c97c;
+    --warning-selected: #c4841d;
+    --success: #17C964;
+    --success-hover: #43d589;
+    --success-active: #6ee1ae;
+    --success-selected: #0faa4d;
+    color: black;
+}
+
+/* Dark Theme */
+.dark {
+    background-color: #292929;
+    --primary: #046B99;
+    --primary-hover: #00cfff;
+    --primary-active: #b3efff;
+    --primary-selected: #005bc4;
+    --secondary: #7828c8;
+    --secondary-hover: #9353d3;
+    --secondary-active: #ae7ede;
+    --secondary-selected: #6020a0;
+    --default: #d4d4d8;
+    --default-hover: #dddde0;
+    --default-active: #e4e4e7;
+    --default-selected: #a1a1aa;
+    --warning: #f5a524;
+    --warning-hover: #f7b750;
+    --warning-active: #f9c97c;
+    --warning-selected: #c4841d;
+    --success: #17C964;
+    --success-hover: #43d589;
+    --success-active: #6ee1ae;
+    --success-selected: #0faa4d;
+    color: white;
+}
+
+.dark #header-text {
+    color: white;
+}
+
+.dark Button {
+    background-color: var(--primary);
+}
+
+.dark Button:hover {
+    background-color: var(--primary-hover);
+}
+
+.dark Button:active {
+    background-color: var(--primary-active);
+}
+
+.dark .help-button {
+    background-color: var(--primary);
+}
+
+.dark .help-button:hover {
+    background-color: var(--primary-hover);
+}
+
+.dark .help-button:active {
+    background-color: var(--primary-active);
+}
+
+.dark PrefabItemButton {
+    background-color: "1c304a";
+    border-color: var(--default);
+}
+
+.dark PrefabItemButton:hover {
+    background-color: var(--default-hover);
+}
+
+.dark PrefabItem {
+    background-color: "1c304a";
+    color: black;
+    border-color: var(--default);
+}
+
+.dark ImageButton {
+    background-color: white;
+}
+
+.dark ImageButton:hover {
+    background-color: var(--default-hover);
+}
+
+.dark Label {
+    color: white;
+}
+
+.dark MaterialIcon {
+    color: white;
+}
+
+.dark .unity-enum-field__input {
+    background-color: white;
+    border-color: var(--default);
+}
+
+.dark .unity-enum-field__input:hover {
+    background-color: var(--default);
+}
+
+.dark .unity-enum-field__input TextElement {
+    color: black;
+}
+
+.dark .unity-progress-bar__background {
+    background-color: var(--default);
+}
+
+.dark .unity-progress-bar__progress {
+    background-color: var(--primary);
+}
+
+.dark .unity-base-slider__tracker {
+    background-color: var(--default);
+}
+
+.dark .unity-base-slider__dragger {
+    background-color: white;
+}
+
+.dark .unity-base-slider__dragger:hover {
+    background-color: var(--default-hover);
+}
+
+.dark .unity-base-slider__dragger-border {
+    background-color: var(--primary);
+}
+
+.dark .unity-slider__filler {
+    background-color: var(--primary);
+}
+
+.dark .unity-radio-button__checkmark-background {
+    background-color: white;
+    border-color: black;
+}
+
+.dark .unity-radio-button__checkmark {
+    background-color: white;
+}
+
+.dark .selected {
+	background-color: var(--primary);
+	border-color: var(--primary);
+}
+
+.dark .selected Label {
+	color: white;
+}
+
+.dark .selected:hover {
+	background-color: var(--primary-hover);
+}
+
+.dark .pinned {
+	background-color: var(--secondary);
+	border-color: var(--secondary);
+}
+
+.dark .pinned:hover {
+	background-color: var(--default-hover);
+}
+
+.dark .selected.pinned {
+	background-color: var(--secondary);
+}
+
+
