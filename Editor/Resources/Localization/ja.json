@@ -14,12 +14,12 @@
       "value": "アップロード"
     },
     {
-      "key": "Market",
-      "value": "マーケット"
-    },
-    {
       "key": "Import",
       "value": "インポート"
+    },
+    {
+      "key": "Import Avatars",
+      "value": "アバターをインポート"
     },
     {
       "key": "Import from folder",
@@ -31,7 +31,23 @@
     },
     {
       "key": "Import the .vrm(ver. 0.x) file.",
-      "value": ".vrm(ver. 0.x)ファイルをインポートします。"
+      "value": ".vrm(ver. 0.x)ファイルをインポートする。"
+    },
+    {
+      "key": "Import the .unitypackage file that contains the shader.",
+      "value": "シェーダーを含む .unitypackage ファイルをインポートする。"
+    },
+    {
+      "key": "Import Shaders",
+      "value": "シェーダーをインポート"
+    },
+    {
+      "key": "Show existing shaders",
+      "value": "導入済みのシェーダーを確認"
+    },
+    {
+      "key": "Existing Shaders",
+      "value": "導入済みのシェーダー"
     },
     {
       "key": "Settings",
@@ -128,6 +144,18 @@
     {
       "key": "Avatar Editor",
       "value": "編集ツール"
+    },
+    {
+      "key": "Description: ",
+      "value": "説明: "
+    },
+    {
+      "key": "Author: ",
+      "value": "制作者: "
+    },
+    {
+      "key": "Open the link",
+      "value": "リンクを開く"
     },
     {
       "key": "Find extentions",
@@ -606,12 +634,56 @@
       "value": "試験的な機能"
     },
     {
+      "key": "Theme: ",
+      "value": "テーマ: "
+    },
+    {
       "key": "Save",
       "value": "保存"
     },
     {
       "key": "Discard",
       "value": "破棄"
+    },
+    {
+      "key": "Import VRM 0.x Avatar",
+      "value": "VRM 0.x アバターをインポート"
+    },
+    {
+      "key": "Shoulder Height",
+      "value": "肩の高さ"
+    },
+    {
+      "key": "Armature Height",
+      "value": "アーマチュアの高さ"
+    },
+    {
+      "key": "Combine Meshes",
+      "value": "メッシュを結合"
+    },
+    {
+      "key": "Use Shape Key Normals and Tangents",
+      "value": "シェイプキーの法線と接線を使用"
+    },
+    {
+      "key": "Swinging Object",
+      "value": "揺れ物"
+    },
+    {
+      "key": "Take Over Swinging Parameters",
+      "value": "揺れパラメータを引き継ぐ"
+    },
+    {
+      "key": "Settings for Quest",
+      "value": "Quest用の設定"
+    },
+    {
+      "key": "Settings for PC",
+      "value": "PC用の設定"
+    },
+    {
+      "key": "For Quest",
+      "value": "Quest用"
     }
   ]
 }
