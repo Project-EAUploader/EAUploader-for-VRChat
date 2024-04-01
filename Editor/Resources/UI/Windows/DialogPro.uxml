@@ -1,0 +1,22 @@
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements"
+    xmlns:eau="EAUploader.UI.Components"
+    xsi="http://www.w3.org/2001/XMLSchema-instance"
+    engine="UnityEngine.UIElements"
+    editor="UnityEditor.UIElements"
+    noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+    editor-extension-mode="True"
+>
+    <ui:VisualElement class="p-4 flex-1 flex-col">
+        <ui:Label name="title" text="EA Uploader" class="text-xl font-bold pb-2" />
+        <ui:VisualElement class="flex-row flex-1">
+            <eau:MaterialIcon name="icon" class="text-4xl" />
+            <ui:Label name="message" class="p-2"/>
+        </ui:VisualElement>
+        <ui:VisualElement class="flex-row justify-end">
+			<ui:Button name="copy" text="Copy" class="mr-2"/>
+			<ui:Button name="ok" text="OK" class="ml-2"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
