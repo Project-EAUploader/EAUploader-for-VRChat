@@ -824,6 +824,7 @@ RadioButton * {
     --default: #d4d4d8;
     --default-hover: #dddde0;
     --default-active: #e4e4e7;
+    --default-selected: #a1a1aa;
     --warning: #f5a524;
     --warning-hover: #f7b750;
     --warning-active: #f9c97c;
