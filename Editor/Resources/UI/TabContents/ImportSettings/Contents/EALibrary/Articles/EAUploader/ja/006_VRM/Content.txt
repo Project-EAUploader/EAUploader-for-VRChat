@@ -1,0 +1,22 @@
+<t>― VRMアバターを使う ―</t>
+<txt>
+<size=16> EAUploaderでは、VRM Converter for VRChat を追加で導入することでVRMアバターをアップロードすることができます。
+VRMアバターは人型アバターの規格の１つです。VRMアバターをそのままVRChatで使用することはできませんが、変換してアップロードすることで使用できます。
+VRMアバターはVRoid Hubなどで入手できるほか、VRoid Studioを用いてゲームでのキャラづくりのように簡単に作成できます。
+
+　VRM Converter for VRChatを導入すると、インポート欄に「VRMをインポート」ボタンが表示されます。インポートすると、変換ウィンドウが開きます。変換については、ウィンドウにあるヘルプを参照してください。
+<color=red>　変換したVRMアバターは視点位置の設定が必要です。「セットアップ」タブの編集ツールから視点位置設定を開いて視点を調整してください。</color>
+視点位置の設定方法はツールにあるヘルプを参照してください。</size>
+
+<size=20><b>〇 VRMの対応バージョン</b></size>
+<size=16>VRMのバージョンは <color=blue>VRM 0.x</color> と <color=blue>VRM 1.x</color> で大きく仕様が異なります。
+VRM Converterは現在(2024/4/1時点)<color=red>VRM0.xバージョンにのみ対応しており、VRM1.xバージョンには対応していません。</color>
+ご注意ください。
+</txt>
+
+<button>VRM Converterを導入する, Link, https://booth.pm/ja/items/1025226</button>
+<button>VRoid Hubへ行く, Link, https://hub.vroid.com/</button>
+<button>VRoid Studioでアバターを自作する, Link, https://vroid.com/studio</button>
+<hr>black, 12</hr>
+<button>Discordへ参加する, Main, https://discord.gg/mkDJ7xm94Z</button>
+<button>Webへ行く, Sub, https://uslog.tech/eauploader</button>A

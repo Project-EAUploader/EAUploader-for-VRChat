@@ -551,7 +551,7 @@
     },
     {
       "key": "Show hidden models",
-      "value": "非表示のモデルも表示する"
+      "value": "非表示にしたモデルも表示する"
     },
     {
       "key": "Show only hidden models",
@@ -564,6 +564,26 @@
     {
       "key": "Hide",
       "value": "非表示にする"
+    },
+    {
+      "key": "Exit Unity",
+      "value": "Unityを終了する"
+    },
+    {
+      "key": "Confirm Exit",
+      "value": "終了の確認"
+    },
+    {
+      "key": "Are you sure you want to exit Unity?",
+      "value": "本当にUnityを終了しますか？\n（通常、作業状態は保存されます）"
+    },
+    {
+      "key": "Yes",
+      "value": "はい"
+    },
+    {
+      "key": "No",
+      "value": "いいえ"
     }
   ]
 }

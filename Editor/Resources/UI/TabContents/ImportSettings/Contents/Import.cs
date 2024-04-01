@@ -52,6 +52,13 @@ namespace EAUploader.UI.ImportSettings
 
             root.Q<Label>("version").text = EAUploaderCore.GetVersion();
             root.Q<ShadowButton>("send_feedback").clicked += () => DiscordWebhookSender.OpenDiscordWebhookSenderWindow();
+            root.Q<ShadowButton>("exit_unity").clicked += () =>
+            {
+                if (EditorUtility.DisplayDialog(T7e.Get("Confirm Exit"), T7e.Get("Are you sure you want to exit Unity?"), T7e.Get("Yes"), T7e.Get("No")))
+                {
+                    EditorApplication.Exit(0);
+                }
+            }; 
         }
 
         private static void ImportPrefabButtonClicked()

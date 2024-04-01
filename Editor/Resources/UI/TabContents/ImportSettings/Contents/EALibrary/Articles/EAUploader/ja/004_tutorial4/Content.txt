@@ -1,18 +1,10 @@
 <t>― アップロードする ―</t>
 <txt>
-<size=16>アバターをインポートして、シェーダーを確認したらいよいよアップロードです。
-<color=blue>「アップロード」</color>タブに行き、アップロードするアバターを選択してください。選択すると、<color=blue>「VRChatSDKを開く」</color>ボタンが表示されるので、押してください。
-右側で各項目を設定し、アップロードすれば完了です。</size>
+<size=16><color=blue>「アップロード」 </color>タブに行き、アップロードするアバターを選択してください。右側でVRChatのアカウントでログインを行うと、アップロード画面に移ります。
+ 各項目を設定してアップロードします。項目の説明は各項目にある「ヘルプ」をご確認ください。
 
+なお、<color=red>TrustランクがNewUser以上である必要があります。</color></size>
 
-<size=20>アバターの選択にアップロードしたいアバターが
-表示されない場合</size>
-
-<size=16>もう一度インポートをしてみてください。それでも表示されない場合、インポートしているアバターに何等かの問題が発生しています。配布元よりVRChatに対応しているか確認してください。
-
-なお、選択時にアップロード可能となっていない原因は以下です。
-<color=red>・アバターのインスタンスに「VRC_AvatarDescriptor」が含まれていません</color></size>
 </txt>
 <button>Discordへ参加する, Main, https://discord.gg/mkDJ7xm94Z</button>
-<button>開発者 X / Twitter をフォロー, Sub, https://twitter.com/intent/follow?screen_name=fu_virtual</button>
 <button>Webへ行く, Sub, https://uslog.tech/eauploader</button>
