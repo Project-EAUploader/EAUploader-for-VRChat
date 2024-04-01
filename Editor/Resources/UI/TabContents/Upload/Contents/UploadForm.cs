@@ -66,20 +66,48 @@ namespace EAUploader.UI.Upload
             }
 
             var hasDescriptor = Utility.CheckAvatarHasVRCAvatarDescriptor(PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath));
+            var hasShader = ShaderChecker.CheckAvatarHasShader(PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath));
+            var isVRM = Utility.CheckAvatarIsVRM(PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath));
 
-            if (!hasDescriptor)
+            if (!hasDescriptor || !hasShader || isVRM)
             {
-                var label = new Label(T7e.Get("The avatar cannot be uploaded because it does not have a VRCAvatarDescriptor."))
+                var cantUpload = new VisualElement()
                 {
                     style =
                     {
                         flexGrow = 1,
+                        justifyContent = Justify.Center,
+                        alignSelf = Align.Center
+                    }
+                };
+                var label = new Label(T7e.Get("This avatar can't be uploaded for the following reasons:"))
+                {
+                    style =
+                    {
                         unityTextAlign = TextAnchor.MiddleCenter,
                         fontSize = 24,
                         unityFontStyleAndWeight = FontStyle.Bold
                     }
                 };
-                root.Q("upload_form").Add(label);
+                cantUpload.Add(label);
+                if (!hasDescriptor)
+                {
+                    var descriptorLabel = new Label(T7e.Get("No VRCAvatarDescriptor"));
+                    cantUpload.Add(descriptorLabel);
+                }
+                if (!hasShader)
+                {
+                    var shaderLabel = new Label(T7e.Get("No Shader"));
+                    cantUpload.Add(shaderLabel);
+                }
+                if (isVRM)
+                {
+                    var vrmLabel = new Label(T7e.Get("Avatar is a VRM model"));
+                    cantUpload.Add(vrmLabel);
+                }
+
+                root.Q("upload_form").Add(cantUpload);
+
                 return;
             }
 
@@ -173,6 +201,27 @@ namespace EAUploader.UI.Upload
             tags.Tags = avatar.Value.Tags;
             thumbnail.image = await DownloadTexture(avatar.Value.ThumbnailImageUrl);
             thumbnailUrl = avatar.Value.ThumbnailImageUrl;
+
+            var updateButton = root.Q<VisualElement>("info-buttons");
+            updateButton.EnableInClassList("hidden", false);
+
+            var discardButton = root.Q<VisualElement>("discard-info");
+            discardButton.Q<Button>().clicked += () =>
+            {
+                contentName.SetValueWithoutNotify(avatar.Value.Name);
+                contentDescription.SetValueWithoutNotify(avatar.Value.Description);
+                releaseStatus.value = char.ToUpper(avatar.Value.ReleaseStatus[0]) + avatar.Value.ReleaseStatus.Substring(1);
+                tags.Tags = avatar.Value.Tags;
+                thumbnail.image = DownloadTexture(avatar.Value.ThumbnailImageUrl).Result;
+                thumbnailUrl = avatar.Value.ThumbnailImageUrl;
+            };
+
+            var saveButton = root.Q<VisualElement>("save-info");
+            saveButton.Q<Button>().clicked += async () =>
+            {
+                await AvatarUploader.UpdateVRCAvatar(EAUploaderCore.selectedPrefabPath, contentName.GetValue(), contentDescription.GetValue(), releaseStatus.value.ToLower(), tags.Tags, thumbnailUrl);
+                Main.CreatePrefabList();
+            };
         }
 
         private static Task<Texture2D> DownloadTexture(string url)
@@ -260,6 +309,15 @@ namespace EAUploader.UI.Upload
                                 }
                             case "Android":
                                 {
+                                    if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Android, BuildTarget.Android))
+                                    {
+                                        if (EditorUtility.DisplayDialog(T7e.Get("Android Build Support Required"), T7e.Get("Android Build Support is required to switch to Android build target. Would you like to download it now?"), T7e.Get("Download"), T7e.Get("Cancel")))
+                                        {
+                                            Application.OpenURL(BuildPlayerWindow.GetPlaybackEngineDownloadURL("Android"));
+                                        }
+                                        return;
+                                    }
+
                                     if (EditorUtility.DisplayDialog(T7e.Get("Build Target Switcher"), T7e.Get("Are you sure you want to switch your build target to Android? This could take a while."), T7e.Get("Confirm"), T7e.Get("Cancel")))
                                     {
                                         EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Android;
@@ -425,17 +483,15 @@ namespace EAUploader.UI.Upload
             // If platform is not supported, return
             if (GetCurrentBuildTarget() == "Windows")
             {
-                await AvatarUploader.BuildAndTestAsync();
+                if (selectedPrefabPath != null)
+                {
+                    await AvatarUploader.BuildAndTestAsync(selectedPrefabPath);
+                }
             }
             else // If platform is not "Windows"
             {
                 EditorUtility.DisplayDialog(T7e.Get("Unsupported Platform"), T7e.Get("Avatar testing is only supported on Windows."), "OK");
                 return;
-            }
-
-            if (selectedPrefabPath != null)
-            {
-                await AvatarUploader.BuildAndTestAsync();
             }
         }
 
@@ -484,9 +540,8 @@ namespace EAUploader.UI.Upload
                 };
             };
 
-            AvatarUploader.DialogRequired += (sender, e) =>
+            AvatarUploader.OnComplete += (sender, e) =>
             {
-                EditorUtility.DisplayDialog(e.DialogType, e.Message, "OK");
                 uploadStatus.Clear();
                 Main.CreatePrefabList();
             };

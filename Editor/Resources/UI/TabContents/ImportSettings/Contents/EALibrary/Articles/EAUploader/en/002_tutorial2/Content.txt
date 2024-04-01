@@ -1,29 +1,25 @@
-<t>― アバターをインポートする ―</t>
+<t>― Import an Avatar ―</t>
 <txt>
-<size=16>アバターをインポートして、作業を始めましょう。
-まず、このツールが対応しているアバターは、
-<color=red>VRChat用に作成されているアバター</color>です。
-VRChat用として販売・配布されているアバターをご用意ください。
-なお、VRMを使用したい方は、「VRMアバターを使う」記事を参照してください。
+<size=16>Let's start by import an avatar.
+First, this tool supports avatars that are
+<color=red>created for VRChat</color>.
+Please prepare an avatar that is sold or distributed for VRChat.
+If you want to use VRM, please refer to the article "Using VRM Avatar".
 
-インポートするには、<color=blue>「インポート/設定」</color>タブの左側の
-<color=red>「インポート」</color>ボタンを押してください。
-複数アバターをまとめてインポートしたい場合は、
-インポートの下のボタンよりフォルダを指定することができます。</size>
+To import, press the <color=red>"Import"</color> button on the left side of the <color=blue>"Import/Settings"</color> tab.
+If you want to import multiple avatars at once,
+you can specify a folder from the button below the import.</size>
 </txt>
 <hr>black, 12</hr>
-<t> 詳しい解説 </t>
+<t> Detailed Explanation </t>
 <txt>
-インポートに対応するファイル形式は プレハブ（.prefab） 又は パッケージ（.unitypackage） です。
-これらはUnity用で用いられるファイル形式です。
+The file formats supported for import are Prefab (.prefab) or Package (.unitypackage). These are file formats used for Unity.
 
-プレハブは複数のオブジェクト（アバターの場合は体や服などの各部分）をまとめたもので、基本的にプレハブ＝アバター本体です。
-このツールでは、プレハブをアバターとみなして管理・リスト表示しています。
+A prefab is a collection of multiple objects (in the case of an avatar, body parts, clothes, etc.), and basically, a prefab equals the avatar body. In this tool, prefabs are considered as avatars and are managed and listed.
 
-パッケージは、Unity用のアセット（制作物）を配布する時によく使用されます。アバターの場合は、アバター本体やシェーダー、着せ替え用の服等がまとめられて配布されています。
+A package is often used when distributing assets for Unity. In the case of an avatar, the avatar body, shaders, and clothes for dressing up are bundled and distributed.
 
-なお、ツールのボタンを使用しなくても、Unityを起動している状態でファイルを使用することでインポートできます。
+Note that you can also import by using the file while Unity is running, without using the tool's buttons.
 </txt>
-<button>Discordへ参加する, Main, https://discord.gg/mkDJ7xm94Z</button>
-<button>開発者 X / Twitter をフォロー, Sub, https://twitter.com/intent/follow?screen_name=fu_virtual</button>
-<button>Webへ行く, Sub, https://uslog.tech/eauploader</button>
+<button>Join Discord, Main, https://discord.gg/mkDJ7xm94Z</button>
+<button>Go to Web, Sub, https://uslog.tech/eauploader</button>

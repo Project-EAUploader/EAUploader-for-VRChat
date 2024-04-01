@@ -1,0 +1,17 @@
+{
+  "name": "日本語",
+  "items": [
+    {
+      "key": "Apply",
+      "value": "適用"
+    },
+    {
+      "key": "Close",
+      "value": "閉じる"
+    },
+    {
+      "key": "Actual View",
+      "value": "実際のビュー"
+    }
+  ]
+}

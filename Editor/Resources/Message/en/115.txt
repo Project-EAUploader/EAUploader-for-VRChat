@@ -1,0 +1,7 @@
+<txt>
+<size=20>Set thumbnail</size>
+<size=16>
+    Set the avatar's thumbnail. The thumbnail will be displayed in the user profile if you are not a VRChat+ user.
+    EAUploader will set the preview generated on import by default. You can change the thumbnail by selecting the image file from <color=blue>"Change thumbnail"</color>.
+</size>
+</txt>

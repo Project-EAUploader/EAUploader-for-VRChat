@@ -10,10 +10,11 @@
 >
     <ui:VisualElement class="p-4 justify-between flex-1">
         <ui:VisualElement>
-            <ui:Label text="VRM 0.x アバターをインポート" class="text-xl font-bold pb-4" />
+            <ui:Label text="Import VRM 0.x Avatar" class="text-xl font-bold pb-4" />
+            <eau:HelpButton msg-id="200" class="mb-2"/>
             <ui:VisualElement>
                 <ui:VisualElement class="flex-row justify-between">
-                    <ui:Label text="肩の高さ" class="mb-2" />
+                    <ui:Label text="Shoulder Height" class="mb-2" />
                     <ui:Label name="addedShouldersPositionYLabel" text="0.0000" class="mb-2" />
                 </ui:VisualElement>
                 <ui:Slider low-value="-0.1" high-value="0.1" page-size="1" value="0"
@@ -21,20 +22,20 @@
             </ui:VisualElement>
             <ui:VisualElement>
                 <ui:VisualElement class="flex-row justify-between">
-                    <ui:Label text="Armatureの高さ" class="mb-2" />
+                    <ui:Label text="Armature Height" class="mb-2" />
                     <ui:Label name="addedArmaturePositionYLabel" text="0.0000" class="mb-2" />
                 </ui:VisualElement>
                 <ui:Slider low-value="-0.1" high-value="0.1" page-size="1" value="0"
                     name="addedArmaturePositionY" class="mb-2" />
             </ui:VisualElement>
-            <eau:SlideToggle label="メッシュの結合" name="combineMesh" value="true" class="mb-2" />
-            <eau:SlideToggle label="シェイプキーの法線・接線を利用" name="useShapeKeyNormalsAndTangents"
+            <eau:SlideToggle label="Combine Meshes" name="combineMesh" value="true" class="mb-2" />
+            <eau:SlideToggle label="Use Shape Key Normals and Tangents" name="useShapeKeyNormalsAndTangents"
                 value="false" class="mb-2" />
-            <ui:Label text="PC向けの設定" class="text-lg font-bold mb-2" />
-            <ui:EnumField label="揺れ物" name="springBone" class="mb-2" pickingMode="position" />
-            <eau:SlideToggle label="揺れパラメーターを引き継ぎ" name="takingOverSwayingParameters" value="true"
+            <ui:Label text="Settings for PC" class="text-lg font-bold mb-2" />
+            <ui:EnumField label="Swinging Object" name="springBone" class="mb-2" pickingMode="position" />
+            <eau:SlideToggle label="Take Over Swinging Parameters" name="takingOverSwayingParameters" value="true"
                 class="mb-2" />
-            <ui:Label text="Quest向けの設定" class="text-lg font-bold mb-2" />
+            <ui:Label text="Settings for Quest" class="text-lg font-bold mb-2" />
             <eau:SlideToggle label="For Quest" name="forQuest" value="false" class="mb-2" />
         </ui:VisualElement>
         <ui:VisualElement>

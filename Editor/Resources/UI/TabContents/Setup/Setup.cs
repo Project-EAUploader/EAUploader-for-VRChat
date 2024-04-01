@@ -1,7 +1,9 @@
+using EAUploader.Components;
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,10 +15,10 @@ namespace EAUploader.UI.Setup
         private static List<PrefabInfo> prefabsWithPreview = new List<PrefabInfo>();
         private static VisualElement root;
         private static ScrollView modelList;
-        internal static Components.Preview preview;
-        private static bool isEditorInfoLoaded = false;
-        private static List<EditorRegistration> editorRegistrations;
+        internal static Preview preview;
+        private static SortOrder sortOrder = SortOrder.LastModifiedDescending;
         internal static Dictionary<string, bool> editorFoldouts = new Dictionary<string, bool>();
+        private static bool isEditorInfoLoaded = false;
 
         public static void ShowContent(VisualElement rootElement)
         {
@@ -29,17 +31,37 @@ namespace EAUploader.UI.Setup
 
             GetModelList();
 
+            var searchButton = root.Q<ShadowButton>("searchButton");
+            searchButton.clicked += UpdateModelList;
+
+            var sortDropdown = new DropdownField("", new List<string>
+            {
+                T7e.Get("Last Modified Descending"),
+                T7e.Get("Last Modified Ascending"),
+                T7e.Get("Name Descending"),
+                T7e.Get("Name Ascending")
+            }, 0);
+            sortDropdown.RegisterValueChangedCallback(evt =>
+            {
+                sortOrder = (SortOrder)sortDropdown.index;
+                UpdateModelList();
+            });
+
+            var sortbar = root.Q<VisualElement>("sortbar");
+            sortbar.Add(sortDropdown);
+
+            UpdateModelList();
+
             preview = new Preview(root.Q("avatar_preview"), EAUploaderCore.selectedPrefabPath);
 
             preview.ShowContent();
 
             if (EAUploaderCore.selectedPrefabPath != null)
             {
-                UpdatePrefabInto(EAUploaderCore.selectedPrefabPath);
+                UpdatePrefabInfo(EAUploaderCore.selectedPrefabPath);
                 preview.UpdatePreview(EAUploaderCore.selectedPrefabPath);
             }
 
-            BuildEditor();
 
             ButtonClickHandler();
 
@@ -53,6 +75,7 @@ namespace EAUploader.UI.Setup
         {
             prefabsWithPreview = PrefabManager.GetAllPrefabsWithPreview();
             modelList.Clear();
+            BuildEditor();
             AddPrefabsToModelList();
         }
 
@@ -70,13 +93,59 @@ namespace EAUploader.UI.Setup
             var item = new PrefabItemButton(prefab, () =>
             {
                 EAUploaderCore.selectedPrefabPath = prefab.Path;
-                UpdatePrefabInto(prefab.Path);
+                UpdatePrefabInfo(prefab.Path);
                 preview.UpdatePreview(prefab.Path);
             });
             return item;
         }
 
-        internal static void UpdatePrefabInto(string prefabPath)
+        private static void UpdateModelList()
+        {
+            var searchQuery = root.Q<TextField>("searchQuery").value;
+            GetModelList(searchQuery);
+        }
+
+        private static void GetModelList(string searchValue = "")
+        {
+            prefabsWithPreview = PrefabManager.GetAllPrefabsWithPreview();
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                prefabsWithPreview = prefabsWithPreview.Where(prefab => prefab.Name.Contains(searchValue)).ToList();
+            }
+
+            var pinnedPrefabs = prefabsWithPreview.Where(p => p.Status == EAUploaderMeta.PrefabStatus.Pinned).ToList();
+            var unpinnedPrefabs = prefabsWithPreview.Where(p => p.Status != EAUploaderMeta.PrefabStatus.Pinned).ToList();
+
+            switch (sortOrder)
+            {
+                case SortOrder.LastModifiedDescending:
+                    pinnedPrefabs = pinnedPrefabs.OrderByDescending(p => p.LastModified).ToList();
+                    unpinnedPrefabs = unpinnedPrefabs.OrderByDescending(p => p.LastModified).ToList();
+                    break;
+                case SortOrder.LastModifiedAscending:
+                    pinnedPrefabs = pinnedPrefabs.OrderBy(p => p.LastModified).ToList();
+                    unpinnedPrefabs = unpinnedPrefabs.OrderBy(p => p.LastModified).ToList();
+                    break;
+                case SortOrder.NameDescending:
+                    pinnedPrefabs = pinnedPrefabs.OrderByDescending(p => p.Name).ToList();
+                    unpinnedPrefabs = unpinnedPrefabs.OrderByDescending(p => p.Name).ToList();
+                    break;
+                case SortOrder.NameAscending:
+                    pinnedPrefabs = pinnedPrefabs.OrderBy(p => p.Name).ToList();
+                    unpinnedPrefabs = unpinnedPrefabs.OrderBy(p => p.Name).ToList();
+                    break;
+            }
+
+            prefabsWithPreview = pinnedPrefabs.Concat(unpinnedPrefabs).ToList();
+
+            if (modelList != null)
+            {
+                modelList.Clear();
+                AddPrefabsToModelList();
+            }
+        }
+
+        internal static void UpdatePrefabInfo(string prefabPath)
         {
             var prefabInfo = root.Q<VisualElement>("prefab_info");
             prefabInfo.Clear();
@@ -101,6 +170,8 @@ namespace EAUploader.UI.Setup
                 }
             };
             prefabInfo.Add(prefabHeight);
+
+            BuildEditor();
         }
 
         private static void ButtonClickHandler()
@@ -138,31 +209,180 @@ namespace EAUploader.UI.Setup
 
         internal static void BuildEditor()
         {
-            if (!isEditorInfoLoaded)
+            var avatarStatus = root.Q<VisualElement>("avatar_status");
+
+            if (EAUploaderCore.selectedPrefabPath != null)
             {
-                editorRegistrations = new List<EditorRegistration>(EAUploaderEditorManager.GetRegisteredEditors());
+                avatarStatus.Clear();
+
+                var prefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);
+                var isVRM = Utility.CheckAvatarIsVRM(prefab);
+
+                if (isVRM)
+                {
+                    var warning = new VisualElement()
+                    {
+                        style =
+                        {
+                            flexDirection = FlexDirection.Row,
+                            alignItems = Align.Center,
+                            marginBottom = 4,
+                        }
+                    };
+                    warning.AddToClassList("warning");
+                    var warningIcon = new MaterialIcon { icon = "warning", style = { paddingRight = 4 } };
+                    var warningLabel = new Label(T7e.Get("VRM Avatar needs to convert to VRChat Avatar"));
+                    warning.Add(warningIcon);
+                    warning.Add(warningLabel);
+                    avatarStatus.Add(warning);
+
+                    var button = new Button(() =>
+                    {
+                        if (VRMImporterWindow.ShowWindow(EAUploaderCore.selectedPrefabPath))
+                        {
+                            GetModelList();
+                        }
+                    })
+                    {
+                        text = T7e.Get("Convert to VRChat Avatar")
+                    };
+                    avatarStatus.Add(button);
+                }
+                else
+                {
+
+                    var hasDescriptor = Utility.CheckAvatarHasVRCAvatarDescriptor(prefab);
+                    var hasShader = ShaderChecker.CheckAvatarHasShader(prefab);
+
+                    if (!hasDescriptor)
+                    {
+                        var warning = new VisualElement()
+                        {
+                            style = {
+                            flexDirection = FlexDirection.Row,
+                            alignItems = Align.Center,
+                            marginBottom = 4,
+                        }
+                        };
+                        warning.AddToClassList("warning");
+                        var warningIcon = new MaterialIcon { icon = "warning", style = { paddingRight = 4 } };
+                        var warningLabel = new Label(T7e.Get("No VRCAvatarDescriptor"));
+                        warning.Add(warningIcon);
+                        warning.Add(warningLabel);
+                        avatarStatus.Add(warning);
+                    }
+
+                    if (!hasShader)
+                    {
+                        var warning = new VisualElement()
+                        {
+                            style =
+                        {
+                            flexDirection = FlexDirection.Row,
+                            alignItems = Align.Center,
+                            marginBottom = 4,
+                        }
+                        };
+                        warning.AddToClassList("warning");
+                        var warningIcon = new MaterialIcon { icon = "warning", style = { paddingRight = 4 } };
+                        var warningLabel = new Label(T7e.Get("No Shader"));
+                        warning.Add(warningIcon);
+                        warning.Add(warningLabel);
+                        avatarStatus.Add(warning);
+                    }
+
+                    if (hasDescriptor && hasShader)
+                    {
+                        var success = new VisualElement()
+                        {
+                            style =
+                            {
+                            flexDirection = FlexDirection.Row,
+                            alignItems = Align.Center,
+                            marginBottom = 4,
+                        }
+                        };
+                        success.AddToClassList("success");
+                        var successIcon = new MaterialIcon
+                        {
+                            icon = "check_circle",
+                            style =
+                            {
+                                paddingRight = 4,
+                            }
+                        };
+                        var successLabel = new Label(T7e.Get("Ready to upload"));
+                        success.Add(successIcon);
+                        success.Add(successLabel);
+                        avatarStatus.Add(success);
+
+                        var meta = prefab.GetComponent<EAUploaderMeta>();
+                        if (meta.type == EAUploaderMeta.PrefabType.VRM)
+                        {
+                            var info = new VisualElement()
+                            {
+                                style =
+                                {
+                                    flexDirection = FlexDirection.Row,
+                                    alignItems = Align.Center,
+                                    marginBottom = 4,
+                                }
+                            };
+                            var icon = new MaterialIcon
+                            {
+                                icon = "info",
+                                style = {
+                                    paddingRight = 4,
+                                }
+                            };
+                            var label = new Label(T7e.Get("This avatar is a converted VRM, Viewpoint Position may need to be adjusted."));
+                            info.Add(icon);
+                            info.Add(label);
+                            avatarStatus.Add(info);
+                        }
+                    }
+                }
+
+                var editorRegistrations = new List<EditorRegistration>(EAUploaderEditorManager.GetRegisteredEditors());
+                if (!isEditorInfoLoaded)
+                {
+                    foreach (var editor in editorRegistrations)
+                    {
+                        editorFoldouts[editor.EditorName] = false;
+                    }
+                    isEditorInfoLoaded = true;
+                }
+
+                var editorList = root.Q<VisualElement>("avatar_editor_list");
+                editorList.Clear();
+
                 foreach (var editor in editorRegistrations)
                 {
-                    editorFoldouts[editor.EditorName] = false;
+                    var editorItem = CreateEditorItem(editor);
+                    editorList.Add(editorItem);
                 }
-                isEditorInfoLoaded = true;
-            }
-
-            var editorList = root.Q<VisualElement>("avatar_editor_list");
-            editorList.Clear();
-
-            foreach (var editor in editorRegistrations)
-            {
-                var editorItem = CreateEditorItem(editor);
-                editorList.Add(editorItem);
             }
         }
 
         private static VisualElement CreateEditorItem(EditorRegistration editor)
         {
-            var item = new EditorItem(editor);
+            var item = new EditorItem(editor)
+            {
+                style =
+                {
+                    marginBottom = 8,
+                }
+            };
 
             return item;
+        }
+
+        public enum SortOrder
+        {
+            LastModifiedDescending,
+            LastModifiedAscending,
+            NameDescending,
+            NameAscending
         }
     }
 
@@ -191,7 +411,7 @@ namespace EAUploader.UI.Setup
                     borderTopRightRadius = 0,
                     borderRightColor = new StyleColor(new Color(0.0784313725f , 0.3921568627f, 0.7058823529f,1)),
                     borderRightWidth = 1,
-                }
+                },
             };
 
             buttonGroup.Add(item_button);
@@ -222,6 +442,26 @@ namespace EAUploader.UI.Setup
             var expandLess = new MaterialIcon { icon = "expand_less" };
             expandLess.style.fontSize = 20;
 
+            if (editor.Requirement != null && !editor.Requirement(EAUploaderCore.selectedPrefabPath))
+            {
+                item_button.SetEnabled(false);
+                var warning = new VisualElement()
+                {
+                    style =
+                    {
+                        flexDirection = FlexDirection.Row,
+                        alignItems = Align.Center,
+                        marginBottom = 4,
+                    }
+                };
+                warning.AddToClassList("warning");
+                var warningIcon = new MaterialIcon { icon = "warning", style = { paddingRight = 4 } };
+                var warningLabel = new Label(editor.RequirementDescription);
+                warning.Add(warningIcon);
+                warning.Add(warningLabel);
+                Add(warning);
+            }
+
             if (Main.editorFoldouts[editor.EditorName])
             {
                 foldoutButton.Add(expandLess);
@@ -235,8 +475,8 @@ namespace EAUploader.UI.Setup
                         paddingTop = 8,
                     }
                 };
-                editorContent.Add(new Label(T7e.Get("Description: ") + editor.EditorName));
-                editorContent.Add(new Label(T7e.Get("Version: ") + editor.MenuName));
+                editorContent.Add(new Label(T7e.Get("Description: ") + editor.Description));
+                editorContent.Add(new Label(T7e.Get("Version: ") + editor.Version));
                 editorContent.Add(new Label(T7e.Get("Author: ") + editor.Author));
 
                 if (!string.IsNullOrEmpty(editor.Url))

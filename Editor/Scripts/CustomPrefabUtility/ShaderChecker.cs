@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -5,6 +6,16 @@ namespace EAUploader.CustomPrefabUtility
 {
     public class ShaderChecker
     {
+        public static readonly List<string> UNSUPPORTED_SHADERS = new List<string>
+        {
+            "_lil",
+            "outlineoffset",
+            "CloverUI",
+            "Video",
+            "VRM10",
+            "FX",
+        };
+
         public static void CheckShaders()
         {
             string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets" });
@@ -14,6 +25,26 @@ namespace EAUploader.CustomPrefabUtility
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 CheckShadersInPrefabs(path);
             }
+        }
+
+        public static List<string> GetExistingShaders()
+        {
+            List<string> shaderGroups = new List<string>();
+            HashSet<string> uniqueGroups = new HashSet<string>(); // Create a HashSet to store unique shader groups
+
+            foreach (var guid in AssetDatabase.FindAssets("t:Shader"))
+            {
+                string shaderPath = AssetDatabase.GUIDToAssetPath(guid);
+                Shader shader = AssetDatabase.LoadAssetAtPath<Shader>(shaderPath);
+                string shaderGroupName = shader.name.Split('/')[0].Trim();
+
+                if (!UNSUPPORTED_SHADERS.Contains(shaderGroupName) && uniqueGroups.Add(shaderGroupName))
+                {
+                    shaderGroups.Add(shaderGroupName);
+                }
+            }
+
+            return shaderGroups;
         }
 
         public static bool CheckAvatarHasShader(GameObject avatar)

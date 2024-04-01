@@ -1,0 +1,16 @@
+<txt>
+<size=20>Converting VRM avatars to VRChat avatars</size>
+<size=16>
+〇 Shoulder height
+    You can adjust the height of the shoulders. If the converted avatar has a sloping shoulder or rises too high, please adjust it.
+
+〇 Armature Height
+    Change the height of Armature.
+
+〇 Mesh merging
+    Combine and transform meshes. This optimizes the mesh.
+
+〇 For Quest
+    Set up as an avatar for Quest.
+</size>
+</txt>

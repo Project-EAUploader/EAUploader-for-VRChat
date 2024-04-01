@@ -1,0 +1,22 @@
+<t>― Using VRM Avatars ―</t>
+<txt>
+<size=16> In EAUploader, you can upload VRM avatars by additionally introducing VRM Converter for VRChat.
+VRM avatar is one of the standards for humanoid avatars. You cannot use VRM avatars as they are in VRChat, but you can use them by converting and uploading them.
+VRM avatars can be obtained from VRoid Hub, and you can easily create them like character creation in games using VRoid Studio.
+
+When you introduce VRM Converter for VRChat, a "Import VRM" button will be displayed in the import field. When you import, a conversion window will open. Please refer to the help in the window for the conversion.
+<color=red> The converted VRM avatar requires a viewpoint position setting. Please open the viewpoint position setting from the editing tool in the "Setup" tab and adjust the viewpoint.</color>
+Please refer to the help in the tool for how to set the viewpoint position.</size>
+
+<size=20><b>〇 Supported VRM versions</b></size>
+<size=16>The version of VRM is significantly different between <color=blue>VRM 0.x</color> and <color=blue>VRM 1.x</color>.
+As of now (as of April 1, 2024), VRM Converter only supports <color=red>VRM 0.x version and does not support VRM 1.x version.</color>
+Please be aware.
+</txt>
+
+<button>Introduce VRM Converter, Link, https://booth.pm/ja/items/1025226</button>
+<button>Go to VRoid Hub, Link, https://hub.vroid.com/</button>
+<button>Create an avatar with VRoid Studio, Link, https://vroid.com/studio</button>
+<hr>black, 12</hr>
+<button>Join Discord, Main, https://discord.gg/mkDJ7xm94Z</button>
+<button>Go to Web, Sub, https://uslog.tech/eauploader</button>

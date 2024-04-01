@@ -7,6 +7,7 @@ namespace EAUploader.UI.Components
     public class ShadowButton : VisualElement
     {
         private readonly VisualElement _container;
+        private bool attachedToPanel = false;
 
         public override VisualElement contentContainer => _container;
 
@@ -56,11 +57,19 @@ namespace EAUploader.UI.Components
             _container = new VisualElement();
             _container.AddToClassList("none");
             hierarchy.Add(_container);
-
-            RegisterCallback<AttachToPanelEvent>(OnAttachToPanel);
         }
 
-        private void OnAttachToPanel(AttachToPanelEvent evt)
+        protected override void ExecuteDefaultActionAtTarget(EventBase evt)
+        {
+            base.ExecuteDefaultActionAtTarget(evt);
+            if (evt.eventTypeId == AttachToPanelEvent.TypeId() && !attachedToPanel)
+            {
+                attachedToPanel = true;
+                OnAttachToPanel();
+            }
+        }
+
+        private void OnAttachToPanel()
         {
             var shadow = new Shadow()
             {
@@ -87,6 +96,5 @@ namespace EAUploader.UI.Components
 
             button.clicked += () => clicked?.Invoke();
         }
-
     }
 }

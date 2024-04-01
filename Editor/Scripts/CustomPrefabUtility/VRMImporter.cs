@@ -1,4 +1,5 @@
 #if HAS_VRM
+using EAUploader.Components;
 using EAUploader.UI.Components;
 using Esperecyan.Unity.VRMConverterForVRChat;
 using System;
@@ -74,13 +75,15 @@ namespace EAUploader.CustomPrefabUtility
             public string name;
         }
 
-        public static void ShowWindow(string prefabPath)
+        public static bool ShowWindow(string prefabPath)
         {
             VRMImporterWindow wnd = GetWindow<VRMImporterWindow>();
             wnd.titleContent = new GUIContent("VRM Importer");
             wnd.minSize = new Vector2(480, 640);
             wnd.prefabPath = prefabPath;
-            wnd.ShowUtility();
+            wnd.ShowModal();
+
+            return true;
         }
 
         public void CreateGUI()
@@ -185,6 +188,7 @@ namespace EAUploader.CustomPrefabUtility
                         elementSelector: indexAndBlueprintId => indexAndBlueprintId.blueprintId
                     );
             }
+
             GameObject prefabInstance = Duplicator.Duplicate(previousPrefab, prefabPath, new List<string> { "" }, true);
 
             var clips = VRMUtility.GetAllVRMBlendShapeClips(prefabInstance);
@@ -209,6 +213,14 @@ namespace EAUploader.CustomPrefabUtility
                 prefabInstance.GetComponent<PipelineManager>().blueprintId = prefabBlueprintId;
             }
 
+            var eauploaderMeta = prefabInstance.GetComponent<EAUploaderMeta>();
+            if (eauploaderMeta == null)
+            {
+                eauploaderMeta = prefabInstance.AddComponent<EAUploaderMeta>();
+            }
+
+            eauploaderMeta.type = EAUploaderMeta.PrefabType.VRM;
+
             PrefabUtility.ApplyPrefabInstance(prefabInstance, InteractionMode.AutomatedAction);
 
             GameObject[] rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
@@ -221,10 +233,7 @@ namespace EAUploader.CustomPrefabUtility
                 rootGameObjects[avatarIndex].GetComponent<PipelineManager>().blueprintId = blueprintId;
             }
 
-            if (blueprintIds.Count > 0)
-            {
-                DestroyImmediate(prefabInstance);
-            }
+            DestroyImmediate(prefabInstance);
 
             Close();
         }

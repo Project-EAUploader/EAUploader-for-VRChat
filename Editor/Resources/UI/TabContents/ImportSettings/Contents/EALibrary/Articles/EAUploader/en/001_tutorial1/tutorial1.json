@@ -1,8 +1,15 @@
 {
-    "title": "はじめる",
-    "date": "2023-12-07",
-    "tags": ["チュートリアル"],
-    "keywords": ["チュートリアル", "スタート", "ガイド", "1", "はじめに", "使い方"],
-    "contentFile": "Content.txt",
-    "thumbnail": "thumbnail.png"
+  "title": "Getting started",
+  "date": "2023-12-07",
+  "tags": [
+    "Tutorial"
+  ],
+  "keywords": [
+    "Tutorial",
+    "start",
+    "guide",
+    "1"
+  ],
+  "contentFile": "Content.txt",
+  "thumbnail": "thumbnail.png"
 }

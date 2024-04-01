@@ -1,16 +1,19 @@
-<t>Upload Info</t>
+<t>Upload Settings</t>
 <txt>
-<size=20>Warning tag</size>
-<size=16>
-Please tag appropriately.
-Untagged use of avatars that fall under sexual expression, violent expression, extreme horror, etc. may be a violation.
+<size=20>Name</size>
+<size=16>    Set a name for your avatar. <color=red>This field is required. </color>
+</size>
+<size=20>Description</size>
+<size=16>    This is the description field for the avatar. This is used as a note for yourself. You can upload it without inputting any information.
+</size>
+<size=20>Content Warnings</size>
+<size=16>    Please tag appropriately.
+    Untagged use of avatars that fall under sexual expression, violent expression, extreme horror, etc. may be a violation.
 </size>
 <size=20>Visibility</size>
-<size=16>
-Private: Only for yourself
-Public: It will be made available for anyone to use.
+<size=16>・Private: Only to yourself.
+・Public: It will be made available for anyone to use.
 </size><size=12><color=red>
-Note: Avatars that are distributed or sold on the Internet are basically prohibited from being made public.
-If you did not create the avatar yourself, please do not upload it in Public.
+Warning: Avatars that are distributed or sold on the Internet are basically prohibited from being publicly displayed. If you did not create the avatar yourself, please do not upload it in Public.
 </color></size>
 </txt>

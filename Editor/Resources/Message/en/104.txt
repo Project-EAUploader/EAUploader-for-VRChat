@@ -1,6 +1,6 @@
 <t>Install extensions</t>
 <txt>
-<size=16>An editor compatible with EAUploader can be installed for a variety of editing.
-Currently, extensions are not abundant. Are you a tool developer? We invite you to join the EAUploader Project!</size>
+<size=16>    By installing an editor that is compatible with EAUploader, the work can be coordinated to support a wide variety of editing.
+    Currently, extensions are not abundant. Tool developers are encouraged to join Project EAUploader!</size>
 </txt>
 <button>For Developers, Link, https://www.uslog.tech/fordev</button> 

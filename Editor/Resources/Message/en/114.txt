@@ -1,0 +1,8 @@
+<t>Platform Selection</t>
+<txt>
+<size=14>    Avatars are divided into two categories: avatars that can be used only on desktop (PCVR) and avatars that can be used on Android (Quest / Phone).
+    Avatars for desktop only should select the Windows build, while those for Android should select the Android build.
+
+    However, for the Android build, you will need to add the Android build module to Unity. Also, there are restrictions on avatars in the Android build.
+    Please check if your avatar is Quest compatible and switch platforms.</size>
+</txt>

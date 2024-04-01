@@ -14,12 +14,12 @@
       "value": "アップロード"
     },
     {
-      "key": "Market",
-      "value": "マーケット"
-    },
-    {
       "key": "Import",
       "value": "インポート"
+    },
+    {
+      "key": "Import Avatars",
+      "value": "アバターをインポート"
     },
     {
       "key": "Import from folder",
@@ -31,7 +31,23 @@
     },
     {
       "key": "Import the .vrm(ver. 0.x) file.",
-      "value": ".vrm(ver. 0.x)ファイルをインポートします。"
+      "value": ".vrm(ver. 0.x)ファイルをインポートする。"
+    },
+    {
+      "key": "Import the .unitypackage file that contains the shader.",
+      "value": "シェーダーを含む .unitypackage ファイルをインポートする。"
+    },
+    {
+      "key": "Import Shaders",
+      "value": "シェーダーをインポート"
+    },
+    {
+      "key": "Show existing shaders",
+      "value": "導入済みのシェーダーを確認"
+    },
+    {
+      "key": "Existing Shaders",
+      "value": "導入済みのシェーダー"
     },
     {
       "key": "Settings",
@@ -128,6 +144,18 @@
     {
       "key": "Avatar Editor",
       "value": "編集ツール"
+    },
+    {
+      "key": "Description: ",
+      "value": "説明: "
+    },
+    {
+      "key": "Author: ",
+      "value": "制作者: "
+    },
+    {
+      "key": "Open the link",
+      "value": "リンクを開く"
     },
     {
       "key": "Find extentions",
@@ -500,6 +528,162 @@
     {
       "key": "The information provided above is accurate and I have the rights to upload this content to VRChat",
       "value": "上記の設定は正しく、私はVRChatにアバターをアップロードすることを確認しました。"
+    },
+    {
+      "key": "VRM Avatar needs to convert to VRChat Avatar",
+      "value": "VRMアバターをVRChatアバターに変換する必要があります"
+    },
+    {
+      "key": "Convert to VRChat Avatar",
+      "value": "VRChatアバターに変換"
+    },
+    {
+      "key": "Ready to upload",
+      "value": "アップロードできます"
+    },
+    {
+      "key": "Can't be uploaded",
+      "value": "アップロードできません"
+    },
+    {
+      "key": "This avatar can't be uploaded for the following reasons:",
+      "value": "このアバターは以下の理由でアップロードできません："
+    },
+    {
+      "key": "Cannot find the configured shader.",
+      "value": "設定されたシェーダーが見つかりません"
+    },
+    {
+      "key": "Avatar is a VRM model",
+      "value": "アバターがVRMモデルです"
+    },
+    {
+      "key": "Last Modified Descending",
+      "value": "最終更新日 新しい順"
+    },
+    {
+      "key": "Last Modified Ascending",
+      "value": "最終更新日 古い順"
+    },
+    {
+      "key": "Name Ascending",
+      "value": "名前順 A-Z"
+    },
+    {
+      "key": "Name Descending",
+      "value": "名前順 Z-A"
+    },
+    {
+      "key": "Do not show hidden models",
+      "value": "非表示のモデルを表示しない"
+    },
+    {
+      "key": "Show hidden models",
+      "value": "非表示にしたモデルも表示する"
+    },
+    {
+      "key": "Show only hidden models",
+      "value": "非表示にしたモデルのみ表示する"
+    },
+    {
+      "key": "Show",
+      "value": "リストに表示"
+    },
+    {
+      "key": "Hide",
+      "value": "非表示にする"
+    },
+    {
+      "key": "Exit Unity",
+      "value": "Unityを終了する"
+    },
+    {
+      "key": "Confirm Exit",
+      "value": "終了の確認"
+    },
+    {
+      "key": "Are you sure you want to exit Unity?",
+      "value": "本当にUnityを終了しますか？\n（通常、作業状態は保存されます）"
+    },
+    {
+      "key": "Yes",
+      "value": "はい"
+    },
+    {
+      "key": "No",
+      "value": "いいえ"
+    },
+    {
+      "key": "Language Change Confirmation",
+      "value": "言語変更の確認"
+    },
+    {
+      "key": "Are you sure you want to change the language?",
+      "value": "本当に言語を変更しますか？"
+    },
+    {
+      "key": "Light",
+      "value": "ライト"
+    },
+    {
+      "key": "Dark",
+      "value": "ダーク"
+    },
+    {
+      "key": "Experimental",
+      "value": "試験的な機能"
+    },
+    {
+      "key": "Theme: ",
+      "value": "テーマ: "
+    },
+    {
+      "key": "Save",
+      "value": "保存"
+    },
+    {
+      "key": "Discard",
+      "value": "破棄"
+    },
+    {
+      "key": "Import VRM 0.x Avatar",
+      "value": "VRM 0.x アバターをインポート"
+    },
+    {
+      "key": "Shoulder Height",
+      "value": "肩の高さ"
+    },
+    {
+      "key": "Armature Height",
+      "value": "アーマチュアの高さ"
+    },
+    {
+      "key": "Combine Meshes",
+      "value": "メッシュを結合"
+    },
+    {
+      "key": "Use Shape Key Normals and Tangents",
+      "value": "シェイプキーの法線と接線を使用"
+    },
+    {
+      "key": "Swinging Object",
+      "value": "揺れ物"
+    },
+    {
+      "key": "Take Over Swinging Parameters",
+      "value": "揺れパラメータを引き継ぐ"
+    },
+    {
+      "key": "Settings for Quest",
+      "value": "Quest用の設定"
+    },
+    {
+      "key": "Settings for PC",
+      "value": "PC用の設定"
+    },
+    {
+      "key": "For Quest",
+      "value": "Quest用"
     }
   ]
 }

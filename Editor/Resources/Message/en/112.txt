@@ -1,4 +1,4 @@
 <t>Upload</t>
 <txt><size=16>
-Uploaded avatars can be used within VRChat.
+    Upload your avatar. Uploaded avatars can be used within VRChat.
 </size></txt>

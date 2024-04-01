@@ -8,12 +8,13 @@
     noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
     editor-extension-mode="False"
 >
-    <ui:Image name="previewImage" style="width: 128px; height: 128px;"/>
-    <ui:VisualElement class="flex-col">
+    <ui:Image name="previewImage" style="width: 128px; height: 128px;" class="shrink-0"/>
+    <ui:VisualElement class="flex-col flex-1">
         <ui:Label name="nameLabel" class="text-lg"/>
         <ui:Label name="lastModifiedLabel" />
+        <ui:VisualElement name="miscellaneous" class="flex-col items-start" />
     </ui:VisualElement>
-    <ui:VisualElement name="controls" class="absolute right-0 flex-col h-full">
+    <ui:VisualElement name="controls" class="flex-col h-full">
         <ui:Button name="changeNameButton" class="rounded-bl-none rounded-br-none group-button">
             <eau:MaterialIcon icon="edit" />
         </ui:Button>

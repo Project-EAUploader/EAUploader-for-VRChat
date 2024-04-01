@@ -18,6 +18,7 @@ namespace EAUploader.UI.Components
         {
             var hasDescriptor = Utility.CheckAvatarHasVRCAvatarDescriptor(PrefabManager.GetPrefab(prefab.Path));
             var hasShader = ShaderChecker.CheckAvatarHasShader(PrefabManager.GetPrefab(prefab.Path));
+            var isVRM = Utility.CheckAvatarIsVRM(PrefabManager.GetPrefab(prefab.Path));
             var previewImage = new Image { image = prefab.Preview, scaleMode = ScaleMode.ScaleToFit, style = { width = 100, height = 100 } };
             Add(previewImage);
 
@@ -31,10 +32,16 @@ namespace EAUploader.UI.Components
                     }
             };
 
-            var label = new Label(Path.GetFileNameWithoutExtension(prefab.Path));
+            var label = new Label(Path.GetFileNameWithoutExtension(prefab.Path))
+            {
+                style =
+                {
+                    unityTextAlign = TextAnchor.MiddleLeft,
+                }
+            };
             labelContainer.Add(label);
 
-            if (!hasDescriptor)
+            if (!hasDescriptor || !hasShader || isVRM)
             {
                 var warning = new VisualElement()
                 {
@@ -42,9 +49,9 @@ namespace EAUploader.UI.Components
                             flexDirection = FlexDirection.Row,
                         }
                 };
-                warning.AddToClassList("noDescriptor");
+                warning.AddToClassList("warning");
                 var warningIcon = new MaterialIcon { icon = "warning" };
-                var warningLabel = new Label(T7e.Get("No VRCAvatarDescriptor"));
+                var warningLabel = new Label(T7e.Get("Can't be uploaded"));
                 warning.Add(warningIcon);
                 warning.Add(warningLabel);
                 labelContainer.Add(warning);
@@ -66,28 +73,6 @@ namespace EAUploader.UI.Components
                     labelContainer.Add(name);
                 }
             };
-
-            if (!hasShader)
-            {
-                var warning = new VisualElement()
-                {
-                    style =
-                        {
-                            flexDirection = FlexDirection.Row,
-                        }
-                };
-                warning.AddToClassList("noShader");
-                var warningIcon = new MaterialIcon { icon = "warning" };
-                var warningLabel = new Label(T7e.Get("No Shader"));
-                warning.Add(warningIcon);
-                warning.Add(warningLabel);
-                labelContainer.Add(warning);
-
-                if (disabled)
-                {
-                    SetEnabled(false);
-                }
-            }
 
             Add(labelContainer);
 
