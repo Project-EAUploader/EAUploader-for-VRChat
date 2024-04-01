@@ -1,0 +1,24 @@
+<txt>
+<size=20>VRMアバターをVRChatアバターへ変換する</size>
+<size=16>
+〇 肩の高さ
+肩の高さを調整できます。変換したアバターがなで肩になる場合や上がりすぎる場合は調整してください。
+
+〇 Armatureの高さ
+多分いじる必要ないとこ
+
+〇 メッシュの結合
+On推奨
+
+〇 シェイイプキーの法線・接線を利用
+なにこれ
+
+〇 揺れ物
+・ConvertVrmSpringBonesOnly:
+・ConvertVrmSpringBonesAndVrmSpringBoneColliderGroups:
+・RemoveSwayingObjects:
+
+〇 For Quest
+Quest用のアバターとしてセットアップします。
+</size>
+</txt>

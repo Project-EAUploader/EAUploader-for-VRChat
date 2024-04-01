@@ -8,6 +8,7 @@
     noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd"
     editor-extension-mode="False">
     <ui:VisualElement class="flex-row flex-1">
+        <eau:HelpButton msg-id="201" class="p-2 ml-2"/>
         <ui:VisualElement class="flex-col flex-1">
             <ui:VisualElement name="view_controls" class="flex-row justify-center p-4">
                 <ui:Button name="invert_view" class="mr-2">

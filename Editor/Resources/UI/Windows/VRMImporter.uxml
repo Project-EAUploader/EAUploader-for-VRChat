@@ -11,6 +11,7 @@
     <ui:VisualElement class="p-4 justify-between flex-1">
         <ui:VisualElement>
             <ui:Label text="VRM 0.x アバターをインポート" class="text-xl font-bold pb-4" />
+            <eau:HelpButton msg-id="200" class="mb-2"/>
             <ui:VisualElement>
                 <ui:VisualElement class="flex-row justify-between">
                     <ui:Label text="肩の高さ" class="mb-2" />
