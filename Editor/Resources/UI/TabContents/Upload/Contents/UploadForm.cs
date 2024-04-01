@@ -201,6 +201,27 @@ namespace EAUploader.UI.Upload
             tags.Tags = avatar.Value.Tags;
             thumbnail.image = await DownloadTexture(avatar.Value.ThumbnailImageUrl);
             thumbnailUrl = avatar.Value.ThumbnailImageUrl;
+
+            var updateButton = root.Q<VisualElement>("info-buttons");
+            updateButton.EnableInClassList("hidden", false);
+
+            var discardButton = root.Q<VisualElement>("discard-info");
+            discardButton.Q<Button>().clicked += () =>
+            {
+                contentName.SetValueWithoutNotify(avatar.Value.Name);
+                contentDescription.SetValueWithoutNotify(avatar.Value.Description);
+                releaseStatus.value = char.ToUpper(avatar.Value.ReleaseStatus[0]) + avatar.Value.ReleaseStatus.Substring(1);
+                tags.Tags = avatar.Value.Tags;
+                thumbnail.image = DownloadTexture(avatar.Value.ThumbnailImageUrl).Result;
+                thumbnailUrl = avatar.Value.ThumbnailImageUrl;
+            };
+
+            var saveButton = root.Q<VisualElement>("save-info");
+            saveButton.Q<Button>().clicked += async () =>
+            {
+                await AvatarUploader.UpdateVRCAvatar(EAUploaderCore.selectedPrefabPath, contentName.GetValue(), contentDescription.GetValue(), releaseStatus.value.ToLower(), tags.Tags, thumbnailUrl);
+                Main.CreatePrefabList();
+            };
         }
 
         private static Task<Texture2D> DownloadTexture(string url)

@@ -592,6 +592,14 @@
     {
       "key": "Are you sure you want to change the language?",
       "value": "本当に言語を変更しますか？"
+    },
+    {
+      "key": "Save",
+      "value": "保存"
+    },
+    {
+      "key": "Discard",
+      "value": "破棄"
     }
   ]
 }

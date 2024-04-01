@@ -236,5 +236,35 @@ namespace EAUploader
 
             GameObject.DestroyImmediate(prefab);
         }
+
+        public static async Task UpdateVRCAvatar(string prefabPath, string contentName, string contentDescription, string releaseStatus, List<string> tags, string thumbnailPath)
+        {
+            var avatarData = await GetVRCAvatar(prefabPath);
+
+            if (avatarData == null)
+            {
+                Debug.LogError("Failed to get avatar data");
+                return;
+            }
+
+            VRCAvatar avatar = (VRCAvatar)avatarData;
+
+            if (avatar.Name != contentName || avatar.Description != contentDescription || avatar.ReleaseStatus != releaseStatus || avatar.Tags != tags)
+            {
+                avatar.Name = contentName;
+                avatar.Description = contentDescription;
+                avatar.ReleaseStatus = releaseStatus;
+                avatar.Tags = tags;
+                await VRCApi.UpdateAvatarInfo(avatar.ID, avatar);
+            }
+
+            if (!string.IsNullOrEmpty(thumbnailPath))
+            {
+                await VRCApi.UpdateAvatarImage(avatar.ID, avatar, thumbnailPath);
+            }
+
+            DialogPro.Show(DialogPro.DialogType.Success, "Update Succeed", T7e.Get("Avatar updated successfully"));
+            OnComplete?.Invoke(null, EventArgs.Empty);
+        }
     }
 }
