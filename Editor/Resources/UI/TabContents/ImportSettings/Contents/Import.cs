@@ -12,6 +12,7 @@ namespace EAUploader.UI.ImportSettings
     internal class Import
     {
         private static List<LanguageInfo> languageInfos = LanguageUtility.GetAvailableLanguages();
+        private static List<ThemeInfo> themeInfos = ThemeUtility.GetAvailableThemes();
 
         public static void ShowContent(VisualElement root)
         {
@@ -60,6 +61,23 @@ namespace EAUploader.UI.ImportSettings
                 }
             });
 
+            root.Q<DropdownField>("thema").choices = themeInfos.Select(x => x.display).ToList();
+            root.Q<DropdownField>("thema").index = themeInfos.FindIndex(x => x.name == ThemeUtility.GetCurrentTheme());
+            root.Q<DropdownField>("thema").RegisterValueChangedCallback((evt) =>
+            {
+                if (evt.newValue != null)
+                {
+                    var selectedTheme = themeInfos.Find(x => x.display == evt.newValue);
+                    if (selectedTheme != null && selectedTheme.name != ThemeUtility.GetCurrentTheme())
+                    {
+                        ThemeUtility.ChangeTheme(selectedTheme.name);
+                        ApplyTheme(selectedTheme.name);
+                    }
+                }
+            });
+
+            ApplyTheme(ThemeUtility.GetCurrentTheme());
+
             root.Q<Label>("version").text = EAUploaderCore.GetVersion();
             root.Q<ShadowButton>("send_feedback").clicked += () => DiscordWebhookSender.OpenDiscordWebhookSenderWindow();
             root.Q<ShadowButton>("exit_unity").clicked += () =>
@@ -68,7 +86,7 @@ namespace EAUploader.UI.ImportSettings
                 {
                     EditorApplication.Exit(0);
                 }
-            }; 
+            };
         }
 
         private static void ImportPrefabButtonClicked()
@@ -153,6 +171,47 @@ namespace EAUploader.UI.ImportSettings
             {
                 Debug.LogError($"Failed to execute menu item: {menuPath}");
             }
+        }
+
+        private static void ApplyTheme(string theme)
+        {
+            var root = EditorWindow.GetWindow<EditorWindow>().rootVisualElement;
+            root.RemoveFromClassList("white");
+            root.RemoveFromClassList("dark");
+            root.AddToClassList(theme);
+        }
+    }
+
+    internal class ThemeInfo
+    {
+        public string name;
+        public string display;
+
+        public ThemeInfo(string name, string display)
+        {
+            this.name = name;
+            this.display = display;
+        }
+    }
+
+    internal class ThemeUtility
+    {
+        private static List<ThemeInfo> availableThemes = new List<ThemeInfo>
+        {
+            new ThemeInfo("white", T7e.Get("Light")),
+            new ThemeInfo("dark", T7e.Get("Dark"))
+        };
+
+        public static List<ThemeInfo> GetAvailableThemes() => availableThemes;
+
+        public static string GetCurrentTheme()
+        {
+            return EditorPrefs.GetString("EAUploader.Theme", "white");
+        }
+
+        public static void ChangeTheme(string theme)
+        {
+            EditorPrefs.SetString("EAUploader.Theme", theme);
         }
     }
 }

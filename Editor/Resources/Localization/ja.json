@@ -594,6 +594,18 @@
       "value": "本当に言語を変更しますか？"
     },
     {
+      "key": "Light",
+      "value": "ライト"
+    },
+    {
+      "key": "Dark",
+      "value": "ダーク"
+    },
+    {
+      "key": "Experimental",
+      "value": "試験的な機能"
+    },
+    {
       "key": "Save",
       "value": "保存"
     },
