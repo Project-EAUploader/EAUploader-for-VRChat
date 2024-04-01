@@ -828,3 +828,10 @@ RadioButton * {
   border-radius: 4px;
   background-color: black;
 }
+
+/* Border Styles */
+.border-r-color {
+
+	border-width: 0px 1px 0px 0px;
+	border-color: var(--primary-hover);
+}

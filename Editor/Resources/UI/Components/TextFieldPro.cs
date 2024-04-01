@@ -21,7 +21,7 @@ namespace EAUploader.UI.Components
             {
                 base.Init(ve, bag, cc);
                 var textField = (TextFieldPro)ve;
-                textField.placeholder = placeholder.GetValueFromBag(bag, cc);
+                textField.placeholder = T7e.Get(placeholder.GetValueFromBag(bag, cc));
                 textField.required = required.GetValueFromBag(bag, cc);
             }
         }

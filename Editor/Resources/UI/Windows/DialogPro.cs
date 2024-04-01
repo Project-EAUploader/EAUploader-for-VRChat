@@ -17,13 +17,6 @@ namespace EAUploader.UI.Windows
             Success
         }
 
-        [MenuItem("EAUploader/DialogPro")]
-        public static void ShowWindow()
-        {
-            // Test function for DialogPro
-            Show(DialogType.Error, "Info", "This is an info message.");
-        }
-
         public static void Show(DialogType dialogType, string title, string message)
         {
             var eauWindow = GetWindow<EAUploader>(null, focus: false);
