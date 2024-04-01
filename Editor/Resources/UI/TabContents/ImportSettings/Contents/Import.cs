@@ -43,9 +43,19 @@ namespace EAUploader.UI.ImportSettings
                 if (evt.newValue != null)
                 {
                     var selectedLanguage = languageInfos.Find(x => x.display == evt.newValue);
-                    if (selectedLanguage != null)
+                    if (selectedLanguage != null && selectedLanguage.name != LanguageUtility.GetCurrentLanguage())
                     {
-                        LanguageUtility.ChangeLanguage(selectedLanguage.name);
+                        var previousLanguage = LanguageUtility.GetCurrentLanguage();
+                        var confirmed = ShowConfirmationDialog();
+                        if (confirmed)
+                        {
+                            LanguageUtility.ChangeLanguage(selectedLanguage.name);
+                            ExecuteMenuItem("VRChat SDK/Reload SDK");
+                        }
+                        else
+                        {
+                            root.Q<DropdownField>("language").value = languageInfos.Find(x => x.name == previousLanguage).display;
+                        }
                     }
                 }
             });
@@ -128,6 +138,20 @@ namespace EAUploader.UI.ImportSettings
             foreach (var file in allFiles)
             {
                 ImportAsset(file);
+            }
+        }
+
+        private static bool ShowConfirmationDialog()
+        {
+            return EditorUtility.DisplayDialog(T7e.Get("Language Change Confirmation"), T7e.Get("Are you sure you want to change the language?"), T7e.Get("Yes"), T7e.Get("No"));
+        }
+
+        private static void ExecuteMenuItem(string menuPath)
+        {
+            var menuItem = EditorApplication.ExecuteMenuItem(menuPath);
+            if (!menuItem)
+            {
+                Debug.LogError($"Failed to execute menu item: {menuPath}");
             }
         }
     }

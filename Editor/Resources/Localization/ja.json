@@ -584,6 +584,14 @@
     {
       "key": "No",
       "value": "いいえ"
+    },
+    {
+      "key": "Language Change Confirmation",
+      "value": "言語変更の確認"
+    },
+    {
+      "key": "Are you sure you want to change the language?",
+      "value": "本当に言語を変更しますか？"
     }
   ]
 }
