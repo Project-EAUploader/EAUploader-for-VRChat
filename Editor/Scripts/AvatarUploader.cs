@@ -111,15 +111,16 @@ namespace EAUploader
 
         public static async Task UploadAvatarAsync(string prefabPath, string contentName, string contentDescription, string releaseStatus, List<string> tags, string thumbnailPath)
         {
-            GameObject instantiatedPrefab = GameObject.Instantiate(PrefabManager.GetPrefab(prefabPath));
+            GameObject originalPrefab = PrefabManager.GetPrefab(prefabPath);
+            GameObject prefab = GameObject.Instantiate(originalPrefab);
 
-            if (instantiatedPrefab == null)
+            if (prefab == null)
             {
                 Debug.LogError($"Failed to load prefab: {prefabPath}");
                 return;
             }
 
-            List<Component> componentsToRemove = AvatarValidation.FindIllegalComponents(instantiatedPrefab).ToList();
+            List<Component> componentsToRemove = AvatarValidation.FindIllegalComponents(prefab).ToList();
 
             if (!(componentsToRemove is List<Component> list)) return;
             for (int v = list.Count - 1; v > -1; v--)
@@ -169,7 +170,7 @@ namespace EAUploader
                 };
                 if (isNewAvatar)
                 {
-                    var bundlePath = await builder.Build(instantiatedPrefab);
+                    var bundlePath = await builder.Build(prefab);
 
                     if (string.IsNullOrWhiteSpace(bundlePath) || !File.Exists(bundlePath))
                     {
@@ -190,7 +191,7 @@ namespace EAUploader
                         OnComplete?.Invoke(null, EventArgs.Empty);
                     }
 
-                    if (!instantiatedPrefab.TryGetComponent<PipelineManager>(out var pM))
+                    if (!originalPrefab.TryGetComponent<PipelineManager>(out var pM))
                     {
                         DialogPro.Show(DialogPro.DialogType.Error, "Upload Failed", T7e.Get("Prefab does not contain a PipelineManager component"));
                         OnComplete?.Invoke(null, EventArgs.Empty);
@@ -207,7 +208,7 @@ namespace EAUploader
                 }
                 else
                 {
-                    var bundlePath = await builder.Build(instantiatedPrefab);
+                    var bundlePath = await builder.Build(prefab);
                     await VRCApi.UpdateAvatarBundle(avatar.ID, avatar, bundlePath, action);
 
                     if (!string.IsNullOrEmpty(thumbnailPath))
@@ -233,7 +234,7 @@ namespace EAUploader
                 Debug.LogError(e.Message);
             }
 
-            GameObject.DestroyImmediate(instantiatedPrefab);
+            GameObject.DestroyImmediate(prefab);
         }
     }
 }
