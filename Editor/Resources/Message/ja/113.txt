@@ -1,17 +1,16 @@
 <t>アバターのパフォーマンス</t>
 <txt>
-<size=14>VRChatでは、アバターの各項目について５段階の評価が付けられます。プレイヤーはこの評価に基づいてアバターを非表示にすることができ、負荷の高いアバターは一部プレイヤーには表示されない場合があります。
-また、Android（Quest / スマホ）用のアバターには様々な制約があり、制限を超えるアバターは使用できず、Androidユーザーからも表示されません。
+<size=16>　VRChatでは、アバターの負荷に応じて５段階の評価が付けられます。プレイヤーはこの評価に基づいてアバターを非表示にすることができ、負荷の高いアバターは一部プレイヤーには表示されない場合があります。
+　また、Android（Quest / スマホ）用のアバターには様々な制約があり、制限を超えるアバターは使用できません。また、Quest単体・Androidユーザーにはアバターが見えません。
 
-軽い方から順に <b><color=green>Excellent</color> - <color=green>Good</color> - <color=orange>Medium</color> - <color=red>Poor</color> - <color=red>Very Poor</color></b> と評価されます。
-Goodまで最適化することがVRChatは推奨しています...が、実際はVery Poorのプレイヤーも多くいます。
-デスクトップ（又はPCVR）でプレイされる方は、Very Poorでも大丈夫です。Androidビルドでプレイする方は、対応するアバターを使用する必要があります。
-イベントによっては重いアバターが推奨されないことがあるので、Androidビルドに対応したアバターを用意しておくことをおすすめします。
+　軽い方から順に <b><color=green>Excellent</color> - <color=green>Good</color> - <color=orange>Medium</color> - <color=red>Poor</color> - <color=red>Very Poor</color></b> と評価されます。
+<b>　アバターの総合評価は一番上の Overall: の値です。</b>
+　Goodまで最適化することがVRChatは推奨していますが、Very Poorでも問題なくアップロードできます。Quest単体やスマートフォンからVRChatを利用する場合は、Android対応アバターをご用意ください。
 </size>
 </txt>
-<t>最適化の方法</t>
+<t>最適化（軽量化）の方法</t>
 <txt>
-<size=14>現在のEAUploaderにはアバターの最適化機能がありません。
-Avatar optimaizer等を使用し、最適化する必要があります。
+<size=16>　現在のEAUploaderにはアバターの最適化機能がありません。
+　最低化を行いたい場合は、Avatar optimizerなどの最低化ツールを導入しUnityエディタで行う必要があります。
 </size>
 </txt>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -126,5 +127,7 @@ namespace EAUploader
         public string Version { get; set; }
         public string Author { get; set; }
         public string Url { get; set; }
+        public Func<string, bool> Requirement { get; set; } = null;
+        public string RequirementDescription { get; set; } = null;
     }
 }

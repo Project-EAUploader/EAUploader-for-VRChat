@@ -67,8 +67,9 @@ namespace EAUploader
             {
                 DialogPro.Show(DialogPro.DialogType.Error, "Build Failed", T7e.Get("Failed to build avatar"));
                 Debug.Log(e.Message);
-                return;
             }
+
+            GameObject.DestroyImmediate(instantiatedPrefab);
         }
 
         public static async Task<VRCAvatar?> GetVRCAvatar(string selectedPrefabPath)
@@ -231,6 +232,8 @@ namespace EAUploader
             {
                 Debug.LogError(e.Message);
             }
+
+            GameObject.DestroyImmediate(instantiatedPrefab);
         }
     }
 }
