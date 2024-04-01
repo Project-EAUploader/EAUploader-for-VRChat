@@ -1,9 +1,0 @@
-<t>Please rate this tool!</t>
-<txt>
-<size=16>We would very much appreciate your evaluation of the tool so that we can improve it into a better tool. This is also an experiment for our research, and we would be grateful for your cooperation.
-</size><size=12><b>※Time required: 1 minute
-If you help us, we will put your name on the project web and in the Project EAUploader's world if you don't mind.</b>
-</size>
-</txt>
-<button>Open the questionnaire, Link, https://forms.gle/KKdiFRD4ZqfRt26t8</button>
-<button>About the evaluation experiment, Link, https://www.uslog.tech/research/en</button>

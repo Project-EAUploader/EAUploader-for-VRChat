@@ -1,0 +1,7 @@
+<txt>
+<size=20>Set the viewpoint position</size>
+<size=16>
+    Use the vertical and horizontal bars on the left to change the viewpoint position. The currently set position is indicated by a <color=red>red dot</color> and the newly moved point is indicated by a <color=green>green dot</color>.
+    On the right is a preview from the viewpoint position. If the avatar is visible, move it until the background is clear.
+</size>
+</txt>

@@ -1,0 +1,36 @@
+<t>― Using Original Avatars ―</t>
+<txt>
+<size=18>Let's try modifying an avatar or creating an original avatar</size>
+
+<size=12>The quickest way to modify an avatar is to change its clothes.
+Currently, EAUploader does not support changing clothes as a standard feature.
+If you want to modify an avatar excluding the extensions, you will need to use the regular Unity editor.
+There are various articles published online, so please try to challenge yourself by researching.
+(We plan to provide modification functions as extensions in the future.)</size>
+
+<size=18>If you're in trouble, come to this community!
+<b>"I don't know anything about avatar modification gathering"</b></size>
+</txt>
+<image>community_poster.png</image>
+<txt>
+<size=12>If you're having trouble with avatar modification, we recommend joining this community.
+It's easy to ask questions, and experienced people will kindly answer. It's a very good community.
+At irregular events, you can learn the art of modification with other beginners.</size>
+
+</txt>
+<button>Check Official X, Link, https://twitter.com/wakaran_vrc</button>
+<button>Join the community!, Link, https://discord.gg/JrVHTCkFK3</button>
+<txt>
+
+<size=18>For those who want to create an avatar from scratch</size>
+
+<size=12>No 3D modeling knowledge required!!
+We recommend creating VRM avatars using VRoid Studio.
+It's a software that allows you to easily create avatars by adjusting parameters.
+You can create avatars like creating characters in games.
+There are plenty of clothes available, and there are many clothes and accessories created by creators.
+
+For the upload procedure using EAUploader for VRM avatars, please refer to the <color=blue>"Using VRM"</color> article.</size>
+</txt>
+<button>Check out VRoid Studio, Main, https://vroid.com/studio</button>
+<button>See everyone's work on VRoid Hub, Main, https://hub.vroid.com/</button>

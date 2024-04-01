@@ -1,0 +1,17 @@
+<t>Avatar Validation</t>
+<txt>
+<size=16>    VRChat gives avatars a rating of 5 based on their load. Players can hide avatars based on this rating, and loaded avatars may not be visible to some players.
+    Also, there are various restrictions on avatars for Android (Quest / smartphones), and avatars that exceed these restrictions will not be allowed. Also, avatars will not be visible to Quest standalone and Android users.
+
+Light <<< <b><color=green>Excellent</color> < <color=green>Good</color> < <color=orange>Medium</color> < <color=red>Poor</color> < <color=red>Very Poor</color></b> <<< Heavy
+
+<b>    The overall rating of the avatar is the value of the Overall: at the top.</b>
+    VRChat recommends optimizing to Good, but you can also upload Very Poor with no problem; if you want to use VRChat on Quest alone or from a smartphone, please have an Android-compatible avatar.
+</size>
+</txt>
+<t>Optimization (weight reduction)</t>
+<txt>
+<size=16>    Currently EAUploader does not have an avatar optimization feature.
+    If you want to minimize your avatar, you will need to install a minimization tool such as Avatar optimizer and do it in the Unity editor.
+</size>
+</txt>

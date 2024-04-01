@@ -1,8 +1,8 @@
 {
-    "title": "プラグインとは \n [拡張機能の導入]",
+    "title": "[Extensions]\nWhat is plugin?",
     "date": "2023-12-14",
-    "tags": ["チュートリアル"],
-    "keywords": ["チュートリアル", "スタート", "ガイド", "5", "エディター", "ツール", "Custom", "Add-on", "plugin"],
+    "tags": ["Tutorial"],
+    "keywords": ["Tutorial", "start", "guide", "5", "editor", "tool", "Custom", "Add-on", "plugin"],
     "contentFile": "Content.txt",
     "thumbnail": "thumbnail.png"
 }

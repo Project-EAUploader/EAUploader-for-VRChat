@@ -1,5 +1,5 @@
 <t>Shader error</t>
 <txt>
-<size=14>   The applied shader does not exist in your project.
+<size=14>The applied shader does not exist in your project.
 Please check with your distributor for the necessary shaders and import them into your project.</size>
 </txt>

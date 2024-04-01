@@ -1,0 +1,8 @@
+<txt>
+<size=20>Importing shaders</size>
+
+<size=16>    Import shaders and see which shaders have been imported.
+    If you are getting a missing shader error for your avatar, you will need to import the shaders that are configured for your avatar.
+</size>
+<size=12>    The shader list excludes <u>some non-VRChat compatible shaders</u> and shaders that are in Unity by default.</size>
+</txt>
