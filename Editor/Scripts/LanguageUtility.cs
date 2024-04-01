@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static EAUploader.T7e;
 
 namespace EAUploader
 {
@@ -46,6 +47,40 @@ namespace EAUploader
         public static void Localization(VisualElement root)
         {
             root.Query<TextElement>().ForEach((e) => e.text = T7e.Get(e.text));
+        }
+
+        public static void LocalizationFromJsonFile(VisualElement root, string LocalizationFolderPath)
+        {
+            var allTranslations = new Dictionary<string, Dictionary<string, string>>();
+
+            foreach (var language in GetAvailableLanguages())
+            {
+                if (language.name == "en")
+                {
+                    continue;
+                }
+                var path = $"{LocalizationFolderPath}/{language.name}.json";
+                Debug.Log($"Loading translations from {path}");
+                var json = File.ReadAllText(path);
+                var translations = JsonUtility.FromJson<LocalizationData>(json);
+                var translationDict = new Dictionary<string, string>();
+                foreach (var item in translations.items)
+                {
+                    translationDict.Add(item.key, item.value);
+                }
+                allTranslations.Add(language.name, translationDict);
+            }
+
+            string currentLanguage = GetCurrentLanguage();
+
+            root.Query<TextElement>().ForEach((e) =>
+            {
+                string key = e.text;
+                if (allTranslations != null && allTranslations.ContainsKey(currentLanguage) && allTranslations[currentLanguage].ContainsKey(key))
+                {
+                    e.text = allTranslations[currentLanguage][key];
+                }
+            });
         }
 
         public static void ChangeLanguage(string language)
