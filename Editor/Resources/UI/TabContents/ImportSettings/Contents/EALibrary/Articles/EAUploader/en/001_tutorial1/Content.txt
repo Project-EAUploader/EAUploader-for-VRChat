@@ -1,4 +1,4 @@
-<t>― Let's started ―</t>
+<t>― Getting Started ―</t>
 <txt>
 <size=20>What this tool can do?</size>
 
