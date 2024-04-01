@@ -32,7 +32,11 @@
                                 <eau:TextFieldPro class="pb-2" label="Description" name="content-description" placeholder="Describe your avatar so it is easier to remember!" required="false" />
                             </ui:VisualElement>
                             <eau:ContentWarningsField label="Content Warnings" name="content-warnings" class="pb-2"/>
-                            <ui:DropdownField name="release-status" label="Visibility" index="0" choices="Private,Public" />
+                            <ui:DropdownField name="release-status" label="Visibility" index="0" choices="Private,Public" class="pb-2"/>
+                            <ui:VisualElement class="flex-row hidden" name="info-buttons">
+                                <ui:Button text="Save" name="save-info" class="flex-1 rounded-r-none border-1 border-r-color"/>
+                                <ui:Button text="Discard" name="discard-info"  class="flex-1 rounded-l-none"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement>

@@ -22,6 +22,10 @@
 	--success-hover: #43d589;
 	--success-active: #6ee1ae;
 	--success-selected: #0faa4d;
+	--danger: #f31260;
+	--danger-hover: #f5337f;
+	--danger-active: #f7549f;
+	--danger-selected: #c10f4e;
 	font-size: 14px;
 }
 
@@ -187,12 +191,28 @@ PrefabItemButton * {
 	font-size: 12px;
 }
 
+.warning {
+	color: var(--warning);
+}
+
 .warning * {
 	color: var(--warning);
 }
 
+.success {
+	color: var(--success);
+}
+
 .success * {
 	color: var(--success);
+}
+
+.danger {
+	color: var(--danger);
+}
+
+.danger * {
+	color: var(--danger);
 }
 
 /* Label and Icon Styles */
@@ -809,6 +829,14 @@ RadioButton * {
   background-color: black;
 }
 
+/* Border Styles */
+.border-r-color {
+
+	border-width: 0px 1px 0px 0px;
+	border-color: var(--primary-hover);
+}
+
+
 /* Themes */
 
 /* White Theme */
@@ -996,5 +1024,3 @@ RadioButton * {
 .dark .selected.pinned {
 	background-color: var(--secondary);
 }
-
-

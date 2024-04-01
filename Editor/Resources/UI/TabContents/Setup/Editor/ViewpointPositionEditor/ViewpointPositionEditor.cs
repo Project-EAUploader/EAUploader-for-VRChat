@@ -15,16 +15,33 @@ namespace EAUploader.UI.Setup
         [InitializeOnLoadMethod]
         private static void Initialize()
         {
+            var currentLanguage = LanguageUtility.GetCurrentLanguage();
+
+            string editorName, description, requirementDescription;
+
+            if (currentLanguage == "ja")
+            {
+                editorName = "ビューポイント位置エディタ";
+                description = "Unity用の強力なビューポイント位置エディタです。";
+                requirementDescription = "選択したモデルにはVRCAvatarDescriptorコンポーネントが必要です。";
+            }
+            else
+            {
+                editorName = "Viewpoint Position Editor";
+                description = "A powerful viewpoint position editor for Unity.";
+                requirementDescription = "The selected model must have a VRCAvatarDescriptor component.";
+            }
+
             var editorRegistration = new EditorRegistration
             {
                 MenuName = "EAUploader/ViewpointPositionEditor",
-                EditorName = "Viewpoint Position Editor",
-                Description = "A powerful viewpoint position editor for Unity.",
+                EditorName = editorName,
+                Description = description,
                 Version = "0.0.1",
                 Author = "USLOG",
                 Url = "https://uslog.tech/eauploader",
                 Requirement = CheckAvatarHasVRCAvatarDescriptor,
-                RequirementDescription = "The selected model must have a VRCAvatarDescriptor component.",
+                RequirementDescription = requirementDescription
             };
 
             EAUploaderEditorManager.RegisterEditor(editorRegistration);
@@ -61,6 +78,10 @@ namespace EAUploader.UI.Setup
 
             _editorUI = new ViewpointPositionEditorUI(_previewRenderer);
             rootVisualElement.Add(_editorUI.Root);
+
+            // Localization file path
+            var localizationFolderPath = "Packages/tech.uslog.eauploader/Editor/Resources/UI/TabContents/Setup/Editor/ViewpointPositionEditor/Localization";
+            LanguageUtility.LocalizationFromJsonFile(rootVisualElement, localizationFolderPath);
         }
 
         private void OnDisable()
