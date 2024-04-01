@@ -46,7 +46,14 @@ namespace EAUploader
 
         public static void Localization(VisualElement root)
         {
-            root.Query<TextElement>().ForEach((e) => e.text = T7e.Get(e.text));
+            root.Query<TextElement>().ForEach((e) =>
+            {
+                if (e.parent.name == "unity-text-input")
+                {
+                    return;
+                }
+                e.text = T7e.Get(e.text);
+            });
         }
 
         public static void LocalizationFromJsonFile(VisualElement root, string LocalizationFolderPath)
