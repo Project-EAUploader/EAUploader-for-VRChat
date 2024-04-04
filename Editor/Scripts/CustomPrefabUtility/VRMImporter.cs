@@ -67,7 +67,8 @@ namespace EAUploader.CustomPrefabUtility
     public class VRMImporterWindow : EditorWindow
     {
         private string prefabPath = "";
-        SwayingObjectsConverterSetting swayingObjectsConverterSetting;
+        private SwayingObjectsConverterSetting swayingObjectsConverterSetting;
+        private OSCComponents oscComponents;
 
         [Serializable]
         public struct GameSwitch
@@ -103,6 +104,12 @@ namespace EAUploader.CustomPrefabUtility
             rootVisualElement.Q<EnumField>("springBone").RegisterCallback<ChangeEvent<Enum>>((evt) =>
             {
                 swayingObjectsConverterSetting = (SwayingObjectsConverterSetting)evt.newValue;
+            });
+
+            rootVisualElement.Q<EnumField>("oscComponents").Init(OSCComponents.None);
+            rootVisualElement.Q<EnumField>("oscComponents").RegisterCallback<ChangeEvent<Enum>>((evt) =>
+            {
+                oscComponents = (OSCComponents)evt.newValue;
             });
 
             rootVisualElement.Q<ShadowButton>("importButton").clicked += ImportVRMButtonClicked;
@@ -205,7 +212,8 @@ namespace EAUploader.CustomPrefabUtility
                 takingOverSwayingParameters: takingOverSwayingParameters,
                 addedShouldersPositionY: addedShouldersPositionY,
                 addedArmaturePositionY: addedArmaturePositionY,
-                useShapeKeyNormalsAndTangents: useShapeKeyNormalsAndTangents
+                useShapeKeyNormalsAndTangents: useShapeKeyNormalsAndTangents,
+                oscComponents: oscComponents
             );
 
             if (!string.IsNullOrEmpty(prefabBlueprintId))
