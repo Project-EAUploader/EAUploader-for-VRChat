@@ -319,6 +319,13 @@ namespace EAUploader.UI.Setup
                         avatarStatus.Add(success);
 
                         var meta = prefab.GetComponent<EAUploaderMeta>();
+
+                        if (meta == null)
+                        {
+                            meta = prefab.AddComponent<EAUploaderMeta>();
+                            meta.type = EAUploaderMeta.PrefabType.VRChat;
+                        }
+
                         if (meta.type == EAUploaderMeta.PrefabType.VRM)
                         {
                             var info = new VisualElement()
