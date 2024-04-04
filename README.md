@@ -4,7 +4,7 @@ VRChatへのアバターアップロード・調整を容易にするUnityの拡
 Unity Extension Editor for easy uploading of avatars to VRChat.
 
 
-# v1.0.3 was released!
+# v1.0 was released!
 [こちら](vcc://vpm/addRepo?url=https://project-eauploader.github.io/EAUploader-for-VRChat/registry.json)からCreatorCompanionにリポジトリを追加し、EAUploaderをインストールしてください！
 
 Add the repository to CreatorCompanion and install EAUploader from [here](vcc://vpm/addRepo?url=https://project-eauploader.github.io/EAUploader-for-VRChat/registry.json)!
@@ -29,11 +29,20 @@ We would appreciate your cooperation in providing plug-ins for EAUploader to mak
 https://www.uslog.tech/eauploader-forum/developer-documentation
 
 ## Contributions コントリビュート
+私たちは、アバターをより自由なものにしたいという思いから、プロジェクトに参加してくださる方を随時募集しています。皆様のご参加を心よりお待ちしております。
+
+プロジェクトに参加するには2つの方法があります。
+* [Discord](https://discord.gg/yYFru7brra)に参加し、Github組織(Project-EAUploader)のメンバーとして相談しながらタスクを担当する
+
+* プロジェクトをフォークし、修正や機能追加のプルリクエストを行う（宣言は不要）
+
+どちらでも構いません。ただし、作業を開始する前に、プロジェクトのスケジュールと進行中のタスク [こちら](https://github.com/orgs/Project-EAUploader/projects/1) を確認することを忘れないでください。
+
 We are always looking for people to participate in our projects with the idea of making avatars more free for everyone. We are very pleased to have your participation in our development.
 
 There are two ways to participate in the project
-[Join the Discord](https://discord.gg/yYFru7brra) and take charge of tasks as a member of the Github organization (Project-EAUploader) after consulting with us.
+* [Join the Discord](https://discord.gg/yYFru7brra) and take charge of tasks as a member of the Github organization (Project-EAUploader) after consulting with us.
 
+* Fork the project and make a pull request for modifications or feature additions (no declaration required).
 
-Fork the project and make a pull request for modifications or feature additions (no declaration required).
 Either is acceptable. However, remember to check the project schedule and ongoing tasks [here](https://github.com/orgs/Project-EAUploader/projects/1) before starting work.
