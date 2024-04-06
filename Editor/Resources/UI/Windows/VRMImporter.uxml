@@ -31,6 +31,7 @@
             <eau:SlideToggle label="Combine Meshes" name="combineMesh" value="true" class="mb-2" />
             <eau:SlideToggle label="Use Shape Key Normals and Tangents" name="useShapeKeyNormalsAndTangents"
                 value="false" class="mb-2" />
+            <ui:EnumField label="Osc Components" name="oscComponents" class="mb-2" pickingMode="position" />
             <ui:Label text="Settings for PC" class="text-lg font-bold mb-2" />
             <ui:EnumField label="Swinging Object" name="springBone" class="mb-2" pickingMode="position" />
             <eau:SlideToggle label="Take Over Swinging Parameters" name="takingOverSwayingParameters" value="true"
