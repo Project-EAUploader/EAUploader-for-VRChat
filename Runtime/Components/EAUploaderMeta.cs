@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace EAUploader.Components
 {
-    public class EAUploaderMeta : MonoBehaviour
+    [DisallowMultipleComponent]
+    public class EAUploaderMeta : AvatarTagComponent
     {
         public enum PrefabStatus { Pinned, Show, Hidden, Other }
         public enum PrefabType { VRChat, VRM, Other }

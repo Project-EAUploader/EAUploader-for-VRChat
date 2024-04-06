@@ -38,15 +38,15 @@ namespace EAUploader
         {
             VRCSdkControlPanel.GetWindow<VRCSdkControlPanel>().Show();
 
-            GameObject instantiatedPrefab = GameObject.Instantiate(PrefabManager.GetPrefab(prefabPath));
+            GameObject prefab = PrefabManager.GetPrefab(prefabPath);
 
-            if (instantiatedPrefab == null)
+            if (prefab == null)
             {
                 Debug.LogError($"Failed to load prefab: {EAUploaderCore.selectedPrefabPath}");
                 return;
             }
 
-            List<Component> componentsToRemove = AvatarValidation.FindIllegalComponents(instantiatedPrefab).ToList();
+            List<Component> componentsToRemove = AvatarValidation.FindIllegalComponents(prefab).ToList();
 
             if (!(componentsToRemove is List<Component> list)) return;
             for (int v = list.Count - 1; v > -1; v--)
@@ -59,7 +59,7 @@ namespace EAUploader
 
             try
             {
-                await builder.BuildAndTest(instantiatedPrefab);
+                await builder.BuildAndTest(prefab);
 
                 DialogPro.Show(DialogPro.DialogType.Success, "Build Succeed", T7e.Get("Avatar built and tested successfully"));
             }
@@ -68,8 +68,6 @@ namespace EAUploader
                 DialogPro.Show(DialogPro.DialogType.Error, "Build Failed", T7e.Get("Failed to build avatar"));
                 Debug.Log(e.Message);
             }
-
-            GameObject.DestroyImmediate(instantiatedPrefab);
         }
 
         public static async Task<VRCAvatar?> GetVRCAvatar(string selectedPrefabPath)
@@ -111,8 +109,7 @@ namespace EAUploader
 
         public static async Task UploadAvatarAsync(string prefabPath, string contentName, string contentDescription, string releaseStatus, List<string> tags, string thumbnailPath)
         {
-            GameObject originalPrefab = PrefabManager.GetPrefab(prefabPath);
-            GameObject prefab = GameObject.Instantiate(originalPrefab);
+            GameObject prefab = PrefabManager.GetPrefab(prefabPath);
 
             if (prefab == null)
             {
@@ -191,7 +188,7 @@ namespace EAUploader
                         OnComplete?.Invoke(null, EventArgs.Empty);
                     }
 
-                    if (!originalPrefab.TryGetComponent<PipelineManager>(out var pM))
+                    if (!prefab.TryGetComponent<PipelineManager>(out var pM))
                     {
                         DialogPro.Show(DialogPro.DialogType.Error, "Upload Failed", T7e.Get("Prefab does not contain a PipelineManager component"));
                         OnComplete?.Invoke(null, EventArgs.Empty);
@@ -233,8 +230,6 @@ namespace EAUploader
             {
                 Debug.LogError(e.Message);
             }
-
-            GameObject.DestroyImmediate(prefab);
         }
 
         public static async Task UpdateVRCAvatar(string prefabPath, string contentName, string contentDescription, string releaseStatus, List<string> tags, string thumbnailPath)
