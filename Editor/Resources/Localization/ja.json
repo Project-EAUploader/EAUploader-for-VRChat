@@ -90,7 +90,7 @@
       "value": "プレハブをピン留め"
     },
     {
-      "key": "Select a model",
+      "key": "Select a avatar",
       "value": "編集するアバターを選択"
     },
     {
@@ -134,7 +134,7 @@
       "value": "ヘルプ"
     },
     {
-      "key": "Now selecting: ",
+      "key": "Now selecting Prefab: ",
       "value": "選択中のプレハブ："
     },
     {
@@ -142,7 +142,7 @@
       "value": "アバターの高さ: "
     },
     {
-      "key": "Avatar Editor",
+      "key": "Edit tool",
       "value": "編集ツール"
     },
     {
@@ -198,7 +198,7 @@
       "value": "アバターのアップロード権限"
     },
     {
-      "key": "Model Info",
+      "key": "Avatar Info",
       "value": "アバター情報"
     },
     {
@@ -210,7 +210,7 @@
       "value": "アバターの名前"
     },
     {
-      "key": "Give your avatar a name",
+      "key": "Please enter a name for your avatar",
       "value": "アバターの名前を入力してください"
     },
     {
@@ -518,7 +518,7 @@
       "value": "アバターテストはWindowsのみサポートされています。"
     },
     {
-      "key": "Model Performance",
+      "key": "Avatar Performance",
       "value": "アバターパフォーマンス"
     },
     {
