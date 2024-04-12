@@ -1,0 +1,6 @@
+<t>확장 기능을 도입하다</t>
+<txt>
+<size=16>EAUploader에 대응한 에디터를 도입하는 것으로, 작업을 제휴해 다종다양한 편집을 서포트합니다.
+현재 확장 기능을 풍부하지 않습니다.툴 개발자분들은 꼭 프로젝트 EAUploader에 참여해주세요!</size>
+</txt>
+<button>툴 개발자분들께, Link, https://www.uslog.tech/fordev</button> 

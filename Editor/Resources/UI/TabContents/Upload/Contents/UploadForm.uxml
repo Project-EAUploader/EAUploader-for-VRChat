@@ -23,12 +23,12 @@
                 <ui:ScrollView class="w-one-half">
                     <ui:VisualElement class="pb-4">
                         <ui:VisualElement class="flex-row pb-2">
-                            <ui:Label text="Model Info" class="text-xl font-bold" name="modelInfoLabel" />
+                            <ui:Label text="Avatar Info" class="text-xl font-bold" name="modelInfoLabel" />
                             <eau:HelpButton msg-id="109" class="pl-4 self-center"/>
                         </ui:VisualElement>
                         <ui:VisualElement value="true" name="avatarInfo">
                             <ui:VisualElement>
-                                <eau:TextFieldPro class="pb-2" label="Name" name="content-name" placeholder="Give your avatar a name" required="true" />
+                                <eau:TextFieldPro class="pb-2" label="Name" name="content-name" placeholder="Please enter a name for your avatar" required="true" />
                                 <eau:TextFieldPro class="pb-2" label="Description" name="content-description" placeholder="Describe your avatar so it is easier to remember!" required="false" />
                             </ui:VisualElement>
                             <eau:ContentWarningsField label="Content Warnings" name="content-warnings" class="pb-2"/>
@@ -41,7 +41,7 @@
                     </ui:VisualElement>
                     <ui:VisualElement>
                         <ui:VisualElement class="flex-row pb-2">
-                            <ui:Label text="Model Performance" class="text-xl font-bold" name="modelPerfomLabel" />
+                            <ui:Label text="Avatar Performance" class="text-xl font-bold" name="modelPerfomLabel" />
                             <eau:HelpButton msg-id="113" class="pl-4 self-center"/>
                         </ui:VisualElement>
                         <ui:ScrollView class="flex-col max-h-64">

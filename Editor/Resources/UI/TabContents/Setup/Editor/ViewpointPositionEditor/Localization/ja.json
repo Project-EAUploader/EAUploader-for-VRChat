@@ -12,6 +12,18 @@
     {
       "key": "Actual View",
       "value": "実際のビュー"
+    },
+    {
+      "key": "Viewpoint Position Editor",
+      "value": "ビューポイント位置エディタ"
+    },
+    {
+      "key": "A powerful viewpoint position editor for Unity.",
+      "value": "Unity用の強力なビューポイント位置エディタ"
+    },
+    {
+      "key": "The selected model must have a VRCAvatarDescriptor component.",
+      "value": "選択したモデルにはVRCAvatarDescriptorコンポーネントが必要です。"
     }
   ]
 }
