@@ -150,7 +150,7 @@ namespace EAUploader.UI.Setup
             var prefabInfo = root.Q<VisualElement>("prefab_info");
             prefabInfo.Clear();
 
-            var prefabName = new Label(T7e.Get("Now selecting: ") + Path.GetFileNameWithoutExtension(prefabPath))
+            var prefabName = new Label(T7e.Get("Now selecting Prefab: ") + Path.GetFileNameWithoutExtension(prefabPath))
             {
                 style =
                 {
