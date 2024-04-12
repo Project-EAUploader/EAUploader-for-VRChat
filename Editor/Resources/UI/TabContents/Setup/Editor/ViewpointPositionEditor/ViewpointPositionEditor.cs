@@ -8,6 +8,7 @@ namespace EAUploader.UI.Setup
 {
     public class ViewpointPositionEditor : EditorWindow
     {
+        private const string LOCALIZATION_FOLDER_PATH = "Packages/tech.uslog.eauploader/Editor/Resources/UI/TabContents/Setup/Editor/ViewpointPositionEditor/Localization";
         private ViewpointPositionEditorUI _editorUI;
         private PreviewRenderer _previewRenderer;
         private GameObject _gameObject;
@@ -15,22 +16,9 @@ namespace EAUploader.UI.Setup
         [InitializeOnLoadMethod]
         private static void Initialize()
         {
-            var currentLanguage = LanguageUtility.GetCurrentLanguage();
-
-            string editorName, description, requirementDescription;
-
-            if (currentLanguage == "ja")
-            {
-                editorName = "ビューポイント位置エディタ";
-                description = "Unity用の強力なビューポイント位置エディタです。";
-                requirementDescription = "選択したモデルにはVRCAvatarDescriptorコンポーネントが必要です。";
-            }
-            else
-            {
-                editorName = "Viewpoint Position Editor";
-                description = "A powerful viewpoint position editor for Unity.";
-                requirementDescription = "The selected model must have a VRCAvatarDescriptor component.";
-            }
+            string editorName = LanguageUtility.T7eFromJsonFile("Viewpoint Position Editor", LOCALIZATION_FOLDER_PATH);
+            string description = LanguageUtility.T7eFromJsonFile("A powerful viewpoint position editor for Unity.", LOCALIZATION_FOLDER_PATH);
+            string requirementDescription = LanguageUtility.T7eFromJsonFile("The selected model must have a VRCAvatarDescriptor component.", LOCALIZATION_FOLDER_PATH);
 
             var editorRegistration = new EditorRegistration
             {

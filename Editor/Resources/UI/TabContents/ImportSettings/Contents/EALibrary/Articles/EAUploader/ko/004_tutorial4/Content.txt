@@ -1,0 +1,10 @@
+<t>― 업로드 하다 ―</t>
+<txt>
+<size=16><color=blue>"업로드" 탭에 가서 업로드할 아바타를 선택하십시오.오른쪽에서 VRChat 계정으로 로그인을 하시면 업로드 화면으로 넘어갑니다.
+ 각 항목을 설정하여 업로드합니다.항목의 설명은 각 항목에 있는 「헬프」를 확인해 주세요.
+
+또한,<color=red>또한 Trust Rank가 New User 이상이어야 합니다.</color></size>
+
+</txt>
+<button>Discord 참가하다, Main, https://discord.gg/mkDJ7xm94Z</button>
+<button>웹사이트에 가다, Sub, https://uslog.tech/eauploader</button>
