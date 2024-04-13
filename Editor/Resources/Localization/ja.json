@@ -700,6 +700,14 @@
     {
       "key": "Copy",
       "value": "コピー"
+    },
+    {
+      "key": "Drop files(.unitypackage, .prefab) to import",
+      "value": "インポートするファイル（.unitypackage, .prefab）をドロップ"
+    },
+    {
+      "key": "Drop files(.unitypackage, .prefab, .vrm(ver. 0.x)) to import",
+      "value": "インポートするファイル（.unitypackage, .prefab, .vrm(ver. 0.x)）をドロップ"
     }
   ]
 }

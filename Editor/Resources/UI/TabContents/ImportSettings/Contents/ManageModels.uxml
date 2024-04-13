@@ -25,4 +25,7 @@
         </ui:VisualElement>
         <ui:ScrollView name="model_list" class="flex-1" />
     </ui:VisualElement>
+    <ui:VisualElement name="drop_model" class="drop-model hidden">
+        <ui:Label name="drop_model_label" text="Drop files(.unitypackage, .prefab) to import" class="text-xl font-bold" />
+    </ui:VisualElement>
 </ui:UXML>

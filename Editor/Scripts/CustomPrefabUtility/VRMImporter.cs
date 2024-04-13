@@ -19,12 +19,11 @@ namespace EAUploader.CustomPrefabUtility
 {
     public class VRMImporter
     {
-        public static void ImportVRM()
+        public static void ImportVRM(string path = null)
         {
-            var path = EditorUtility.OpenFilePanel("Open .vrm", "", "vrm");
             if (string.IsNullOrEmpty(path))
             {
-                return;
+                path = EditorUtility.OpenFilePanel("Open .vrm", "", "vrm");
             }
             else
             {
