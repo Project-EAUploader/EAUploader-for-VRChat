@@ -700,6 +700,14 @@
     {
       "key": "Copy",
       "value": "복사"
+    },
+    {
+      "key": "Drop files(.unitypackage, .prefab) to import",
+      "value": "인포트할 파일(.unitypackage, .prefab)을 드롭하세요"
+    },
+    {
+      "key": "Drop files(.unitypackage, .prefab, .vrm(ver. 0.x)) to import",
+      "value": "인포트할 파일(.unitypackage, .prefab, .vrm(ver. 0.x))을 드롭하세요"
     }
   ]
 }
