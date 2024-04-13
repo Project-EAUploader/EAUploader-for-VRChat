@@ -684,6 +684,22 @@
     {
       "key": "For Quest",
       "value": "Quest用"
+    },
+    {
+      "key": "Error Report",
+      "value": "エラーレポート"
+    },
+    {
+      "key": "An error has occurred",
+      "value": "エラーが発生しました"
+    },
+    {
+      "key": "Copy this error message and send it to the developer. If close this window, the error message will be lost.",
+      "value": "このエラーメッセージをコピーして開発者に送信してください。このウィンドウを閉じると、エラーメッセージが失われます。"
+    },
+    {
+      "key": "Copy",
+      "value": "コピー"
     }
   ]
 }
