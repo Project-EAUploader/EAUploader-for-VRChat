@@ -4,18 +4,25 @@
     engine="UnityEngine.UIElements" editor="UnityEditor.UIElements"
     noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
     editor-extension-mode="False">
-    <ui:Label tabindex="-1" text="Manage Model" parse-escape-sequences="true"
-        display-tooltip-when-elided="true" enable-rich-text="true" class="text-xl font-bold pb-2" />
-    <ui:VisualElement name="VisualElement" class="flex flex-row items-center pb-2" >
-        <ui:VisualElement name="SearchContainer" class="flex flex-row items-center flex-1 pr-2">
-            <ui:TextField name="searchQuery" picking-mode="Ignore" class="flex-1 mr-2" />
-            <eau:ShadowButton name="searchButton" text="Search" parse-escape-sequences="true"
-                display-tooltip-when-elided="true" class="search-button" />
+    <ui:VisualElement class="flex-row justify-between items-center">
+        <ui:Label tabindex="-1" text="Manage Model" parse-escape-sequences="true"
+            display-tooltip-when-elided="true" enable-rich-text="true" class="text-xl font-bold pb-2 p-4" />
+        <ui:VisualElement name="library_fold_button" class="h-8 w-8 border-l border-t border-b border-zinc-300 rounded-tl-md rounded-bl-md justify-center items-center cursor-link">
+            <eau:MaterialIcon icon="chevron_right" class="text-xl cursor-link" />
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement class="flex-row pb-2">
-        <ui:VisualElement name="sortbar" class="pr-2"/>
-        <ui:VisualElement name="filterbar" class="pl-2"/>
+    <ui:VisualElement class="px-4 pb-4">
+        <ui:VisualElement name="VisualElement" class="flex flex-row items-center pb-2" >
+            <ui:VisualElement name="SearchContainer" class="flex flex-row items-center flex-1 pr-2">
+                <ui:TextField name="searchQuery" picking-mode="Ignore" class="flex-1 mr-2" />
+                <eau:ShadowButton name="searchButton" text="Search" parse-escape-sequences="true"
+                    display-tooltip-when-elided="true" class="search-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement class="flex-row pb-2">
+            <ui:VisualElement name="sortbar" class="pr-2"/>
+            <ui:VisualElement name="filterbar" class="pl-2"/>
+        </ui:VisualElement>
+        <ui:ScrollView name="model_list" class="flex-1" />
     </ui:VisualElement>
-    <ui:ScrollView name="model_list" class="flex-1" />
 </ui:UXML>

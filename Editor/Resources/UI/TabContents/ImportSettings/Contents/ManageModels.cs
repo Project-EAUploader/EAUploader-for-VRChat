@@ -70,6 +70,15 @@ namespace EAUploader.UI.ImportSettings
                 UpdateModelList();
             });
 
+            var libraryFoldButoton = root.Q<VisualElement>("library_fold_button");
+            var icon = libraryFoldButoton.Q<MaterialIcon>();
+            icon.icon = Main.isLibraryOpen ? "chevron_right" : "chevron_left";
+            libraryFoldButoton.RegisterCallback<MouseUpEvent>(evt =>
+            {
+                Main.ToggleLibrary();
+                icon.icon = Main.isLibraryOpen ? "chevron_right" : "chevron_left";
+            });
+
             var filterbar = root.Q<VisualElement>("filterbar");
             filterbar.Add(filterDropdown);
 
