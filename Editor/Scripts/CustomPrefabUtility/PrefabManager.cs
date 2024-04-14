@@ -1,4 +1,5 @@
 using EAUploader.Components;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,10 @@ namespace EAUploader.CustomPrefabUtility
     {
         private const string PREFABS_INFO_PATH = "Assets/EAUploader/PrefabManager.json";
 
+        private const string PREFAB_LISTS_PATH = "Assets/EAUploader/PrefabLists.json";
+
         public static List<PrefabInfo> prefabInfoList;
+        public static Dictionary<string, List<PrefabInfo>> prefabLists;
 
         public static void Initialize()
         {
@@ -22,17 +26,38 @@ namespace EAUploader.CustomPrefabUtility
 
         public static void UpdatePrefabInfo()
         {
+            LoadPrefabLists();
+
             var allPrefabs = GetAllPrefabs();
 
-            allPrefabs = allPrefabs
-                .OrderByDescending(p => p.Status == EAUploaderMeta.PrefabStatus.Pinned)
-                .ThenByDescending(p => p.LastModified)
-                .ToList();
+            if (prefabLists == null)
+            {
+                Debug.Log("prefabLists is null. Initializing...");
+                prefabLists = new Dictionary<string, List<PrefabInfo>>
+                {
+                    { "default", new List<PrefabInfo>() }
+                };
+            }
 
+            if (!prefabLists.ContainsKey("default"))
+            {
+                Debug.Log("prefabLists does not contain 'default' key. Adding...");
+                prefabLists["default"] = new List<PrefabInfo>();
+            }
+
+            Debug.Log($"Updating 'default' list with {allPrefabs.Count} prefabs.");
+            prefabLists["default"].Clear();
+            prefabLists["default"].AddRange(allPrefabs);
+
+            Debug.Log($"Saving prefab info for {allPrefabs.Count} prefabs.");
             SavePrefabsInfo(allPrefabs);
+
+            Debug.Log($"Saving prefab lists. Lists count: {prefabLists.Count}");
+            SavePrefabLists();
 
             if (prefabInfoList == null)
             {
+                Debug.Log("prefabInfoList is null. Initializing...");
                 prefabInfoList = allPrefabs;
             }
         }
@@ -225,5 +250,90 @@ namespace EAUploader.CustomPrefabUtility
             PrefabUtility.SaveAsPrefabAsset(prefab, path);
             ImportPrefab(path);
         }
+
+        /*
+            Prefab List API
+        */
+
+        public static void CreatePrefabList(string listName)
+        {
+            if (!prefabLists.ContainsKey(listName))
+            {
+                prefabLists[listName] = new List<PrefabInfo>();
+                SavePrefabLists();
+            }
+        }
+
+        public static void DeletePrefabList(string listName)
+        {
+            if (prefabLists.ContainsKey(listName) && listName != "default")
+            {
+                prefabLists.Remove(listName);
+                SavePrefabLists();
+            }
+        }
+
+        public static void AddPrefabToList(string listName, string prefabPath)
+        {
+            if (prefabLists.ContainsKey(listName))
+            {
+                var prefabInfo = CreatePrefabInfo(prefabPath);
+                if (!prefabLists[listName].Contains(prefabInfo))
+                {
+                    prefabLists[listName].Add(prefabInfo);
+                    SavePrefabLists();
+                }
+            }
+        }
+
+        public static void RemovePrefabFromList(string listName, string prefabPath)
+        {
+            if (prefabLists.ContainsKey(listName))
+            {
+                prefabLists[listName].RemoveAll(p => p.Path == prefabPath);
+                SavePrefabLists();
+            }
+        }
+
+        private static void SavePrefabLists()
+        {
+            Debug.Log($"Saving prefab lists to {PREFAB_LISTS_PATH}");
+            var prefabListItems = prefabLists.Select(kv => new PrefabListItem { ListName = kv.Key, Prefabs = kv.Value }).ToList();
+            var wrapper = new PrefabListsWrapper { Lists = prefabListItems };
+            string json = JsonUtility.ToJson(wrapper, true);
+            Debug.Log($"Prefab lists JSON: {json}");
+            File.WriteAllText(PREFAB_LISTS_PATH, json);
+            Debug.Log($"Prefab lists saved. JSON: {json}");
+        }
+
+        private static void LoadPrefabLists()
+        {
+            if (File.Exists(PREFAB_LISTS_PATH))
+            {
+                string json = File.ReadAllText(PREFAB_LISTS_PATH);
+                var wrapper = JsonUtility.FromJson<PrefabListsWrapper>(json);
+                prefabLists = wrapper.Lists.ToDictionary(item => item.ListName, item => item.Prefabs);
+            }
+            else
+            {
+                prefabLists = new Dictionary<string, List<PrefabInfo>>
+                {
+                    { "default", new List<PrefabInfo>() }
+                };
+            }
+        }
+    }
+
+    [Serializable]
+    public class PrefabListsWrapper
+    {
+        public List<PrefabListItem> Lists;
+    }
+
+    [Serializable]
+    public class PrefabListItem
+    {
+        public string ListName;
+        public List<PrefabInfo> Prefabs;
     }
 }
