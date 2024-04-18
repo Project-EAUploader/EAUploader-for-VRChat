@@ -919,7 +919,7 @@ RadioButton * {
 }
 
 .dark PrefabItemButton {
-    background-color: "1c304a";
+    background-color: "#1c304a";
     border-color: var(--default);
 }
 
@@ -928,7 +928,7 @@ RadioButton * {
 }
 
 .dark PrefabItem {
-    background-color: "1c304a";
+    background-color: "#1c304a";
     color: black;
     border-color: var(--default);
 }

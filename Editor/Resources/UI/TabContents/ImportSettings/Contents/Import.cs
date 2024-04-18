@@ -175,7 +175,7 @@ namespace EAUploader.UI.ImportSettings
 
         private static void ApplyTheme(string theme)
         {
-            var root = EditorWindow.GetWindow<EditorWindow>().rootVisualElement;
+            var root = EditorWindow.GetWindow<EAUploader>().rootVisualElement;
             root.RemoveFromClassList("white");
             root.RemoveFromClassList("dark");
             root.AddToClassList(theme);
