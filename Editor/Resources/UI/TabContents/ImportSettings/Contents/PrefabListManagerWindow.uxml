@@ -1,0 +1,15 @@
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements"
+    xmlns:eau="EAUploader.UI.Components" xsi="http://www.w3.org/2001/XMLSchema-instance"
+    engine="UnityEngine.UIElements" editor="UnityEditor.UIElements"
+    noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
+    editor-extension-mode="False">
+    <ui:VisualElement class="flex-row items-center">
+        <ui:ScrollView>
+            <eau:TextFieldPro name="listNameTextField" class="flex-1" />
+            <eau:ShadowButton name="moveUpButton" text="▲" class="ml-2" />
+            <eau:ShadowButton name="moveDownButton" text="▼" class="ml-2" />
+            <eau:ShadowButton name="removeButton" text="✕" class="ml-2" />
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

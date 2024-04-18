@@ -7,7 +7,6 @@ namespace EAUploader.UI.ImportSettings
     internal class Main
     {
         private static VisualElement root;
-
         internal static bool isLibraryOpen = true;
 
         public static void ShowContent(VisualElement rootContainer)
@@ -34,6 +33,11 @@ namespace EAUploader.UI.ImportSettings
             var settings = Config.LoadSettings();
             settings.isLibraryOpen = isLibraryOpen;
             Config.SaveSettings(settings);
+
+            var manageModelsContainer = root.Q("manage_models");
+            manageModelsContainer.Clear();
+
+            ManageModels.ShowContent(manageModelsContainer);
         }
     }
 }

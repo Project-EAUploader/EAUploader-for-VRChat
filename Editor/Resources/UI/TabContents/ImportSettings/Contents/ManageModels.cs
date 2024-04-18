@@ -1,6 +1,7 @@
 ﻿using EAUploader.Components;
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
+using EAUploader.UI.Windows;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -38,6 +39,7 @@ namespace EAUploader.UI.ImportSettings
             visualTree.CloneTree(root);
 
             modelList = root.Q<ScrollView>("model_list");
+            var listContainer = root.Q<VisualElement>("list_container");
 
             var searchButton = root.Q<ShadowButton>("searchButton");
             searchButton.clicked += UpdateModelList;
@@ -82,7 +84,34 @@ namespace EAUploader.UI.ImportSettings
             var filterbar = root.Q<VisualElement>("filterbar");
             filterbar.Add(filterDropdown);
 
+            var groupSettingButton = root.Q<ShadowButton>("groupsetting");
+            groupSettingButton.clicked += () => PrefabListManagerWindow.ShowWindow();
+
             UpdateModelList();
+
+            if (!Main.isLibraryOpen)
+            {
+                listContainer.style.flexDirection = FlexDirection.Row;
+                listContainer.style.justifyContent = Justify.SpaceBetween;
+
+                var listModelList = new ScrollView();
+                listModelList.style.width = Length.Percent(50);
+                listModelList.style.marginLeft = 10;
+                listContainer.Add(listModelList);
+
+                UpdateListModelList(listModelList);
+            }
+            else
+            {
+                listContainer.style.flexDirection = FlexDirection.Column;
+                listContainer.style.justifyContent = Justify.FlexStart;
+
+                var listModelList = listContainer.Q<ScrollView>(null, "listModelList");
+                if (listModelList != null)
+                {
+                    listModelList.RemoveFromHierarchy();
+                }
+            }
 
             if (EAUploaderCore.HasVRM)
             {
@@ -241,6 +270,29 @@ namespace EAUploader.UI.ImportSettings
                 prefab.Status = EAUploaderMeta.PrefabStatus.Show;
                 PrefabManager.SavePrefabsInfo(allPrefabs);
                 ManageModels.UpdateModelList();
+            }
+        }
+
+        private static void UpdateListModelList(ScrollView listModelList)
+        {
+            listModelList.Clear();
+
+            foreach (var kvp in PrefabManager.prefabLists)
+            {
+                if (kvp.Key == "default") continue;
+
+                var listName = kvp.Key;
+                var prefabList = kvp.Value;
+
+                var listTitle = new Label(listName);
+                listTitle.style.unityFontStyleAndWeight = FontStyle.Bold;
+                listModelList.Add(listTitle);
+
+                foreach (var prefab in prefabList)
+                {
+                    var item = CreatePrefabItem(prefab);
+                    listModelList.Add(item);
+                }
             }
         }
 

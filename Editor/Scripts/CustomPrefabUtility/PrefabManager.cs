@@ -295,7 +295,7 @@ namespace EAUploader.CustomPrefabUtility
             }
         }
 
-        private static void SavePrefabLists()
+        public static void SavePrefabLists()
         {
             Debug.Log($"Saving prefab lists to {PREFAB_LISTS_PATH}");
             var prefabListItems = prefabLists.Select(kv => new PrefabListItem { ListName = kv.Key, Prefabs = kv.Value }).ToList();
@@ -306,7 +306,7 @@ namespace EAUploader.CustomPrefabUtility
             Debug.Log($"Prefab lists saved. JSON: {json}");
         }
 
-        private static void LoadPrefabLists()
+        public static void LoadPrefabLists()
         {
             if (File.Exists(PREFAB_LISTS_PATH))
             {
