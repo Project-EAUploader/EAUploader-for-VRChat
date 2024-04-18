@@ -9,7 +9,7 @@
     editor-extension-mode="False">
     <ui:VisualElement class="flex-row flex-1">
         <ui:VisualElement name="avatar_models" class="w-one-quarter p-4 border-r border-zinc-300">
-            <ui:Label tabindex="-1" text="Select a model" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-xl font-bold mb-4"/>
+            <ui:Label tabindex="-1" text="Select a avatar" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-xl font-bold mb-4"/>
             <ui:VisualElement name="SearchSortContainer" class="flex flex-row items-center pb-4">
             <ui:TextField name="searchQuery" picking-mode="Ignore" class="flex-1 mr-2" />
             <eau:ShadowButton name="searchButton" text="Search" parse-escape-sequences="true" display-tooltip-when-elided="true" class="search-button" />
@@ -36,7 +36,7 @@
         </ui:VisualElement>
         <ui:VisualElement name="avatar_editor" class="w-one-quarter p-4"> 
             <ui:VisualElement class="pb-4">
-                <ui:Label tabindex="-1" text="Avatar Editor" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-xl font-bold pb-2"/>
+                <ui:Label tabindex="-1" text="Edit tool" parse-escape-sequences="true" display-tooltip-when-elided="true" class="text-xl font-bold pb-2"/>
                 <eau:HelpButton msg-id="103" />
             </ui:VisualElement>
             <ui:VisualElement name="avatar_status" class="pb-4 mb-4 border-b border-b-zinc-300">

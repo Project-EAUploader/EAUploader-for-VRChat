@@ -1,0 +1,29 @@
+{
+  "name": "한국어",
+  "items": [
+    {
+      "key": "Apply",
+      "value": "적용"
+    },
+    {
+      "key": "Close",
+      "value": "닫기"
+    },
+    {
+      "key": "Actual View",
+      "value": "실제 보기"
+    },
+    {
+      "key": "Viewpoint Position Editor",
+      "value": "뷰포인트 위치 에디터"
+    },
+    {
+      "key": "A powerful viewpoint position editor for Unity.",
+      "value": "Unity를 위한 강력한 뷰포인트 위치 에디터"
+    },
+    {
+      "key": "The selected model must have a VRCAvatarDescriptor component.",
+      "value": "선택된 모델에는 VRCAvatarDescriptor 컴포넌트가 필요합니다."
+    }
+  ]
+}

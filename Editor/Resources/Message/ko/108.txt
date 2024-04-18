@@ -1,0 +1,8 @@
+<t>조작 설명</t>
+<image>Controll_EN.png</image>
+<txt>
+<size=18><color=green>좌클릭 이동</color>: 회전
+<color=green>우클릭 이동</color>: 이동
+<color=green>휠 상하</color>: 확대 축소
+<color=green>왼쪽 하단 마크</color>: 위치 리셋</size>
+</txt>

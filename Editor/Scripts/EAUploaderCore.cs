@@ -60,6 +60,7 @@ namespace EAUploader
             PrefabManager.Initialize();
             CheckIsVRMAvailable();
             OpenEAUploaderWindow();
+            Application.logMessageReceived += UI.Windows.Logger.OnReceiveLog;
         }
 
         private static void CheckIsVRMAvailable()
@@ -119,17 +120,31 @@ namespace EAUploader
             }
         }
 
-        public static string GetVersion()
+        public static string GetVersion(bool noText = false)
         {
             // Get version from package.json
             string packageJsonPath = "Packages/tech.uslog.eauploader/package.json";
             if (File.Exists(packageJsonPath))
             {
                 string packageJson = File.ReadAllText(packageJsonPath);
-                return T7e.Get("Version: ") + JsonUtility.FromJson<PackageJson>(packageJson).version;
+                if (noText)
+                {
+                    return JsonUtility.FromJson<PackageJson>(packageJson).version;
+                }
+                else
+                {
+                    return T7e.Get("Version: ") + JsonUtility.FromJson<PackageJson>(packageJson).version;
+                }
             }
 
-            return T7e.Get("Version: ") + "Unknown";
+            if (noText)
+            {
+                return "Unknown";
+            }
+            else
+            {
+                return T7e.Get("Version: ") + "Unknown";
+            }
         }
 
         [MenuItem("EAUploader/Reload")]

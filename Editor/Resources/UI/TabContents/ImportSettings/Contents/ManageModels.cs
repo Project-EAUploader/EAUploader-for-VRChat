@@ -70,10 +70,90 @@ namespace EAUploader.UI.ImportSettings
                 UpdateModelList();
             });
 
+            var libraryFoldButoton = root.Q<VisualElement>("library_fold_button");
+            var icon = libraryFoldButoton.Q<MaterialIcon>();
+            icon.icon = Main.isLibraryOpen ? "chevron_right" : "chevron_left";
+            libraryFoldButoton.RegisterCallback<MouseUpEvent>(evt =>
+            {
+                Main.ToggleLibrary();
+                icon.icon = Main.isLibraryOpen ? "chevron_right" : "chevron_left";
+            });
+
             var filterbar = root.Q<VisualElement>("filterbar");
             filterbar.Add(filterDropdown);
 
             UpdateModelList();
+
+            if (EAUploaderCore.HasVRM)
+            {
+                root.Q<VisualElement>("drop_model").Q<Label>("drop_model_label").text = T7e.Get("Drop files(.unitypackage, .prefab, .vrm(ver. 0.x)) to import");
+            }
+
+            root.RegisterCallback<DragEnterEvent>(OnDragEnter);
+            root.RegisterCallback<DragLeaveEvent>(OnDragLeave);
+            root.RegisterCallback<DragUpdatedEvent>(OnDragUpdate);
+            root.RegisterCallback<DragPerformEvent>(OnDragPerform);
+        }
+
+        // This method runs if a user brings the pointer over the target while a drag is in progress.
+        static void OnDragEnter(DragEnterEvent _)
+        {
+            root.Q<VisualElement>("drop_model").EnableInClassList("hidden", false);
+        }
+
+        // This method runs if a user makes the pointer leave the bounds of the target while a drag is in progress.
+        static void OnDragLeave(DragLeaveEvent _)
+        {
+            root.Q<VisualElement>("drop_model").EnableInClassList("hidden", true);
+        }
+
+        // This method runs every frame while a drag is in progress.
+        static void OnDragUpdate(DragUpdatedEvent _)
+        {
+            DragAndDrop.visualMode = DragAndDropVisualMode.Generic;
+        }
+
+        // This method runs when a user drops a dragged object onto the target.
+        static void OnDragPerform(DragPerformEvent _)
+        {
+            root.Q<VisualElement>("drop_model").EnableInClassList("hidden", true);
+            if (DragAndDrop.paths.Length > 0 && DragAndDrop.objectReferences.Length == 0)
+            {
+                foreach (string path in DragAndDrop.paths)
+                {
+                    var fileExtension = Path.GetExtension(path)?.ToLower();
+
+                    switch (fileExtension)
+                    {
+                        case ".prefab":
+                            AssetDatabase.ImportAsset(path, ImportAssetOptions.Default);
+                            break;
+                        case ".unitypackage":
+                            AssetDatabase.ImportPackage(path, false);
+                            break;
+#if HAS_VRM
+                        case ".vrm":
+                            VRMImporter.ImportVRM(path);
+                            break;
+#endif
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("Out of reach");
+                Debug.Log("Paths:");
+                foreach (string path in DragAndDrop.paths)
+                {
+                    Debug.Log("- " + path);
+                }
+
+                Debug.Log("ObjectReferences:");
+                foreach (Object obj in DragAndDrop.objectReferences)
+                {
+                    Debug.Log("- " + obj);
+                }
+            }
         }
 
         internal static void UpdateModelList()

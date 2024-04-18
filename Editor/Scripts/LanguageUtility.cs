@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static EAUploader.Config;
 using static EAUploader.T7e;
 
 namespace EAUploader
 {
-    [Serializable]
-    public class LanguageData
-    {
-        public string language;
-    }
-
     public class LanguageInfo
     {
         public string name { get; set; }
@@ -34,13 +29,13 @@ namespace EAUploader
             try
             {
                 string jsonContent = File.ReadAllText(SETTINGS_PATH);
-                var settings = JsonUtility.FromJson<LanguageData>(jsonContent);
+                var settings = JsonUtility.FromJson<ConfigData>(jsonContent);
                 return settings.language;
             }
             catch (IOException ex)
             {
                 Debug.LogError($"Error reading language settings: {ex.Message}");
-                return "en"; // Or some other default language
+                return "en";
             }
         }
 
@@ -90,9 +85,41 @@ namespace EAUploader
             });
         }
 
+        public static string T7eFromJsonFile(string key, string LocalizationFolderPath)
+        {
+            var allTranslations = new Dictionary<string, Dictionary<string, string>>();
+
+            foreach (var language in GetAvailableLanguages())
+            {
+                if (language.name == "en")
+                {
+                    continue;
+                }
+                var path = $"{LocalizationFolderPath}/{language.name}.json";
+                Debug.Log($"Loading translations from {path}");
+                var json = File.ReadAllText(path);
+                var translations = JsonUtility.FromJson<LocalizationData>(json);
+                var translationDict = new Dictionary<string, string>();
+                foreach (var item in translations.items)
+                {
+                    translationDict.Add(item.key, item.value);
+                }
+                allTranslations.Add(language.name, translationDict);
+            }
+
+            string currentLanguage = GetCurrentLanguage();
+
+            if (allTranslations != null && allTranslations.ContainsKey(currentLanguage) && allTranslations[currentLanguage].ContainsKey(key))
+            {
+                return allTranslations[currentLanguage][key];
+            }
+
+            return key;
+        }
+
         public static void ChangeLanguage(string language)
         {
-            var settings = LoadSettings();
+            var settings = Config.LoadSettings();
             settings.language = language;
             SaveSettings(settings);
         }
@@ -125,34 +152,7 @@ namespace EAUploader
             return languages;
         }
 
-        private static void CreateDefaultSettings()
-        {
-            var newSettings = new LanguageData() { language = "ja" };
-            SaveSettings(newSettings);
-        }
-
-        private static LanguageData LoadSettings()
-        {
-            try
-            {
-                if (File.Exists(SETTINGS_PATH))
-                {
-                    string jsonContent = File.ReadAllText(SETTINGS_PATH);
-                    return JsonUtility.FromJson<LanguageData>(jsonContent);
-                }
-                else
-                {
-                    return new LanguageData(); // Return default in case of missing file
-                }
-            }
-            catch (IOException ex)
-            {
-                Debug.LogError($"Error loading language settings: {ex.Message}");
-                return new LanguageData();
-            }
-        }
-
-        private static void SaveSettings(LanguageData settings)
+        private static void SaveSettings(ConfigData settings)
         {
             try
             {

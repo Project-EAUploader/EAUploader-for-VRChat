@@ -65,3 +65,6 @@ Assets/PackageMakerWindowData.asset*
 
 node_modules/
 registry/
+
+# for mac
+.DS_Store

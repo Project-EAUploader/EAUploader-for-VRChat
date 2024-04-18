@@ -1,0 +1,12 @@
+<txt>
+<size=20>Model Management</size>
+
+<size=14>EAUploader has simplified the management features to make it easier to manage avatars and items.
+It lists all .prefabs in the project. This means that non-avatars may also be displayed.
+
+You can "hide" avatars from the list that cannot be uploaded to VRChat, including VRM avatars.
+By pressing the "Hide" button, the .prefab will be treated as hidden. You can change what is displayed in the list by clicking on the drop-down menu at the top right of the list, and you can also display objects that you have hidden.
+
+Please use this function when objects that you do not need to display are displayed in the list.
+</size>
+</txt>

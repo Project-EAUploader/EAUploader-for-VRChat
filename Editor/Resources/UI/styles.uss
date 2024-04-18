@@ -919,7 +919,7 @@ RadioButton * {
 }
 
 .dark PrefabItemButton {
-    background-color: "1c304a";
+    background-color: "#1c304a";
     border-color: var(--default);
 }
 
@@ -928,7 +928,7 @@ RadioButton * {
 }
 
 .dark PrefabItem {
-    background-color: "1c304a";
+    background-color: "#1c304a";
     color: black;
     border-color: var(--default);
 }
@@ -1023,4 +1023,14 @@ RadioButton * {
 
 .dark .selected.pinned {
 	background-color: var(--secondary);
+}
+
+/* Drop Model Styles */
+.drop-model {
+	position: absolute;
+	background-color: rgba(255, 255, 255, 0.5);
+	height: 100%;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
 }

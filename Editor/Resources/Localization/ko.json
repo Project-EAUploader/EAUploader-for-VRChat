@@ -1,0 +1,713 @@
+{
+  "name": "한국어",
+  "items": [
+    {
+      "key": "Import/Settings",
+      "value": "인포트/설정"
+    },
+    {
+      "key": "Setup",
+      "value": "설정"
+    },
+    {
+      "key": "Upload",
+      "value": "업로드"
+    },
+    {
+      "key": "Import",
+      "value": "인포트"
+    },
+    {
+      "key": "Import Avatars",
+      "value": "아바타를 인포트"
+    },
+    {
+      "key": "Import from folder",
+      "value": "폴더에서 인포트"
+    },
+    {
+      "key": "Import VRM",
+      "value": "VRM을 인포트"
+    },
+    {
+      "key": "Import the .vrm(ver. 0.x) file.",
+      "value": ".vrm(ver. 0.x) 파일을 인포트합니다."
+    },
+    {
+      "key": "Import the .unitypackage file that contains the shader.",
+      "value": "쉐이더를 포함하는 .unitypackage 파일을 인포트합니다."
+    },
+    {
+      "key": "Import Shaders",
+      "value": "쉐이더를 인포트"
+    },
+    {
+      "key": "Show existing shaders",
+      "value": "기존 쉐이더 확인"
+    },
+    {
+      "key": "Existing Shaders",
+      "value": "기존 쉐이더"
+    },
+    {
+      "key": "Settings",
+      "value": "설정"
+    },
+    {
+      "key": "Send feedback",
+      "value": "피드백 보내기"
+    },
+    {
+      "key": "Manage Model",
+      "value": "모델 관리"
+    },
+    {
+      "key": "Search",
+      "value": "검색"
+    },
+    {
+      "key": "Change Name",
+      "value": "이름 변경"
+    },
+    {
+      "key": "Copy as New Name",
+      "value": "새 이름으로 복사"
+    },
+    {
+      "key": "Delete",
+      "value": "삭제"
+    },
+    {
+      "key": "Preview",
+      "value": "프리뷰"
+    },
+    {
+      "key": "Reset View",
+      "value": "보기 재설정"
+    },
+    {
+      "key": "Pin prefab",
+      "value": "조립식고정"
+    },
+    {
+      "key": "Select a avatar",
+      "value": "아바타 선택"
+    },
+    {
+      "key": "Import Asset",
+      "value": "Asset 가져오기"
+    },
+    {
+      "key": "Import a .prefab file or .unitypackage file.",
+      "value": ".prefab 파일 또는 .unitypackage 파일 선택"
+    },
+    {
+      "key": "Asset not found",
+      "value": "Asset을 찾을 수 없습니다."
+    },
+    {
+      "key": "There are no prefab or unitypackage files in the selected folder.",
+      "value": "선택한 폴더에 조립식이나 unitypackage 파일이 없습니다."
+    },
+    {
+      "key": "Confirm Import",
+      "value": "인포트 확인"
+    },
+    {
+      "key": "The following files will be imported",
+      "value": "다음 파일이 인포트됩니다."
+    },
+    {
+      "key": "Cancel",
+      "value": "취소"
+    },
+    {
+      "key": "Language: ",
+      "value": "언어:"
+    },
+    {
+      "key": "Version: ",
+      "value": "버전:"
+    },
+    {
+      "key": "Help",
+      "value": "도움말"
+    },
+    {
+      "key": "Now selecting Prefab: ",
+      "value": "선택된 조립식:"
+    },
+    {
+      "key": "Height: ",
+      "value": "아바타의 높이:"
+    },
+    {
+      "key": "Edit tool",
+      "value": "편집 도구"
+    },
+    {
+      "key": "Description: ",
+      "value": "설명:"
+    },
+    {
+      "key": "Author: ",
+      "value": "제작자:"
+    },
+    {
+      "key": "Open the link",
+      "value": "링크를 엽니다"
+    },
+    {
+      "key": "Find extentions",
+      "value": "다른 확장 기능을 찾습니다"
+    },
+    {
+      "key": "Select an Avatar to Upload",
+      "value": "업로드할 아바타 선택"
+    },
+    {
+      "key": "Logged in as ",
+      "value": "로그인한 사용자 이름:"
+    },
+    {
+      "key": "You need to login to upload avatar",
+      "value": "아바타를 업로드하려면 로그인해야 합니다"
+    },
+    {
+      "key": "Login",
+      "value": "로그인"
+    },
+    {
+      "key": "You have permission to upload avatar",
+      "value": "아바타를 업로드할 권한이 있습니다"
+    },
+    {
+      "key": "You cannot upload an avatar with your current trust rank. You can immediately increase your rank by spending time on VRChat and adding friends. Or you can join VRChat+ (for a fee) to raise your rank immediately.",
+      "value": "현재 신뢰 등급에서 아바타를 업로드할 수 없습니다. 아바타를 업로드하려면 NewUser 이상이어야 합니다.\nVRChat에서 시간을 보내고 친구를 늘리면 랭크를 높일 수 있습니다. 또는 VRChat+에 가입(유료)하여 즉시 랭크를 높일 수 있습니다."
+    },
+    {
+      "key": "Uploading avatar...",
+      "value": "아바타를 업로드 중..."
+    },
+    {
+      "key": "Login to VRChat",
+      "value": "VRChat에 로그인"
+    },
+    {
+      "key": "Check you are allowed to upload avatar",
+      "value": "아바타 업로드 권한"
+    },
+    {
+      "key": "Avatar Info",
+      "value": "아바타 정보"
+    },
+    {
+      "key": "Set thumbnail",
+      "value": "썸네일"
+    },
+    {
+      "key": "Name",
+      "value": "아바타 이름"
+    },
+    {
+      "key": "Please enter a name for your avatar",
+      "value": "아바타 이름을 입력하세요"
+    },
+    {
+      "key": "Description",
+      "value": "아바타 설명"
+    },
+    {
+      "key": "Describe your avatar so it is easier to remember!",
+      "value": "메모로서의 설명을 입력하세요"
+    },
+    {
+      "key": "Content Warnings",
+      "value": "콘텐츠 설정"
+    },
+    {
+      "key": "Visibility",
+      "value": "공개 설정"
+    },
+    {
+      "key": "Change Thumbnail",
+      "value": "썸네일 변경"
+    },
+    {
+      "key": "Using preview image (Default)",
+      "value": "미리보기 이미지 사용 (기본 설정)"
+    },
+    {
+      "key": "Build",
+      "value": "빌드"
+    },
+    {
+      "key": "Build as Test",
+      "value": "테스트용으로 빌드"
+    },
+    {
+      "key": "Sexually Suggestive",
+      "value": "성적인 시각적 표현"
+    },
+    {
+      "key": "Adult Language and Themes",
+      "value": "성인을 대상으로 한 말과 표현"
+    },
+    {
+      "key": "Graphic Violence",
+      "value": "폭력적인 표현"
+    },
+    {
+      "key": "Excessive Gore",
+      "value": "과도한 출혈 및 피"
+    },
+    {
+      "key": "Extreme Horror",
+      "value": "극한의 호러"
+    },
+    {
+      "key": "Selected Platform",
+      "value": "PC용 / Quest용 전환"
+    },
+    {
+      "key": "Build Target Switcher",
+      "value": "빌드 대상 변경"
+    },
+    {
+      "key": "Are you sure you want to switch your build target to Windows? This could take a while.",
+      "value": "Windows용 빌드로 변경하시겠습니까? (변경에는 시간이 소요됩니다)"
+    },
+    {
+      "key": "Are you sure you want to switch your build target to Android? This could take a while.",
+      "value": "Android(퀘스트, 스마트폰)용 빌드로 변경하시겠습니까? (변경에는 시간이 소요됩니다)"
+    },
+    {
+      "key": "Are you sure you want to switch your build target to iOS? This could take a while.",
+      "value": "iOS용 빌드로 변경하시겠습니까? (변경에는 시간이 소요됩니다)"
+    },
+    {
+      "key": "Confirm",
+      "value": "확인"
+    },
+    {
+      "key": "Select a prefab to preview",
+      "value": "아바타를 선택하세요."
+    },
+    {
+      "key": "Select the avatar you wish to set up from the list on the left.",
+      "value": "왼쪽 목록에서 설정하고자 하는 아바타를 선택하세요."
+    },
+    {
+      "key": "Filter by Tag",
+      "value": "태그로 필터링"
+    },
+    {
+      "key": "Upload Succeed",
+      "value": "업로드 성공"
+    },
+    {
+      "key": "Upload Failed",
+      "value": "업로드 실패"
+    },
+    {
+      "key": "Select a prefab to upload",
+      "value": "업로드할 아바타를 선택하세요"
+    },
+    {
+      "key": "Send Feedback",
+      "value": "피드백 보내기"
+    },
+    {
+      "key": "Your name (option)",
+      "value": "이름 (선택사항)"
+    },
+    {
+      "key": "Mail address (option)",
+      "value": "이메일 주소 (선택사항)"
+    },
+    {
+      "key": "Subject (option)",
+      "value": "제목 (선택사항)"
+    },
+    {
+      "key": "Message",
+      "value": "메시지"
+    },
+    {
+      "key": "Submissions are irrevocable. \nDo not include personal information.",
+      "value": "전송을 취소할 수 없습니다. 개인정보를 입력하지 마세요."
+    },
+    {
+      "key": "Transmission was successful. Thank you.",
+      "value": "전송이 성공적으로 완료되었습니다. 감사합니다."
+    },
+    {
+      "key": "Submit",
+      "value": "보내기"
+    },
+    {
+      "key": "Close",
+      "value": "닫기"
+    },
+    {
+      "key": "Prefabs with missing or problematic shaders:",
+      "value": "쉐이더가 누락되었거나 문제가 있는 조립식:"
+    },
+    {
+      "key": "Please confirm the required shaders from the avatar distributor.",
+      "value": "아바타 배포원에서 필요한 쉐이더를 확인하세요."
+    },
+    {
+      "key": "Why am I seeing this?",
+      "value": "왜 이를 보고 있습니까?"
+    },
+    {
+      "key": "Shader Issues Found",
+      "value": "쉐이더 문제가 발견되었습니다"
+    },
+    {
+      "key": "Polygons",
+      "value": "다각형 수"
+    },
+    {
+      "key": "Bounds",
+      "value": "바운드 박스"
+    },
+    {
+      "key": "Skinned Meshes",
+      "value": "스킨 메쉬"
+    },
+    {
+      "key": "Meshes",
+      "value": "메쉬"
+    },
+    {
+      "key": "Material Slots",
+      "value": "매터리얼 슬롯"
+    },
+    {
+      "key": "Animators",
+      "value": "애니메이터"
+    },
+    {
+      "key": "Bones",
+      "value": "골격"
+    },
+    {
+      "key": "Lights",
+      "value": "조명"
+    },
+    {
+      "key": "Particle Systems",
+      "value": "파티클 시스템"
+    },
+    {
+      "key": "Total Max Particles",
+      "value": "최대 파티클 수"
+    },
+    {
+      "key": "Mesh Particle Max Polygons",
+      "value": "메시 파티클의 최대 다각형 수"
+    },
+    {
+      "key": "Particle Trails Enabled",
+      "value": "파티클 트레일이 활성화되었습니다"
+    },
+    {
+      "key": "Particle Collision Enabled",
+      "value": "파티클 충돌이 활성화되었습니다"
+    },
+    {
+      "key": "Trail Renderers",
+      "value": "트레일 렌더러"
+    },
+    {
+      "key": "Line Renderers",
+      "value": "라인 렌더러"
+    },
+    {
+      "key": "Dynamic Bone Components",
+      "value": "다이나믹 본 컴포넌트"
+    },
+    {
+      "key": "Dynamic Bone Transforms",
+      "value": "다이나믹 본 트랜스폼"
+    },
+    {
+      "key": "Dynamic Bone Colliders",
+      "value": "다이나믹 본 콜라이더"
+    },
+    {
+      "key": "Dynamic Bone Collision Check Count",
+      "value": "다이나믹 본 충돌 체크 수"
+    },
+    {
+      "key": "Cloths",
+      "value": "크로스"
+    },
+    {
+      "key": "Total Cloth Vertices",
+      "value": "크로스의 정점 수"
+    },
+    {
+      "key": "Physics Colliders",
+      "value": "물리 콜라이더"
+    },
+    {
+      "key": "Physics Rigidbodies",
+      "value": "물리 물체"
+    },
+    {
+      "key": "Audio Sources",
+      "value": "오디오 소스"
+    },
+    {
+      "key": "Download Size",
+      "value": "다운로드 크기"
+    },
+    {
+      "key": "Uncompressed Size",
+      "value": "압축되지 않은 크기"
+    },
+    {
+      "key": "Contact Count",
+      "value": "접촉 수"
+    },
+    {
+      "key": "PhysBone Components",
+      "value": "PhysBone 컴포넌트"
+    },
+    {
+      "key": "PhysBone Transforms",
+      "value": "PhysBone 트랜스폼"
+    },
+    {
+      "key": "PhysBone Colliders",
+      "value": "PhysBone 콜라이더"
+    },
+    {
+      "key": "PhysBone Collision Check Count",
+      "value": "PhysBone 충돌 체크 수"
+    },
+    {
+      "key": "Texture Memory",
+      "value": "텍스처 메모리"
+    },
+    {
+      "key": "Constraints",
+      "value": "제약"
+    },
+    {
+      "key": "None",
+      "value": "없음"
+    },
+    {
+      "key": "No VRCAvatarDescriptor",
+      "value": "VRCAvatarDescriptor가 없습니다"
+    },
+    {
+      "key": "No Shader",
+      "value": "쉐이더가 없습니다"
+    },
+    {
+      "key": "Unsupported Platform",
+      "value": "지원되지 않는 플랫폼"
+    },
+    {
+      "key": "Avatar testing is only supported on Windows.",
+      "value": "아바타 테스트는 Windows만 지원됩니다."
+    },
+    {
+      "key": "Avatar Performance",
+      "value": "아바타 성능"
+    },
+    {
+      "key": "Platform",
+      "value": "플랫폼"
+    },
+    {
+      "key": "The information provided above is accurate and I have the rights to upload this content to VRChat",
+      "value": "위의 설정이 올바르며, VRChat에 아바타를 업로드할 수 있음을 확인했습니다."
+    },
+    {
+      "key": "VRM Avatar needs to convert to VRChat Avatar",
+      "value": "VRM 아바타를 VRChat 아바타로 변환해야합니다"
+    },
+    {
+      "key": "Convert to VRChat Avatar",
+      "value": "VRChat 아바타로 변환"
+    },
+    {
+      "key": "Ready to upload",
+      "value": "업로드 가능"
+    },
+    {
+      "key": "Can't be uploaded",
+      "value": "업로드할 수 없음"
+    },
+    {
+      "key": "This avatar can't be uploaded for the following reasons:",
+      "value": "이 아바타는 다음 이유로 업로드할 수 없습니다:"
+    },
+    {
+      "key": "Cannot find the configured shader.",
+      "value": "설정된 쉐이더를 찾을 수 없음"
+    },
+    {
+      "key": "Avatar is a VRM model",
+      "value": "아바타는 VRM 모델입니다"
+    },
+    {
+      "key": "Last Modified Descending",
+      "value": "최종 업데이트 날짜 새로운 순"
+    },
+    {
+      "key": "Last Modified Ascending",
+      "value": "최종 업데이트 날짜 오래된 순"
+    },
+    {
+      "key": "Name Ascending",
+      "value": "이름 순 A-Z"
+    },
+    {
+      "key": "Name Descending",
+      "value": "이름 순 Z-A"
+    },
+    {
+      "key": "Do not show hidden models",
+      "value": "숨겨진 모델 표시 안 함"
+    },
+    {
+      "key": "Show hidden models",
+      "value": "숨겨진 모델도 표시"
+    },
+    {
+      "key": "Show only hidden models",
+      "value": "숨겨진 모델만 표시"
+    },
+    {
+      "key": "Show",
+      "value": "리스트에 표시"
+    },
+    {
+      "key": "Hide",
+      "value": "숨기기"
+    },
+    {
+      "key": "Exit Unity",
+      "value": "유니티 종료"
+    },
+    {
+      "key": "Confirm Exit",
+      "value": "종료 확인"
+    },
+    {
+      "key": "Are you sure you want to exit Unity?",
+      "value": "정말 Unity를 종료하시겠습니까?\n(보통 작업 상태는 저장됩니다)"
+    },
+    {
+      "key": "Yes",
+      "value": "예"
+    },
+    {
+      "key": "No",
+      "value": "아니요"
+    },
+    {
+      "key": "Language Change Confirmation",
+      "value": "언어 변경 확인"
+    },
+    {
+      "key": "Are you sure you want to change the language?",
+      "value": "정말 언어를 변경하시겠습니까?"
+    },
+    {
+      "key": "Light",
+      "value": "라이트"
+    },
+    {
+      "key": "Dark",
+      "value": "다크"
+    },
+    {
+      "key": "Experimental",
+      "value": "실험적인 기능"
+    },
+    {
+      "key": "Theme: ",
+      "value": "테마:: "
+    },
+    {
+      "key": "Save",
+      "value": "저장"
+    },
+    {
+      "key": "Discard",
+      "value": "포기"
+    },
+    {
+      "key": "Import VRM 0.x Avatar",
+      "value": "VRM 0.x 아바타를 인포트"
+    },
+    {
+      "key": "Shoulder Height",
+      "value": "어깨 높이"
+    },
+    {
+      "key": "Armature Height",
+      "value": "Armature 높이"
+    },
+    {
+      "key": "Combine Meshes",
+      "value": "메쉬를 결합"
+    },
+    {
+      "key": "Use Shape Key Normals and Tangents",
+      "value": "쉐이프키 키의 법선과 접선을 사용"
+    },
+    {
+      "key": "Swinging Object",
+      "value": "흔들림"
+    },
+    {
+      "key": "Take Over Swinging Parameters",
+      "value": "흔들림 매개변수를 유지합니다"
+    },
+    {
+      "key": "Settings for Quest",
+      "value": "Quest용 설정"
+    },
+    {
+      "key": "Settings for PC",
+      "value": "PC용 설정"
+    },
+    {
+      "key": "For Quest",
+      "value": "Quest용"
+    },
+    {
+      "key": "Error Report",
+      "value": "오류 보고"
+    },
+    {
+      "key": "An error has occurred",
+      "value": "오류가 발생했습니다"
+    },
+    {
+      "key": "An error has occurred. Please try to resolve the issue based on this error or seek help from the community or other sources. However, if the error is caused by EAUploader, please report it to the developer via feedback.",
+      "value": "오류가 발생했습니다. 이 오류를 바탕으로 문제를 해결하거나 커뮤니티 등에 도움을 요청하세요. 단, 오류의 원인이 EAUploader에 있는 경우 피드백을 통해 개발자에게 보고해 주시기 바랍니다."
+    },
+    {
+      "key": "Copy",
+      "value": "복사"
+    },
+    {
+      "key": "Drop files(.unitypackage, .prefab) to import",
+      "value": "인포트할 파일(.unitypackage, .prefab)을 드롭하세요"
+    },
+    {
+      "key": "Drop files(.unitypackage, .prefab, .vrm(ver. 0.x)) to import",
+      "value": "인포트할 파일(.unitypackage, .prefab, .vrm(ver. 0.x))을 드롭하세요"
+    }
+  ]
+}

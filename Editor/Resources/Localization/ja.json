@@ -90,7 +90,7 @@
       "value": "プレハブをピン留め"
     },
     {
-      "key": "Select a model",
+      "key": "Select a avatar",
       "value": "編集するアバターを選択"
     },
     {
@@ -134,7 +134,7 @@
       "value": "ヘルプ"
     },
     {
-      "key": "Now selecting: ",
+      "key": "Now selecting Prefab: ",
       "value": "選択中のプレハブ："
     },
     {
@@ -142,7 +142,7 @@
       "value": "アバターの高さ: "
     },
     {
-      "key": "Avatar Editor",
+      "key": "Edit tool",
       "value": "編集ツール"
     },
     {
@@ -198,7 +198,7 @@
       "value": "アバターのアップロード権限"
     },
     {
-      "key": "Model Info",
+      "key": "Avatar Info",
       "value": "アバター情報"
     },
     {
@@ -210,7 +210,7 @@
       "value": "アバターの名前"
     },
     {
-      "key": "Give your avatar a name",
+      "key": "Please enter a name for your avatar",
       "value": "アバターの名前を入力してください"
     },
     {
@@ -518,7 +518,7 @@
       "value": "アバターテストはWindowsのみサポートされています。"
     },
     {
-      "key": "Model Performance",
+      "key": "Avatar Performance",
       "value": "アバターパフォーマンス"
     },
     {
@@ -684,6 +684,30 @@
     {
       "key": "For Quest",
       "value": "Quest用"
+    },
+    {
+      "key": "Error Report",
+      "value": "エラーレポート"
+    },
+    {
+      "key": "An error has occurred",
+      "value": "エラーが発生しました"
+    },
+    {
+      "key": "An error has occurred. Please try to resolve the issue based on this error or seek help from the community or other sources. However, if the error is caused by EAUploader, please report it to the developer via feedback.",
+      "value": "エラーが発生しました。このエラーをもとに解決を試みるか、コミュニティなどで助けを求めてください。ただし、EAUploaderが原因のエラーが発生した場合は、フィードバックから開発者まで報告してください。"
+    },
+    {
+      "key": "Copy",
+      "value": "コピー"
+    },
+    {
+      "key": "Drop files(.unitypackage, .prefab) to import",
+      "value": "インポートするファイル（.unitypackage, .prefab）をドロップ"
+    },
+    {
+      "key": "Drop files(.unitypackage, .prefab, .vrm(ver. 0.x)) to import",
+      "value": "インポートするファイル（.unitypackage, .prefab, .vrm(ver. 0.x)）をドロップ"
     }
   ]
 }
