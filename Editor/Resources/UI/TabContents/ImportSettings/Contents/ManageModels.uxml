@@ -6,7 +6,8 @@
     editor-extension-mode="False">
     <ui:VisualElement class="flex-row justify-between items-center">
         <ui:Label tabindex="-1" text="Manage Model" parse-escape-sequences="true"
-            display-tooltip-when-elided="true" enable-rich-text="true" class="text-xl font-bold pb-2 p-4" />
+            display-tooltip-when-elided="true" enable-rich-text="true" class="text-xl font-bold pb-8 p-4" />
+        <eau:HelpButton msg-id="116" class="pt-4"/>
         <ui:VisualElement name="library_fold_button" class="h-8 w-8 border-l border-t border-b border-zinc-300 rounded-tl-md rounded-bl-md justify-center items-center cursor-link">
             <eau:MaterialIcon icon="chevron_right" class="text-xl cursor-link" />
         </ui:VisualElement>
