@@ -100,6 +100,7 @@ namespace EAUploader.UI.Windows
 
                 var copyButton = wnd.rootVisualElement.Q<Button>("copy");
                 var okButton = wnd.rootVisualElement.Q<Button>("ok");
+                var restartButton = wnd.rootVisualElement.Q<Button>("restart");
 
                 copyButton.clickable.clicked += () =>
                 {
@@ -109,6 +110,11 @@ namespace EAUploader.UI.Windows
                 okButton.clickable.clicked += () =>
                 {
                     wnd.Close();
+                };
+
+                restartButton.clickable.clicked += () =>
+                {
+                    AssetDatabase.ImportAsset("Packages/tech.uslog.eauploader", ImportAssetOptions.ImportRecursive);
                 };
             }
 
