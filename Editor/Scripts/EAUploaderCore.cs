@@ -54,13 +54,23 @@ namespace EAUploader
 
         private static void PerformInitialization()
         {
-            InitializeEAUploader();
-            EAUploaderEditorManager.OnEditorManagerLoad();
-            ShaderChecker.CheckShaders();
-            PrefabManager.Initialize();
-            CheckIsVRMAvailable();
-            OpenEAUploaderWindow();
-            Application.logMessageReceived += UI.Windows.Logger.OnReceiveLog;
+            try
+            {
+                InitializeEAUploader();
+                EAUploaderEditorManager.OnEditorManagerLoad();
+                ShaderChecker.CheckShaders();
+                PrefabManager.Initialize();
+                CheckIsVRMAvailable();
+                OpenEAUploaderWindow();
+                Application.logMessageReceived += UI.Windows.Logger.OnReceiveLog;
+            }
+            catch (System.Exception)
+            {
+                if (EditorUtility.DisplayDialog("EAUploader Error", T7e.Get("Restart EAUploader because there is a problem with EAUploader; if restarting EAUploader does not solve the problem, delete EAUploader from VCC and add EAUploader again."), T7e.Get("Restart"), T7e.Get("Cancel")))
+                {
+                    AssetDatabase.ImportAsset("Packages/tech.uslog.eauploader", ImportAssetOptions.ImportRecursive);
+                }
+            }
         }
 
         private static void CheckIsVRMAvailable()
