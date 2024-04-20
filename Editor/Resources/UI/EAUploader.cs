@@ -23,30 +23,36 @@ namespace EAUploader.UI
 
         public void CreateGUI()
         {
-            styles = Resources.Load<StyleSheet>("UI/styles");
-            tailwind = Resources.Load<StyleSheet>("UI/tailwind");
-            currentTab = "settings";
-
-            rootVisualElement.styleSheets.Add(styles);
-            rootVisualElement.styleSheets.Add(tailwind);
-
-            rootVisualElement.style.flexDirection = FlexDirection.ColumnReverse;
-
-            // Import UXML
-            var visualTree = Resources.Load<VisualTreeAsset>("UI/MainWindow");
-            visualTree.CloneTree(rootVisualElement);
-
-            rootVisualElement.schedule.Execute(() =>
+            try
             {
-                LanguageUtility.Localization(rootVisualElement);
-            }).Every(100);
+                styles = Resources.Load<StyleSheet>("UI/styles");
+                tailwind = Resources.Load<StyleSheet>("UI/tailwind");
+                currentTab = "settings";
+                rootVisualElement.styleSheets.Add(styles);
+                rootVisualElement.styleSheets.Add(tailwind);
+                rootVisualElement.style.flexDirection = FlexDirection.ColumnReverse;
 
-            contentRoot = rootVisualElement.Q("contentRoot");
-            ImportSettings.Main.ShowContent(contentRoot);
+                // Import UXML
+                var visualTree = Resources.Load<VisualTreeAsset>("UI/MainWindow");
+                visualTree.CloneTree(rootVisualElement);
 
-            rootVisualElement.Q<Button>("settings").EnableInClassList("tab-button__selected", true);
+                rootVisualElement.schedule.Execute(() =>
+                {
+                    LanguageUtility.Localization(rootVisualElement);
+                }).Every(100);
 
-            SetupButtonHandler();
+                contentRoot = rootVisualElement.Q("contentRoot");
+                ImportSettings.Main.ShowContent(contentRoot);
+                rootVisualElement.Q<Button>("settings").EnableInClassList("tab-button__selected", true);
+                SetupButtonHandler();
+            }
+            catch (System.Exception)
+            {
+                if (EditorUtility.DisplayDialog("EAUploader Error", T7e.Get("Restart EAUploader because there is a problem with EAUploader; if restarting EAUploader does not solve the problem, delete EAUploader from VCC and add EAUploader again."), T7e.Get("Restart"), T7e.Get("Cancel")))
+                {
+                    AssetDatabase.ImportAsset("Packages/tech.uslog.eauploader", ImportAssetOptions.ImportRecursive);
+                }
+            }
         }
 
         private void SetupButtonHandler()
