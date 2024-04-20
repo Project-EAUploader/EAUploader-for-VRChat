@@ -708,6 +708,14 @@
     {
       "key": "Drop files(.unitypackage, .prefab, .vrm(ver. 0.x)) to import",
       "value": "인포트할 파일(.unitypackage, .prefab, .vrm(ver. 0.x))을 드롭하세요"
+    },
+    {
+      "key": "Restart EAUploader because there is a problem with EAUploader; if restarting EAUploader does not solve the problem, delete EAUploader from VCC and add EAUploader again.",
+      "value": "EAUploader에 문제가 발생했습니다. EAUploader를 다시 시작하십시오. 재시작 후에도 문제가 해결되지 않는 경우, VCC에서 EAUploader를 프로젝트에서 한 번 삭제한 후 다시 추가해 주세요."
+    },
+    {
+      "key": "Restart",
+      "value": "다시 시작"
     }
   ]
 }
