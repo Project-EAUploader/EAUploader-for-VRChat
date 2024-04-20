@@ -25,9 +25,12 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement class="flex-row justify-end">
-            <ui:Button name="copy" text="Copy" class="mr-2" />
-            <ui:Button name="ok" text="OK" class="ml-2" />
+            <ui:VisualElement class="flex-row justify-between">
+                <ui:Button name="restart" text="Restart" class="ml-2" />
+                <ui:VisualElement class="flex-row justify-end">
+                <ui:Button name="copy" text="Copy" class="mr-2" />
+                <ui:Button name="ok" text="OK" class="ml-2" />
+             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
