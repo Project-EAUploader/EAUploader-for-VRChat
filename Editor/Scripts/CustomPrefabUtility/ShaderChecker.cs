@@ -47,10 +47,36 @@ namespace EAUploader.CustomPrefabUtility
             return shaderGroups;
         }
 
-        public static bool CheckAvatarHasShader(GameObject avatar)
+        private static bool ContainsMissingOrProblematicShaderMaterial(Renderer[] renderers, out string errorInfo)
         {
-            Renderer[] renderers = avatar.GetComponentsInChildren<Renderer>(true);
-            return !ContainsMissingOrProblematicShaderMaterial(renderers);
+            errorInfo = string.Empty;
+            foreach (Renderer renderer in renderers)
+            {
+                foreach (Material material in renderer.sharedMaterials)
+                {
+                    if (material != null && material.shader != null)
+                    {
+                        string shaderName = material.shader.name;
+                        if (shaderName == "Hidden/InternalErrorShader" || !ShaderExists(shaderName))
+                        {
+                            errorInfo += $"Game Object: {renderer.gameObject.name}, Material: {material.name}, Shader: {shaderName}\n";
+                        }
+                    }
+                }
+            }
+            return !string.IsNullOrEmpty(errorInfo);
+        }
+
+        private static void DisplayShaderIssueMessageBox(string prefabName, string errorInfo)
+        {
+            string msg1 = T7e.Get("Prefabs with missing or problematic shaders:");
+            string msg2 = T7e.Get("Please confirm the required shaders from the avatar distributor.");
+            string msg3 = T7e.Get("Why am I seeing this?");
+            string message = $"{msg1}\n{prefabName}\n\nError Details:\n{errorInfo}\n{msg2}";
+            if (EditorUtility.DisplayDialogComplex(T7e.Get("Shader Issues Found"), message, "OK", msg3, "") == 1)
+            {
+                Application.OpenURL("https://www.uslog.tech/eauploader-forum/__q-a/siedagajian-tukaranaiera");
+            }
         }
 
         public static void CheckShadersInPrefabs(string path = null)
@@ -58,40 +84,18 @@ namespace EAUploader.CustomPrefabUtility
             if (path == null) return;
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
             Renderer[] renderers = prefab.GetComponentsInChildren<Renderer>(true);
-
-            if (ContainsMissingOrProblematicShaderMaterial(renderers))
+            string errorInfo;
+            if (ContainsMissingOrProblematicShaderMaterial(renderers, out errorInfo))
             {
-                DisplayShaderIssueMessageBox(prefab.name);
+                DisplayShaderIssueMessageBox(prefab.name, errorInfo);
             }
         }
 
-        private static bool ContainsMissingOrProblematicShaderMaterial(Renderer[] renderers)
+        public static bool CheckAvatarHasShader(GameObject avatar)
         {
-            foreach (Renderer renderer in renderers)
-            {
-                foreach (Material material in renderer.sharedMaterials)
-                {
-                    if (material?.shader?.name == "Hidden/InternalErrorShader" || !ShaderExists(material?.shader?.name))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        private static void DisplayShaderIssueMessageBox(string prefabName)
-        {
-            string msg1 = T7e.Get("Prefabs with missing or problematic shaders:");
-            string msg2 = T7e.Get("Please confirm the required shaders from the avatar distributor.");
-            string msg3 = T7e.Get("Why am I seeing this?");
-            string message = $"{msg1}\n{prefabName}\n\n{msg2}";
-
-            if (EditorUtility.DisplayDialogComplex(T7e.Get("Shader Issues Found"), message, "OK", msg3, "") == 1)
-            {
-                Application.OpenURL("https://www.uslog.tech/eauploader-forum/__q-a/siedagajian-tukaranaiera");
-            }
+            Renderer[] renderers = avatar.GetComponentsInChildren<Renderer>(true);
+            string errorInfo;
+            return !ContainsMissingOrProblematicShaderMaterial(renderers, out errorInfo);
         }
 
         private static bool ShaderExists(string shaderName)

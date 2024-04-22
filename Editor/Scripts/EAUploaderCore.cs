@@ -61,7 +61,10 @@ namespace EAUploader
                 ShaderChecker.CheckShaders();
                 PrefabManager.Initialize();
                 CheckIsVRMAvailable();
-                OpenEAUploaderWindow();
+                
+                // Wait for the above processes to complete before opening the EAUploader window
+                EditorApplication.delayCall += OpenEAUploaderWindow;
+                
                 Application.logMessageReceived += UI.Windows.Logger.OnReceiveLog;
             }
             catch (System.Exception)
