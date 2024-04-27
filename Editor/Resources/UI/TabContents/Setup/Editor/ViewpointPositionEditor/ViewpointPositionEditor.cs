@@ -13,7 +13,7 @@ namespace EAUploader.UI.Setup
         private PreviewRenderer _previewRenderer;
         private GameObject _gameObject;
 
-        [InitializeOnLoadMethod]
+        [EAUInitializeOnLoad]
         private static void Initialize()
         {
             string editorName = LanguageUtility.T7eFromJsonFile("Viewpoint Position Editor", LOCALIZATION_FOLDER_PATH);
@@ -25,7 +25,7 @@ namespace EAUploader.UI.Setup
                 MenuName = "EAUploader/ViewpointPositionEditor",
                 EditorName = editorName,
                 Description = description,
-                Version = "0.0.1",
+                Version = "0.1.0",
                 Author = "USLOG",
                 Url = "https://uslog.tech/eauploader",
                 Requirement = CheckAvatarHasVRCAvatarDescriptor,
