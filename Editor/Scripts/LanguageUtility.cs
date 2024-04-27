@@ -96,15 +96,22 @@ namespace EAUploader
                     continue;
                 }
                 var path = $"{LocalizationFolderPath}/{language.name}.json";
-                Debug.Log($"Loading translations from {path}");
-                var json = File.ReadAllText(path);
-                var translations = JsonUtility.FromJson<LocalizationData>(json);
-                var translationDict = new Dictionary<string, string>();
-                foreach (var item in translations.items)
+                if (File.Exists(path))
                 {
-                    translationDict.Add(item.key, item.value);
+                    Debug.Log($"Loading translations from {path}");
+                    var json = File.ReadAllText(path);
+                    var translations = JsonUtility.FromJson<LocalizationData>(json);
+                    var translationDict = new Dictionary<string, string>();
+                    foreach (var item in translations.items)
+                    {
+                        translationDict.Add(item.key, item.value);
+                    }
+                    allTranslations.Add(language.name, translationDict);
                 }
-                allTranslations.Add(language.name, translationDict);
+                else
+                {
+                    Debug.LogWarning($"Translation file not found for language: {language.name}");
+                }
             }
 
             string currentLanguage = GetCurrentLanguage();
