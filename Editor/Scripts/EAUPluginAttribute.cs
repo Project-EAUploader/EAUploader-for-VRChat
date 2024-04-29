@@ -6,21 +6,21 @@ using UnityEngine;
 namespace EAUploader
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class EAUInitializeOnLoadAttribute : Attribute
+    public class EAUPluginAttribute : Attribute
     {
-        public EAUInitializeOnLoadAttribute()
+        public EAUPluginAttribute()
         {
             var stackTrace = new System.Diagnostics.StackTrace();
             var methodInfo = (MethodInfo)stackTrace.GetFrame(1).GetMethod();
-            EAUInitializeOnLoadHelper.AddMethod(this, methodInfo);
+            EAUPluginHelper.AddMethod(this, methodInfo);
         }
     }
 
-    public static class EAUInitializeOnLoadHelper
+    public static class EAUPluginHelper
     {
         private static List<MethodInfo> methods = new List<MethodInfo>();
 
-        public static void AddMethod(EAUInitializeOnLoadAttribute attribute, MethodInfo methodInfo)
+        public static void AddMethod(EAUPluginAttribute attribute, MethodInfo methodInfo)
         {
             if (methodInfo != null)
             {

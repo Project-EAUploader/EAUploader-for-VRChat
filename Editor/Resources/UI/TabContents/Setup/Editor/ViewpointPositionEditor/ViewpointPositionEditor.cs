@@ -13,7 +13,7 @@ namespace EAUploader.UI.Setup
         private PreviewRenderer _previewRenderer;
         private GameObject _gameObject;
 
-        [EAUInitializeOnLoad]
+        [EAUPlugin]
         private static void Initialize()
         {
             string editorName = LanguageUtility.T7eFromJsonFile("Viewpoint Position Editor", LOCALIZATION_FOLDER_PATH);
