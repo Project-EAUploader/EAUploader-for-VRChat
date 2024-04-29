@@ -1,0 +1,6 @@
+<t>We appreciate your support!</t>
+<txt>
+<size=16>EAUploader is developed and provided free of charge, and all costs related to development, project management, and other public relations activities are fully covered by the developer. Your cooperation in the development and advancement of this tool would be greatly appreciated.
+</size>
+</txt>
+<button>支援についてみる, Link, https://www.uslog.tech/eauploader/donate</button>

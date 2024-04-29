@@ -5,7 +5,8 @@
 <color=blue>〇 아바타 업로드</color>
 <color=red>✕ 아바타 개변</color></size>
 <size=16> EAUploader는 이미 VRChat용으로 만들어져 완성된 아바타 또는 VRM만을 지원합니다.VRChat용이 아닌 3D 모델이나, 옷 갈아입히기나 액세서리 추가, 표정 변경 등은 할 수 없습니다.
-(편집 기능은 확장 기능으로 개발 중입니다)</size>
+(편집 기능은 확장 기능으로 개발 중입니다)
+<color=red>EAUploader는 EAUploader 사용으로 인해 발생한 어떠한 손해에 대해서도 책임을 지지 않습니다. </color> Unity는 종종 문제가 발생하여 프로젝트와 데이터가 손상될 수 있습니다. 반드시 백업을 하고, 아바타 등은 프로젝트가 아닌 다른 폴더에 백업하시기 바랍니다.</size>
 </txt>
 <hr>black, 12</hr>
 <txt>

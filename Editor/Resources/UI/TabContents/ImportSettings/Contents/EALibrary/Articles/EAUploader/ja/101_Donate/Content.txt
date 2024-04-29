@@ -1,0 +1,6 @@
+<t>ご支援をお願いします</t>
+<txt>
+<size=16>EAUploaderは無償で開発・提供しており、開発やプロジェクトの運営、他広報活動に係る費用は全額開発者が負担しています。このツールの開発、発展にご協力いただけますと、大変うれしく思います。
+</size>
+</txt>
+<button>支援についてみる, Link, https://www.uslog.tech/eauploader/donate</button>

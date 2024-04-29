@@ -5,7 +5,8 @@
 <color=blue>〇 Upload Avatar</color>
 <color=red>✕ Modification of avatars</color></size>
 <size=16>    EAUploader only supports avatars or VRMs that have already been created for VRChat and are complete; it does not support 3D models that are not for VRChat, nor does it support changing clothes, adding accessories, or changing facial expressions.
-    (Editing functionality is under development as an extension.)</size>
+    (Editing functionality is under development as an extension.)
+    <color=red>EAUploader is not responsible for any damages caused by using EAUploader</color> Unity often has problems and can corrupt your projects and data. Always make backups and back up your avatars, etc. in a folder other than your project.</size>
 </txt>
 <hr>black, 12</hr>
 <txt>
