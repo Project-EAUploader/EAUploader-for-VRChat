@@ -64,11 +64,11 @@ namespace EAUploader
                 PrefabManager.Initialize();
                 CheckIsVRMAvailable();
 
-                // [EAUInitializeOnLoad]
+                // [EAUPlugin]
                 var methods = AppDomain.CurrentDomain.GetAssemblies()
                     .SelectMany(a => a.GetTypes())
                     .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
-                    .Where(m => m.GetCustomAttributes(typeof(EAUInitializeOnLoadAttribute), false).Length > 0)
+                    .Where(m => m.GetCustomAttributes(typeof(EAUPluginAttribute), false).Length > 0)
                     .ToList();
 
                 foreach (var method in methods)
