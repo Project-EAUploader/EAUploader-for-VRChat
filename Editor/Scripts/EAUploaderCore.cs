@@ -2,6 +2,8 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -61,14 +63,27 @@ namespace EAUploader
                 ShaderChecker.CheckShaders();
                 PrefabManager.Initialize();
                 CheckIsVRMAvailable();
-                
+
+                // [EAUPlugin]
+                var methods = AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(a => a.GetTypes())
+                    .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
+                    .Where(m => m.GetCustomAttributes(typeof(EAUPluginAttribute), false).Length > 0)
+                    .ToList();
+
+                foreach (var method in methods)
+                {
+                    method.Invoke(null, null);
+                }
+
                 // Wait for the above processes to complete before opening the EAUploader window
                 EditorApplication.delayCall += OpenEAUploaderWindow;
-                
+
                 Application.logMessageReceived += UI.Windows.Logger.OnReceiveLog;
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
+                Debug.LogException(e);
                 if (EditorUtility.DisplayDialog("EAUploader Error", T7e.Get("Restart EAUploader because there is a problem with EAUploader; if restarting EAUploader does not solve the problem, delete EAUploader from VCC and add EAUploader again."), T7e.Get("Restart"), T7e.Get("Cancel")))
                 {
                     AssetDatabase.ImportAsset("Packages/tech.uslog.eauploader", ImportAssetOptions.ImportRecursive);
