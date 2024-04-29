@@ -1,0 +1,6 @@
+<t>응원 부탁 드립니다!</t>
+<txt>
+<size=16>EAUploader는 무료로 개발 및 제공되며, 개발, 프로젝트 관리 및 기타 홍보 활동과 관련된 모든 비용은 개발자가 전액 부담합니다. 이 도구의 개발과 발전에 많은 협조를 부탁드립니다.
+</size>
+</txt>
+<button>지원에 대하여, Link, https://www.uslog.tech/eauploader/donate</button>
