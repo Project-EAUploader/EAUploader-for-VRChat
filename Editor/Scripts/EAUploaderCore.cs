@@ -37,6 +37,7 @@ namespace EAUploader
         private const string EAUPLOADER_ASSET_PATH = "Assets/EAUploader";
         private static bool initializationPerformed = false;
         public static bool HasVRM = false;
+        public static bool HasAAO = false;
 
         static EAUploaderCore()
         {
@@ -100,6 +101,7 @@ namespace EAUploader
                 {
                     string manifestContent = File.ReadAllText(manifestPath);
                     HasVRM = manifestContent.Contains("\"com.vrmc.univrm\"") && manifestContent.Contains("\"jp.pokemori.vrm-converter-for-vrchat\"");
+                    HasAAO = manifestContent.Contains("\"com.anatawa12.avatar-optimizer\"");
                 }
                 else
                 {

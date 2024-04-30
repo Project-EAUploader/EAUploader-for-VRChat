@@ -10,6 +10,9 @@ using UnityEngine.Networking;
 using UnityEngine.UIElements;
 using VRC.Core;
 using VRC.SDKBase.Editor.Api;
+#if Has_AAO
+using Anatawa12.AvatarOptimizer;
+#endif
 
 namespace EAUploader.UI.Upload
 {
@@ -21,6 +24,7 @@ namespace EAUploader.UI.Upload
         private static bool isLoggedin;
         private static bool isFormNull = true;
         private static bool isConfirmTerm = false;
+        private static bool HasAAO = EAUploaderCore.HasAAO;
 
         private static readonly Dictionary<string, string> BUILD_TARGET_ICONS = new Dictionary<string, string>
         {
@@ -156,6 +160,42 @@ namespace EAUploader.UI.Upload
             {
                 isConfirmTerm = evt.newValue;
                 CheckCanUpload();
+            });
+
+
+            // SlideToggleの値変更イベントを購読
+            root.Q<SlideToggle>("avatar_optimize").RegisterValueChangedCallback(evt =>
+            {
+                var selectedPrefabPath = EAUploaderCore.selectedPrefabPath;
+                var prefab = PrefabManager.GetPrefab(selectedPrefabPath);
+                var avatarRoot = prefab.transform.root.gameObject;
+
+                #if Has_AAO
+                if (evt.newValue) // トグルがONになったとき
+                {
+                    // TraceAndOptimizeコンポーネントをアバターのルートオブジェクトに追加
+                    var traceAndOptimize = avatarRoot.GetComponent<TraceAndOptimize>();
+                    if (traceAndOptimize == null)
+                    {
+                        traceAndOptimize = avatarRoot.AddComponent<TraceAndOptimize>();
+                    }
+                }
+                else // トグルがOFFになったとき
+                {
+                    // TraceAndOptimizeコンポーネントをアバターのルートオブジェクトから削除
+                    var traceAndOptimize = avatarRoot.GetComponent<TraceAndOptimize>();
+                    if (traceAndOptimize != null)
+                    {
+                        UnityEngine.Object.DestroyImmediate(traceAndOptimize);
+                    }
+                }
+                #else
+                if (evt.newValue)
+                {
+                    EditorUtility.DisplayDialog("AAO not found", "Avatar Optimizer is not installed or enabled in this project. Please install and enable it to use this feature.", "OK");
+                    root.Q<SlideToggle>("avatar_optimize").value = false;
+                }
+                #endif
             });
         }
 

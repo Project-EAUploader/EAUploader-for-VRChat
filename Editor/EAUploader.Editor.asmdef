@@ -15,7 +15,9 @@
         "GUID:ad8ccbe5b5f00b740b66dfb98d907655",
         "GUID:7ca0cd6f6537b414dabc7f1fa4740ea4",
         "GUID:ab550019837c3d44fb7a418b8b18e24a",
-        "GUID:f48565c0d45366a4880a7d767d280b6a"
+        "GUID:f48565c0d45366a4880a7d767d280b6a",
+        "GUID:ac4815c6727e4e34b9e13bb042cbc029",
+        "GUID:f69eeb3e25674f4a9bd20e6d7e69e0e6"
     ],
     "includePlatforms": [
         "Editor"
@@ -31,6 +33,11 @@
             "name": "jp.pokemori.vrm-converter-for-vrchat",
             "expression": "41.1.0",
             "define": "HAS_VRM"
+        },
+        {
+            "name": "com.anatawa12.avatar-optimizer",
+            "expression": "1.7.0",
+            "define": "HAS_AAO"
         }
     ],
     "noEngineReferences": false
