@@ -5,12 +5,12 @@
 
 　軽い方から順に <b><color=green>Excellent</color> - <color=green>Good</color> - <color=orange>Medium</color> - <color=red>Poor</color> - <color=red>Very Poor</color></b> と評価されます。
 <b>　アバターの総合評価は一番上の Overall: の値です。</b>
-　Goodまで最適化することがVRChatは推奨していますが、Very Poorでも問題なくアップロードできます。Quest単体やスマートフォンからVRChatを利用する場合は、Android対応アバターをご用意ください。
+　Goodまで最適化/軽量化することがVRChatは推奨していますが、Very Poorでも問題なくアップロードできます。Quest単体やスマートフォンからVRChatを利用する場合は、Android対応アバターをご用意ください。
 </size>
 </txt>
-<t>最適化（軽量化）の方法</t>
+<t>最適化の方法</t>
 <txt>
 <size=16>　AvatarOptimizerを導入することで、EAUploaderでは自動最適化機能を使用することができます。
-　右側のアバターの最適化から、AvatarOptimizerを導入してください。なお、自動最適化はビルドするまで結果が分からないため、このパフォーマンス表示は自動最適化機能をオンにしても最適化後が反映されません。また、さらなる最適化・軽量化を行いたい場合は、Unityエディタを使用してAvatarOptimizerにある様々な機能をお試しください。
+　右側のアバターの最適化から、AvatarOptimizerを導入してください。なお、自動最適化はビルドするまで結果が分からないため、このパフォーマンス表示は自動最適化機能をオンにしても最適化後が反映されません。また、さらなる最適化を行いたい場合は、Unityエディタを使用してAvatarOptimizerにある様々な機能をお試しください。
 </size>
 </txt>
