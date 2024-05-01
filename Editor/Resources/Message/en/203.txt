@@ -1,0 +1,6 @@
+<txt>
+<size=20><color=red>Add Avatar Optimizer to your project</color></size>
+<size=16>This lightweight functionality is a function of the AAO: AvatarOptimizer (by anatawa12) package. First, please install Avatar Optimizer in this project.
+</size>
+</txt>
+<button>Install Avatar Optimizer(Booth), Link, https://booth.pm/ja/items/4885109</button>

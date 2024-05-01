@@ -716,6 +716,14 @@
     {
       "key": "Restart",
       "value": "다시 시작"
+    },
+    {
+      "key": "Avatar Optimization",
+      "value": "아바타 최적화"
+    },
+    {
+      "key": "Automatic avatar optimizing (AvatarOptimizer)",
+      "value": "자동 아바타 최적화(AvatarOptimizer)"
     }
   ]
 }
