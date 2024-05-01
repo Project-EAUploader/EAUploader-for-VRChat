@@ -89,7 +89,15 @@ namespace EAUploader
             {
                 try
                 {
-                    return await VRCApi.GetAvatar(pipelineManager.blueprintId, true);
+                    // VRChat Loggined.
+                    if (VRC.Core.APIUser.IsLoggedIn)
+                    {
+                        return await VRCApi.GetAvatar(pipelineManager.blueprintId, true);
+                    }
+                    // VRChat Not Loggin.
+                    Debug.Log("VRchat Not login.return null.");
+                    return null;
+
                 }
                 catch (ApiErrorException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
                 {
