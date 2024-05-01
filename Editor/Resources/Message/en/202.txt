@@ -1,0 +1,10 @@
+<t>Avatar optimize</t>
+<txt>
+<size=16>By installing the separate tool "AAO: AvatarOptimizer (by anatawa12)" in your project, you can use the automatic avatar lightening function. It allows non-destructive lightweighting of avatars without changing their specifications.
+The result of weight reduction can be checked by building the project. Note that lightweighting settings cannot be changed from the EAUploader. If you want to change the settings or make the file lighter, you cannot do so from EAUploader. If you want to change the settings or use other lightening functions, you must do so in the Unity Editor.</size>
+</txt>
+<button>Install Avatar Optimizer(Booth), Link, https://booth.pm/ja/items/4885109</button>
+<txt>
+<size=16>Function Description</size>
+<size=12>Add and remove TraceAndOptimize, AAO's automatic lightweighting component, to the avatar.
+</txt>

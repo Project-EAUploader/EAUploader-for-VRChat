@@ -63,9 +63,9 @@
                             <eau:ShadowButton text="Using preview image (Default)" name="remove_thumbnail"/>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:Label text = "Avatar Optimization" class="text-xl font-bold"/>
+                    <ui:Label text = "Avatar Optimization" class="text-xl font-bold pt-2"/>
                     <ui:VisualElement class="flex flex-row justify-between items-center">
-                        <ui:Label text= "Use Avatar Optimizer" class="text-left"/>
+                        <ui:Label text= "Automatic avatar optimizing (AvatarOptimizer)" class="text-left"/>
                         <ui:VisualElement class="flex flex-row items-center">
                             <eau:SlideToggle name="avatar_optimize" class="mr-2 w-10"/>
                             <eau:HelpButton msg-id="202" />

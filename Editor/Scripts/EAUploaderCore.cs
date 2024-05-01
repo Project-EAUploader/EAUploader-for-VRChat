@@ -63,7 +63,7 @@ namespace EAUploader
                 EAUploaderEditorManager.OnEditorManagerLoad();
                 ShaderChecker.CheckShaders();
                 PrefabManager.Initialize();
-                CheckIsVRMAvailable();
+                CheckAvailablePackages();
 
                 // [EAUPlugin]
                 var methods = AppDomain.CurrentDomain.GetAssemblies()
@@ -92,7 +92,7 @@ namespace EAUploader
             }
         }
 
-        private static void CheckIsVRMAvailable()
+        private static void CheckAvailablePackages()
         {
             try
             {
@@ -101,7 +101,15 @@ namespace EAUploader
                 {
                     string manifestContent = File.ReadAllText(manifestPath);
                     HasVRM = manifestContent.Contains("\"com.vrmc.univrm\"") && manifestContent.Contains("\"jp.pokemori.vrm-converter-for-vrchat\"");
+                    if(HasVRM)
+                    {
+                        Debug.Log("HasVRM");
+                    }
                     HasAAO = manifestContent.Contains("\"com.anatawa12.avatar-optimizer\"");
+                    if(HasAAO)
+                    {
+                        Debug.Log("HasAAO");
+                    }
                 }
                 else
                 {
@@ -184,7 +192,7 @@ namespace EAUploader
             EAUploaderEditorManager.OnEditorManagerLoad();
             ShaderChecker.CheckShadersInPrefabs();
             PrefabManager.Initialize();
-            CheckIsVRMAvailable();
+            CheckAvailablePackages();
         }
     }
 }
