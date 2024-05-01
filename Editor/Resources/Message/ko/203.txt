@@ -1,0 +1,6 @@
+<txt>
+<size=20><color=red>AvatarOptimizer를 설치하세요</color></size>
+<size=16>이 경량화 기능은 AAO: AvatarOptimizer(by anatawa12) 패키지의 기능을 활용합니다. 먼저 이 프로젝트에 Avatar Optimizer를 도입해 주세요.
+</size>
+</txt>
+<button>아바타 옵티마이저 설치(Booth), Link, https://booth.pm/ja/items/4885109</button>

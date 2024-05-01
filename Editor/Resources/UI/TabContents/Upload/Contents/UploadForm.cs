@@ -1,3 +1,4 @@
+using EAUploader;
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
 using System;
@@ -10,6 +11,9 @@ using UnityEngine.Networking;
 using UnityEngine.UIElements;
 using VRC.Core;
 using VRC.SDKBase.Editor.Api;
+#if HAS_AAO
+using Anatawa12.AvatarOptimizer;
+#endif
 
 namespace EAUploader.UI.Upload
 {
@@ -21,6 +25,7 @@ namespace EAUploader.UI.Upload
         private static bool isLoggedin;
         private static bool isFormNull = true;
         private static bool isConfirmTerm = false;
+        private static bool Has_AAO = EAUploaderCore.HasAAO;
 
         private static readonly Dictionary<string, string> BUILD_TARGET_ICONS = new Dictionary<string, string>
         {
@@ -156,6 +161,40 @@ namespace EAUploader.UI.Upload
             {
                 isConfirmTerm = evt.newValue;
                 CheckCanUpload();
+            });
+
+            root.Q<SlideToggle>("avatar_optimize").RegisterValueChangedCallback(evt =>
+            {
+                var selectedPrefabPath = EAUploaderCore.selectedPrefabPath;
+                var prefab = PrefabManager.GetPrefab(selectedPrefabPath);
+                var avatarRoot = prefab.transform.root.gameObject;
+
+                #if HAS_AAO
+                if (evt.newValue) 
+                {
+                    // Add TraceAndOptimize Component
+                    var traceAndOptimize = avatarRoot.GetComponent<TraceAndOptimize>();
+                    if (traceAndOptimize == null)
+                    {
+                        traceAndOptimize = avatarRoot.AddComponent<TraceAndOptimize>();
+                    }
+                }
+                else
+                {
+                    // Remove Component
+                    var traceAndOptimize = avatarRoot.GetComponent<TraceAndOptimize>();
+                    if (traceAndOptimize != null)
+                    {
+                        UnityEngine.Object.DestroyImmediate(traceAndOptimize, true);
+                    }
+                }
+                #else
+                if (evt.newValue)
+                {
+                    EAUploaderMessageWindow.ShowMsg(203);
+                    root.Q<SlideToggle>("avatar_optimize").value = false;
+                }
+                #endif
             });
         }
 
@@ -347,6 +386,13 @@ namespace EAUploader.UI.Upload
                     popup.AddToClassList("flex-1");
                     switcherBlock.Add(popup);
                 }
+
+#if HAS_AAO
+                var prefab = PrefabManager.GetPrefab(path);
+                var avatarRoot = prefab.transform.root.gameObject;
+                var hasTraceAndOptimize = Utility.CheckAvatarHasTandO(avatarRoot);
+                root.Q<SlideToggle>("avatar_optimize").value = hasTraceAndOptimize;
+#endif
             }
         }
 

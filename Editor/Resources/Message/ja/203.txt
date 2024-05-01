@@ -1,0 +1,6 @@
+<txt>
+<size=20><color=red>AvatarOptimizer を導入してください</color></size>
+<size=16>この機能は、AvatarOptimizer(by anatawa12)の機能を使用します。以下ボタンからAvatarOptimizerをこのプロジェクトに追加してください。
+</size>
+</txt>
+<button>AvatarOptimizerを導入する(Booth), Link, https://booth.pm/ja/items/4885109</button>

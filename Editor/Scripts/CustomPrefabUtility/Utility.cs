@@ -3,6 +3,9 @@ using VRC.SDKBase;
 #if HAS_VRM
 using VRM;
 #endif
+#if HAS_AAO
+using Anatawa12.AvatarOptimizer;
+#endif
 
 namespace EAUploader.CustomPrefabUtility
 {
@@ -29,6 +32,15 @@ namespace EAUploader.CustomPrefabUtility
         {
 #if HAS_VRM
             return avatar.GetComponent<VRMMeta>() != null;
+#else
+            return false;
+#endif
+        }
+
+        public static bool CheckAvatarHasTandO(GameObject avatar)
+        {
+#if HAS_AAO
+            return avatar.GetComponent<TraceAndOptimize>() != null;
 #else
             return false;
 #endif
