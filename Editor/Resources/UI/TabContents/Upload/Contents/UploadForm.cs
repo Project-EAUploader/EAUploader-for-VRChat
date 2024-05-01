@@ -386,6 +386,13 @@ namespace EAUploader.UI.Upload
                     popup.AddToClassList("flex-1");
                     switcherBlock.Add(popup);
                 }
+
+#if HAS_AAO
+                var prefab = PrefabManager.GetPrefab(path);
+                var avatarRoot = prefab.transform.root.gameObject;
+                var hasTraceAndOptimize = Utility.CheckAvatarHasTandO(avatarRoot);
+                root.Q<SlideToggle>("avatar_optimize").value = hasTraceAndOptimize;
+#endif
             }
         }
 
