@@ -11,7 +11,7 @@ Light <<< <b><color=green>Excellent</color> < <color=green>Good</color> < <color
 </txt>
 <t>Optimization (weight reduction)</t>
 <txt>
-<size=16>    Currently EAUploader does not have an avatar optimization feature.
-    If you want to minimize your avatar, you will need to install a minimization tool such as Avatar optimizer and do it in the Unity editor.
+<size=16>    By installing AvatarOptimizer, EAUploader allows you to use the auto-optimization feature.
+    Please install AvatarOptimizer from the Avatar Optimization menu on the right. Note that since the result of auto-optimization is not known until the build, this performance display will not reflect the post-optimization even if the auto-optimization function is turned on. If you want to further optimize or lighten the weight, please use the Unity editor and try the various functions in AvatarOptimizer.
 </size>
 </txt>
