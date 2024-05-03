@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using Newtonsoft.Json;
+using static EAUploader.UI.Windows.Logger;
 
 namespace EAUploader
 {
