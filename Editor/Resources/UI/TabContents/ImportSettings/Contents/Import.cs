@@ -1,11 +1,13 @@
 ﻿using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
+using EAUploader.UI.Windows;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using EAULogger = EAUploader.UI.Windows.Logger;
 
 namespace EAUploader.UI.ImportSettings
 {
@@ -80,6 +82,7 @@ namespace EAUploader.UI.ImportSettings
 
             root.Q<Label>("version").text = EAUploaderCore.GetVersion();
             root.Q<ShadowButton>("send_feedback").clicked += () => DiscordWebhookSender.OpenDiscordWebhookSenderWindow();
+            root.Q<ShadowButton>("open_logreport").clicked += () => GenerateLogReport();
             root.Q<ShadowButton>("exit_unity").clicked += () =>
             {
                 if (EditorUtility.DisplayDialog(T7e.Get("Confirm Exit"), T7e.Get("Are you sure you want to exit Unity?"), T7e.Get("Yes"), T7e.Get("No")))
@@ -87,6 +90,24 @@ namespace EAUploader.UI.ImportSettings
                     EditorApplication.Exit(0);
                 }
             };
+        }
+
+        private static void GenerateLogReport()
+        {
+
+            DirectoryInfo di = new DirectoryInfo(EAULogger.LOGFOLDER_PATH);
+            // もしログフォルダがなければ作成する
+            if (!di.Exists)
+            {
+                Directory.CreateDirectory(EAULogger.LOGFOLDER_PATH);
+                // 確実にディレクトリが作成されるのを待つ
+                while (!di.Exists)
+                {
+                    di.Refresh();
+                }
+            }
+            Application.OpenURL("file:///" + EAULogger.GetLogFolderFullPath());
+            DialogPro.Show(DialogPro.DialogType.Info, T7e.Get("Open log report"), T7e.Get("Log report opened.") + '\n' + T7e.Get("Please compress the displayed folder into a zip file and send it."));
         }
 
         private static void ImportPrefabButtonClicked()

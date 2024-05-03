@@ -318,6 +318,18 @@
       "value": "フィードバックを送信"
     },
     {
+      "key": "Open log report",
+      "value": "ログレポートを開く"
+    },
+    {
+      "key": "Log report opened.",
+      "value": "ログレポートを開きました。"
+    },
+    {
+      "key": "Please compress the displayed folder into a zip file and send it.",
+      "value": "表示されたフォルダをzipファイルに圧縮して送信してください。"
+    },
+    {
       "key": "Your name (option)",
       "value": "名前（任意）"
     },
@@ -716,14 +728,6 @@
     {
       "key": "Restart",
       "value": "再起動"
-    },
-    {
-      "key": "Avatar Optimization",
-      "value": "アバターの最適化"
-    },
-    {
-      "key": "Automatic avatar optimizing (AvatarOptimizer)",
-      "value": "自動最適化（AvatarOptimizerを使用）"
     }
   ]
 }

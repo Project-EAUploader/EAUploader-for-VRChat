@@ -38,10 +38,32 @@ namespace EAUploader
         private static bool initializationPerformed = false;
         public static bool HasVRM = false;
         public static bool HasAAO = false;
-
+        internal static IEnumerable<(string package, string version)> VpmLockedPackages()
+        {
+            try
+            {
+                var vpmManifestJson = File.ReadAllText("Packages/vpm-manifest.json");
+                var manifest = JsonConvert.DeserializeObject<VpmManifest>(vpmManifestJson)
+                               ?? throw new InvalidOperationException();
+                return manifest.locked
+                    .Where(x => x.Value.version != null)
+                    .Select(x => (x.Key, x.Value.version!));
+            }
+            catch
+            {
+                return Array.Empty<(string, string)>();
+            }
+        }
         static EAUploaderCore()
         {
+            Application.logMessageReceived += UI.Windows.Logger.OnReceiveLog;
             Debug.Log("EAUploader is starting...");
+            Debug.Log("*** Environment Details ***");
+            Debug.Log("Application-Version: " + GetVersion(true));
+            Debug.Log("Unity-Version: " + Application.unityVersion);
+            Debug.Log("Editor-Platform: " + Application.platform);
+            Debug.Log("Vpm-Dependency: \n" + String.Join("\n", VpmLockedPackages().Select(x => $"{x.package}@{x.version}")));
+            Debug.Log("*** Environment Details ***");
             EditorApplication.update += OnEditorUpdate;
         }
 
@@ -79,8 +101,6 @@ namespace EAUploader
 
                 // Wait for the above processes to complete before opening the EAUploader window
                 EditorApplication.delayCall += OpenEAUploaderWindow;
-
-                Application.logMessageReceived += UI.Windows.Logger.OnReceiveLog;
             }
             catch (System.Exception e)
             {
