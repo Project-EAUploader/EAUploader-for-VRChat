@@ -319,15 +319,19 @@
     },
     {
       "key": "Open log report",
-      "value": "ログレポートを開く"
+      "value": "ログレポートを表示"
     },
     {
-      "key": "Log report opened.",
-      "value": "ログレポートを開きました。"
+      "key": "Press the \"Send\" button to send the log report.\nSubmissions are irrevocable.",
+      "value": "送信ボタンを押すと、ログレポートを送信します。\n送信は取り消しできません。"
     },
     {
-      "key": "Please compress the displayed folder into a zip file and send it.",
-      "value": "表示されたフォルダをzipファイルに圧縮して送信してください。"
+      "key": "Could not find log file to send.",
+      "value": "送信すべきログファイルが見つかりませんでした。"
+    },
+    {
+      "key": "Transmission was failed.",
+      "value": "送信に失敗しました。"
     },
     {
       "key": "Your name (option)",

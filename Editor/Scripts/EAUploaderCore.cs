@@ -7,7 +7,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using Newtonsoft.Json;
-using static EAUploader.UI.Windows.Logger;
+using EAULogger = EAUploader.UI.Windows.Logger;
 
 namespace EAUploader
 {
@@ -45,7 +45,7 @@ namespace EAUploader
             try
             {
                 var vpmManifestJson = File.ReadAllText("Packages/vpm-manifest.json");
-                var manifest = JsonConvert.DeserializeObject<VpmManifest>(vpmManifestJson)
+                var manifest = JsonConvert.DeserializeObject<EAULogger.VpmManifest>(vpmManifestJson)
                                ?? throw new InvalidOperationException();
                 return manifest.locked
                     .Where(x => x.Value.version != null)
@@ -59,6 +59,7 @@ namespace EAUploader
         static EAUploaderCore()
         {
             Application.logMessageReceived += UI.Windows.Logger.OnReceiveLog;
+            EAULogger.OUTPUT_LOGFILE_NAME = DateTime.Now.ToString("yyyy-MM-dd") + "-" + EAULogger.FetchLogFileNumber().ToString() + ".log";
             Debug.Log("EAUploader is starting...");
             Debug.Log("*** Environment Details ***");
             Debug.Log("Application-Version: " + GetVersion(true));

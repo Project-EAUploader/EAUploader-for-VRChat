@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
@@ -12,7 +13,31 @@ namespace EAUploader.UI.Windows
 {
     public class Logger : EditorWindow
     {
+
+        /// <summary>
+        /// EAUploaderのログ出力において使用するログ種別。
+        /// </summary>
+        public enum EAULogType
+        {
+            Error,
+            Assert,
+            Warning,
+            Log,
+            Exception,
+            EAUploader // EAUploaderの操作を出力する場合に用いる。
+        } 
         private static StringBuilder _stringBuilder;
+
+        /// <summary>
+        /// 出力を行うログファイルの名前。
+        /// EAUplaoder起動単位でログファイルを出力するため、本変数の値は
+        /// EAUploader起動時に一度設定したら、以降は変更を行わない。
+        /// </summary>
+        public static string OUTPUT_LOGFILE_NAME = "";
+
+        /// <summary>
+        /// ログファイルを生成するフォルダのパス。
+        /// </summary>
         internal static string LOGFOLDER_PATH = "EAUploaderLog/";
         internal static long LOGFOLDER_MAX_SIZE_IN_BYTES = 100 * 1024 * 1024; // 100MB
 
@@ -67,42 +92,30 @@ namespace EAUploader.UI.Windows
 
         internal static void OnReceiveLog(string logText, string stackTrace, LogType logType)
         {
-            // ログ出力処理
-            // ログフォルダの容量がLOGFOLDER_MAX_SIZE_IN_BYTESを超えていた場合
-            // 最も古いログファイルを削除する
-            // ディレクトリ容量の対象となるのは*.logファイルのみである。
-            DirectoryInfo di = new DirectoryInfo(LOGFOLDER_PATH);
 
+            EAULogType eAULog = new EAULogType();
 
-            if (!di.Exists)
+            switch (logType)
             {
-                Directory.CreateDirectory(LOGFOLDER_PATH);
-                // 確実にディレクトリが作成されるのを待つ
-                while(!di.Exists)
-                {
-                    di.Refresh();
-                }
-            }
-
-            // ディレクトリ容量取得
-            long logFolderSizeInBytes = di.EnumerateFiles("*.log").Sum(fi => fi.Length);
-
-            // ディレクトリ容量が規定の容量よりも大きかった場合
-            if (logFolderSizeInBytes > LOGFOLDER_MAX_SIZE_IN_BYTES)
-            {
-
-                var oldestLogFile = di.EnumerateFiles("*.log")
-                                      .OrderBy(fi => fi.CreationTime)
-                                      .FirstOrDefault();
-
-                if (oldestLogFile != null)
-                {
-                    oldestLogFile.Delete();
-                }
+                case LogType.Error:
+                    eAULog = EAULogType.Error;
+                    break;
+                case LogType.Assert:
+                    eAULog = EAULogType.Assert;
+                    break;
+                case LogType.Warning:
+                    eAULog = EAULogType.Warning;
+                    break;
+                case LogType.Log:
+                    eAULog = EAULogType.Log;
+                    break;
+                case LogType.Exception:
+                    eAULog = EAULogType.Exception;
+                    break;
             }
 
             // ログ出力
-            writeLog(logText, stackTrace, logType);
+            writeLog(logText, stackTrace, eAULog);
 
             if (logType == LogType.Exception || logType == LogType.Error)
             {
@@ -164,8 +177,49 @@ namespace EAUploader.UI.Windows
 
         }
 
-        internal static void writeLog(string logText, string stackTrace, LogType logType)
+        /// <summary>
+        /// ログ出力をログファイルに対して行う。
+        /// UnityConsole上へのログ出力は行わない。
+        /// </summary>
+        /// <param name="logText"></param>
+        /// <param name="stackTrace"></param>
+        /// <param name="logType"></param>
+        public static void writeLog(string logText, string stackTrace, EAULogType logType)
         {
+            // ログ出力処理
+            // ログフォルダの容量がLOGFOLDER_MAX_SIZE_IN_BYTESを超えていた場合
+            // 最も古いログファイルを削除する
+            // ディレクトリ容量の対象となるのは*.logファイルのみである。
+            DirectoryInfo di = new DirectoryInfo(LOGFOLDER_PATH);
+
+
+            if (!di.Exists)
+            {
+                Directory.CreateDirectory(LOGFOLDER_PATH);
+                // 確実にディレクトリが作成されるのを待つ
+                while (!di.Exists)
+                {
+                    di.Refresh();
+                }
+            }
+
+            // ディレクトリ容量取得
+            long logFolderSizeInBytes = di.EnumerateFiles("*.log").Sum(fi => fi.Length);
+
+            // ディレクトリ容量が規定の容量よりも大きかった場合
+            if (logFolderSizeInBytes > LOGFOLDER_MAX_SIZE_IN_BYTES)
+            {
+
+                var oldestLogFile = di.EnumerateFiles("*.log")
+                                      .OrderBy(fi => fi.CreationTime)
+                                      .FirstOrDefault();
+
+                if (oldestLogFile != null)
+                {
+                    oldestLogFile.Delete();
+                }
+            }
+
             // ログレベルがErrorかExceptionのときは、フルのトレースログを出力する
             // それ以外のログレベルでは、ログの呼び出し箇所のみを表示する
             // stackTraceのパース
@@ -185,24 +239,27 @@ namespace EAUploader.UI.Windows
 
             switch (logType)
             {
-                case LogType.Error:
+                case EAULogType.Error:
                     outputLogLevel = "ERR";
                     break;
-                case LogType.Assert:
+                case EAULogType.Assert:
                     outputLogLevel = "AST";
                     break;
-                case LogType.Warning:
+                case EAULogType.Warning:
                     outputLogLevel = "WNG";
                     break;
-                case LogType.Log:
+                case EAULogType.Log:
                     outputLogLevel = "LOG";
                     break;
-                case LogType.Exception:
+                case EAULogType.Exception:
                     outputLogLevel = "EXP";
+                    break;
+                case EAULogType.EAUploader:
+                    outputLogLevel = "EAU";
                     break;
             }
 
-            if (logType == LogType.Exception || logType == LogType.Error)
+            if (logType == EAULogType.Exception || logType == EAULogType.Error)
             {
                 // そのままトレースログを出力すると見づらいので
                 // インデントを付ける
@@ -228,17 +285,54 @@ namespace EAUploader.UI.Windows
                 }
             }
 
-            var logOutputFileName = DateTime.Now.ToString("yyyy-MM-dd") + ".log";
-
             // ファイルが存在しなければ作成する
-            if (!File.Exists(LOGFOLDER_PATH + logOutputFileName))
+            if (!File.Exists(LOGFOLDER_PATH + OUTPUT_LOGFILE_NAME))
             {
-                File.Create(LOGFOLDER_PATH + logOutputFileName).Close();
+                File.Create(LOGFOLDER_PATH + OUTPUT_LOGFILE_NAME).Close();
             }
-            using (var writer = new StreamWriter(LOGFOLDER_PATH + logOutputFileName, true, Encoding.GetEncoding("UTF-8")))
+            using (var writer = new StreamWriter(LOGFOLDER_PATH + OUTPUT_LOGFILE_NAME, true, Encoding.GetEncoding("UTF-8")))
             {
                 writer.WriteLine($"{outputTimeStamp} {outputLogLevel} {logText} {outputStackTrace}");
             }
+        }
+
+        /// <summary>
+        /// ログフォルダの中から、最も小さくなおかつ存在しないログファイルのログファイルナンバーを取得する。
+        /// ex)2023-01-01-1.log 2023-01-01-2.logという二つのログファイルが存在した場合
+        /// 本メソッドは3という数値を返す。初期値は1。
+        /// </summary>
+        /// <returns></returns>
+        internal static int FetchLogFileNumber()
+        {
+            // ディレクトリ内のすべての.logファイルを取得する。
+            var logFiles = Directory.GetFiles(LOGFOLDER_PATH, "*.log");
+
+            // ログファイルが存在しない場合初期値である1を返す。
+            if (logFiles == null)
+            {
+                return 1;
+            }
+
+            // YYYY-MM-DD-number.log　形式のファイル名を想定。
+            var regex = new Regex(@"\d{4}-\d{2}-\d{2}-(\d+)\.log$");
+
+            // ファイル名から数値を抽出
+            var numbers = logFiles.Select(path =>
+            {
+                var match = regex.Match(Path.GetFileName(path));
+                // 形式に従わないファイル名を検出した場合-1を返す。
+                return match.Success ? int.Parse(match.Groups[1].Value) : -1;
+            })
+                // 形式に従わないファイル名は、ソート対象から除外する。
+            .Where(number => number != -1)
+            .OrderBy(number => number)
+            .ToList();
+
+            // 存在しない最小の数値を取得する。
+            var missingNumber = Enumerable.Range(1, numbers.Count + 1).Except(numbers).FirstOrDefault();
+
+            return missingNumber;
+            
         }
 
     }
