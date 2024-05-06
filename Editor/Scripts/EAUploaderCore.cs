@@ -62,6 +62,7 @@ namespace EAUploader
             EAULogger.OUTPUT_LOGFILE_NAME = DateTime.Now.ToString("yyyy-MM-dd") + "-" + EAULogger.FetchLogFileNumber().ToString() + ".log";
             Debug.Log("EAUploader is starting...");
             Debug.Log("*** Environment Details ***");
+            Debug.Log("Log GUID: " + Guid.NewGuid().ToString("N"));
             Debug.Log("Application-Version: " + GetVersion(true));
             Debug.Log("Unity-Version: " + Application.unityVersion);
             Debug.Log("Editor-Platform: " + Application.platform);
