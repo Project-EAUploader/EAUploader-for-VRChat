@@ -4,7 +4,6 @@ using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static EAUploader.UI.Windows.DialogPro;
 
 namespace EAUploader.UI.Windows
 {
