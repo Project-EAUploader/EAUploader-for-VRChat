@@ -318,6 +318,22 @@
       "value": "フィードバックを送信"
     },
     {
+      "key": "Open log report",
+      "value": "ログレポートを表示"
+    },
+    {
+      "key": "Press the \"Send\" button to send the log report.\nSubmissions are irrevocable.",
+      "value": "送信ボタンを押すと、ログレポートを送信します。\n送信は取り消しできません。"
+    },
+    {
+      "key": "Could not find log file to send.",
+      "value": "送信すべきログファイルが見つかりませんでした。"
+    },
+    {
+      "key": "Transmission was failed.",
+      "value": "送信に失敗しました。"
+    },
+    {
       "key": "Your name (option)",
       "value": "名前（任意）"
     },

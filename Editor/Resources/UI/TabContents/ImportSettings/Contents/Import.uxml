@@ -78,7 +78,9 @@
         <ui:Label name="version" tabindex="-1" text="Version: " parse-escape-sequences="true"
             display-tooltip-when-elided="true" />
         <eau:ShadowButton name="send_feedback" text="Send feedback" parse-escape-sequences="true"
-            display-tooltip-when-elided="true" />
+            display-tooltip-when-elided="true" class="p-4"/>
+        <eau:ShadowButton name="open_logreport" text="Open log report" parse-escape-sequences="true"
+            display-tooltip-when-elided="true" class="px-4"/>
         <eau:ShadowButton name="exit_unity" text="Exit Unity" parse-escape-sequences="true"
             display-tooltip-when-elided="true" class="p-4"/>
     </ui:VisualElement>
