@@ -126,15 +126,8 @@ namespace EAUploader.UI.Windows
             var copyButton = wnd.rootVisualElement.Q<Button>("copy");
             var okButton = wnd.rootVisualElement.Q<Button>("ok");
 
-            copyButton.clickable.clicked += () =>
-            {
-                EditorGUIUtility.systemCopyBuffer = message;
-            };
-
-            okButton.clickable.clicked += () =>
-            {
-                wnd.Close();
-            };
+            copyButton.clickable.clicked += () => EditorGUIUtility.systemCopyBuffer = message;
+            okButton.clickable.clicked += () => wnd.Close();
 
             switch (dialogType)
             {
@@ -154,6 +147,9 @@ namespace EAUploader.UI.Windows
                     icon.icon = "check_circle";
                     icon.AddToClassList("success");
                     copyButton.style.display = DisplayStyle.None;
+                    break;
+                default:
+                    // 何もしない
                     break;
             }
 

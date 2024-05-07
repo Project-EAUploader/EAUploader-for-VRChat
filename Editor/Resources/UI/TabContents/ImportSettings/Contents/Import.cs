@@ -19,7 +19,7 @@ namespace EAUploader.UI.ImportSettings
     {
         private static List<LanguageInfo> languageInfos = LanguageUtility.GetAvailableLanguages();
         private static List<ThemeInfo> themeInfos = ThemeUtility.GetAvailableThemes();
-        private static readonly HttpClient client = new HttpClient();
+        private static readonly HttpClient client = new();
 
         public static void ShowContent(VisualElement root)
         {
@@ -123,16 +123,19 @@ namespace EAUploader.UI.ImportSettings
                     form.Add(fileContent, "file", Path.GetFileName(filePath));
                     HttpResponseMessage response = await client.PostAsync(DISCORD_WEBHOOK_URL, form);
 
+
+                    // 送信成功
                     if (response.IsSuccessStatusCode)
                     {
                         DialogPro.Show(DialogType.Success, T7e.Get("Open log report"), T7e.Get("Transmission was successful. Thank you."), true);
                         return;
                     }
-                    else
-                    {
-                        DialogPro.Show(DialogType.Info, T7e.Get("Open log report"), T7e.Get("Transmission was failed."), true);
-                        return;
-                    }
+
+
+                    // 送信失敗
+                    DialogPro.Show(DialogType.Info, T7e.Get("Open log report"), T7e.Get("Transmission was failed."), true);
+                    return;
+
                 } catch (Exception ex)
                 {
                     DialogPro.Show(DialogType.Info, T7e.Get("Open log report"), T7e.Get("Transmission was failed."), true);

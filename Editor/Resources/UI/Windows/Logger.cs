@@ -41,7 +41,7 @@ namespace EAUploader.UI.Windows
         internal static string LOGFOLDER_PATH = "EAUploaderLog/";
         internal static long LOGFOLDER_MAX_SIZE_IN_BYTES = 100 * 1024 * 1024; // 100MB
 
-        internal static readonly string EAULOG_PREFIX = "[EAUb1bc40d3ff764a5d8081e5cd2f48bbc7]";
+        internal const string EAULOG_PREFIX = "[EAUb1bc40d3ff764a5d8081e5cd2f48bbc7]";
 
         internal static IEnumerable<(string package, string version)> VpmLockedPackages()
         {
@@ -95,7 +95,7 @@ namespace EAUploader.UI.Windows
         internal static void OnReceiveLog(string logText, string stackTrace, LogType logType)
         {
 
-            EAULogType eAULog = new EAULogType();
+            EAULogType eAULog = new();
 
             switch (logType)
             {
@@ -119,6 +119,9 @@ namespace EAUploader.UI.Windows
                     break;
                 case LogType.Exception:
                     eAULog = EAULogType.Exception;
+                    break;
+                default:
+                    eAULog = (EAULogType)(-1);
                     break;
             }
 
@@ -198,7 +201,7 @@ namespace EAUploader.UI.Windows
             // ログフォルダの容量がLOGFOLDER_MAX_SIZE_IN_BYTESを超えていた場合
             // 最も古いログファイルを削除する
             // ディレクトリ容量の対象となるのは*.logファイルのみである。
-            DirectoryInfo di = new DirectoryInfo(LOGFOLDER_PATH);
+            DirectoryInfo di = new(LOGFOLDER_PATH);
 
 
             if (!di.Exists)
@@ -243,7 +246,7 @@ namespace EAUploader.UI.Windows
             // AST:Assert Level
             string outputLogLevel = "";
 
-            outputTimeStamp = DateTime.Now.ToString("HH:mm:ss.fff");
+            outputTimeStamp = DateTime.UtcNow.ToString("HH:mm:ss.fff");
 
             switch (logType)
             {
@@ -265,6 +268,9 @@ namespace EAUploader.UI.Windows
                 case EAULogType.EAUploader:
                     outputLogLevel = "EAU";
                     break;
+                default:
+                    outputLogLevel = "OTHER";
+                    break;
             }
 
             if (logType == EAULogType.Exception || logType == EAULogType.Error)
@@ -283,29 +289,14 @@ namespace EAUploader.UI.Windows
             {
                 logText = logText.Replace(EAULOG_PREFIX, "");
                 string[] lines = stackTrace.Split('\n');
-                if (lines.Length >= 3)
-                {
-                    // 三行目のみをトレースログとして出力する
-                    outputStackTrace = lines[2];
-                }
-                else
-                {
-                    outputStackTrace = stackTrace;
-                }
-
+                // トレース文字列が3行以上ある場合、3行目を返す。
+                outputStackTrace = lines.Length >= 3 ? lines[2] : stackTrace;
             }
             else
             {
                 string[] lines = stackTrace.Split('\n');
-                if (lines.Length >= 2)
-                {
-                    // 二行目のみをトレースログとして出力する
-                    outputStackTrace = lines[1];
-                }
-                else
-                {
-                    outputStackTrace = stackTrace;
-                }
+                // トレース文字列が2行以上ある場合、2行目を返す。
+                outputStackTrace = lines.Length >= 2 ? lines[1] : stackTrace;
             }
 
             // ファイルが存在しなければ作成する
@@ -313,10 +304,10 @@ namespace EAUploader.UI.Windows
             {
                 File.Create(LOGFOLDER_PATH + OUTPUT_LOGFILE_NAME).Close();
             }
-            using (var writer = new StreamWriter(LOGFOLDER_PATH + OUTPUT_LOGFILE_NAME, true, Encoding.GetEncoding("UTF-8")))
-            {
-                writer.WriteLine($"{outputTimeStamp} {outputLogLevel} {logText} {outputStackTrace}");
-            }
+            using var writer = new StreamWriter(LOGFOLDER_PATH + OUTPUT_LOGFILE_NAME, true, Encoding.GetEncoding("UTF-8"));
+            
+            writer.WriteLine($"{outputTimeStamp} {outputLogLevel} {logText} {outputStackTrace}");
+            
         }
 
         /// <summary>
@@ -328,7 +319,7 @@ namespace EAUploader.UI.Windows
         internal static int FetchLogFileNumber()
         {
             // ディレクトリ内のすべての.logファイルを取得する。
-            var logFiles = Directory.GetFiles(LOGFOLDER_PATH, DateTime.Now.ToString("yyyy-MM-dd") + "*.log");
+            var logFiles = Directory.GetFiles(LOGFOLDER_PATH, DateTime.UtcNow.ToString("yyyy-MM-dd") + "*.log");
 
             // ログファイルが存在しない場合初期値である1を返す。
             if (logFiles == null)

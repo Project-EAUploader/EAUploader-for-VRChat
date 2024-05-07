@@ -59,10 +59,10 @@ namespace EAUploader
         static EAUploaderCore()
         {
             Application.logMessageReceived += UI.Windows.Logger.OnReceiveLog;
-            EAULogger.OUTPUT_LOGFILE_NAME = DateTime.Now.ToString("yyyy-MM-dd") + "-" + EAULogger.FetchLogFileNumber().ToString() + ".log";
+            EAULogger.OUTPUT_LOGFILE_NAME = DateTime.UtcNow.ToString("yyyy-MM-dd") + "-" + EAULogger.FetchLogFileNumber().ToString() + ".log";
             Debug.Log("EAUploader is starting...");
             Debug.Log("*** Environment Details ***");
-            Debug.Log("Date: " + DateTime.Now.ToString("yyyy-MM-dd"));
+            Debug.Log("Date: " + DateTime.UtcNow.ToString("yyyy-MM-dd"));
             Debug.Log("Log GUID: " + Guid.NewGuid().ToString("N"));
             Debug.Log("Application-Version: " + GetVersion(true));
             Debug.Log("Unity-Version: " + Application.unityVersion);
