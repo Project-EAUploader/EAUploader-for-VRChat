@@ -2,6 +2,7 @@ using EAUploader.UI.Components;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using EAULogger = EAUploader.UI.Windows.Logger;
 
 namespace EAUploader.UI
 {
@@ -81,12 +82,15 @@ namespace EAUploader.UI
             switch (buttonName)
             {
                 case "settings":
+                    EAULogger.writeEAULog("Selected settings tab.");
                     ImportSettings.Main.ShowContent(contentRoot);
                     break;
                 case "setup":
+                    EAULogger.writeEAULog("Selected setup tab.");
                     Setup.Main.ShowContent(contentRoot);
                     break;
                 case "upload":
+                    EAULogger.writeEAULog("Selected upload tab.");
                     Upload.Main.ShowContent(contentRoot);
                     break;
                 default:

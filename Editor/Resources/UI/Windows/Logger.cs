@@ -41,6 +41,8 @@ namespace EAUploader.UI.Windows
         internal static string LOGFOLDER_PATH = "EAUploaderLog/";
         internal static long LOGFOLDER_MAX_SIZE_IN_BYTES = 100 * 1024 * 1024; // 100MB
 
+        internal static readonly string EAULOG_PREFIX = "[EAUb1bc40d3ff764a5d8081e5cd2f48bbc7]";
+
         internal static IEnumerable<(string package, string version)> VpmLockedPackages()
         {
             try
@@ -107,6 +109,12 @@ namespace EAUploader.UI.Windows
                     eAULog = EAULogType.Warning;
                     break;
                 case LogType.Log:
+                    // EAUログかどうか判定
+                    if (logText.Contains(EAULOG_PREFIX))
+                    {
+                        eAULog = EAULogType.EAUploader;
+                        break;
+                    }
                     eAULog = EAULogType.Log;
                     break;
                 case LogType.Exception:
@@ -184,7 +192,7 @@ namespace EAUploader.UI.Windows
         /// <param name="logText"></param>
         /// <param name="stackTrace"></param>
         /// <param name="logType"></param>
-        public static void writeLog(string logText, string stackTrace, EAULogType logType)
+        internal static void writeLog(string logText, string stackTrace, EAULogType logType)
         {
             // ログ出力処理
             // ログフォルダの容量がLOGFOLDER_MAX_SIZE_IN_BYTESを超えていた場合
@@ -235,7 +243,7 @@ namespace EAUploader.UI.Windows
             // AST:Assert Level
             string outputLogLevel = "";
 
-            outputTimeStamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            outputTimeStamp = DateTime.Now.ToString("HH:mm:ss.fff");
 
             switch (logType)
             {
@@ -269,7 +277,22 @@ namespace EAUploader.UI.Windows
                     lines[i] = new string(' ', $"{outputTimeStamp} {outputLogLevel} {logText} ".Length) + lines[i];
                 }
                 // インデントを追加したフルのトレースログを出力
-                outputStackTrace = string.Join('\n',lines);
+                outputStackTrace = string.Join('\n', lines);
+            }
+            else if (logType == EAULogType.EAUploader)
+            {
+                logText = logText.Replace(EAULOG_PREFIX, "");
+                string[] lines = stackTrace.Split('\n');
+                if (lines.Length >= 3)
+                {
+                    // 三行目のみをトレースログとして出力する
+                    outputStackTrace = lines[2];
+                }
+                else
+                {
+                    outputStackTrace = stackTrace;
+                }
+
             }
             else
             {
@@ -305,7 +328,7 @@ namespace EAUploader.UI.Windows
         internal static int FetchLogFileNumber()
         {
             // ディレクトリ内のすべての.logファイルを取得する。
-            var logFiles = Directory.GetFiles(LOGFOLDER_PATH, "*.log");
+            var logFiles = Directory.GetFiles(LOGFOLDER_PATH, DateTime.Now.ToString("yyyy-MM-dd") + "*.log");
 
             // ログファイルが存在しない場合初期値である1を返す。
             if (logFiles == null)
@@ -333,6 +356,15 @@ namespace EAUploader.UI.Windows
 
             return missingNumber;
             
+        }
+
+        /// <summary>
+        /// EAUログをログファイルに出力する。
+        /// </summary>
+        /// <param name="message">出力するメッセージ</param>
+        public static void writeEAULog(string message)
+        {
+            Debug.Log(EAULOG_PREFIX + message);
         }
 
     }
