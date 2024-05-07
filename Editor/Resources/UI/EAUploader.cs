@@ -94,7 +94,7 @@ namespace EAUploader.UI
                     Upload.Main.ShowContent(contentRoot);
                     break;
                 default:
-                    // ‰½‚à‚µ‚È‚¢
+                    // Do Nothing
                     break;
             }
 

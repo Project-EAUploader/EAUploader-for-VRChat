@@ -72,9 +72,7 @@ namespace EAUploader.UI.Windows
 
             if (isOkButtonClickedDialogClose)
             {
-                okButton.clickable.clicked += () => {
-                    wnd.Close();
-                };
+                okButton.clickable.clicked += () => wnd.Close();
             }
 
             switch (dialogType)
