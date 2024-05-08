@@ -1,5 +1,4 @@
 using EAUploader.CustomPrefabUtility;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,14 +6,7 @@ namespace EAUploader
 {
     public class AssetImportProcessor : AssetPostprocessor
     {
-        private static readonly List<string> targetFolderPaths = new List<string>
-    {
-        "Assets/EAUploader/MarketThumbnails",
-        "Assets/EAUploader/MyList",
-        "Packages/tech.uslog.eauploader/Editor/Resources/icons"
-    };
-
-        static void OnPostprocessAllAssets(
+        private static void OnPostprocessAllAssets(
             string[] importedAssets,
             string[] deletedAssets,
             string[] movedAssets,
