@@ -1,11 +1,17 @@
 ﻿using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
+using EAUploader.UI.Windows;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using UnityEditor;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static EAUploader.UI.Windows.DialogPro;
+using EAULogger = EAUploader.UI.Windows.Logger;
 
 namespace EAUploader.UI.ImportSettings
 {
@@ -13,6 +19,7 @@ namespace EAUploader.UI.ImportSettings
     {
         private static List<LanguageInfo> languageInfos = LanguageUtility.GetAvailableLanguages();
         private static List<ThemeInfo> themeInfos = ThemeUtility.GetAvailableThemes();
+        private static readonly HttpClient client = new();
 
         public static void ShowContent(VisualElement root)
         {
@@ -80,6 +87,7 @@ namespace EAUploader.UI.ImportSettings
 
             root.Q<Label>("version").text = EAUploaderCore.GetVersion();
             root.Q<ShadowButton>("send_feedback").clicked += () => DiscordWebhookSender.OpenDiscordWebhookSenderWindow();
+            root.Q<ShadowButton>("open_logreport").clicked += () => GenerateLogReport();
             root.Q<ShadowButton>("exit_unity").clicked += () =>
             {
                 if (EditorUtility.DisplayDialog(T7e.Get("Confirm Exit"), T7e.Get("Are you sure you want to exit Unity?"), T7e.Get("Yes"), T7e.Get("No")))
@@ -88,6 +96,59 @@ namespace EAUploader.UI.ImportSettings
                 }
             };
         }
+
+        private static void GenerateLogReport()
+        {
+            const string DISCORD_WEBHOOK_URL = "https://ptb.discord.com/api/webhooks/1236925621871968266/LKVhFhjJADqBc5Pw11klIWGZL1a-pDKK_mzx5WGXjVLqpNCB7h303gJekr_Bbbplsq-t";
+
+            Action action = async () =>
+            {
+
+                try
+                {
+                    var filePath = Directory.GetFiles(EAULogger.GetLogFolderFullPath())
+                        .OrderByDescending(f => File.GetLastWriteTime(f))
+                        .FirstOrDefault();
+
+                if (filePath == null)
+                {
+                    DialogPro.Show(DialogType.Info, T7e.Get("Open log report"), T7e.Get("Could not find log file to send."), true);
+                    return;
+                }
+
+                    using var form = new MultipartFormDataContent();
+                    using var fileContent = new ByteArrayContent(File.ReadAllBytes(filePath));
+                    fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("multipart/form-data");
+
+                    form.Add(fileContent, "file", Path.GetFileName(filePath));
+                    HttpResponseMessage response = await client.PostAsync(DISCORD_WEBHOOK_URL, form);
+
+
+                    // 送信成功
+                    if (response.IsSuccessStatusCode)
+                    {
+                        DialogPro.Show(DialogType.Success, T7e.Get("Open log report"), T7e.Get("Transmission was successful. Thank you."), true);
+                        return;
+                    }
+
+
+                    // 送信失敗
+                    DialogPro.Show(DialogType.Info, T7e.Get("Open log report"), T7e.Get("Transmission was failed."), true);
+                    return;
+
+                } catch (Exception ex)
+                {
+                    DialogPro.Show(DialogType.Info, T7e.Get("Open log report"), T7e.Get("Transmission was failed."), true);
+                    Debug.LogError(ex);
+                    return;
+                }
+
+
+            };
+
+            DialogPro.Show(DialogType.Info, T7e.Get("Open log report"), T7e.Get("Press the \"Send\" button to send the log report.\nSubmissions are irrevocable."), "送信", action,false);
+        }
+
 
         private static void ImportPrefabButtonClicked()
         {

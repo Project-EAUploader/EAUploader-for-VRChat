@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using Newtonsoft.Json;
+using EAULogger = EAUploader.UI.Windows.Logger;
 
 namespace EAUploader
 {
@@ -38,10 +40,36 @@ namespace EAUploader
         private static bool initializationPerformed = false;
         public static bool HasVRM = false;
         public static bool HasAAO = false;
-
+        internal static IEnumerable<(string package, string version)> VpmLockedPackages()
+        {
+            try
+            {
+                var vpmManifestJson = File.ReadAllText("Packages/vpm-manifest.json");
+                var manifest = JsonConvert.DeserializeObject<EAULogger.VpmManifest>(vpmManifestJson)
+                               ?? throw new InvalidOperationException();
+                return manifest.locked
+                    .Where(x => x.Value.version != null)
+                    .Select(x => (x.Key, x.Value.version!));
+            }
+            catch
+            {
+                return Array.Empty<(string, string)>();
+            }
+        }
         static EAUploaderCore()
         {
+            Application.logMessageReceived += UI.Windows.Logger.OnReceiveLog;
+            EAULogger.OUTPUT_LOGFILE_NAME = DateTime.UtcNow.ToString("yyyy-MM-dd") + "-" + EAULogger.FetchLogFileNumber().ToString() + ".log";
             Debug.Log("EAUploader is starting...");
+            Debug.Log("*** Environment Details ***");
+            Debug.Log("Date: " + DateTime.UtcNow.ToString("yyyy-MM-dd"));
+            Debug.Log("Log GUID: " + Guid.NewGuid().ToString("N"));
+            Debug.Log("Application-Version: " + GetVersion(true));
+            Debug.Log("Unity-Version: " + Application.unityVersion);
+            Debug.Log("Editor-Platform: " + Application.platform);
+            Debug.Log("Vpm-Dependency: \n" + String.Join("\n", VpmLockedPackages().Select(x => $"{x.package}@{x.version}")));
+            Debug.Log("*** Environment Details ***");
+
             EditorApplication.update += OnEditorUpdate;
         }
 
@@ -79,8 +107,6 @@ namespace EAUploader
 
                 // Wait for the above processes to complete before opening the EAUploader window
                 EditorApplication.delayCall += OpenEAUploaderWindow;
-
-                Application.logMessageReceived += UI.Windows.Logger.OnReceiveLog;
             }
             catch (System.Exception e)
             {
