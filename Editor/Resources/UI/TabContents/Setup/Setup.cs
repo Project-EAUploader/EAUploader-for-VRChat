@@ -182,6 +182,8 @@ namespace EAUploader.UI.Setup
             pinButton.clicked += PinButtonClicked;
             var deleteButton = root.Q<ShadowButton>("delete_model");
             deleteButton.clicked += DeleteButtonClicked;
+            var importExtentionButton = root.Q<ShadowButton>("import_extentions");
+            importExtentionButton.clicked += ImportExtentionButtonClicked;
         }
 
         private static void ChangeNameButtonClicked()
@@ -205,6 +207,26 @@ namespace EAUploader.UI.Setup
             {
                 GetModelList();
             }
+        }
+
+        private static void ImportExtentionButtonClicked()
+        {
+            ImportAsset(EditorUtility.OpenFilePanelWithFilters(T7e.Get("Import Extentions"), "", new[] { T7e.Get("Import a .unitypackage file."), "unitypackage", "All files", "*" }));
+        }
+
+        private static void ImportAsset(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath)) return;
+
+            var fileExtension = Path.GetExtension(filePath)?.ToLower();
+
+            switch (fileExtension)
+            {
+                case ".unitypackage":
+                    AssetDatabase.ImportPackage(filePath, false);
+                    break;
+            }
+            AssetDatabase.Refresh();
         }
 
         internal static void BuildEditor()
