@@ -24,6 +24,10 @@
     {
       "key": "The selected model must have a VRCAvatarDescriptor component.",
       "value": "선택된 모델에는 VRCAvatarDescriptor 컴포넌트가 필요합니다."
+    },
+    {
+      "key": "Import extentions",
+      "value": "확장 기능 가져오기"
     }
   ]
 }
