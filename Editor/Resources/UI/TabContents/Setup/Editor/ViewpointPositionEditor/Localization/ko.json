@@ -28,6 +28,18 @@
     {
       "key": "Import extentions",
       "value": "확장 기능 가져오기"
+    },
+    {
+      "key": "Regenerate Preview",
+      "value": "미리보기 재생성하기"
+    },
+    {
+      "key": "Change the thumbnail of list",
+      "value": "목록 썸네일 변경"
+    },
+    {
+      "key": "Do you also change the thumbnails that appear in the EAUploader avatar list?",
+      "value": "EAUplaoder의 아바타 목록의 썸네일에도 적용할 수 있나요?"
     }
   ]
 }
