@@ -17,6 +17,7 @@ namespace EAUploader.CustomPrefabUtility
             var gameObject = previewRenderUtility.InstantiatePrefabInScene(prefab);
 
             Bounds bounds = CalculateBounds(gameObject);
+            //Debug.Log($"Calculated Bounds: {bounds}");
 
             previewRenderUtility.BeginStaticPreview(rect);
             previewRenderUtility.AddSingleGO(gameObject);
@@ -24,12 +25,15 @@ namespace EAUploader.CustomPrefabUtility
             previewRenderUtility.camera.backgroundColor = new UnityEngine.Color(0.9f, 0.9f, 0.9f, 1);
             previewRenderUtility.camera.clearFlags = CameraClearFlags.SolidColor;
             previewRenderUtility.camera.orthographic = true;
-            previewRenderUtility.camera.orthographicSize = bounds.size.y / 2;
+            previewRenderUtility.camera.orthographicSize = Mathf.Max(bounds.size.x, bounds.size.y) / 2;
 
-            float size = bounds.size.magnitude;
-            float distance = size / (4 * Mathf.Tan(previewRenderUtility.camera.fieldOfView * 0.5f * Mathf.Deg2Rad));
-            previewRenderUtility.camera.transform.position = bounds.center + previewRenderUtility.camera.transform.forward * distance;
+            Vector3 cameraPosition = bounds.center;
+            cameraPosition.z = bounds.center.z + bounds.size.z * 2;
+            previewRenderUtility.camera.transform.position = cameraPosition;
             previewRenderUtility.camera.transform.LookAt(bounds.center);
+
+            //Debug.Log($"Camera Position: {previewRenderUtility.camera.transform.position}");
+            //Debug.Log($"Camera LookAt: {bounds.center}");
 
             previewRenderUtility.Render();
 
@@ -42,12 +46,57 @@ namespace EAUploader.CustomPrefabUtility
 
         private static Bounds CalculateBounds(GameObject obj)
         {
+            var meshRenderers = obj.GetComponentsInChildren<MeshRenderer>();
+            if (meshRenderers.Length > 0)
+            {
+                return CalculateMeshBounds(obj);
+            }
+            else
+            {
+                var renderers = obj.GetComponentsInChildren<Renderer>();
+                if (renderers.Length > 0)
+                {
+                    return CalculateRendererBounds(obj);
+                }
+                else
+                {
+                    //Debug.LogWarning($"No MeshRenderers or Renderers found in GameObject: {obj.name}");
+                    return new Bounds(obj.transform.position, Vector3.one);
+                }
+            }
+        }
+
+        private static Bounds CalculateMeshBounds(GameObject obj)
+        {
+            var meshFilters = obj.GetComponentsInChildren<MeshFilter>();
+            if (meshFilters.Length == 0)
+            {
+                //Debug.LogWarning($"No MeshFilters found in GameObject: {obj.name}");
+                return new Bounds(obj.transform.position, Vector3.zero);
+            }
+
+            Bounds bounds = meshFilters[0].sharedMesh.bounds;
+            foreach (MeshFilter meshFilter in meshFilters)
+            {
+                bounds.Encapsulate(meshFilter.sharedMesh.bounds);
+            }
+
+            //Debug.Log($"Calculated Mesh Bounds for GameObject: {obj.name}, Bounds: {bounds}");
+
+            return bounds;
+        }
+
+        private static Bounds CalculateRendererBounds(GameObject obj)
+        {
             var renderers = obj.GetComponentsInChildren<Renderer>();
-            var bounds = new Bounds(obj.transform.position, Vector3.zero);
+            Bounds bounds = renderers[0].bounds;
             foreach (Renderer renderer in renderers)
             {
                 bounds.Encapsulate(renderer.bounds);
             }
+
+            //Debug.Log($"Calculated Renderer Bounds for GameObject: {obj.name}, Bounds: {bounds}");
+
             return bounds;
         }
 
@@ -60,13 +109,16 @@ namespace EAUploader.CustomPrefabUtility
                 GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabInfo.Path);
                 if (prefab != null)
                 {
-                    Texture2D preview = GeneratePreview(prefab);
-                    SavePrefabPreview(prefabInfo.Path, preview);
+                    if (!IsPrefabPreviewExist(prefabInfo.Path))
+                    {
+                        Texture2D preview = GeneratePreview(prefab);
+                        SavePrefabPreview(prefabInfo.Path, preview);
+                    }
                 }
             }
         }
 
-        internal static void SavePrefabPreview(string prefabPath, Texture2D preview)
+        public static void SavePrefabPreview(string prefabPath, Texture2D preview)
         {
             string fileName = Path.GetFileNameWithoutExtension(prefabPath);
             string savePath = Path.Combine(PREVIEW_SAVE_PATH, $"{fileName}.png");
@@ -118,6 +170,12 @@ namespace EAUploader.CustomPrefabUtility
                 return PrefabPreview.LoadTextureFromFile(previewImagePath);
             }
             return null;
+        }
+
+        private static bool IsPrefabPreviewExist(string prefabPath)
+        {
+            string previewImagePath = GetPreviewImagePath(prefabPath);
+            return File.Exists(previewImagePath);
         }
     }
 }

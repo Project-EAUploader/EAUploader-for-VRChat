@@ -292,6 +292,11 @@ namespace EAUploader.UI.Upload
                 texture.LoadImage(File.ReadAllBytes(path));
                 avatarThumbnail.image = texture;
                 thumbnailUrl = path;
+                
+                if(EditorUtility.DisplayDialog(T7e.Get("Change the thumbnail of list"), T7e.Get("Do you also change the thumbnails that appear in the EAUploader avatar list?"), T7e.Get("Yes"), T7e.Get("No")))
+                {
+                    PrefabPreview.SavePrefabPreview(EAUploaderCore.selectedPrefabPath, texture);
+                }
             }
         }
 
