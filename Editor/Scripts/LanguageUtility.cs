@@ -30,6 +30,25 @@ namespace EAUploader
             {
                 string jsonContent = File.ReadAllText(SETTINGS_PATH);
                 var settings = JsonUtility.FromJson<ConfigData>(jsonContent);
+
+                // If no language is set in the settings, use the OS language
+                if (string.IsNullOrEmpty(settings.language))
+                {
+                    switch (Application.systemLanguage)
+                    {
+                        case SystemLanguage.Japanese:
+                            settings.language = "ja";
+                            break;
+                        case SystemLanguage.Korean:
+                            settings.language = "ko";
+                            break;
+                        default:
+                            settings.language = "en";
+                            break;
+                    }
+                    SaveSettings(settings);
+                }
+
                 return settings.language;
             }
             catch (IOException ex)
