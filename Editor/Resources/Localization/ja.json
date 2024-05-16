@@ -323,7 +323,7 @@
     },
     {
       "key": "Press the \"Send\" button to send the log report.\nSubmissions are irrevocable.",
-      "value": "送信ボタンを押すと、ログレポートを送信します。\n送信は取り消しできません。"
+      "value": "ログレポートのフォルダを開きました。\n\n送信ボタンを押すと、ログレポートを開発者へ送信します。"
     },
     {
       "key": "Could not find log file to send.",
@@ -740,6 +740,22 @@
     {
       "key": "Automatic avatar optimizing (AvatarOptimizer)",
       "value": "自動最適化（AvatarOptimizerを使用）"
+    },
+    {
+      "key": "Import extentions",
+      "value": "拡張機能をインポート"
+    },
+    {
+      "key": "Regenerate Preview",
+      "value": "プレビューを再生成する"
+    },
+    {
+      "key": "Change the thumbnail of list",
+      "value": "リストのサムネイルの変更"
+    },
+    {
+      "key": "Do you also change the thumbnails that appear in the EAUploader avatar list?",
+      "value": "EAUplaoderのアバターリストのサムネイルにも適用しますか？"
     }
   ]
 }
