@@ -147,6 +147,8 @@ namespace EAUploader.UI.ImportSettings
             };
 
             DialogPro.Show(DialogType.Info, T7e.Get("Open log report"), T7e.Get("Press the \"Send\" button to send the log report.\nSubmissions are irrevocable."), "送信", action,false);
+            string LogFolderFullPath = EAULogger.GetLogFolderFullPath();
+            System.Diagnostics.Process.Start(LogFolderFullPath);
         }
 
 

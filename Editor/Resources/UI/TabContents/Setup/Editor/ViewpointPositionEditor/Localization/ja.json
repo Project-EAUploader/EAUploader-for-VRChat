@@ -24,22 +24,6 @@
     {
       "key": "The selected model must have a VRCAvatarDescriptor component.",
       "value": "選択したモデルにはVRCAvatarDescriptorコンポーネントが必要です。"
-    },
-    {
-      "key": "Import extentions",
-      "value": "拡張機能をインポート"
-    },
-    {
-      "key": "Regenerate Preview",
-      "value": "プレビューを再生成する"
-    },
-    {
-      "key": "Change the thumbnail of list",
-      "value": "リストのサムネイルの変更"
-    },
-    {
-      "key": "Do you also change the thumbnails that appear in the EAUploader avatar list?",
-      "value": "EAUplaoderのアバターリストのサムネイルにも適用しますか？"
     }
   ]
 }
