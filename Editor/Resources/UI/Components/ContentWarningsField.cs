@@ -92,7 +92,10 @@ namespace EAUploader.UI.Components
 
             foreach (string tag in CONTENT_WARNING_TAGS)
             {
-                var tagButton = new Button();
+                var tagButton = new Button()
+                {
+                    name = $"tag-button:{tag}",
+                };
                 tagButton.AddToClassList("tag-button");
 
                 var tagToggle = new Toggle();
@@ -118,12 +121,26 @@ namespace EAUploader.UI.Components
                     {
                         Tags.Remove(tag);
                     }
+
+                    OnToggleTag?.Invoke(this, new Tuple<string, bool>(tag, tagToggle.value));
                 });
 
                 group.Add(tagButton);
             }
 
             Add(group);
+        }
+
+        public void SetTags(List<string> NewTags)
+        {
+            Tags = new List<string>(NewTags);
+            foreach (string tag in CONTENT_WARNING_TAGS)
+            {
+                var tagButton = this.Q<Button>($"tag-button:{tag}");
+                var tagToggle = tagButton.Q<Toggle>();
+                tagToggle.value = NewTags.Contains(tag);
+                tagButton.EnableInClassList("checked", tagToggle.value);
+            }
         }
     }
 }
