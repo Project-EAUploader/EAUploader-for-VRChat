@@ -3,6 +3,7 @@ using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -212,7 +213,7 @@ namespace EAUploader.UI.Upload
             }
         }
 
-        private static async void CheckIsUploaded()
+        private static async Task CheckIsUploaded()
         {
             var contentName = root.Q<TextFieldPro>("content-name");
             var contentDescription = root.Q<TextFieldPro>("content-description");
@@ -484,7 +485,7 @@ namespace EAUploader.UI.Upload
             var prefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);
             var performanceInfos = PerformanceInfoComputer.ComputePerformanceInfos(prefab, false);
 
-            var performanceInfoList = root.Q<VisualElement>($"performance_info_list");
+            var performanceInfoList = root.Q<VisualElement>("performance_info_list");
             performanceInfoList.Clear();
 
             foreach (var info in performanceInfos)
@@ -597,7 +598,7 @@ namespace EAUploader.UI.Upload
 
             var contentName = root.Q<TextFieldPro>("content-name").GetValue();
             var contentDescription = root.Q<TextFieldPro>("content-description").GetValue();
-            var releaseStatus = root.Q<DropdownField>("release-status").value.ToLower();
+            var releaseStatus = root.Q<DropdownField>("release-status").value.ToLower(CultureInfo.InvariantCulture);
             var tags = root.Q<ContentWarningsField>("content-warnings").Tags;
 
             string thumbnailPath = thumbnailUrl ?? PrefabPreview.GetPreviewImagePath(selectedPrefabPath);
