@@ -26,6 +26,7 @@ namespace EAUploader.UI.Upload
         private static bool isFormNull = true;
         private static bool isConfirmTerm = false;
         private static bool Has_AAO = EAUploaderCore.HasAAO;
+        private static bool isUploaded = false;
 
         private static readonly Dictionary<string, string> BUILD_TARGET_ICONS = new Dictionary<string, string>
         {
@@ -169,7 +170,7 @@ namespace EAUploader.UI.Upload
                 var prefab = PrefabManager.GetPrefab(selectedPrefabPath);
                 var avatarRoot = prefab.transform.root.gameObject;
 
-                #if HAS_AAO
+#if HAS_AAO
                 if (evt.newValue) 
                 {
                     // Add TraceAndOptimize Component
@@ -188,13 +189,13 @@ namespace EAUploader.UI.Upload
                         UnityEngine.Object.DestroyImmediate(traceAndOptimize, true);
                     }
                 }
-                #else
+#else
                 if (evt.newValue)
                 {
                     EAUploaderMessageWindow.ShowMsg(203);
                     root.Q<SlideToggle>("avatar_optimize").value = false;
                 }
-                #endif
+#endif
             });
         }
 
@@ -218,6 +219,9 @@ namespace EAUploader.UI.Upload
             var releaseStatus = root.Q<DropdownField>("release-status");
             var tags = root.Q<ContentWarningsField>("content-warnings");
             var thumbnail = root.Q<Image>("thumbnail-image");
+            var updateButton = root.Q<VisualElement>("info-buttons");
+            var discardButton = root.Q<VisualElement>("discard-info");
+            var saveButton = root.Q<VisualElement>("save-info");
 
             var avatar = await AvatarUploader.GetVRCAvatar(EAUploaderCore.selectedPrefabPath);
             if (avatar == null)
@@ -225,11 +229,16 @@ namespace EAUploader.UI.Upload
                 contentName.ClearValue();
                 contentDescription.ClearValue();
                 releaseStatus.value = "Private";
-                tags.Tags = new List<string>();
+                tags.SetTags(new List<string>());
                 thumbnail.image = PrefabPreview.GetPrefabPreview(EAUploaderCore.selectedPrefabPath);
                 thumbnailUrl = null;
+
+                isUploaded = false;
+                updateButton.EnableInClassList("hidden", true);
                 return;
             }
+
+            isUploaded = true;
 
             contentName.SetValueWithoutNotify(avatar.Value.Name);
             contentName.Reset();
@@ -237,29 +246,55 @@ namespace EAUploader.UI.Upload
             contentDescription.Reset();
             isFormNull = false;
             releaseStatus.value = char.ToUpper(avatar.Value.ReleaseStatus[0]) + avatar.Value.ReleaseStatus.Substring(1);
-            tags.Tags = avatar.Value.Tags;
-            thumbnail.image = await DownloadTexture(avatar.Value.ThumbnailImageUrl);
+            tags.SetTags(avatar.Value.Tags);
+            Texture2D cachedImage = await DownloadTexture(avatar.Value.ThumbnailImageUrl);
+            thumbnail.image = cachedImage;
             thumbnailUrl = avatar.Value.ThumbnailImageUrl;
 
-            var updateButton = root.Q<VisualElement>("info-buttons");
-            updateButton.EnableInClassList("hidden", false);
-
-            var discardButton = root.Q<VisualElement>("discard-info");
-            discardButton.Q<Button>().clicked += () =>
+            contentName.RegisterValueChangedCallback(evt =>
             {
+                updateButton.EnableInClassList("hidden", false);
+            });
+
+            contentDescription.RegisterValueChangedCallback(evt =>
+            {
+                updateButton.EnableInClassList("hidden", false);
+            });
+
+            releaseStatus.RegisterValueChangedCallback(evt =>
+            {
+                updateButton.EnableInClassList("hidden", false);
+            });
+
+            tags.OnToggleTag += (sender, e) =>
+            {
+                updateButton.EnableInClassList("hidden", false);
+            };
+
+            discardButton.UnregisterCallback<ClickEvent>(DiscardChanges);
+            discardButton.Q<Button>().RegisterCallback<ClickEvent>(DiscardChanges);
+
+            void DiscardChanges(ClickEvent evt)
+            {
+                
                 contentName.SetValueWithoutNotify(avatar.Value.Name);
                 contentDescription.SetValueWithoutNotify(avatar.Value.Description);
                 releaseStatus.value = char.ToUpper(avatar.Value.ReleaseStatus[0]) + avatar.Value.ReleaseStatus.Substring(1);
-                tags.Tags = avatar.Value.Tags;
-                thumbnail.image = DownloadTexture(avatar.Value.ThumbnailImageUrl).Result;
+                tags.SetTags(avatar.Value.Tags);
+                thumbnail.image = cachedImage;
                 thumbnailUrl = avatar.Value.ThumbnailImageUrl;
-            };
+                updateButton.EnableInClassList("hidden", true);            
+            }
 
-            var saveButton = root.Q<VisualElement>("save-info");
-            saveButton.Q<Button>().clicked += async () =>
+            saveButton.UnregisterCallback<ClickEvent>(SaveChanges);
+            saveButton.Q<Button>().RegisterCallback<ClickEvent>(SaveChanges);
+
+            async void SaveChanges(ClickEvent evt)
             {
+                
                 await AvatarUploader.UpdateVRCAvatar(EAUploaderCore.selectedPrefabPath, contentName.GetValue(), contentDescription.GetValue(), releaseStatus.value.ToLower(), tags.Tags, thumbnailUrl);
                 Main.CreatePrefabList();
+                updateButton.EnableInClassList("hidden", true);
             };
         }
 
@@ -292,10 +327,15 @@ namespace EAUploader.UI.Upload
                 texture.LoadImage(File.ReadAllBytes(path));
                 avatarThumbnail.image = texture;
                 thumbnailUrl = path;
-                
-                if(EditorUtility.DisplayDialog(T7e.Get("Change the thumbnail of list"), T7e.Get("Do you also change the thumbnails that appear in the EAUploader avatar list?"), T7e.Get("Yes"), T7e.Get("No")))
+
+                if (EditorUtility.DisplayDialog(T7e.Get("Change the thumbnail of list"), T7e.Get("Do you also change the thumbnails that appear in the EAUploader avatar list?"), T7e.Get("Yes"), T7e.Get("No")))
                 {
                     PrefabPreview.SavePrefabPreview(EAUploaderCore.selectedPrefabPath, texture);
+                }
+
+                if (isUploaded)
+                {
+                    root.Q<VisualElement>("info-buttons").EnableInClassList("hidden", false);
                 }
             }
         }
