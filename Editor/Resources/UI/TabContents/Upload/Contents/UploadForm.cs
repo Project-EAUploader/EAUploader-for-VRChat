@@ -1,6 +1,6 @@
-using EAUploader;
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
+using EAUploader.UI.Windows;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UIElements;
 using VRC.Core;
-using VRC.SDKBase.Editor.Api;
+using static EAUploader.UI.Windows.DialogPro;
 #if HAS_AAO
 using Anatawa12.AvatarOptimizer;
 #endif
@@ -223,6 +223,7 @@ namespace EAUploader.UI.Upload
             var updateButton = root.Q<VisualElement>("info-buttons");
             var discardButton = root.Q<VisualElement>("discard-info");
             var saveButton = root.Q<VisualElement>("save-info");
+            var vrcInfo = root.Q<VisualElement>("vrc-info");
 
             var avatar = await AvatarUploader.GetVRCAvatar(EAUploaderCore.selectedPrefabPath);
             if (avatar == null)
@@ -233,10 +234,67 @@ namespace EAUploader.UI.Upload
                 tags.SetTags(new List<string>());
                 thumbnail.image = PrefabPreview.GetPrefabPreview(EAUploaderCore.selectedPrefabPath);
                 thumbnailUrl = null;
+                vrcInfo.EnableInClassList("hidden", true);
 
                 isUploaded = false;
                 updateButton.EnableInClassList("hidden", true);
                 return;
+            }
+
+            vrcInfo.EnableInClassList("hidden", false);
+            var vrcInfoContainer = vrcInfo.Q<VisualElement>("vrc-info-container");
+
+            var vrcInfoList = new List<VisualElement>
+            {
+                new Label(T7e.Get("Author: ") + avatar.Value.AuthorName),
+                new Label(T7e.Get("Created At: ") + avatar.Value.CreatedAt),
+                new Label(T7e.Get("Updated At: ") + avatar.Value.UpdatedAt),
+                new Label(T7e.Get("Version: ") + avatar.Value.Version)
+            };
+
+            vrcInfoContainer.Clear();
+            foreach (var info in vrcInfoList)
+            {
+                vrcInfoContainer.Add(info);
+            }
+
+            // Get blueprint id
+            var blueprintContainer = root.Q<VisualElement>("blueprint-container");
+            var prefab = PrefabManager.GetPrefab(EAUploaderCore.selectedPrefabPath);
+            var pipelineManager = Utility.GetPipelineManager(prefab);
+            var blueprintId = pipelineManager.blueprintId;
+
+
+            if (blueprintId != null)
+            {
+                blueprintContainer.EnableInClassList("hidden", false);
+
+                var copyBlueprintId = blueprintContainer.Q<Button>("copy-blueprint-id-button");
+                copyBlueprintId.UnregisterCallback<ClickEvent>(CopyBlueprintId);
+                copyBlueprintId.RegisterCallback<ClickEvent>(CopyBlueprintId);
+                void CopyBlueprintId(ClickEvent evt)
+                {
+                    EditorGUIUtility.systemCopyBuffer = blueprintId;
+                    DialogPro.Show(DialogType.Info, T7e.Get("Blueprint ID Copied"), T7e.Get("Blueprint ID has been copied to the clipboard."), T7e.Get("OK"), null, true);
+                }
+
+
+                var UnlinkVRCButton = blueprintContainer.Q<Button>("unlink-vrc-button");
+                UnlinkVRCButton.UnregisterCallback<ClickEvent>(UnlinkVRC);
+                UnlinkVRCButton.RegisterCallback<ClickEvent>(UnlinkVRC);
+                void UnlinkVRC(ClickEvent evt)
+                {
+                    if (EditorUtility.DisplayDialog(T7e.Get("Unlink VRChat from this avatar"), T7e.Get("Are you sure you want to unlink VRChat from this avatar?"), T7e.Get("Yes"), T7e.Get("No")))
+                    {
+                        pipelineManager.AssignId();
+                        Main.CreatePrefabList();
+                    }
+                }
+
+            }
+            else
+            {
+                blueprintContainer.EnableInClassList("hidden", true);
             }
 
             isUploaded = true;
@@ -277,14 +335,14 @@ namespace EAUploader.UI.Upload
 
             void DiscardChanges(ClickEvent evt)
             {
-                
+
                 contentName.SetValueWithoutNotify(avatar.Value.Name);
                 contentDescription.SetValueWithoutNotify(avatar.Value.Description);
                 releaseStatus.value = char.ToUpper(avatar.Value.ReleaseStatus[0]) + avatar.Value.ReleaseStatus.Substring(1);
                 tags.SetTags(avatar.Value.Tags);
                 thumbnail.image = cachedImage;
                 thumbnailUrl = avatar.Value.ThumbnailImageUrl;
-                updateButton.EnableInClassList("hidden", true);            
+                updateButton.EnableInClassList("hidden", true);
             }
 
             saveButton.UnregisterCallback<ClickEvent>(SaveChanges);
@@ -292,7 +350,7 @@ namespace EAUploader.UI.Upload
 
             async void SaveChanges(ClickEvent evt)
             {
-                
+
                 await AvatarUploader.UpdateVRCAvatar(EAUploaderCore.selectedPrefabPath, contentName.GetValue(), contentDescription.GetValue(), releaseStatus.value.ToLower(), tags.Tags, thumbnailUrl);
                 Main.CreatePrefabList();
                 updateButton.EnableInClassList("hidden", true);
