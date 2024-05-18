@@ -4,17 +4,17 @@
     engine="UnityEngine.UIElements" editor="UnityEditor.UIElements"
     noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
     editor-extension-mode="False">
-    <ui:VisualElement class="flex-row justify-between items-center">
+    <ui:VisualElement class="flex-row justify-between items-center shrink-0 pb-2">
         <ui:Label tabindex="-1" text="Manage Model" parse-escape-sequences="true"
-            display-tooltip-when-elided="true" enable-rich-text="true" class="text-xl font-bold pb-8 p-4" />
-        <eau:HelpButton msg-id="116" class="pt-4"/>
-        <ui:VisualElement name="library_fold_button" class="h-8 w-8 border-l border-t border-b border-zinc-300 rounded-tl-md rounded-bl-md justify-center items-center cursor-link">
+            display-tooltip-when-elided="true" enable-rich-text="true" class="text-xl font-bold" />
+        <eau:HelpButton msg-id="116" class="ml-2"/>
+        <ui:VisualElement name="library_fold_button">
             <eau:MaterialIcon icon="chevron_right" class="text-xl cursor-link" />
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement class="px-4 pb-4">
-        <ui:VisualElement name="VisualElement" class="flex flex-row items-center pb-2" >
-            <ui:VisualElement name="SearchContainer" class="flex flex-row items-center flex-1 pr-2">
+    <ui:VisualElement>
+        <ui:VisualElement name="VisualElement" class="flex flex-row items-center pb-4" >
+            <ui:VisualElement name="SearchContainer" class="flex flex-row flex-1">
                 <ui:TextField name="searchQuery" picking-mode="Ignore" class="flex-1 mr-2" />
                 <eau:ShadowButton name="searchButton" text="Search" parse-escape-sequences="true"
                     display-tooltip-when-elided="true" class="search-button" />

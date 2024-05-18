@@ -72,6 +72,22 @@ Button:active {
 	background-color: var(--primary-active);
 }
 
+/* Header Styles */
+#library_fold_button
+{
+	height: 32px;
+	width: 32px;
+	margin: -16px;
+	border-left-width: 1px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-color: var(--default);
+	border-radius: 4px 0px 0px 4px;
+	justify-content: center;
+	align-items: center;
+	cursor: link;
+}
+
 /* Group Button Styles */
 .group-button {
 	flex-grow: 1;
