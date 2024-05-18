@@ -1,4 +1,5 @@
 using UnityEngine;
+using VRC.Core;
 using VRC.SDKBase;
 #if HAS_VRM
 using VRM;
@@ -50,6 +51,11 @@ namespace EAUploader.CustomPrefabUtility
         public static VRC_AvatarDescriptor GetAvatarDescriptor(GameObject avatar)
         {
             return avatar.GetComponent<VRC_AvatarDescriptor>();
+        }
+
+        public static PipelineManager GetPipelineManager(GameObject avatar)
+        {
+            return avatar.GetComponent<PipelineManager>();
         }
     }
 }
