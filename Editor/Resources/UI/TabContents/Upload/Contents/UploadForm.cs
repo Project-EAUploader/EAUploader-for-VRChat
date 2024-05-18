@@ -312,22 +312,22 @@ namespace EAUploader.UI.Upload
 
             contentName.RegisterValueChangedCallback(evt =>
             {
-                updateButton.EnableInClassList("hidden", false);
+                if (isUploaded) updateButton.EnableInClassList("hidden", false);
             });
 
             contentDescription.RegisterValueChangedCallback(evt =>
             {
-                updateButton.EnableInClassList("hidden", false);
+                if (isUploaded) updateButton.EnableInClassList("hidden", false);
             });
 
             releaseStatus.RegisterValueChangedCallback(evt =>
             {
-                updateButton.EnableInClassList("hidden", false);
+                if (isUploaded) updateButton.EnableInClassList("hidden", false);
             });
 
             tags.OnToggleTag += (sender, e) =>
             {
-                updateButton.EnableInClassList("hidden", false);
+                if (isUploaded) updateButton.EnableInClassList("hidden", false);
             };
 
             discardButton.UnregisterCallback<ClickEvent>(DiscardChanges);
@@ -335,6 +335,7 @@ namespace EAUploader.UI.Upload
 
             void DiscardChanges(ClickEvent evt)
             {
+                if (!isUploaded) return;
 
                 contentName.SetValueWithoutNotify(avatar.Value.Name);
                 contentDescription.SetValueWithoutNotify(avatar.Value.Description);
@@ -350,7 +351,7 @@ namespace EAUploader.UI.Upload
 
             async void SaveChanges(ClickEvent evt)
             {
-
+                if (!isUploaded) return;
                 await AvatarUploader.UpdateVRCAvatar(EAUploaderCore.selectedPrefabPath, contentName.GetValue(), contentDescription.GetValue(), releaseStatus.value.ToLower(), tags.Tags, thumbnailUrl);
                 Main.CreatePrefabList();
                 updateButton.EnableInClassList("hidden", true);
