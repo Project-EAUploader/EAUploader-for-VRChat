@@ -14,7 +14,7 @@ namespace EAUploader.UI.Components
         private Vector2 previewOffset = Vector2.zero;
         private VisualElement root;
         private IMGUIContainer iMGUIContainer;
-        private Editor gameObjectEditor;
+        private UnityEditor.Editor gameObjectEditor;
         private GameObject prefab;
         private VisualTreeAsset visualTree;
         private float previewWidth;
@@ -157,7 +157,7 @@ namespace EAUploader.UI.Components
 
         private void CreateOrReuseGameObjectEditor()
         {
-            gameObjectEditor ??= Editor.CreateEditor(prefab);
+            gameObjectEditor ??= UnityEditor.Editor.CreateEditor(prefab);
         }
 
         private void ClearPreview()
