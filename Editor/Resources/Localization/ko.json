@@ -654,8 +654,12 @@
       "value": "포기"
     },
     {
-      "key": "Import VRM 0.x Avatar",
-      "value": "VRM 0.x 아바타를 인포트"
+      "key": "Comvert VRM 0.x Avatar",
+      "value": "VRM 0.x 아바타 변환"
+    },
+    {
+      "key": "Comvert",
+      "value": "변환"
     },
     {
       "key": "Shoulder Height",

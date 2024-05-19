@@ -10,7 +10,7 @@
 >
     <ui:VisualElement class="p-4 justify-between flex-1">
         <ui:VisualElement>
-            <ui:Label text="Import VRM 0.x Avatar" class="text-xl font-bold pb-4" />
+            <ui:Label text="Comvert VRM 0.x Avatar" class="text-xl font-bold pb-4" />
             <eau:HelpButton msg-id="200" class="mb-2"/>
             <ui:VisualElement>
                 <ui:VisualElement class="flex-row justify-between">
@@ -40,7 +40,7 @@
             <eau:SlideToggle label="For Quest" name="forQuest" value="false" class="mb-2" />
         </ui:VisualElement>
         <ui:VisualElement>
-            <eau:ShadowButton text="Import" name="importButton" />
+            <eau:ShadowButton text="Comvert" name="importButton" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
