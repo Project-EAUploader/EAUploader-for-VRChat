@@ -1,6 +1,7 @@
 ﻿using EAUploader.Components;
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
+using EAUploader.UI.Windows;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -259,7 +260,7 @@ namespace EAUploader.UI.ImportSettings
                 previewImage.image = prefab.Preview;
             }
 
-            previewImage.RegisterCallback<MouseUpEvent>(evt => ShowLargeImage(prefab.Preview));
+            previewImage.RegisterCallback<MouseUpEvent>(evt => ShowLargeImage(prefab));
 
             var name = this.Q<Label>("nameLabel");
             name.text = prefab.Name;
@@ -374,16 +375,9 @@ namespace EAUploader.UI.ImportSettings
             deleteButton.clicked += () => DeletePrefab(prefab.Path);
         }
 
-        private static void ShowLargeImage(Texture2D image)
+        private static void ShowLargeImage(PrefabInfo prefab)
         {
-            var window = ScriptableObject.CreateInstance<EditorWindow>();
-            window.titleContent = new GUIContent(UnityEditor.L10n.Tr("Preview"));
-            window.minSize = new Vector2(500, 500);
-
-            var preview = new Image { image = image, style = { flexGrow = 1 } };
-            window.rootVisualElement.Add(preview);
-
-            window.Show();
+            PrefabPreviewer.ShowLargeImage(prefab.Path, prefab.Preview);
         }
 
         internal static void ChangePrefabName(string prefabPath)

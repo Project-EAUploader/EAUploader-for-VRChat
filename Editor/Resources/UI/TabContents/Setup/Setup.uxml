@@ -45,7 +45,11 @@
             <ui:ScrollView name="avatar_editor_list" class="flex-1" />
             <ui:VisualElement>
 				<eau:HelpButton msg-id="104" class="mb-2"/>
-                <eau:ShadowButton parse-escape-sequences="true" display-tooltip-when-elided="true" name="find_extentions" class="text-2xl button-with-icons">
+                <eau:ShadowButton parse-escape-sequences="true" display-tooltip-when-elided="true" name="import_extentions" class="text-2xl button-with-icons">
+                    <eau:MaterialIcon icon="download" />
+                    <ui:Label text="Import extentions" />
+                </eau:ShadowButton>
+                <eau:ShadowButton parse-escape-sequences="true" display-tooltip-when-elided="true" name="find_extentions" class="text-2xl button-with-icons pt-2">
 					<eau:MaterialIcon icon="open_in_browser" />
                     <ui:Label text="Find extentions" />
 				</eau:ShadowButton>
