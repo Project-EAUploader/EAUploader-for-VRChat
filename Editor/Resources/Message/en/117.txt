@@ -1,0 +1,8 @@
+<txt>
+<size=20><b>Blueprint</b></size>
+
+<size=20><color=red>Do not disclose Blueprint to others!</color></size>
+<size=14>A Blueprint is an individual ID assigned to an avatar on VRChat. This ID allows you to download, update, and delete your avatar on VRChat. Therefore, there is a possibility that your avatar's data may be stolen if you make it public to others. Please handle it with care.
+
+You can upload it to VRChat as a different avatar by disconnecting it from VRChat. You can also overwrite it with another avatar by using the ID.</size>
+</txt>

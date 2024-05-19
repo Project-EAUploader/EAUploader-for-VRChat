@@ -249,7 +249,7 @@ namespace EAUploader.UI.Upload
                 new Label(T7e.Get("Author: ") + avatar.Value.AuthorName),
                 new Label(T7e.Get("Created At: ") + avatar.Value.CreatedAt),
                 new Label(T7e.Get("Updated At: ") + avatar.Value.UpdatedAt),
-                new Label(T7e.Get("Version: ") + avatar.Value.Version)
+                new Label(T7e.Get("Upload Count: ") + avatar.Value.Version)
             };
 
             vrcInfoContainer.Clear();

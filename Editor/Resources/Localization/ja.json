@@ -22,6 +22,10 @@
       "value": "アバターをインポート"
     },
     {
+      "key": "Import all prefab or unitypackage in folder.",
+      "value": "フォルダ内のすべてのPrefabとUnitypackageをインポートする"
+    },
+    {
       "key": "Import from folder",
       "value": "フォルダからインポート"
     },
@@ -31,11 +35,11 @@
     },
     {
       "key": "Import the .vrm(ver. 0.x) file.",
-      "value": ".vrm(ver. 0.x)ファイルをインポートする。"
+      "value": ".vrm(ver. 0.x)ファイルをインポートする"
     },
     {
       "key": "Import the .unitypackage file that contains the shader.",
-      "value": "シェーダーを含む .unitypackage ファイルをインポートする。"
+      "value": "シェーダーを含む .unitypackage ファイルをインポートする"
     },
     {
       "key": "Import Shaders",
@@ -99,7 +103,7 @@
     },
     {
       "key": "Import a .prefab file or .unitypackage file.",
-      "value": "PrefabかUnitypackageを選択"
+      "value": "PrefabかUnitypackageを選択してインポートする"
     },
     {
       "key": "Asset not found",
@@ -756,6 +760,26 @@
     {
       "key": "Do you also change the thumbnails that appear in the EAUploader avatar list?",
       "value": "EAUplaoderのアバターリストのサムネイルにも適用しますか？"
+    },
+    {
+      "key": "VRChat Information",
+      "value": "VRChat上の情報"
+    },
+    {
+      "key": "Created At: ",
+      "value": "アップロード日: "
+    },
+    {
+      "key": "Updated At: ",
+      "value": "最終更新日: "
+    },
+    {
+      "key": "Upload Count: ",
+      "value": "更新回数: "
+    },
+    {
+      "key": "Unlink from VRChat",
+      "value": "VRChatとの紐づけを切る"
     }
   ]
 }

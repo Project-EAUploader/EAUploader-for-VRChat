@@ -1,0 +1,10 @@
+<t>― VRChatterのためのUnity基礎 ―</t>
+<txt>
+<size=20>Unityについて知り、アバターをもっと楽しむために</size>
+
+<size=16>　EAUploaderで行える作業は限られています。衣装変更や表情変更、ギミックの導入など、アバターを改変するためにはUnityでの作業が必要です。しかし、あまたある参考記事はUnityやアバターについての最低限の知識や技能を前提に書かれているものが多く、難しさを感じます。
+　そこで、まずはUnityの基礎をつかむことをおすすめします。Unity全く知らない！という方は、是非こちらの記事を読んでみてください。</size>
+<size=12>記事執筆　きくじん</size>
+</txt>
+<button>記事を読みに行く, Link, https://note.com/kikjin/n/n013030dfec82</button>
+<image>thumbnail.png</image>

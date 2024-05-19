@@ -24,6 +24,8 @@
                         <eau:MaterialIcon icon="download" />
                         <ui:Label text="Import" />
                     </eau:ShadowButton>
+                    <ui:Label tabindex="-1" text="Import all prefab or unitypackage in folder."
+                        parse-escape-sequences="true" display-tooltip-when-elided="true"/>
                     <eau:ShadowButton name="import_folder" parse-escape-sequences="true"
                         display-tooltip-when-elided="true" class="button-with-icons">
                         <eau:MaterialIcon icon="folder" />
@@ -34,8 +36,11 @@
                     <ui:Label tabindex="-1" text="Import the .vrm(ver. 0.x) file."
                         parse-escape-sequences="true" display-tooltip-when-elided="true" />
                     <eau:HelpButton msg-id="101" class="pb-2" />
-                    <eau:ShadowButton name="import_vrm" text="Import VRM" parse-escape-sequences="true"
-                        display-tooltip-when-elided="true" />
+                    <eau:ShadowButton name="import_vrm" parse-escape-sequences="true"
+                        display-tooltip-when-elided="true" class="button-with-icons" >
+                        <eau:MaterialIcon icon="download" />
+                        <ui:Label text="Import VRM" />
+                    </eau:ShadowButton>
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement>
@@ -45,12 +50,18 @@
                     parse-escape-sequences="true"
                     display-tooltip-when-elided="true" />
                 <eau:HelpButton msg-id="102" class="pb-2" />
-                <eau:ShadowButton name="import_shaders" text="Import Shaders"
+                <eau:ShadowButton name="import_shaders"
                     parse-escape-sequences="true"
-                    display-tooltip-when-elided="true" class="pb-2" />
-                <eau:ShadowButton name="show_existing_shaders" text="Show existing shaders"
+                    display-tooltip-when-elided="true" class="pb-2 button-with-icons" >
+                    <eau:MaterialIcon icon="download" />
+                    <ui:Label text="Import Shaders" />
+                </eau:ShadowButton>
+                <eau:ShadowButton name="show_existing_shaders"
                     parse-escape-sequences="true"
-                    display-tooltip-when-elided="true" />
+                    display-tooltip-when-elided="true" class="pb-2 button-with-icons" >
+                    <eau:MaterialIcon icon="visibility" />
+                    <ui:Label text="Show existing shaders" />
+                </eau:ShadowButton>
             </ui:VisualElement>
         </ui:ScrollView>
     </ui:VisualElement>
