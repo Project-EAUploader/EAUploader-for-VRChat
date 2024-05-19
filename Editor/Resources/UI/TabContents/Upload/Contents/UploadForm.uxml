@@ -72,7 +72,10 @@
                                 <ui:VisualElement name="vrc-info-container" />
                             </ui:VisualElement>
                             <ui:VisualElement name="blueprint-container" class="hidden">
-                                <ui:Label text="Blueprint" class="text-lg font-bold pt-2 pb-2" />
+                                <ui:VisualElement class="flex-row">
+                                    <ui:Label text="Blueprint" class="text-lg font-bold pt-2 pb-2" />
+                                    <eau:HelpButton msg-id="117" class="pl-4 self-center" />
+                                </ui:VisualElement>
                                 <ui:VisualElement class="flex-row">
                                     <ui:Button text="Copy" name="copy-blueprint-id-button"
                                         class="flex-1 rounded-r-none border-1 border-r-color" />

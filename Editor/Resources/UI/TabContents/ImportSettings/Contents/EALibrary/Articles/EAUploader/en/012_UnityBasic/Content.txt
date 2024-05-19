@@ -1,0 +1,10 @@
+<t>― Unity Basics for VRChatter ―</t>
+<txt>
+<size=20>Learn about Unity and enjoy your avatar more</size>
+
+<size=16>　The work that can be done with EAUploader is limited. In order to modify avatars, such as changing their outfits, facial expressions, and introducing gimmicks, it is necessary to work with Unity. However, many reference articles are written assuming minimal knowledge and skills about Unity and avatars, which makes it difficult.
+　If you don't know anything about Unity, please read this article! If you don't know anything about Unity, please read this article.</size>
+<size=12>Autor　きくじん</size>
+</txt>
+<button>Go read the article, Link, https://note.com/kikjin/n/n013030dfec82</button>
+<image>thumbnail.png</image>

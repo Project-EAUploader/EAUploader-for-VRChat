@@ -1,0 +1,10 @@
+<t>― VRChatter를 위한 Unity 기초 ―</t>
+<txt>
+<size=20>Unity에 대해 알아보고 아바타를 더 재미있게 즐기기 위해</size>
+
+<size=16>　EAUploader 할 수 있는 작업은 제한적입니다. 의상 변경, 표정 변경, 기믹 도입 등 아바타를 수정하기 위해서는 유니티 작업이 필요합니다. 하지만 일부 참고 자료들은 유니티와 아바타에 대한 최소한의 지식과 기술을 전제로 작성된 것들이 많아 어려움을 느낀다.
+　그래서 먼저 유니티의 기초를 먼저 익힐 것을 권해드립니다! 라고 생각하시는 분들은 이 글을 읽어보시기 바랍니다.</size>
+<size=12>저자 きくじん</size>
+</txt>
+<button>기사 읽어보기, Link, https://note.com/kikjin/n/n013030dfec82</button>
+<image>thumbnail.png</image>
