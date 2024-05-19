@@ -666,8 +666,12 @@
       "value": "破棄"
     },
     {
-      "key": "Import VRM 0.x Avatar",
-      "value": "VRM 0.x アバターをインポート"
+      "key": "Convert VRM 0.x Avatar",
+      "value": "VRM 0.x アバターをVRChat用アバターへ変換"
+    },
+    {
+      "key": "Convert",
+      "value": "変換"
     },
     {
       "key": "Shoulder Height",
