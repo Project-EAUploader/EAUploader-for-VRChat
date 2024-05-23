@@ -209,10 +209,11 @@ namespace EAUploader.Editor.Prefab.API
             return ShaderChecker.CheckAvatarHasShader(avatar);
         }
     }
-
+#if HAS_VRM
     public static class VRMAPI
     {
         /// <summary>
+        /// VRM Comverter for VRChat パッケージが導入されている場合のみ
         /// VRMをインポートします。
         /// </summary>
         /// <param name="path">VRMファイルのパス</param>
@@ -221,6 +222,7 @@ namespace EAUploader.Editor.Prefab.API
             VRMImporter.ImportVRM(path);
         }
     }
+#endif
 
     public static class PrefabUtilityAPI
     {
