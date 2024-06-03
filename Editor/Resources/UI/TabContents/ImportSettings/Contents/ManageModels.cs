@@ -228,6 +228,7 @@ namespace EAUploader.UI.ImportSettings
             if (prefab != null)
             {
                 prefab.Status = EAUploaderMeta.PrefabStatus.Hidden;
+                Debug.Log($"Hide prefab to {prefab.Status}");
                 PrefabManager.SavePrefabsInfo(allPrefabs);
                 ManageModels.UpdateModelList();
             }
