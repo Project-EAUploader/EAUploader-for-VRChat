@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
@@ -18,9 +19,9 @@ namespace EAUploader.Editor.Prefab.API
         /// <summary>
         /// プレハブ情報を更新します。
         /// </summary>
-        public static void UpdatePrefabInfo()
+        public static async Task UpdatePrefabInfoAsync()
         {
-            PrefabManager.UpdatePrefabInfo();
+            await PrefabManager.UpdatePrefabInfoAsync();
         }
         /// <summary>
         /// 指定したパスのプレハブをインポートします。
@@ -107,17 +108,17 @@ namespace EAUploader.Editor.Prefab.API
         /// </summary>
         /// <param name="prefab">プレビューを生成するプレハブのGameObject</param>
         /// <returns>生成されたプレビューのTexture2D</returns>
-        public static Texture2D GeneratePreview(GameObject prefab)
+        public static async Task<Texture2D> GeneratePreviewAsync(GameObject prefab)
         {
-            return PrefabPreview.GeneratePreview(prefab);
+            return await PrefabPreview.GeneratePreviewAsync(prefab);
         }
 
         /// <summary>
         /// 全てのプレハブのプレビューを生成して保存します。
         /// </summary>
-        public static void GenerateAndSaveAllPrefabPreviews()
+        public static async Task GenerateAndSaveAllPrefabPreviewsAsync()
         {
-            PrefabPreview.GenerateAndSaveAllPrefabPreviews();
+            await PrefabPreview.GenerateAndSaveAllPrefabPreviewsAsync();
         }
 
         /// <summary>

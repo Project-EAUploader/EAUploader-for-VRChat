@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,39 +10,38 @@ namespace EAUploader.CustomPrefabUtility
     {
         private const string PREVIEW_SAVE_PATH = "Assets/EAUploader/PrefabPreviews";
 
-        public static Texture2D GeneratePreview(GameObject prefab)
+        public static async Task<Texture2D> GeneratePreviewAsync(GameObject prefab)
         {
-            var previewRenderUtility = new PreviewRenderUtility();
-            var rect = new Rect(0, 0, 1080, 1080);
+            return await Task.Run(() =>
+            {
+                var previewRenderUtility = new PreviewRenderUtility();
+                var rect = new Rect(0, 0, 1080, 1080);
 
-            var gameObject = previewRenderUtility.InstantiatePrefabInScene(prefab);
+                var gameObject = previewRenderUtility.InstantiatePrefabInScene(prefab);
 
-            Bounds bounds = CalculateBounds(gameObject);
-            //Debug.Log($"Calculated Bounds: {bounds}");
+                Bounds bounds = CalculateBounds(gameObject);
 
-            previewRenderUtility.BeginStaticPreview(rect);
-            previewRenderUtility.AddSingleGO(gameObject);
+                previewRenderUtility.BeginStaticPreview(rect);
+                previewRenderUtility.AddSingleGO(gameObject);
 
-            previewRenderUtility.camera.backgroundColor = new UnityEngine.Color(0.9f, 0.9f, 0.9f, 1);
-            previewRenderUtility.camera.clearFlags = CameraClearFlags.SolidColor;
-            previewRenderUtility.camera.orthographic = true;
-            previewRenderUtility.camera.orthographicSize = Mathf.Max(bounds.size.x, bounds.size.y) / 2;
+                previewRenderUtility.camera.backgroundColor = new UnityEngine.Color(0.9f, 0.9f, 0.9f, 1);
+                previewRenderUtility.camera.clearFlags = CameraClearFlags.SolidColor;
+                previewRenderUtility.camera.orthographic = true;
+                previewRenderUtility.camera.orthographicSize = Mathf.Max(bounds.size.x, bounds.size.y) / 2;
 
-            Vector3 cameraPosition = bounds.center;
-            cameraPosition.z = bounds.center.z + bounds.size.z * 2;
-            previewRenderUtility.camera.transform.position = cameraPosition;
-            previewRenderUtility.camera.transform.LookAt(bounds.center);
+                Vector3 cameraPosition = bounds.center;
+                cameraPosition.z = bounds.center.z + bounds.size.z * 2;
+                previewRenderUtility.camera.transform.position = cameraPosition;
+                previewRenderUtility.camera.transform.LookAt(bounds.center);
 
-            //Debug.Log($"Camera Position: {previewRenderUtility.camera.transform.position}");
-            //Debug.Log($"Camera LookAt: {bounds.center}");
+                previewRenderUtility.Render();
 
-            previewRenderUtility.Render();
+                Texture2D texture = previewRenderUtility.EndStaticPreview();
 
-            Texture2D texture = previewRenderUtility.EndStaticPreview();
+                previewRenderUtility.Cleanup();
 
-            previewRenderUtility.Cleanup();
-
-            return texture;
+                return texture;
+            });
         }
 
         private static Bounds CalculateBounds(GameObject obj)
@@ -60,7 +60,6 @@ namespace EAUploader.CustomPrefabUtility
                 }
                 else
                 {
-                    //Debug.LogWarning($"No MeshRenderers or Renderers found in GameObject: {obj.name}");
                     return new Bounds(obj.transform.position, Vector3.one);
                 }
             }
@@ -71,7 +70,6 @@ namespace EAUploader.CustomPrefabUtility
             var meshFilters = obj.GetComponentsInChildren<MeshFilter>();
             if (meshFilters.Length == 0)
             {
-                //Debug.LogWarning($"No MeshFilters found in GameObject: {obj.name}");
                 return new Bounds(obj.transform.position, Vector3.zero);
             }
 
@@ -80,8 +78,6 @@ namespace EAUploader.CustomPrefabUtility
             {
                 bounds.Encapsulate(meshFilter.sharedMesh.bounds);
             }
-
-            //Debug.Log($"Calculated Mesh Bounds for GameObject: {obj.name}, Bounds: {bounds}");
 
             return bounds;
         }
@@ -95,14 +91,12 @@ namespace EAUploader.CustomPrefabUtility
                 bounds.Encapsulate(renderer.bounds);
             }
 
-            //Debug.Log($"Calculated Renderer Bounds for GameObject: {obj.name}, Bounds: {bounds}");
-
             return bounds;
         }
 
-        public static void GenerateAndSaveAllPrefabPreviews()
+        public static async Task GenerateAndSaveAllPrefabPreviewsAsync()
         {
-            var allPrefabs = PrefabManager.GetAllPrefabs();
+            var allPrefabs = await PrefabManager.GetAllPrefabsAsync();
 
             foreach (var prefabInfo in allPrefabs)
             {
@@ -111,7 +105,7 @@ namespace EAUploader.CustomPrefabUtility
                 {
                     if (!IsPrefabPreviewExist(prefabInfo.Path))
                     {
-                        Texture2D preview = GeneratePreview(prefab);
+                        Texture2D preview = await GeneratePreviewAsync(prefab);
                         SavePrefabPreview(prefabInfo.Path, preview);
                     }
                 }
@@ -137,7 +131,6 @@ namespace EAUploader.CustomPrefabUtility
             catch (Exception e)
             {
                 Debug.LogError($"Error saving preview for prefab: {prefabPath}. \nError: {e.Message}");
-                return;
             }
         }
 
@@ -160,7 +153,6 @@ namespace EAUploader.CustomPrefabUtility
             string fileName = Path.GetFileNameWithoutExtension(prefabPath);
             return Path.Combine(PREVIEW_SAVE_PATH, $"{fileName}.png");
         }
-
 
         public static Texture2D GetPrefabPreview(string prefabPath)
         {

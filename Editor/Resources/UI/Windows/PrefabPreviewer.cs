@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 using EAUploader;
 using EAUploader.UI.Components;
 using EAUploader.CustomPrefabUtility;
+using System.Threading.Tasks;
 
 namespace EAUploader.UI.Windows
 {
@@ -62,7 +63,7 @@ namespace EAUploader.UI.Windows
             preview.image = _image;
 
             var regenerateButton = rootVisualElement.Q<ShadowButton>("regenerate");
-            regenerateButton.clicked += RegeneratePreview;
+            regenerateButton.clicked += RegeneratePreviewAsync;
 
             LanguageUtility.Localization(rootVisualElement);
         }
@@ -72,12 +73,12 @@ namespace EAUploader.UI.Windows
             preview.image = _image;
         }
 
-        private void RegeneratePreview()
+        private async void RegeneratePreviewAsync()
         {
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             if (prefab != null)
             {
-                Texture2D previewTexture = PrefabPreview.GeneratePreview(prefab);
+                Texture2D previewTexture = await PrefabPreview.GeneratePreviewAsync(prefab);
                 _image = previewTexture;
                 UpdatePreview();
                 PrefabPreview.SavePrefabPreview(prefabPath, previewTexture);

@@ -2,6 +2,7 @@ using EAUploader.Components;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
@@ -14,40 +15,43 @@ namespace EAUploader.CustomPrefabUtility
 
         public static List<PrefabInfo> prefabInfoList;
 
-        public static void Initialize()
+        public static async void Initialize()
         {
-            UpdatePrefabInfo();
-            PrefabPreview.GenerateAndSaveAllPrefabPreviews();
+            await UpdatePrefabInfoAsync();
+            await PrefabPreview.GenerateAndSaveAllPrefabPreviewsAsync();
         }
 
-        public static void UpdatePrefabInfo()
+        public static async Task UpdatePrefabInfoAsync()
         {
-            var allPrefabs = GetAllPrefabs();
+            List<PrefabInfo> allPrefabs = await GetAllPrefabsAsync();
 
-            allPrefabs = allPrefabs
-                .OrderByDescending(p => p.Status == EAUploaderMeta.PrefabStatus.Pinned)
-                .ThenByDescending(p => p.LastModified)
-                .ToList();
-
-            SavePrefabsInfo(allPrefabs);
-
-            if (prefabInfoList == null)
+            UnityEditor.EditorApplication.delayCall += () =>
             {
-                prefabInfoList = allPrefabs;
-            }
+                allPrefabs = allPrefabs
+                    .OrderByDescending(p => p.Status == EAUploaderMeta.PrefabStatus.Pinned)
+                    .ThenByDescending(p => p.LastModified)
+                    .ToList();
+
+                SavePrefabsInfo(allPrefabs);
+
+                if (prefabInfoList == null)
+                {
+                    prefabInfoList = allPrefabs;
+                }
+            };
         }
 
-        public static void ImportPrefab(string prefabPath)
+        public static async void ImportPrefab(string prefabPath)
         {
             GameObject prefab = GetPrefab(prefabPath);
             var existingMeta = prefab.GetComponent<EAUploaderMeta>();
             if (existingMeta == null)
             {
                 var meta = prefab.AddComponent<EAUploaderMeta>();
-                meta.type = GetPrefabType(prefabPath); 
+                meta.type = GetPrefabType(prefabPath);
             }
 
-            Texture2D preview = PrefabPreview.GeneratePreview(prefab);
+            Texture2D preview = await PrefabPreview.GeneratePreviewAsync(prefab);
             PrefabPreview.SavePrefabPreview(prefabPath, preview);
 
             UI.ImportSettings.ManageModels.UpdateModelList();
@@ -80,52 +84,75 @@ namespace EAUploader.CustomPrefabUtility
             return prefabList.Prefabs;
         }
 
-        internal static List<PrefabInfo> GetAllPrefabs()
+        internal static async Task<List<PrefabInfo>> GetAllPrefabsAsync(System.Action<PrefabInfo> onPrefabInfoAdded = null)
         {
-            string[] prefabGuids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets" });
-            return prefabGuids
-                .Select(guid => AssetDatabase.GUIDToAssetPath(guid))
-                .Select(path => CreatePrefabInfo(path))
-                .OrderBy(p => p.LastModified)
-                .ToList();
+            List<string> prefabGuids = new List<string>();
+            List<PrefabInfo> prefabInfos = new List<PrefabInfo>();
+
+            await Task.Run(() =>
+            {
+                UnityEditor.EditorApplication.delayCall += () =>
+                {
+                    prefabGuids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets" }).ToList();
+
+                    foreach (string guid in prefabGuids)
+                    {
+                        string path = AssetDatabase.GUIDToAssetPath(guid);
+                        PrefabInfo prefabInfo = CreatePrefabInfo(path);
+                        prefabInfos.Add(prefabInfo);
+                        onPrefabInfoAdded?.Invoke(prefabInfo);
+                    }
+                };
+            });
+
+            return prefabInfos.OrderBy(p => p.LastModified).ToList();
         }
 
-        public static List<PrefabInfo> GetAllPrefabsWithPreview()
+        public static async Task<List<PrefabInfo>> GetAllPrefabsWithPreviewAsync(System.Action<PrefabInfo> onPrefabInfoAdded = null)
         {
-            var allPrefabs = GetAllPrefabs();
+            var allPrefabs = await GetAllPrefabsAsync(onPrefabInfoAdded);
             allPrefabs = allPrefabs
                 .Where(p => p.Status != EAUploaderMeta.PrefabStatus.Hidden)
                 .OrderByDescending(p => p.Status == EAUploaderMeta.PrefabStatus.Pinned)
                 .ThenByDescending(p => p.LastModified)
                 .ToList();
 
-            foreach (var prefab in allPrefabs)
+            await Task.Run(() =>
             {
-                string previewImagePath = PrefabPreview.GetPreviewImagePath(prefab.Path);
-                if (File.Exists(previewImagePath))
+                foreach (var prefab in allPrefabs)
                 {
-                    prefab.Preview = PrefabPreview.LoadTextureFromFile(previewImagePath);
+                    string previewImagePath = PrefabPreview.GetPreviewImagePath(prefab.Path);
+                    if (File.Exists(previewImagePath))
+                    {
+                        prefab.Preview = PrefabPreview.LoadTextureFromFile(previewImagePath);
+                    }
                 }
-            }
+            });
+
             return allPrefabs;
         }
 
-        public static List<PrefabInfo> GetAllPrefabsIncludingHidden()
+        public static async Task<List<PrefabInfo>> GetAllPrefabsIncludingHiddenAsync(System.Action<PrefabInfo> onPrefabInfoAdded = null)
         {
-            var allPrefabs = GetAllPrefabs();
-            allPrefabs = allPrefabs
-                .OrderByDescending(p => p.Status == EAUploaderMeta.PrefabStatus.Pinned)
-                .ThenByDescending(p => p.LastModified)
-                .ToList();
+            var allPrefabs = await GetAllPrefabsAsync(onPrefabInfoAdded);
 
-            foreach (var prefab in allPrefabs)
+            UnityEditor.EditorApplication.delayCall += () =>
             {
-                string previewImagePath = PrefabPreview.GetPreviewImagePath(prefab.Path);
-                if (File.Exists(previewImagePath))
+                allPrefabs = allPrefabs
+                    .OrderByDescending(p => p.Status == EAUploaderMeta.PrefabStatus.Pinned)
+                    .ThenByDescending(p => p.LastModified)
+                    .ToList();
+
+                foreach (var prefab in allPrefabs)
                 {
-                    prefab.Preview = PrefabPreview.LoadTextureFromFile(previewImagePath);
+                    string previewImagePath = PrefabPreview.GetPreviewImagePath(prefab.Path);
+                    if (File.Exists(previewImagePath))
+                    {
+                        prefab.Preview = PrefabPreview.LoadTextureFromFile(previewImagePath);
+                    }
                 }
-            }
+            };
+
             return allPrefabs;
         }
 

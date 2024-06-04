@@ -71,9 +71,9 @@ namespace EAUploader.UI.Setup
             };
         }
 
-        private static void GetModelList()
+        private static async void GetModelList()
         {
-            prefabsWithPreview = PrefabManager.GetAllPrefabsWithPreview();
+            prefabsWithPreview = await PrefabManager.GetAllPrefabsWithPreviewAsync();
             modelList.Clear();
             BuildEditor();
             AddPrefabsToModelList();
@@ -105,9 +105,9 @@ namespace EAUploader.UI.Setup
             GetModelList(searchQuery);
         }
 
-        private static void GetModelList(string searchValue = "")
+        private static async void GetModelList(string searchValue = "")
         {
-            prefabsWithPreview = PrefabManager.GetAllPrefabsWithPreview();
+            prefabsWithPreview = await PrefabManager.GetAllPrefabsWithPreviewAsync();
             if (!string.IsNullOrEmpty(searchValue))
             {
                 prefabsWithPreview = prefabsWithPreview.Where(prefab => prefab.Name.Contains(searchValue)).ToList();

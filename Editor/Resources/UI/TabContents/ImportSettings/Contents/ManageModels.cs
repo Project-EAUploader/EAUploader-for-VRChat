@@ -5,6 +5,7 @@ using EAUploader.UI.Windows;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -157,62 +158,73 @@ namespace EAUploader.UI.ImportSettings
             }
         }
 
-        internal static void UpdateModelList()
+        internal static async void UpdateModelList()
         {
             var searchQuery = root.Q<TextField>("searchQuery").value;
-            UpdatePrefabsWithPreview(searchQuery);
-
             modelList.Clear();
-            AddPrefabsToModelList();
+            
+            List<PrefabInfo> prefabs = await UpdatePrefabsWithPreviewAsync(searchQuery, prefabInfo =>
+            {
+                var item = CreatePrefabItem(prefabInfo);
+                modelList.Add(item);
+            });
         }
 
-        private static void UpdatePrefabsWithPreview(string searchValue = "")
+        private static async Task<List<PrefabInfo>> UpdatePrefabsWithPreviewAsync(string searchValue = "", System.Action<PrefabInfo> onPrefabInfoAdded = null)
         {
-            prefabsWithPreview = PrefabManager.GetAllPrefabsIncludingHidden();
+            prefabsWithPreview = await PrefabManager.GetAllPrefabsIncludingHiddenAsync(onPrefabInfoAdded);
+            List<PrefabInfo> prefabs = await Task.Run(() =>
+            {
+                return PrefabManager.GetAllPrefabsIncludingHiddenAsync();
+            });
 
             if (!string.IsNullOrEmpty(searchValue))
             {
-                prefabsWithPreview = prefabsWithPreview.Where(prefab => prefab.Name.Contains(searchValue)).ToList();
+                prefabs = prefabs.Where(prefab => prefab.Name.Contains(searchValue)).ToList();
             }
 
             switch (sortOrder)
             {
                 case SortOrder.LastModifiedDescending:
-                    prefabsWithPreview = prefabsWithPreview.OrderByDescending(p => p.LastModified).ToList();
+                    prefabs = prefabs.OrderByDescending(p => p.LastModified).ToList();
                     break;
                 case SortOrder.LastModifiedAscending:
-                    prefabsWithPreview = prefabsWithPreview.OrderBy(p => p.LastModified).ToList();
+                    prefabs = prefabs.OrderBy(p => p.LastModified).ToList();
                     break;
                 case SortOrder.NameDescending:
-                    prefabsWithPreview = prefabsWithPreview.OrderByDescending(p => p.Name).ToList();
+                    prefabs = prefabs.OrderByDescending(p => p.Name).ToList();
                     break;
                 case SortOrder.NameAscending:
-                    prefabsWithPreview = prefabsWithPreview.OrderBy(p => p.Name).ToList();
+                    prefabs = prefabs.OrderBy(p => p.Name).ToList();
                     break;
             }
 
             switch (filterOrder)
             {
                 case FilterOrder.NotShowHiddenModels:
-                    prefabsWithPreview = prefabsWithPreview.Where(p => p.Status != EAUploaderMeta.PrefabStatus.Hidden).ToList();
+                    prefabs = prefabs.Where(p => p.Status != EAUploaderMeta.PrefabStatus.Hidden).ToList();
                     break;
                 case FilterOrder.ShowHiddenModels:
                     // フィルタリングは不要
                     break;
                 case FilterOrder.ShowOnlyHiddenModels:
-                    prefabsWithPreview = prefabsWithPreview.Where(p => p.Status == EAUploaderMeta.PrefabStatus.Hidden).ToList();
+                    prefabs = prefabs.Where(p => p.Status == EAUploaderMeta.PrefabStatus.Hidden).ToList();
                     break;
             }
+
+            return prefabs;
         }
 
-        private static void AddPrefabsToModelList()
+        private static async Task AddPrefabsToModelListAsync()
         {
-            foreach (var prefab in prefabsWithPreview)
+            await Task.Run(() =>
             {
-                var item = CreatePrefabItem(prefab);
-
-                modelList.Add(item);
-            }
+                foreach (var prefab in prefabsWithPreview)
+                {
+                    var item = CreatePrefabItem(prefab);
+                    modelList.Add(item);
+                }
+            });
         }
 
         private static VisualElement CreatePrefabItem(PrefabInfo prefab)
