@@ -161,13 +161,13 @@ namespace EAUploader.UI.ImportSettings
         internal static void UpdateModelList()
         {
             var searchQuery = root.Q<TextField>("searchQuery").value;
-            UpdatePrefabsWithPreviewAsync(searchQuery);
+            UpdatePrefabsWithPreview(searchQuery);
 
             modelList.Clear();
             AddPrefabsToModelListAsync();
         }
 
-        private static void UpdatePrefabsWithPreviewAsync(string searchValue = "")
+        private static void UpdatePrefabsWithPreview(string searchValue = "")
         {
             prefabsWithPreview = PrefabManager.GetAllPrefabsIncludingHidden();
 
