@@ -30,6 +30,7 @@ namespace EAUploader.UI.Upload
 
         internal static async void CreatePrefabList()
         {
+            await Task.Yield();
             var prefabList = PrefabManager.GetAllPrefabsWithPreview();
             var prefabListContainer = root.Q("prefab_list_container");
             prefabListContainer.Clear();

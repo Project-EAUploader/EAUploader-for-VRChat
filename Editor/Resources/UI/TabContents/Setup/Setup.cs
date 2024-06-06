@@ -92,8 +92,9 @@ namespace EAUploader.UI.Setup
             return item;
         }
 
-        private static void UpdateModelList()
+        private static async void UpdateModelList()
         {
+            await Task.Yield();
             var searchQuery = root.Q<TextField>("searchQuery").value;
             GetModelList(searchQuery);
         }

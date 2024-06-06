@@ -3,12 +3,15 @@ using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
 using EAUploader.UI.Windows;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+
+using Debug = UnityEngine.Debug;
 
 namespace EAUploader.UI.ImportSettings
 {
@@ -41,6 +44,12 @@ namespace EAUploader.UI.ImportSettings
 
             modelList = root.Q<ScrollView>("model_list");
 
+            BuildUI();
+        }
+
+        internal static async void BuildUI()
+        {
+            await Task.Yield();
             var searchButton = root.Q<ShadowButton>("searchButton");
             searchButton.clicked += UpdateModelList;
 
@@ -84,7 +93,6 @@ namespace EAUploader.UI.ImportSettings
             var filterbar = root.Q<VisualElement>("filterbar");
             filterbar.Add(filterDropdown);
 
-            UpdateModelList();
 
             if (EAUploaderCore.HasVRM)
             {
@@ -95,6 +103,8 @@ namespace EAUploader.UI.ImportSettings
             root.RegisterCallback<DragLeaveEvent>(OnDragLeave);
             root.RegisterCallback<DragUpdatedEvent>(OnDragUpdate);
             root.RegisterCallback<DragPerformEvent>(OnDragPerform);
+
+            UpdateModelList();
         }
 
         // This method runs if a user brings the pointer over the target while a drag is in progress.
@@ -158,8 +168,9 @@ namespace EAUploader.UI.ImportSettings
             }
         }
 
-        internal static void UpdateModelList()
+        internal static async void UpdateModelList()
         {
+            await Task.Yield();
             var searchQuery = root.Q<TextField>("searchQuery").value;
             UpdatePrefabsWithPreview(searchQuery);
 

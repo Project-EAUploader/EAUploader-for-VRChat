@@ -103,6 +103,10 @@ namespace EAUploader
                 {
                     return null;
                 }
+                catch (ApiErrorException ex) when (ex.StatusCode == HttpStatusCode.TooManyRequests)
+                {
+                    return null;
+                }
                 catch (Exception ex)
                 {
                     Debug.LogException(ex);
