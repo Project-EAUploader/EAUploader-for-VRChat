@@ -63,14 +63,22 @@ namespace EAUploader.UI.Components
             }
 
 
-            UnityEditor.EditorApplication.delayCall += async () => { 
-                var avatar = await AvatarUploader.GetVRCAvatar(prefab.Path);
-
-                if (avatar.HasValue)
+            UnityEditor.EditorApplication.delayCall += async () =>
+            {
+                try
                 {
-                    var vrcName = avatar.Value.Name;
-                    var name = new Label(vrcName);
-                    labelContainer.Add(name);
+                    var avatar = await AvatarUploader.GetVRCAvatar(prefab.Path);
+
+                    if (avatar.HasValue)
+                    {
+                        var vrcName = avatar.Value.Name;
+                        var name = new Label(vrcName);
+                        labelContainer.Add(name);
+                    }
+                }
+                catch (ApiErrorException e)
+                {
+                    Debug.LogError(e);
                 }
             };
 
