@@ -72,7 +72,6 @@ namespace EAUploader.UI.Setup
 
         private static async void AddPrefabsToModelListAsync()
         {
-            Debug.Log("AddPrefabsToModelListAsync");
             foreach (var prefab in prefabsWithPreview)
             {
                 var item = CreatePrefabItem(prefab);
