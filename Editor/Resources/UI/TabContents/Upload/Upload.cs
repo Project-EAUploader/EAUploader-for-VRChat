@@ -1,6 +1,7 @@
 using EAUploader.CustomPrefabUtility;
 using EAUploader.UI.Components;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 using VRC.SDK3A.Editor;
@@ -27,7 +28,7 @@ namespace EAUploader.UI.Upload
             CreatePrefabList();
         }
 
-        internal static void CreatePrefabList()
+        internal static async void CreatePrefabList()
         {
             var prefabList = PrefabManager.GetAllPrefabsWithPreview();
             var prefabListContainer = root.Q("prefab_list_container");
@@ -39,8 +40,11 @@ namespace EAUploader.UI.Upload
                 {
                     EAUploaderCore.selectedPrefabPath = prefab.Path;
                     preview.UpdatePreview(prefab.Path);
+
                 }, true);
+
                 prefabListContainer.Add(prefabButton);
+                await Task.Yield();
             }
         }
     }

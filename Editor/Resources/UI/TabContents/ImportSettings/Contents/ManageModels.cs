@@ -5,6 +5,7 @@ using EAUploader.UI.Windows;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -163,7 +164,7 @@ namespace EAUploader.UI.ImportSettings
             UpdatePrefabsWithPreview(searchQuery);
 
             modelList.Clear();
-            AddPrefabsToModelList();
+            AddPrefabsToModelListAsync();
         }
 
         private static void UpdatePrefabsWithPreview(string searchValue = "")
@@ -205,13 +206,14 @@ namespace EAUploader.UI.ImportSettings
             }
         }
 
-        private static void AddPrefabsToModelList()
+        private static async void AddPrefabsToModelListAsync()
         {
             foreach (var prefab in prefabsWithPreview)
             {
                 var item = CreatePrefabItem(prefab);
 
                 modelList.Add(item);
+                await Task.Yield();
             }
         }
 
