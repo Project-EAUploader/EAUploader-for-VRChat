@@ -1,16 +1,24 @@
 # EAUploader　for　VRChat
 VRChatへのアバターアップロード・調整を容易にするUnityの拡張エディタ
 
+[VCCへの追加はこちら](https://eauploader.uslog.tech/install)
+
+`VRChat Creator Companion`又は`ALCOM`が必要です.
+
 Unity Extension Editor for easy uploading of avatars to VRChat.
 
+[Click here to add to VCC](https://eauploader.uslog.tech/install)
 
-# v1.0 was released!
-[こちら](vcc://vpm/addRepo?url=https://project-eauploader.github.io/EAUploader-for-VRChat/registry.json)からCreatorCompanionにリポジトリを追加し、EAUploaderをインストールしてください！
+`VRChat Creator Companion` or `ALCOM` is required.
 
-Add the repository to CreatorCompanion and install EAUploader from [here](vcc://vpm/addRepo?url=https://project-eauploader.github.io/EAUploader-for-VRChat/registry.json)!
+
+# v1.4.3 was released!
+* Dialog proの重複を修正
+* vpmDependenciesを修正
 
 ## ⭐ Join us on Discord!
 Discordに参加し、フィードバックやご意見を是非お聞かせください。
+開発への参加も大歓迎です。
 
 Please join us on Discord and let us know your feedback and suggestions.
 
@@ -26,7 +34,7 @@ EAUploaderのプラグインを開発するためのドキュメントを制作�
 We are currently working on documentation to develop plug-ins for EAUploader.
 We would appreciate your cooperation in providing plug-ins for EAUploader to make it a more user-friendly tool.
 
-https://www.uslog.tech/eauploader-forum/developer-documentation
+--- Under maintenance ---
 
 ## How to build a development environment 開発環境構築の方法
 以下の方法で開発環境を構築できます。
