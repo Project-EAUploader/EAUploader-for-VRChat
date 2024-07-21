@@ -36,10 +36,15 @@ namespace EAUploader.UI.Windows
         /// <param name="okButtonText">OKボタンテキスト</param>
         /// <param name="okButtonAction">OKボタン押下時の処理</param>
         /// <param name="isOkButtonClickedDialogClose">OKボタン押下時にダイアログを閉じるか。true:閉じる、false:閉じない。規定値はtrue。</param>
-        public static void Show(DialogType dialogType,string title,string message,string okButtonText,Action okButtonAction, bool isOkButtonClickedDialogClose = true)
+        public static void Show(DialogType dialogType, string title, string message, string okButtonText, Action okButtonAction, bool isOkButtonClickedDialogClose = true)
         {
+            if (HasOpenInstances<DialogPro>())
+            {
+                return; // 既にウィンドウが開いている場合は新しいウィンドウを開かない
+            }
+
             var eauWindow = GetWindow<EAUploader>(null, focus: false);
-            DialogPro wnd = GetWindow<DialogPro>();
+            DialogPro wnd = CreateInstance<DialogPro>();
             wnd.titleContent = new GUIContent(title);
             wnd.position = new Rect(eauWindow.position.x + eauWindow.position.width / 2 - 200, eauWindow.position.y + eauWindow.position.height / 2 - 100, 400, 200);
             wnd.minSize = new Vector2(400, 200);
@@ -96,13 +101,17 @@ namespace EAUploader.UI.Windows
                     break;
             }
             wnd.Show();
-
         }
 
         public static void Show(DialogType dialogType, string title, string message)
         {
+            if (HasOpenInstances<DialogPro>())
+            {
+                return; // 既にウィンドウが開いている場合は新しいウィンドウを開かない
+            }
+
             var eauWindow = GetWindow<EAUploader>(null, focus: false);
-            DialogPro wnd = GetWindow<DialogPro>();
+            DialogPro wnd = CreateInstance<DialogPro>();
             wnd.titleContent = new GUIContent(title);
             wnd.position = new Rect(eauWindow.position.x + eauWindow.position.width / 2 - 200, eauWindow.position.y + eauWindow.position.height / 2 - 100, 400, 200);
             wnd.minSize = new Vector2(400, 200);
@@ -151,7 +160,6 @@ namespace EAUploader.UI.Windows
                     break;
             }
 
-            //wnd.ShowModal();
             wnd.Show();
         }
     }
