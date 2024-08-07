@@ -7,8 +7,10 @@ namespace EAUploader.Components
     {
         public enum PrefabStatus { Pinned, Show, Hidden, Other }
         public enum PrefabType { VRChat, VRM, Other }
+        public enum PrefabGenre { Avatar, Cloth, Accessory }
 
         public PrefabStatus status;
         public PrefabType type;
+        public PrefabGenre genre;
     }
 }

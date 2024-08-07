@@ -13,6 +13,7 @@ namespace EAUploader.CustomPrefabUtility
         public DateTime LastModified;
         public EAUploaderMeta.PrefabType Type;
         public EAUploaderMeta.PrefabStatus Status;
+        public EAUploaderMeta.PrefabGenre Genre;
         public Texture2D Preview { get; internal set; }
     }
 
